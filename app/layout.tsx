@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Barlow, Barlow_Condensed } from "next/font/google";
+import { BASE_PATH } from "@/lib/base-path";
 import "./globals.css";
 
 const anton = Anton({
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   description:
     "Corrida Flamanhu 2026: percursos de 5K e 10K em Manhuaçu-MG. Corra, caminhe e celebre com a Nação Rubro-Negra. Inscreva-se!",
   icons: {
-    icon: "/assets/logo-flamanhu.svg",
+    icon: `${BASE_PATH}/assets/logo-flamanhu.svg`,
   },
 };
 

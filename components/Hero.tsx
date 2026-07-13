@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { BASE_PATH } from "@/lib/base-path";
 
 /* atraso da animação de entrada escalonada (--d no CSS) */
 const d = (n: number) => ({ "--d": n }) as CSSProperties;
@@ -73,7 +74,7 @@ export default function Hero() {
         <div className="hero__visual reveal" style={d(3)} aria-hidden="true">
           <div className="hero__badge-glow"></div>
           <img
-            src="/assets/logo-flamanhu.svg"
+            src={`${BASE_PATH}/assets/logo-flamanhu.svg`}
             alt=""
             className="hero__badge"
             width={440}

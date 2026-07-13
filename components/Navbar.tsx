@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { BASE_PATH } from "@/lib/base-path";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -49,7 +50,7 @@ export default function Navbar() {
       <div className="navbar__inner">
         <a href="#" className="navbar__brand" aria-label="Corrida Flamanhu — Início">
           <img
-            src="/assets/logo-flamanhu.svg"
+            src={`${BASE_PATH}/assets/logo-flamanhu.svg`}
             alt=""
             width={52}
             height={52}
