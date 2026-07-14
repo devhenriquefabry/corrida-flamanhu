@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BASE_PATH } from "@/lib/base-path";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -9,6 +10,20 @@ export default function Navbar() {
   const [kitOpen, setKitOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  // barra de progresso da página (scrub no documento inteiro)
+  useGSAP(() => {
+    gsap.to(progressRef.current, {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        start: 0,
+        end: () => document.documentElement.scrollHeight - window.innerHeight,
+        scrub: 0.3,
+      },
+    });
+  });
 
   // fio rubro + fundo sólido ao rolar
   useEffect(() => {
@@ -169,6 +184,9 @@ export default function Navbar() {
           <span></span>
         </button>
       </div>
+
+      {/* progresso de leitura da página */}
+      <div className="navbar__progress" ref={progressRef} aria-hidden="true"></div>
     </header>
   );
 }

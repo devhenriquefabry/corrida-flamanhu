@@ -1,36 +1,125 @@
-import type { CSSProperties } from "react";
-import { BASE_PATH } from "@/lib/base-path";
+"use client";
 
-/* atraso da animação de entrada escalonada (--d no CSS) */
-const d = (n: number) => ({ "--d": n }) as CSSProperties;
+import { useRef } from "react";
+import dynamic from "next/dynamic";
+import { BASE_PATH } from "@/lib/base-path";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+
+// three.js só carrega no cliente — mantém o export estático leve
+const FlagCanvas = dynamic(() => import("./FlagCanvas"), { ssr: false });
 
 export default function Hero() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        /* ---------- intro: a Nação entra em campo ---------- */
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        tl.from(".hero__eyebrow", { autoAlpha: 0, x: -36, duration: 0.7 })
+          .from(
+            ".hero__title-line",
+            {
+              autoAlpha: 0,
+              y: 90,
+              skewY: 4,
+              duration: 0.9,
+              stagger: 0.14,
+              clearProps: "skewY",
+            },
+            "-=0.35",
+          )
+          .from(".year__slashes i", { scaleY: 0, transformOrigin: "bottom", stagger: 0.08, duration: 0.4 }, "<+0.2")
+          .from(".hero__sub", { autoAlpha: 0, y: 26, duration: 0.7 }, "-=0.5")
+          .from(".hero__actions .btn", { autoAlpha: 0, y: 22, stagger: 0.12, duration: 0.55 }, "-=0.45")
+          .from(".hero__visual", { autoAlpha: 0, scale: 0.82, duration: 1.1, ease: "back.out(1.6)" }, 0.5)
+          .from(".hero__cards .card", { autoAlpha: 0, y: 40, stagger: 0.09, duration: 0.6 }, "-=0.7");
+
+        /* ---------- parallax de saída (scrub) ---------- */
+        gsap.to(".hero__copy", {
+          yPercent: -14,
+          autoAlpha: 0.25,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top top",
+            end: "bottom 35%",
+            scrub: true,
+          },
+        });
+        gsap.to(".hero__visual", {
+          yPercent: 16,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+        gsap.to(".hero__canvas", {
+          yPercent: 22,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+
+        /* ---------- ticker que reage à velocidade do scroll ---------- */
+        const marquee = gsap.to(".ticker__track", {
+          xPercent: -50,
+          ease: "none",
+          duration: 24,
+          repeat: -1,
+        });
+        const clampTs = gsap.utils.clamp(-4, 4);
+        ScrollTrigger.create({
+          onUpdate(self) {
+            const boost = clampTs(self.getVelocity() / 260);
+            // acelera na direção do scroll…
+            marquee.timeScale(Math.abs(boost) < 1 ? Math.sign(boost) || 1 : boost);
+            // …e volta suavemente à velocidade de cruzeiro
+            gsap.to(marquee, { timeScale: 1, duration: 1.1, delay: 0.25, overwrite: true });
+          },
+        });
+      });
+    },
+    { scope: root },
+  );
+
   return (
-    <section className="hero" id="inicio">
+    <section className="hero" id="inicio" ref={root}>
       {/* camadas de atmosfera */}
       <div className="hero__atmo" aria-hidden="true">
         <div className="hero__glow hero__glow--flare"></div>
         <div className="hero__glow hero__glow--ground"></div>
+        <FlagCanvas />
         <div className="hero__stripes"></div>
         <div className="hero__grain"></div>
       </div>
 
       <div className="hero__inner">
         <div className="hero__copy">
-          <p className="hero__eyebrow reveal" style={d(0)}>
+          <p className="hero__eyebrow">
             <span className="eyebrow__tag">Manhuaçu · MG</span>
             <span className="eyebrow__line" aria-hidden="true"></span>
             <span>Corrida de rua oficial da torcida</span>
           </p>
 
           <h1 className="hero__title">
-            <span className="hero__title-line hero__title-line--outline reveal" style={d(1)}>
+            <span className="hero__title-line hero__title-line--outline">
               Corrida
             </span>
-            <span className="hero__title-line hero__title-line--solid reveal" style={d(2)}>
+            <span className="hero__title-line hero__title-line--solid">
               Flamanhu
             </span>
-            <span className="hero__title-line hero__title-line--year reveal" style={d(3)}>
+            <span className="hero__title-line hero__title-line--year">
               <span className="year__slashes" aria-hidden="true">
                 <i></i>
                 <i></i>
@@ -40,13 +129,13 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="hero__sub reveal" style={d(4)}>
+          <p className="hero__sub">
             A Nação Rubro-Negra corre unida em Manhuaçu e região. Percursos de{" "}
             <strong>5K e 10K</strong> para todos os níveis — do atleta ao torcedor
             de arquibancada.
           </p>
 
-          <div className="hero__actions reveal" style={d(5)}>
+          <div className="hero__actions">
             <a href="#inscricao" className="btn btn--primary btn--lg">
               <span className="btn__label">Quero me inscrever</span>
               <svg
@@ -71,7 +160,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero__visual reveal" style={d(3)} aria-hidden="true">
+        <div className="hero__visual" aria-hidden="true">
           <div className="hero__badge-glow"></div>
           <img
             src={`${BASE_PATH}/assets/logo-flamanhu.svg`}
@@ -85,7 +174,7 @@ export default function Hero() {
 
       {/* cards informativos */}
       <div className="hero__cards">
-        <article className="card reveal" style={d(6)}>
+        <article className="card">
           <div className="card__icon" aria-hidden="true">
             <svg
               width="26"
@@ -109,7 +198,7 @@ export default function Hero() {
           </div>
         </article>
 
-        <article className="card reveal" style={d(7)}>
+        <article className="card">
           <div className="card__icon" aria-hidden="true">
             <svg
               width="26"
@@ -130,7 +219,7 @@ export default function Hero() {
           </div>
         </article>
 
-        <article className="card reveal" style={d(8)}>
+        <article className="card">
           <div className="card__icon" aria-hidden="true">
             <svg
               width="26"
@@ -154,7 +243,7 @@ export default function Hero() {
           </div>
         </article>
 
-        <article className="card reveal" style={d(9)}>
+        <article className="card">
           <div className="card__icon" aria-hidden="true">
             <svg
               width="26"
