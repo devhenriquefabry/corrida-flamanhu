@@ -1,0 +1,71 @@
+# API do sistema de inscrições: pagamentos (Asaas/Cora), fila de WhatsApp,
+# mídias e cards. Passo a passo de configuração: backend/README.md
+name = "corrida-flamanhu-api"
+main = "src/index.js"
+compatibility_date = "2024-03-20"
+
+# Fotos dos atletas e cards. PENDENTE: ativar o R2 no painel da Cloudflare (R2 Object
+# Storage), criar o bucket (npx wrangler r2 bucket create corrida-flamanhu-media)
+# e descomentar. Sem ele, upload de foto e geração de card falham.
+# [[r2_buckets]]
+# binding = "MEDIA_BUCKET"
+# bucket_name = "corrida-flamanhu-media"
+
+# npx wrangler kv namespace create NIGHTRUN_STORAGE  -> cole o id gerado
+[[kv_namespaces]]
+binding = "NIGHTRUN_STORAGE"
+id = "92af3ab562914799b09e2b281c56b963"
+
+# Só para o banco Cora (mTLS). Suba o certificado com
+#   npx wrangler mtls-certificate upload --cert certificate.pem --key private-key.key --name cora
+# e descomente com o id gerado. Se usar só o Asaas, deixe comentado.
+# [[mtls_certificates]]
+# binding = "CORA_MTLS"
+# certificate_id = "PREENCHER_ID_DO_CERTIFICADO"
+
+# Worker de fila do WhatsApp (backend/whatsapp-hub), na mesma conta Cloudflare.
+# Opcional: descomente depois de publicar o hub, senão o deploy falha.
+# [[services]]
+# binding = "WHATSAPP_HUB"
+# service = "whatsapp-hub"
+
+[[rules]]
+type = "Data"
+globs = ["**/*.ttf"]
+fallthrough = true
+
+# Valores públicos. Segredos (chaves de API) NÃO vão aqui: use
+#   npx wrangler secret put NOME   (lista em .dev.vars.example)
+[vars]
+# --- evento (espelho de sistema/src/config/evento.ts) ---
+EVENT_NAME = "Corrida Flamanhu 2026"
+EVENT_DATE = ""
+EVENT_LOCAL = ""
+CONTACT_EMAIL = "contato@corridaflamanhu.com.br"
+GRUPO_WHATSAPP_URL = ""
+INSTAGRAM_URL = ""
+# endereço público do site, sem barra no final (monta os links de pagamento)
+SITE_URL = "https://devhenriquefabry.github.io/corrida-flamanhu"
+# PNG público do logo, usado no banner do resumo operacional diário (vazio = sem logo)
+OPERATIONAL_LOGO_URL = ""
+
+# --- integrações ---
+EVOLUTION_URL = ""
+INSTANCE_NAME = "flamanhu"
+FIREBASE_PROJECT_ID = "corrida-flamanhu"
+FIREBASE_API_KEY = "AIzaSyAExyftQKYxocBB4sEUC6d2AP3LkU-uVi0"
+ASAAS_BASE_URL = "https://api.asaas.com/v3"
+CORA_BASE_URL = "https://matls-clients.api.cora.com.br"
+CORA_AUTH_MODE = "direct"
+
+# --- fila de WhatsApp ---
+WHATSAPP_QUEUE_LIMIT = "60"
+WHATSAPP_QUEUE_CONCURRENCY = "6"
+WHATSAPP_QUEUE_STAGGER_MS = "150"
+WHATSAPP_SEND_DELAY_MS = "250"
+WHATSAPP_QUEUE_MAX_ATTEMPTS = "3"
+WHATSAPP_INSTANCE_DELAY_MS = "30000"
+WHATSAPP_QUEUE_TICK_BUDGET_MS = "45000"
+
+[triggers]
+crons = ["* * * * *"]

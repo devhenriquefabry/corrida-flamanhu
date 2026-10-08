@@ -4,3 +4,18 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 .env*.local
+.env
+
+# sistema de inscrições: segredos e estado local dos workers
+.secrets/
+backend/**/.dev.vars
+backend/**/.wrangler/
+backend/**/.env
+backend/**/*.local
+
+# chaves de conta de serviço do Firebase baixadas por engano dentro do projeto
+*firebase-adminsdk*.json
+chave-firebase*.json
+
+# logs dos emuladores do Firebase
+*-debug.log

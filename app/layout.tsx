@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Barlow, Barlow_Condensed } from "next/font/google";
 import { BASE_PATH } from "@/lib/base-path";
-import "./globals.css";
 
 const anton = Anton({
   weight: "400",

@@ -1,0 +1,57 @@
+# Fila de WhatsApp (multi-número, retry, cards). Passo a passo: backend/README.md
+name = "whatsapp-hub"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# Domínio próprio (opcional): descomente quando tiver uma zona na Cloudflare.
+# [[routes]]
+# pattern = "SEU-DOMINIO/servico-whatsapp/automacao*"
+# zone_name = "SEU-DOMINIO"
+
+# npx wrangler d1 create whatsapp_hub_db  -> cole o database_id gerado
+[[d1_databases]]
+binding = "DB"
+database_name = "whatsapp_hub_db"
+database_id = "PREENCHER_ID_DO_D1"
+
+# npx wrangler kv namespace create HUB_STORAGE  -> cole o id gerado
+[[kv_namespaces]]
+binding = "HUB_STORAGE"
+id = "PREENCHER_ID_DO_KV"
+
+[[r2_buckets]]
+binding = "HUB_ASSETS"
+bucket_name = "flamanhu-whatsapp-hub-assets"
+
+[[queues.producers]]
+queue = "whatsapp-hub-outbox"
+binding = "OUTBOX"
+
+[[queues.consumers]]
+queue = "whatsapp-hub-outbox"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 4
+dead_letter_queue = "whatsapp-hub-outbox-dlq"
+
+[[queues.producers]]
+queue = "whatsapp-hub-outbox-dlq"
+binding = "OUTBOX_DLQ"
+
+[[queues.consumers]]
+queue = "whatsapp-hub-outbox-dlq"
+max_batch_size = 10
+max_batch_timeout = 5
+
+[[rules]]
+type = "Data"
+globs = ["**/*.ttf"]
+fallthrough = true
+
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+WHATSAPP_INSTANCE_DELAY_MS = "30000"

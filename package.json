@@ -5,23 +5,43 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:sistema": "node --test \"sistema/test/*.test.mjs\"",
+    "test:regras": "cd firebase && firebase emulators:exec --only firestore --project demo-flamanhu \"node --test test/firestore-rules.test.mjs\"",
+    "deploy:regras": "cd firebase && firebase deploy --only firestore"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@react-three/fiber": "^9.6.1",
+    "canvas-confetti": "^1.9.4",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "firebase": "^12.19.0",
     "gsap": "^3.15.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "lenis": "^1.3.25",
+    "lucide-react": "^1.53.0",
     "next": "^15.3.4",
+    "qrcode": "^1.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-easy-crop": "^5.5.7",
+    "react-router-dom": "^7.18.4",
+    "react-signature-canvas": "^1.1.0-alpha.2",
     "three": "^0.185.1"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.2",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^22",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-signature-canvas": "^1.0.7",
     "@types/three": "^0.185.1",
+    "firebase-tools": "^15.33.0",
     "typescript": "^5"
   }
 }

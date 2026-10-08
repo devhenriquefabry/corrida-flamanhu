@@ -1,0 +1,26 @@
+# Segredos do worker. Em produção, cadastre cada um com:
+#   npx wrangler secret put NOME
+# Para rodar local (npx wrangler dev), copie para .dev.vars (fica fora do git).
+
+# Conta de serviço do Firebase: o JSON inteiro, numa linha. OBRIGATÓRIA — sem ela o
+# worker não acessa o banco (as regras bloqueiam acesso sem login). Gere em
+# Firebase > Configurações do projeto > Contas de serviço > Gerar nova chave privada
+# e cadastre direto do arquivo (PowerShell):
+#   Get-Content "$HOME\Downloads\chave-firebase.json" -Raw | npx wrangler secret put FIREBASE_SERVICE_ACCOUNT
+FIREBASE_SERVICE_ACCOUNT=
+
+# Asaas — Minha conta > Integrações > Chave de API
+ASAAS_API_KEY=
+# token que você define ao cadastrar o webhook no painel do Asaas
+ASAAS_WEBHOOK_SECRET=
+
+# Cora — só se for usar o banco Cora (exige também o certificado mTLS, ver wrangler.toml)
+CORA_CLIENT_ID=
+CORA_CLIENT_SECRET=
+CORA_WEBHOOK_SECRET=
+
+# Evolution API (servidor do WhatsApp, backend/evolution) — mesmo valor de AUTHENTICATION_API_KEY de lá
+EVOLUTION_API_KEY=
+
+# Chave de instância gerada no whatsapp-hub (backend/whatsapp-hub, POST /v1/instances)
+WHATSAPP_HUB_API_KEY=

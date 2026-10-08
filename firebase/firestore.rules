@@ -1,0 +1,149 @@
+rules_version = '2';
+
+// Quem acessa o banco:
+//  - site público (sem login): lê configurações e catálogo, cria inscrição;
+//  - admin: login Firebase Auth + documento em nightrun_admins/{email};
+//  - worker (backend/worker): conta de serviço — ignora estas regras. Login do
+//    atleta, vinculados, total de inscrições e sorteio do coordenador passam
+//    por ele (rotas /public/*), porque exigem listar inscrições.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null && request.auth.token.email != null;
+    }
+
+    function isAdmin() {
+      return signedIn() &&
+        exists(/databases/$(database)/documents/nightrun_admins/$(request.auth.token.email));
+    }
+
+    function onlyChanges(fields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
+    }
+
+    // Primeiro administrador: com o banco vazio, quem logar cria o próprio
+    // documento de admin junto com a trava admin_bootstrap_done, numa única
+    // gravação em lote. Depois que a trava existe, só admin cria admin.
+    function bootstrapAdmin(email) {
+      return signedIn() &&
+        request.auth.token.email == email &&
+        !exists(/databases/$(database)/documents/nightrun_settings/admin_bootstrap_done) &&
+        existsAfter(/databases/$(database)/documents/nightrun_settings/admin_bootstrap_done);
+    }
+
+    // ---------- administração ----------
+
+    match /nightrun_admins/{email} {
+      allow get: if signedIn() && (request.auth.token.email == email || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isAdmin() || bootstrapAdmin(email);
+      allow update, delete: if isAdmin();
+    }
+
+    // Configurações lidas pelo site público (modo manutenção, lotes, data, meios
+    // de pagamento). Nada secreto aqui — chaves ficam em system_settings.
+    match /nightrun_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /nightrun_settings/admin_bootstrap_done {
+      allow create: if signedIn() &&
+        existsAfter(/databases/$(database)/documents/nightrun_admins/$(request.auth.token.email));
+    }
+
+    // Configurações sensíveis (WhatsApp, chave da Evolution, modelos de cobrança)
+    match /system_settings/{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // ---------- inscrições ----------
+
+    match /nightrun_registrations/{regId} {
+      // Leitura só pelo ID (página de pagamento e painel do atleta). O ID é
+      // aleatório e chega ao atleta pelo link de pagamento; listar é só do admin.
+      allow get: if true;
+      allow list: if isAdmin();
+      // O site público só cria — pagamento confirmado vem do worker ou do admin.
+      allow create: if request.resource.data.paymentStatus == 'pendente' ||
+        (request.resource.data.paymentStatus == 'pago' && request.resource.data.gratuito == true);
+      allow update, delete: if isAdmin();
+    }
+
+    // ---------- catálogo do formulário ----------
+
+    match /nightrun_modalidades/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /nightrun_camisetas/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /nightrun_kits/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /nightrun_kit_items/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // O formulário consulta o cupom pelo código e consome 1 uso na inscrição.
+    match /nightrun_discount_coupons/{couponId} {
+      allow get: if true;
+      allow list, create, delete: if isAdmin();
+      allow update: if isAdmin() || (
+        resource.data.active != false &&
+        onlyChanges(['usedCount', 'updatedAt', 'lastUsedAt']) &&
+        request.resource.data.usedCount == resource.data.usedCount + 1 &&
+        request.resource.data.maxUses == resource.data.maxUses &&
+        request.resource.data.usedCount <= resource.data.maxUses
+      );
+    }
+
+    // ---------- sorteios ----------
+
+    // Página pública acompanha ao vivo. O resultado é gravado pelo worker; o
+    // coordenador só muda o status e o ganhador marca que viu (em ganhadores).
+    match /nightrun_sorteios/{sorteioId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || onlyChanges(['status', 'iniciadoEm', 'ganhadores', 'updatedAt']);
+    }
+
+    // A tela de inscrição confirmada procura o ganhador pela inscrição e grava
+    // a imagem de vitória; o resto é do admin e do worker.
+    match /nightrun_sorteios_ganhadores/{id} {
+      allow read: if true;
+      allow update: if isAdmin() || onlyChanges(['vitoriaImageUrl']);
+      allow create, delete: if isAdmin();
+    }
+
+    match /nightrun_sorteios_config/{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // ---------- só admin ----------
+
+    match /nightrun_equipes/{id} {
+      allow read, write: if isAdmin();
+    }
+    match /nightrun_planilha_modelos/{id} {
+      allow read, write: if isAdmin();
+    }
+    match /nightrun_bank_movement_receipts/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    match /nightrun_data_confirmation_runs/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    // gravado pelo worker; o admin consulta para não reenviar mensagens
+    match /whatsapp_logs/{document=**} {
+      allow read: if isAdmin();
+    }
+
+    // Qualquer coleção não listada acima: negado.
+  }
+}

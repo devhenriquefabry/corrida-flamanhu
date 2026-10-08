@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { BASE_PATH } from "@/lib/base-path";
 
 export default function CtaFinal() {
   const root = useRef<HTMLElement>(null);
@@ -86,7 +87,7 @@ export default function CtaFinal() {
         </h2>
 
         <div className="cta__action">
-          <a href="#" className="btn btn--primary btn--lg">
+          <a href={`${BASE_PATH}/inscricao`} className="btn btn--primary btn--lg">
             <span className="btn__label">Quero me inscrever</span>
             <svg
               className="btn__icon"
