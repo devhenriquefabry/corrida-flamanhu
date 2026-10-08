@@ -4,12 +4,10 @@ name = "corrida-flamanhu-api"
 main = "src/index.js"
 compatibility_date = "2024-03-20"
 
-# Fotos dos atletas e cards. PENDENTE: ativar o R2 no painel da Cloudflare (R2 Object
-# Storage), criar o bucket (npx wrangler r2 bucket create corrida-flamanhu-media)
-# e descomentar. Sem ele, upload de foto e geração de card falham.
-# [[r2_buckets]]
-# binding = "MEDIA_BUCKET"
-# bucket_name = "corrida-flamanhu-media"
+# Fotos dos atletas e cards (#EUVOU, sorteio)
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "corrida-flamanhu-media"
 
 # npx wrangler kv namespace create NIGHTRUN_STORAGE  -> cole o id gerado
 [[kv_namespaces]]
