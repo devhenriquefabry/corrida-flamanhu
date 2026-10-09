@@ -474,7 +474,7 @@ export default function AdminCuponsDesconto() {
             </div>
             <div style={{ padding: 28, display: 'grid', gap: 18 }}>
               <Field label="Codigo do cupom">
-                <input value={form.code} onChange={event => setForm(prev => ({ ...prev, code: normalizeCouponCode(event.target.value) }))} placeholder="EX: NIGHT10" style={inputStyle} />
+                <input value={form.code} onChange={event => setForm(prev => ({ ...prev, code: normalizeCouponCode(event.target.value) }))} placeholder="EX: FLA10" style={inputStyle} />
               </Field>
               <Field label="Descricao interna">
                 <input value={form.description || ''} onChange={event => setForm(prev => ({ ...prev, description: event.target.value }))} placeholder="Ex: promocao para equipe" style={inputStyle} />
