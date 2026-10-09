@@ -5228,7 +5228,6 @@ input[type="radio"], input[type="checkbox"] { display:none; }
   min-height: 100svh;
   background:
     linear-gradient(rgba(9, 8, 8, 0.42), rgba(9, 8, 8, 0.88)),
-    url('/bg-hero.jpg') center top / cover no-repeat,
     radial-gradient(circle at 18% 12%, rgba(224, 27, 34, 0.12), transparent 24rem),
     linear-gradient(180deg, #141112 0%, #090808 100%);
   color: #fff;
@@ -5351,7 +5350,6 @@ input[type="radio"], input[type="checkbox"] { display:none; }
     padding: 0;
     background:
       linear-gradient(180deg, rgba(20, 17, 18, 0.62) 0%, rgba(9, 8, 8, 0.96) 42%, #090808 100%),
-      url('/bg-hero.jpg') center top / auto 560px no-repeat,
       #090808;
   }
 
