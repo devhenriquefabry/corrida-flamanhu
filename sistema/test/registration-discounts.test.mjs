@@ -51,5 +51,5 @@ test('official regulation promises senior automatic discount', () => {
   assert.match(regulamento, /Idosos com 60 anos ou mais/i);
   assert.match(regulamento, /pagam metade/i);
   assert.match(regulamento, /desconto é aplicado automaticamente/i);
-  assert.match(regulamento, /Pessoas com deficiência \(PCD\) pagam metade/i);
+  assert.match(regulamento, /Atletas PCD: pessoas com deficiência têm direito a 50% de desconto/i);
 });
