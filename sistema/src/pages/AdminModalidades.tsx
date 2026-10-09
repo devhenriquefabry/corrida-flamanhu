@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, where } from 'firebase/firestore';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, deleteField, doc, query, orderBy, where } from 'firebase/firestore';
 import { jsPDF } from 'jspdf';
 import { db } from '../firebase';
 import { Plus, Trash2, Edit2, Flag, X, Check, FileText, FileSpreadsheet, ListTree } from 'lucide-react';
@@ -411,17 +411,22 @@ export default function AdminModalidades() {
       return showAlert('A idade inicial no pode ser maior que a idade final.', 'warning');
     }
 
+    const infantil = formData.categoria === 'infantil';
+    // Firestore rejeita campos `undefined`: omite na criação e apaga na edição.
+    const { idadeMin: _min, idadeMax: _max, ...base } = formData;
     const payload = {
-      ...formData,
-      idadeMin: formData.categoria === 'infantil' ? Number(formData.idadeMin) : undefined,
-      idadeMax: formData.categoria === 'infantil' ? Number(formData.idadeMax) : undefined,
-      anosNascimento: formData.categoria === 'infantil' ? (formData.anosNascimento || []) : [],
+      ...base,
+      anosNascimento: infantil ? (formData.anosNascimento || []) : [],
+      ...(infantil ? { idadeMin: Number(formData.idadeMin), idadeMax: Number(formData.idadeMax) } : {}),
     };
 
     setLoading(true);
     try {
       if (editingId) {
-        await updateDoc(doc(db, 'nightrun_modalidades', editingId), payload);
+        await updateDoc(doc(db, 'nightrun_modalidades', editingId), {
+          ...payload,
+          ...(infantil ? {} : { idadeMin: deleteField(), idadeMax: deleteField() }),
+        });
         showAlert('Modalidade atualizada!', 'success');
       } else {
         await addDoc(collection(db, 'nightrun_modalidades'), { ...payload, createdAt: new Date() });
@@ -429,9 +434,11 @@ export default function AdminModalidades() {
       }
       setIsModalOpen(false);
       loadModalidades();
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      showAlert('Erro ao salvar.', 'error');
+      showAlert(e?.code === 'permission-denied'
+        ? 'Sem permissão para salvar. Verifique se seu e-mail está em nightrun_admins.'
+        : 'Erro ao salvar.', 'error');
     } finally {
       setLoading(false);
     }
