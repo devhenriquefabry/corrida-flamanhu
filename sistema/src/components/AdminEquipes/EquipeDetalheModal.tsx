@@ -85,7 +85,7 @@ export default function EquipeDetalheModal({
     try {
       const node = document.getElementById('equipe-resumo-hidden-card');
       if (!node) throw new Error('Card de resumo não encontrado.');
-      const canvas = await html2canvas(node, { scale: 2, backgroundColor: '#071A45', useCORS: true, logging: false });
+      const canvas = await html2canvas(node, { scale: 2, backgroundColor: '#141112', useCORS: true, logging: false });
       const dataUrl = canvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
       link.href = dataUrl;
@@ -102,10 +102,10 @@ export default function EquipeDetalheModal({
   };
 
   return createPortal(
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1600 }}>
-      <div style={{ background: '#fff', width: '100%', maxWidth: 780, maxHeight: '90vh', display: 'flex', flexDirection: 'column', borderRadius: 24, boxShadow: '0 24px 60px rgba(15,23,42,.3)', overflow: 'hidden' }}>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1600 }}>
+      <div style={{ background: '#fff', width: '100%', maxWidth: 780, maxHeight: '90vh', display: 'flex', flexDirection: 'column', borderRadius: 24, boxShadow: '0 24px 60px rgba(28, 25, 23,.3)', overflow: 'hidden' }}>
         {/* Header */}
-        <div style={{ padding: '22px 26px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14 }}>
+        <div style={{ padding: '22px 26px', borderBottom: '1px solid #e7e5e4', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             {editingName ? (
               <div style={{ display: 'flex', gap: 8 }}>
@@ -114,34 +114,34 @@ export default function EquipeDetalheModal({
                   value={nameDraft}
                   onChange={e => setNameDraft(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') saveRename(); if (e.key === 'Escape') setEditingName(false); }}
-                  style={{ flex: 1, height: 40, padding: '0 12px', borderRadius: 10, border: '1px solid #cbd5e1', fontWeight: 900, fontSize: '1rem', color: '#071A45', outline: 'none' }}
+                  style={{ flex: 1, height: 40, padding: '0 12px', borderRadius: 10, border: '1px solid #d6d3d1', fontWeight: 900, fontSize: '1rem', color: '#141112', outline: 'none' }}
                 />
-                <button onClick={saveRename} style={{ background: '#071A45', border: 'none', color: '#fff', borderRadius: 10, padding: '0 14px', fontWeight: 900, cursor: 'pointer' }}><Check size={16} /></button>
-                <button onClick={() => { setEditingName(false); setNameDraft(group.nome); }} style={{ background: '#f1f5f9', border: 'none', color: '#64748b', borderRadius: 10, padding: '0 14px', cursor: 'pointer' }}><X size={16} /></button>
+                <button onClick={saveRename} style={{ background: '#141112', border: 'none', color: '#fff', borderRadius: 10, padding: '0 14px', fontWeight: 900, cursor: 'pointer' }}><Check size={16} /></button>
+                <button onClick={() => { setEditingName(false); setNameDraft(group.nome); }} style={{ background: '#f5f5f4', border: 'none', color: '#78716c', borderRadius: 10, padding: '0 14px', cursor: 'pointer' }}><X size={16} /></button>
               </div>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.2rem', fontWeight: 950 }}>{group.nome}</h2>
-                <button onClick={() => setEditingName(true)} title="Renomear" style={{ background: '#f1f5f9', border: 'none', width: 30, height: 30, borderRadius: 8, color: '#64748b', cursor: 'pointer', display: 'grid', placeItems: 'center' }}>
+                <h2 style={{ margin: 0, color: '#141112', fontSize: '1.2rem', fontWeight: 950 }}>{group.nome}</h2>
+                <button onClick={() => setEditingName(true)} title="Renomear" style={{ background: '#f5f5f4', border: 'none', width: 30, height: 30, borderRadius: 8, color: '#78716c', cursor: 'pointer', display: 'grid', placeItems: 'center' }}>
                   <Edit2 size={13} />
                 </button>
-                <span style={{ padding: '3px 10px', borderRadius: 999, fontSize: '.68rem', fontWeight: 900, background: group.oficial ? '#eff6ff' : '#f1f5f9', color: group.oficial ? '#2563eb' : '#94a3b8' }}>
+                <span style={{ padding: '3px 10px', borderRadius: 999, fontSize: '.68rem', fontWeight: 900, background: group.oficial ? '#eff6ff' : '#f5f5f4', color: group.oficial ? '#2563eb' : '#a8a29e' }}>
                   {group.oficial ? 'CADASTRADA' : 'NÃO CADASTRADA'}
                 </span>
               </div>
             )}
           </div>
-          <button onClick={onClose} style={{ border: 'none', background: '#f1f5f9', width: 36, height: 36, borderRadius: 10, color: '#64748b', cursor: 'pointer', flexShrink: 0 }}><X size={18} /></button>
+          <button onClick={onClose} style={{ border: 'none', background: '#f5f5f4', width: 36, height: 36, borderRadius: 10, color: '#78716c', cursor: 'pointer', flexShrink: 0 }}><X size={18} /></button>
         </div>
 
         {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, padding: '16px 26px', borderBottom: '1px solid #f1f5f9' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, padding: '16px 26px', borderBottom: '1px solid #f5f5f4' }}>
           <MiniStat icon={<Users size={15} />} label="Membros confirmados" value={String(stats.total)} tone="#16a34a" />
           <MiniStat icon={<Wallet size={15} />} label="Arrecadado" value={formatMoneyBR(stats.arrecadado)} tone="#16a34a" />
         </div>
 
         {/* Ações */}
-        <div style={{ padding: '14px 26px', borderBottom: '1px solid #f1f5f9', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div style={{ padding: '14px 26px', borderBottom: '1px solid #f5f5f4', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {!group.oficial && (
             <ActionButton icon={<ShieldCheck size={14} />} label="Cadastrar oficialmente" onClick={onOficializar} disabled={saving} tone="blue" />
           )}
@@ -156,12 +156,12 @@ export default function EquipeDetalheModal({
         </div>
 
         {showMerge && (
-          <div style={{ padding: '14px 26px', borderBottom: '1px solid #f1f5f9', background: '#f8fafc', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-            <span style={{ color: '#64748b', fontWeight: 800, fontSize: '.8rem' }}>Mesclar "{group.nome}" dentro de:</span>
+          <div style={{ padding: '14px 26px', borderBottom: '1px solid #f5f5f4', background: '#fafaf9', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <span style={{ color: '#78716c', fontWeight: 800, fontSize: '.8rem' }}>Mesclar "{group.nome}" dentro de:</span>
             <select
               value={mergeTarget}
               onChange={e => setMergeTarget(e.target.value)}
-              style={{ height: 38, padding: '0 10px', borderRadius: 10, border: '1px solid #e2e8f0', fontWeight: 800, color: '#071A45', flex: 1, minWidth: 180 }}
+              style={{ height: 38, padding: '0 10px', borderRadius: 10, border: '1px solid #e7e5e4', fontWeight: 800, color: '#141112', flex: 1, minWidth: 180 }}
             >
               <option value="">Selecione a equipe destino...</option>
               {outrasEquipes.map(g => <option key={g.key} value={g.key}>{g.nome} ({g.membros.length})</option>)}
@@ -175,7 +175,7 @@ export default function EquipeDetalheModal({
                 });
               }}
               disabled={saving || !mergeTarget}
-              style={{ background: '#071A45', color: '#fff', border: 'none', borderRadius: 10, padding: '0 16px', height: 38, fontWeight: 900, fontSize: '.78rem', cursor: 'pointer' }}
+              style={{ background: '#141112', color: '#fff', border: 'none', borderRadius: 10, padding: '0 16px', height: 38, fontWeight: 900, fontSize: '.78rem', cursor: 'pointer' }}
             >
               Confirmar mescla
             </button>
@@ -185,27 +185,27 @@ export default function EquipeDetalheModal({
         {/* Roster */}
         <div style={{ padding: '14px 26px 0', flex: 1, overflowY: 'auto' }}>
           <div style={{ position: 'relative', marginBottom: 12 }}>
-            <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} />
             <input
               value={rosterSearch}
               onChange={e => setRosterSearch(e.target.value)}
               placeholder="Buscar integrante..."
-              style={{ width: '100%', height: 38, padding: '0 12px 0 36px', borderRadius: 10, border: '1px solid #e2e8f0', fontWeight: 700, fontSize: '.85rem', color: '#071A45', outline: 'none' }}
+              style={{ width: '100%', height: 38, padding: '0 12px 0 36px', borderRadius: 10, border: '1px solid #e7e5e4', fontWeight: 700, fontSize: '.85rem', color: '#141112', outline: 'none' }}
             />
           </div>
 
           {membrosFiltrados.length === 0 ? (
-            <div style={{ padding: '30px 0', textAlign: 'center', color: '#94a3b8', fontWeight: 700 }}>
+            <div style={{ padding: '30px 0', textAlign: 'center', color: '#a8a29e', fontWeight: 700 }}>
               {group.membros.length === 0 ? 'Esta equipe ainda não tem inscritos.' : 'Nenhum integrante encontrado.'}
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 18 }}>
               {membrosFiltrados.map(membro => {
                 return (
-                  <div key={membro.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', background: '#f8fafc', border: '1px solid #eef2f7', borderRadius: 12 }}>
+                  <div key={membro.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', background: '#fafaf9', border: '1px solid #f3f1ef', borderRadius: 12 }}>
                     <div style={{ minWidth: 0, flex: 1 }}>
-                      <strong style={{ display: 'block', color: '#071A45', fontSize: '.88rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{membro.nome || 'Sem nome'}</strong>
-                      <small style={{ color: '#64748b', fontWeight: 700 }}>{membro.telefone || 'Sem telefone'}{membro.amount ? ` · ${formatMoneyBR(membro.amount)}` : ''}</small>
+                      <strong style={{ display: 'block', color: '#141112', fontSize: '.88rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{membro.nome || 'Sem nome'}</strong>
+                      <small style={{ color: '#78716c', fontWeight: 700 }}>{membro.telefone || 'Sem telefone'}{membro.amount ? ` · ${formatMoneyBR(membro.amount)}` : ''}</small>
                     </div>
                     <button onClick={() => openMemberWhatsApp(membro)} title="WhatsApp" style={{ background: '#dcfce7', border: 'none', width: 32, height: 32, borderRadius: 9, color: '#166534', cursor: 'pointer', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                       <MessageCircle size={14} />
@@ -223,10 +223,10 @@ export default function EquipeDetalheModal({
 
       {/* Card oculto usado para gerar a imagem de resumo da equipe */}
       <div style={{ position: 'fixed', left: -99999, top: 0, pointerEvents: 'none' }} aria-hidden="true">
-        <div id="equipe-resumo-hidden-card" style={{ width: 700, background: 'linear-gradient(160deg, #071A45 0%, #0b2560 100%)', color: '#fff', padding: 40, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 28, paddingBottom: 20, borderBottom: '2px solid rgba(107,255,42,0.4)' }}>
+        <div id="equipe-resumo-hidden-card" style={{ width: 700, background: 'linear-gradient(160deg, #141112 0%, #231d1e 100%)', color: '#fff', padding: 40, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 28, paddingBottom: 20, borderBottom: '2px solid rgba(224, 27, 34,0.4)' }}>
             <div>
-              <div style={{ color: '#6BFF2A', fontWeight: 900, fontSize: '0.8rem', letterSpacing: 1, textTransform: 'uppercase' }}>{EVENTO.nome}</div>
+              <div style={{ color: '#ff2e38', fontWeight: 900, fontSize: '0.8rem', letterSpacing: 1, textTransform: 'uppercase' }}>{EVENTO.nome}</div>
               <div style={{ fontSize: '1.9rem', fontWeight: 900, marginTop: 4 }}>{group.nome}</div>
             </div>
             <div style={{ textAlign: 'right', color: 'rgba(255,255,255,0.6)', fontWeight: 700, fontSize: '0.8rem' }}>
@@ -237,7 +237,7 @@ export default function EquipeDetalheModal({
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 20 }}>
             <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '14px 16px', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#6BFF2A' }}>{stats.total}</div>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#ff2e38' }}>{stats.total}</div>
               <div style={{ fontSize: '0.68rem', fontWeight: 800, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase' }}>Confirmados</div>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '14px 16px', textAlign: 'center' }}>
@@ -256,7 +256,7 @@ export default function EquipeDetalheModal({
               <div style={{ columnCount: membrosOrdenados.length > 30 ? 3 : membrosOrdenados.length > 12 ? 2 : 1, columnGap: 22 }}>
                 {membrosOrdenados.map((membro, index) => (
                   <div key={membro.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.08)', breakInside: 'avoid' }}>
-                    <span style={{ color: '#6BFF2A', fontWeight: 900, fontSize: '0.78rem', minWidth: 24 }}>{String(index + 1).padStart(2, '0')}</span>
+                    <span style={{ color: '#ff2e38', fontWeight: 900, fontSize: '0.78rem', minWidth: 24 }}>{String(index + 1).padStart(2, '0')}</span>
                     <span style={{ fontWeight: 700, fontSize: '0.82rem', flex: 1 }}>{String(membro.nome || '').toUpperCase()}</span>
                   </div>
                 ))}
@@ -272,11 +272,11 @@ export default function EquipeDetalheModal({
 
 function MiniStat({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: string; tone: string }) {
   return (
-    <div style={{ background: '#f8fafc', border: '1px solid #eef2f7', borderRadius: 12, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ background: '#fafaf9', border: '1px solid #f3f1ef', borderRadius: 12, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 8 }}>
       <div style={{ color: tone }}>{icon}</div>
       <div style={{ minWidth: 0 }}>
-        <div style={{ color: '#071A45', fontSize: '.9rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
-        <div style={{ color: '#94a3b8', fontSize: '.6rem', fontWeight: 800, textTransform: 'uppercase' }}>{label}</div>
+        <div style={{ color: '#141112', fontSize: '.9rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
+        <div style={{ color: '#a8a29e', fontSize: '.6rem', fontWeight: 800, textTransform: 'uppercase' }}>{label}</div>
       </div>
     </div>
   );
@@ -287,7 +287,7 @@ function ActionButton({ icon, label, onClick, disabled, tone }: { icon: React.Re
     blue: { bg: '#eff6ff', color: '#2563eb' },
     amber: { bg: '#fffbeb', color: '#b45309' },
     green: { bg: '#f0fdf4', color: '#16a34a' },
-    neutral: { bg: '#f1f5f9', color: '#475569' },
+    neutral: { bg: '#f5f5f4', color: '#57534e' },
     red: { bg: '#fef2f2', color: '#b91c1c' },
   }[tone];
   return (

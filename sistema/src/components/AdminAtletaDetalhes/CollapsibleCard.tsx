@@ -18,7 +18,7 @@ export const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
   return (
     <div className={`atleta-det-card ${className} ${collapsed ? 'is-collapsed' : ''}`}>
       <div className="atleta-det-card-header" onClick={onToggle} style={{ cursor: 'pointer' }}>
-        <div style={{ color: iconColor || 'var(--adm-accent)', display: 'flex', alignItems: 'center' }}>
+        <div style={{ color: iconColor || 'var(--adm-accent-ink)', display: 'flex', alignItems: 'center' }}>
           {icon}
         </div>
         <h3 style={{ flex: 1 }}>{title}</h3>

@@ -1,5 +1,5 @@
 /* ============================================================
-   CORRIDA FLAMANHU 2026 — Design System
+   CORRIDA FLAMANHU 2027 — Design System
    Paleta: carvão profundo + rubro + branco-giz
    Tipos:  Anton (display) · Barlow Condensed (labels) · Barlow (corpo)
    ============================================================ */
@@ -500,7 +500,7 @@ button {
   min-height: 320px;
 }
 .hero__badge {
-  width: min(100%, 420px);
+  width: min(100%, 480px);
   height: auto;
   filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.7))
           drop-shadow(0 0 40px rgba(224, 27, 34, 0.35));

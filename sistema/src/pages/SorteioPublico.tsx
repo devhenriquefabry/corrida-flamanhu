@@ -49,7 +49,7 @@ export default function SorteioPublico() {
     return (
       <div className="sorteio-page">
         <div className="sorteio-shell">
-          <LogoCombo style={{ height: 38 }} variant="light" />
+          <LogoCombo />
           <div className="sorteio-empty">
             <Gift size={38} />
             <strong>Sorteio não encontrado</strong>
@@ -67,7 +67,7 @@ export default function SorteioPublico() {
       <div className="sorteio-bg-glow" />
       <div className="sorteio-shell">
         <header className="sorteio-header">
-          <LogoCombo style={{ height: 38 }} variant="light" />
+          <LogoCombo />
         </header>
 
         <span className={`sorteio-status-pill ${status}`}>
@@ -76,7 +76,7 @@ export default function SorteioPublico() {
           ) : status === 'finalizado' ? 'Resultado oficial' : 'Em breve'}
         </span>
 
-        <h1 className="sorteio-title">{sorteio.titulo || 'Sorteio MCU Night Run'}</h1>
+        <h1 className="sorteio-title">{sorteio.titulo || 'Sorteio Corrida Flamanhu'}</h1>
         {sorteio.descricao && <p className="sorteio-desc">{sorteio.descricao}</p>}
 
         {/* Prêmio em formato de ticket / vale */}
@@ -185,7 +185,7 @@ export default function SorteioPublico() {
           )
         )}
 
-        <footer className="sorteio-footer">MCU Night Run 2026</footer>
+        <footer className="sorteio-footer">Corrida Flamanhu 2027</footer>
       </div>
     </div>
   );

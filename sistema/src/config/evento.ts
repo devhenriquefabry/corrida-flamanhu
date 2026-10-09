@@ -5,14 +5,15 @@ import { withBase } from '../utils/withBase';
 // [vars] — ao mudar algo aqui, mude lá também.
 // Campo vazio = a linha correspondente some das mensagens.
 export const EVENTO = {
-  nome: 'Corrida Flamanhu 2026',
-  data: '', // ex.: '12/09'
-  local: '', // ex.: 'Praça Cordovil Pinto Coelho'
-  emailContato: 'contato@corridaflamanhu.com.br',
-  grupoWhatsAppUrl: '', // link de convite do grupo de participantes
-  instagramUrl: '',
+  nome: 'Corrida Flamanhu 2027',
+  data: '15/05/2027',
+  horarioLargada: '9h',
+  local: 'Praça Cordovil Pinto Coelho, Centro - Manhuaçu',
+  emailContato: 'corridaflamanhu@gmail.com',
+  grupoWhatsAppUrl: '', // link de convite do grupo de participantes (ainda não criado)
+  instagramUrl: 'https://www.instagram.com/corrida_flamanhu',
   // WhatsApp da equipe de boas-vindas, só dígitos com DDI: '5533999999999'
-  whatsappBoasVindas: '',
+  whatsappBoasVindas: '5533984500707',
   // Nome da instância na Evolution API (o número de WhatsApp do evento)
   whatsappInstancia: 'flamanhu',
 };
@@ -30,7 +31,7 @@ export const buildPaymentConfirmationText = (nome: string, modalidadeNome: strin
     '',
     `Olá ${nome || 'Atleta'}! Sua inscrição na ${EVENTO.nome} está garantida.`,
     '',
-    EVENTO.data ? `Data: ${EVENTO.data}` : null,
+    EVENTO.data ? `Data: ${EVENTO.data}${EVENTO.horarioLargada ? ` — largada às ${EVENTO.horarioLargada}` : ''}` : null,
     EVENTO.local ? `Local: ${EVENTO.local}` : null,
     `Modalidade: ${modalidade}`,
     '',

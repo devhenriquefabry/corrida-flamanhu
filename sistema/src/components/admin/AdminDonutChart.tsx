@@ -35,7 +35,7 @@ export default function AdminDonutChart({ segments, total, size = 180, strokeWid
           {/* Background circle */}
           <circle
             cx={center} cy={center} r={radius}
-            fill="none" stroke="#f1f5f9"
+            fill="none" stroke="#f5f5f4"
             strokeWidth={strokeWidth}
           />
           {/* Segments */}
@@ -75,10 +75,10 @@ export default function AdminDonutChart({ segments, total, size = 180, strokeWid
           alignItems: 'center', justifyContent: 'center',
           pointerEvents: 'none'
         }}>
-          <span style={{ fontSize: '1.6rem', fontWeight: 900, color: '#071A45', transition: 'color 0.2s' }}>
+          <span style={{ fontSize: '1.6rem', fontWeight: 900, color: '#141112', transition: 'color 0.2s' }}>
             {hoveredIndex !== null ? segments[hoveredIndex].value.toLocaleString('pt-BR') : total.toLocaleString('pt-BR')}
           </span>
-          <span style={{ fontSize: '.75rem', fontWeight: 700, color: '#64748b', transition: 'color 0.2s' }}>
+          <span style={{ fontSize: '.75rem', fontWeight: 700, color: '#78716c', transition: 'color 0.2s' }}>
             {hoveredIndex !== null ? segments[hoveredIndex].label : 'Total'}
           </span>
         </div>
@@ -103,8 +103,8 @@ export default function AdminDonutChart({ segments, total, size = 180, strokeWid
               }}
             >
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: seg.color }} />
-              <span style={{ color: isHovered ? '#071A45' : '#64748b', fontWeight: 700, minWidth: 80, fontSize: '0.85rem' }}>{seg.label}</span>
-              <span style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600 }}>{pct}%</span>
+              <span style={{ color: isHovered ? '#141112' : '#78716c', fontWeight: 700, minWidth: 80, fontSize: '0.85rem' }}>{seg.label}</span>
+              <span style={{ color: '#a8a29e', fontSize: '0.8rem', fontWeight: 600 }}>{pct}%</span>
             </div>
           );
         })}

@@ -9,6 +9,7 @@ import { SkeletonTable } from '../components/Skeleton';
 import { formatDateBR } from '../utils/dateUtils';
 import '../styles/admin.css';
 import { withBase } from '../utils/withBase';
+import { adminAuthHeaders } from '../utils/workerApi';
 
 type PaymentProvider = 'asaas' | 'cora';
 type MovementType = 'entrada' | 'saida';
@@ -130,7 +131,7 @@ export default function AdminContaHistorico() {
       const formData = new FormData();
       formData.append('file', file, file.name);
       formData.append('folder', 'bank_receipts');
-      const res = await fetch(`${workerUrl}/media/upload`, { method: 'POST', body: formData });
+      const res = await fetch(`${workerUrl}/media/upload`, { method: 'POST', body: formData, headers: await adminAuthHeaders() });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error || 'Falha ao enviar comprovante.');
 
@@ -210,24 +211,24 @@ export default function AdminContaHistorico() {
   const providerStatus = movementsData?.[provider];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 22, padding: 22, boxShadow: '0 1px 3px rgba(15,23,42,0.06)', marginBottom: 22 }}>
-        <button type="button" onClick={() => navigate('/admin/financeiro')} style={{ background: 'transparent', border: 'none', color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 900, cursor: 'pointer', padding: 0, marginBottom: 16 }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 22, padding: 22, boxShadow: '0 1px 3px rgba(28, 25, 23,0.06)', marginBottom: 22 }}>
+        <button type="button" onClick={() => navigate('/admin/financeiro')} style={{ background: 'transparent', border: 'none', color: '#78716c', display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 900, cursor: 'pointer', padding: 0, marginBottom: 16 }}>
             <ArrowLeft size={17} /> Voltar ao financeiro
           </button>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', gap: 18, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 280 }}>
-            <div style={{ width: 74, height: 74, borderRadius: 18, background: '#f8fafc', border: '1px solid #e2e8f0', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+            <div style={{ width: 74, height: 74, borderRadius: 18, background: '#fafaf9', border: '1px solid #e7e5e4', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
               <img src={providerLogo} alt={providerName} style={{ width: provider === 'cora' ? 56 : 62, height: 28, objectFit: 'contain' }} />
             </div>
             <div>
-              <h1 style={{ fontSize: '1.8rem', fontWeight: 950, color: '#071A45', margin: 0 }}>Historico da conta</h1>
+              <h1 style={{ fontSize: '1.8rem', fontWeight: 950, color: '#141112', margin: 0 }}>Historico da conta</h1>
             </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-            <div style={{ display: 'flex', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 16, padding: 5, gap: 5 }}>
+            <div style={{ display: 'flex', background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 16, padding: 5, gap: 5 }}>
               {([
                 { id: 'cora' as const, name: 'Cora', logo: withBase('/sistema/cora-logo.svg'), width: 50 },
                 { id: 'asaas' as const, name: 'Asaas', logo: withBase('/sistema/asaas-logo.svg'), width: 62 },
@@ -244,15 +245,15 @@ export default function AdminContaHistorico() {
                       padding: '11px 14px',
                       minHeight: 44,
                       minWidth: 92,
-                      background: active ? '#071A45' : '#fff',
-                      color: active ? '#fff' : '#64748b',
+                      background: active ? '#141112' : '#fff',
+                      color: active ? '#fff' : '#78716c',
                       fontWeight: 950,
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: 8,
-                      boxShadow: active ? '0 5px 16px rgba(7,26,69,0.18)' : '0 1px 2px rgba(15,23,42,0.04)'
+                      boxShadow: active ? '0 5px 16px rgba(20, 17, 18,0.18)' : '0 1px 2px rgba(28, 25, 23,0.04)'
                     }}
                   >
                     <img src={bank.logo} alt={bank.name} style={{ width: bank.width, height: 19, objectFit: 'contain', filter: active && bank.id === 'asaas' ? 'brightness(0) invert(1)' : 'none' }} />
@@ -260,7 +261,7 @@ export default function AdminContaHistorico() {
                 );
               })}
             </div>
-            <button onClick={load} disabled={loading} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '13px 18px', borderRadius: 14, fontWeight: 900, cursor: loading ? 'wait' : 'pointer', display: 'flex', alignItems: 'center', gap: 8, minHeight: 48, boxShadow: '0 6px 16px rgba(7,26,69,0.18)' }}>
+            <button onClick={load} disabled={loading} style={{ background: '#141112', color: '#fff', border: 'none', padding: '13px 18px', borderRadius: 14, fontWeight: 900, cursor: loading ? 'wait' : 'pointer', display: 'flex', alignItems: 'center', gap: 8, minHeight: 48, boxShadow: '0 6px 16px rgba(20, 17, 18,0.18)' }}>
               <RefreshCw size={17} /> {loading ? 'Atualizando...' : 'Atualizar extrato'}
             </button>
           </div>
@@ -270,7 +271,7 @@ export default function AdminContaHistorico() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14, marginBottom: 22 }}>
         <SummaryCard label="Entradas" value={fmt(entradaTotal)} color="#166534" background="#dcfce7" icon={<ArrowDownLeft size={20} />} />
         <SummaryCard label="Saidas" value={fmt(saidaTotal)} color="#ef4444" background="#fee2e2" icon={<ArrowUpRight size={20} />} />
-        <SummaryCard label="Saldo calculado" value={fmt(saldoCalculado)} color="#071A45" background="#fff" icon={<img src={providerLogo} alt="" style={{ width: provider === 'cora' ? 42 : 52, height: 18, objectFit: 'contain' }} />} />
+        <SummaryCard label="Saldo calculado" value={fmt(saldoCalculado)} color="#141112" background="#fff" icon={<img src={providerLogo} alt="" style={{ width: provider === 'cora' ? 42 : 52, height: 18, objectFit: 'contain' }} />} />
       </div>
 
       {providerStatus?.ok === false && (
@@ -279,9 +280,9 @@ export default function AdminContaHistorico() {
         </div>
       )}
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 18, marginBottom: 18, display: 'grid', gridTemplateColumns: 'minmax(260px, 1.5fr) repeat(5, minmax(150px, 1fr))', gap: 12, alignItems: 'center' }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, padding: 18, marginBottom: 18, display: 'grid', gridTemplateColumns: 'minmax(260px, 1.5fr) repeat(5, minmax(150px, 1fr))', gap: 12, alignItems: 'center' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+          <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} />
           <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Buscar por descricao, pessoa, tipo..." style={inputStyle({ paddingLeft: 42 })} />
         </div>
         <select value={typeFilter} onChange={event => setTypeFilter(event.target.value as any)} style={inputStyle()}>
@@ -306,16 +307,16 @@ export default function AdminContaHistorico() {
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, overflow: 'hidden' }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, overflow: 'hidden' }}>
         {loading ? (
           <div style={{ padding: 24 }}><SkeletonTable rows={8} columns={5} /></div>
         ) : filtered.length === 0 ? (
-          <div style={{ minHeight: 260, display: 'grid', placeItems: 'center', color: '#94a3b8', fontWeight: 900 }}>Nenhuma movimentacao encontrada.</div>
+          <div style={{ minHeight: 260, display: 'grid', placeItems: 'center', color: '#a8a29e', fontWeight: 900 }}>Nenhuma movimentacao encontrada.</div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr style={{ background: '#f8fafc', borderBottom: '1px solid #eef2f7' }}>
+                <tr style={{ background: '#fafaf9', borderBottom: '1px solid #f3f1ef' }}>
                   <th style={th}>Tipo</th>
                   <th style={th}>Lancamento</th>
                   <th style={th}>Valor</th>
@@ -333,7 +334,7 @@ export default function AdminContaHistorico() {
                       <tr
                         onClick={() => setExpandedId(isExpanded ? '' : item.id)}
                         aria-expanded={isExpanded}
-                        style={{ borderBottom: isExpanded ? 'none' : '1px solid #eef2f7', cursor: 'pointer', background: isExpanded ? '#f8fafc' : '#fff' }}
+                        style={{ borderBottom: isExpanded ? 'none' : '1px solid #f3f1ef', cursor: 'pointer', background: isExpanded ? '#fafaf9' : '#fff' }}
                       >
                         <td style={td}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: isEntrada ? '#dcfce7' : '#fee2e2', color: isEntrada ? '#166534' : '#ef4444', padding: '6px 10px', borderRadius: 999, fontSize: '.72rem', fontWeight: 950, textTransform: 'uppercase' }}>
@@ -343,17 +344,17 @@ export default function AdminContaHistorico() {
                         </td>
                         <td style={td}>
                           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9 }}>
-                            <ChevronDown size={18} style={{ marginTop: 1, flexShrink: 0, color: '#64748b', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s ease' }} />
+                            <ChevronDown size={18} style={{ marginTop: 1, flexShrink: 0, color: '#78716c', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s ease' }} />
                             {showAthletePhoto && (
                               <img
                                 src={item.athlete.fotoUrl}
                                 alt={item.athlete.nome || item.title}
-                                style={{ width: 46, height: 46, borderRadius: 12, objectFit: 'cover', border: '2px solid #dcfce7', flexShrink: 0, background: '#f1f5f9' }}
+                                style={{ width: 46, height: 46, borderRadius: 12, objectFit: 'cover', border: '2px solid #dcfce7', flexShrink: 0, background: '#f5f5f4' }}
                               />
                             )}
                             <div>
-                              <strong style={{ display: 'block', color: '#071A45', fontSize: '.9rem', fontWeight: 950 }}>{item.title}</strong>
-                              <span style={{ display: 'block', color: '#64748b', fontSize: '.76rem', fontWeight: 700, marginTop: 3 }}>{item.description}</span>
+                              <strong style={{ display: 'block', color: '#141112', fontSize: '.9rem', fontWeight: 950 }}>{item.title}</strong>
+                              <span style={{ display: 'block', color: '#78716c', fontSize: '.76rem', fontWeight: 700, marginTop: 3 }}>{item.description}</span>
                             </div>
                           </div>
                         </td>
@@ -361,8 +362,8 @@ export default function AdminContaHistorico() {
                           <strong style={{ color: isEntrada ? '#166534' : '#ef4444', fontSize: '.92rem', fontWeight: 950 }}>{isEntrada ? '+' : '-'} {fmt(item.amount)}</strong>
                         </td>
                         <td style={td}>
-                          <strong style={{ display: 'block', color: '#071A45', fontSize: '.82rem', fontWeight: 900 }}>{formatDateBR(item.date)}</strong>
-                          <span style={{ display: 'block', color: '#94a3b8', fontSize: '.72rem', fontWeight: 800 }}>{item.date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                          <strong style={{ display: 'block', color: '#141112', fontSize: '.82rem', fontWeight: 900 }}>{formatDateBR(item.date)}</strong>
+                          <span style={{ display: 'block', color: '#a8a29e', fontSize: '.72rem', fontWeight: 800 }}>{item.date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                         </td>
                         <td style={{ ...td, textAlign: 'right', minWidth: 190 }}>
                           <div onClick={event => event.stopPropagation()} style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, alignItems: 'center', flexWrap: 'nowrap' }}>
@@ -372,7 +373,7 @@ export default function AdminContaHistorico() {
                                 Ver
                               </a>
                             )}
-                            <label title={item.receipt?.receiptUrl ? 'Trocar comprovante' : 'Anexar comprovante'} style={{ background: uploadingReceiptId === receiptKeyFor(provider, item) ? '#e2e8f0' : '#f1f5f9', border: 'none', padding: '9px 11px', borderRadius: 10, color: '#071A45', cursor: uploadingReceiptId ? 'wait' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '.72rem', fontWeight: 900 }}>
+                            <label title={item.receipt?.receiptUrl ? 'Trocar comprovante' : 'Anexar comprovante'} style={{ background: uploadingReceiptId === receiptKeyFor(provider, item) ? '#e7e5e4' : '#f5f5f4', border: 'none', padding: '9px 11px', borderRadius: 10, color: '#141112', cursor: uploadingReceiptId ? 'wait' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '.72rem', fontWeight: 900 }}>
                               <Upload size={18} />
                               Anexar
                               <input
@@ -388,7 +389,7 @@ export default function AdminContaHistorico() {
                               />
                             </label>
                             {item.registrationId && (
-                              <button type="button" onClick={() => navigate(`/admin/inscritos/${item.registrationId}`)} title="Ver cadastro" style={{ background: '#f1f5f9', border: 'none', padding: '9px 11px', borderRadius: 10, color: '#071A45', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '.72rem', fontWeight: 900 }}>
+                              <button type="button" onClick={() => navigate(`/admin/inscritos/${item.registrationId}`)} title="Ver cadastro" style={{ background: '#f5f5f4', border: 'none', padding: '9px 11px', borderRadius: 10, color: '#141112', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '.72rem', fontWeight: 900 }}>
                                 <Eye size={18} />
                                 Cadastro
                               </button>
@@ -397,16 +398,16 @@ export default function AdminContaHistorico() {
                         </td>
                       </tr>
                       {isExpanded && (
-                        <tr style={{ borderBottom: '1px solid #eef2f7', background: '#f8fafc' }}>
+                        <tr style={{ borderBottom: '1px solid #f3f1ef', background: '#fafaf9' }}>
                           <td colSpan={5} style={{ padding: '0 20px 18px 20px' }}>
-                            <div style={{ border: '1px solid #e2e8f0', background: '#fff', borderRadius: 16, padding: 16 }}>
+                            <div style={{ border: '1px solid #e7e5e4', background: '#fff', borderRadius: 16, padding: 16 }}>
                               {showAthletePhoto && (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: 12, marginBottom: 14 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 14, padding: 12, marginBottom: 14 }}>
                                   <img src={item.athlete.fotoUrl} alt={item.athlete.nome || 'Atleta'} style={{ width: 72, height: 72, borderRadius: 16, objectFit: 'cover', border: '2px solid #dcfce7', flexShrink: 0 }} />
                                   <div>
                                     <span style={{ display: 'block', color: '#166534', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 4 }}>Entrada de inscricao</span>
-                                    <strong style={{ display: 'block', color: '#071A45', fontSize: '1rem', fontWeight: 950 }}>{item.athlete.nome || item.description}</strong>
-                                    <span style={{ display: 'block', color: '#64748b', fontSize: '.76rem', fontWeight: 800, marginTop: 3 }}>Foto do atleta vinculada ao cadastro</span>
+                                    <strong style={{ display: 'block', color: '#141112', fontSize: '1rem', fontWeight: 950 }}>{item.athlete.nome || item.description}</strong>
+                                    <span style={{ display: 'block', color: '#78716c', fontSize: '.76rem', fontWeight: 800, marginTop: 3 }}>Foto do atleta vinculada ao cadastro</span>
                                   </div>
                                 </div>
                               )}
@@ -422,13 +423,13 @@ export default function AdminContaHistorico() {
                                 <DetailField label="Comprovante" value={item.receipt?.fileName || (item.receipt?.receiptUrl ? 'Comprovante anexado' : 'Sem comprovante anexado')} wide />
                               </div>
                               {item.receipt?.receiptUrl && (
-                                <a href={item.receipt.receiptUrl} target="_blank" rel="noreferrer" style={{ color: '#071A45', fontWeight: 900, fontSize: '.76rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 7, marginBottom: 14 }}>
+                                <a href={item.receipt.receiptUrl} target="_blank" rel="noreferrer" style={{ color: '#141112', fontWeight: 900, fontSize: '.76rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 7, marginBottom: 14 }}>
                                   <FileText size={16} /> Abrir comprovante anexado
                                 </a>
                               )}
                               <div>
-                                <strong style={{ display: 'block', color: '#071A45', fontSize: '.78rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 8 }}>Dados completos retornados pelo banco</strong>
-                                <pre style={{ margin: 0, maxHeight: 280, overflow: 'auto', background: '#0f172a', color: '#dbeafe', borderRadius: 12, padding: 14, fontSize: '.72rem', lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                                <strong style={{ display: 'block', color: '#141112', fontSize: '.78rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 8 }}>Dados completos retornados pelo banco</strong>
+                                <pre style={{ margin: 0, maxHeight: 280, overflow: 'auto', background: '#1c1917', color: '#dbeafe', borderRadius: 12, padding: 14, fontSize: '.72rem', lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                                   {JSON.stringify(item.raw || {}, null, 2)}
                                 </pre>
                               </div>
@@ -453,9 +454,9 @@ const inputStyle = (extra: CSSProperties = {}): CSSProperties => ({
   minHeight: 44,
   padding: '11px 14px',
   borderRadius: 12,
-  border: '1px solid #e2e8f0',
-  background: '#f8fafc',
-  color: '#071A45',
+  border: '1px solid #e7e5e4',
+  background: '#fafaf9',
+  color: '#141112',
   fontWeight: 800,
   outline: 'none',
   ...extra,
@@ -464,7 +465,7 @@ const inputStyle = (extra: CSSProperties = {}): CSSProperties => ({
 const th: CSSProperties = {
   padding: '15px 20px',
   textAlign: 'left',
-  color: '#64748b',
+  color: '#78716c',
   fontSize: '.7rem',
   fontWeight: 950,
   textTransform: 'uppercase',
@@ -477,10 +478,10 @@ const td: CSSProperties = {
 
 function SummaryCard({ label, value, color, background, icon }: { label: string; value: string; color: string; background: string; icon: ReactNode }) {
   return (
-    <div style={{ background, border: '1px solid #e2e8f0', borderRadius: 16, padding: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
+    <div style={{ background, border: '1px solid #e7e5e4', borderRadius: 16, padding: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
       <div style={{ width: 42, height: 42, borderRadius: 12, background: '#fff', color, display: 'grid', placeItems: 'center', flexShrink: 0 }}>{icon}</div>
       <div>
-        <span style={{ display: 'block', color: '#64748b', fontSize: '.7rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 4 }}>{label}</span>
+        <span style={{ display: 'block', color: '#78716c', fontSize: '.7rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 4 }}>{label}</span>
         <strong style={{ color, fontSize: '1.18rem', fontWeight: 950 }}>{value}</strong>
       </div>
     </div>
@@ -489,9 +490,9 @@ function SummaryCard({ label, value, color, background, icon }: { label: string;
 
 function DetailField({ label, value, highlight, wide = false }: { label: string; value: ReactNode; highlight?: string; wide?: boolean }) {
   return (
-    <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '10px 12px', gridColumn: wide ? 'span 2' : undefined, minWidth: 0 }}>
-      <span style={{ display: 'block', color: '#64748b', fontSize: '.66rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 5 }}>{label}</span>
-      <strong style={{ display: 'block', color: highlight || '#071A45', fontSize: '.82rem', fontWeight: 900, overflowWrap: 'anywhere' }}>{value}</strong>
+    <div style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 12, padding: '10px 12px', gridColumn: wide ? 'span 2' : undefined, minWidth: 0 }}>
+      <span style={{ display: 'block', color: '#78716c', fontSize: '.66rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 5 }}>{label}</span>
+      <strong style={{ display: 'block', color: highlight || '#141112', fontSize: '.82rem', fontWeight: 900, overflowWrap: 'anywhere' }}>{value}</strong>
     </div>
   );
 }

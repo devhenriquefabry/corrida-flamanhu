@@ -212,15 +212,15 @@ export default function AdminCardEuVou() {
                 </button>
 
                 {linked.length > 0 && (
-                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px dashed #e2e8f0', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    <span style={{ fontSize: '.66rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: .4 }}>
+                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px dashed #e7e5e4', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <span style={{ fontSize: '.66rem', fontWeight: 800, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: .4 }}>
                       Vinculados ({linked.length})
                     </span>
                     {linked.map(item => {
                       const itemSending = sendingId === item.id;
                       const itemSentCount = Number(item.euVouCardSendClickCount || item.euVouCardSendHistory?.length || 0);
                       return (
-                        <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f8fafc', border: '1px solid #eef2f7', borderRadius: 10, padding: '6px 8px' }}>
+                        <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fafaf9', border: '1px solid #f3f1ef', borderRadius: 10, padding: '6px 8px' }}>
                           <img
                             src={item.euVouCardUrl}
                             alt={`Card #EUVOU de ${item.nome || 'atleta'}`}
@@ -228,8 +228,8 @@ export default function AdminCardEuVou() {
                             style={{ width: 32, height: 40, objectFit: 'cover', borderRadius: 6, cursor: 'zoom-in', flexShrink: 0 }}
                           />
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <strong style={{ display: 'block', fontSize: '.74rem', color: '#071A45', fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.nome || 'Atleta sem nome'}</strong>
-                            <span style={{ display: 'block', fontSize: '.64rem', color: itemSentCount > 0 ? '#16a34a' : '#94a3b8', fontWeight: 700 }}>
+                            <strong style={{ display: 'block', fontSize: '.74rem', color: '#141112', fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.nome || 'Atleta sem nome'}</strong>
+                            <span style={{ display: 'block', fontSize: '.64rem', color: itemSentCount > 0 ? '#16a34a' : '#a8a29e', fontWeight: 700 }}>
                               {itemSentCount > 0 ? `Enviado ${itemSentCount}x` : 'Nao enviado'}
                             </span>
                           </div>
@@ -238,7 +238,7 @@ export default function AdminCardEuVou() {
                             onClick={() => openSendChoice(item)}
                             disabled={itemSending}
                             title="Enviar card"
-                            style={{ border: 'none', background: '#071A45', color: '#fff', width: 26, height: 26, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: itemSending ? 'wait' : 'pointer', flexShrink: 0 }}
+                            style={{ border: 'none', background: '#141112', color: '#fff', width: 26, height: 26, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: itemSending ? 'wait' : 'pointer', flexShrink: 0 }}
                           >
                             <Send size={12} />
                           </button>

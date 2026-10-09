@@ -7,7 +7,7 @@ import { useDialog } from '../context/CustomDialogContext';
 import LoadingModal from '../components/LoadingModal';
 import { LogoCombo } from '../components/LogoCombo';
 import '../App.css';
-import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 export default function PaymentPage() {
   const { registrationId } = useParams();
@@ -190,15 +190,10 @@ export default function PaymentPage() {
         {/* Header Pro */}
         <header className="payment-header-pro">
           <img
-            src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")}
-            alt="MCU Night Run"
-            style={{ width: '180px' }}
+            src={LOGO_CORRIDA}
+            alt={LOGO_CORRIDA_ALT}
+            style={{ width: '150px', height: 'auto', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,.5))' }}
           />
-          <div className="seals-container">
-            <img src={withBase("/sistema/logo-mcu.png")} alt="MCU" className="seal-img" />
-            <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.2)' }} />
-            <img src={withBase("/sistema/logo-ademare.png")} alt="Ademare" className="seal-img" />
-          </div>
         </header>
 
         {/* Payment Card Pro */}
@@ -225,10 +220,10 @@ export default function PaymentPage() {
 
           {allowedMethods.pix && allowedMethods.cartao && (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, width: '100%', margin: '14px 0 16px' }}>
-              <button type="button" onClick={() => setPaymentMethod('pix')} style={{ border: paymentMethod === 'pix' ? '2px solid #6BFF2A' : '1px solid rgba(255,255,255,0.14)', background: paymentMethod === 'pix' ? 'rgba(107,255,42,0.12)' : 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 14, padding: '12px 10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer' }}>
+              <button type="button" onClick={() => setPaymentMethod('pix')} style={{ border: paymentMethod === 'pix' ? '2px solid #e01b22' : '1px solid rgba(255,255,255,0.14)', background: paymentMethod === 'pix' ? 'rgba(224, 27, 34,0.12)' : 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 14, padding: '12px 10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer' }}>
                 <Copy size={16} /> Pix
               </button>
-              <button type="button" onClick={() => setPaymentMethod('card')} style={{ border: paymentMethod === 'card' ? '2px solid #6BFF2A' : '1px solid rgba(255,255,255,0.14)', background: paymentMethod === 'card' ? 'rgba(107,255,42,0.12)' : 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 14, padding: '12px 10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer' }}>
+              <button type="button" onClick={() => setPaymentMethod('card')} style={{ border: paymentMethod === 'card' ? '2px solid #e01b22' : '1px solid rgba(255,255,255,0.14)', background: paymentMethod === 'card' ? 'rgba(224, 27, 34,0.12)' : 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 14, padding: '12px 10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer' }}>
                 <CreditCard size={16} /> Cartão
               </button>
             </div>
@@ -250,8 +245,8 @@ export default function PaymentPage() {
               )}
             </div>
           ) : (
-            <div style={{ width: '100%', border: '1px solid rgba(107,255,42,0.35)', borderRadius: 22, padding: 22, background: 'rgba(255,255,255,0.05)', textAlign: 'center', marginBottom: 18 }}>
-              <CreditCard size={42} color="#6BFF2A" />
+            <div style={{ width: '100%', border: '1px solid rgba(224, 27, 34,0.35)', borderRadius: 22, padding: 22, background: 'rgba(255,255,255,0.05)', textAlign: 'center', marginBottom: 18 }}>
+              <CreditCard size={42} color="#e01b22" />
               <h3 style={{ color: '#fff', margin: '12px 0 6px', fontSize: '1.05rem', fontWeight: 900 }}>Cartão de crédito</h3>
             </div>
           )}
@@ -274,8 +269,8 @@ export default function PaymentPage() {
             onClick={() => checkPayment(false)} 
             disabled={checkingPayment}
             style={{
-              background: '#6BFF2A',
-              color: '#071A45',
+              background: '#e01b22',
+              color: '#fff',
               border: 'none',
               borderRadius: '40px',
               width: '100%',
@@ -290,7 +285,7 @@ export default function PaymentPage() {
               textTransform: 'uppercase',
               letterSpacing: '0.5px',
               marginTop: '12px',
-              boxShadow: '0 4px 15px rgba(107, 255, 42, 0.3)',
+              boxShadow: '0 4px 15px rgba(224, 27, 34, 0.3)',
               transition: 'transform 0.2s, opacity 0.2s'
             }}
           >

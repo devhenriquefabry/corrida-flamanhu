@@ -294,18 +294,18 @@ export default function AdminMensagens() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Central WhatsApp</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Gerencie conexões, disparos em massa e automações financeiras.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Central WhatsApp</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Gerencie conexões, disparos em massa e automações financeiras.</p>
         </div>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
         {/* Tabs */}
-        <div style={{ display: 'flex', borderBottom: '1px solid #f1f5f9', padding: '0 20px', overflowX: 'auto', background: '#f8fafc' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid #f5f5f4', padding: '0 20px', overflowX: 'auto', background: '#fafaf9' }}>
           {[
             { id: 'campanha', label: 'CAMPANHA', icon: <Users size={18} /> },
             { id: 'conexao', label: 'CONEXÃO', icon: <Smartphone size={18} /> },
@@ -319,9 +319,9 @@ export default function AdminMensagens() {
                 display: 'flex', alignItems: 'center', gap: 10,
                 background: 'transparent', border: 'none',
                 padding: '18px 24px',
-                color: activeTab === tab.id ? '#071A45' : '#94a3b8',
+                color: activeTab === tab.id ? '#141112' : '#a8a29e',
                 fontWeight: 800, fontSize: '0.8rem',
-                borderBottom: activeTab === tab.id ? '3px solid #6BFF2A' : '3px solid transparent',
+                borderBottom: activeTab === tab.id ? '3px solid #e01b22' : '3px solid transparent',
                 cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s'
               }}
             >
@@ -335,16 +335,16 @@ export default function AdminMensagens() {
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 30 }}>
                 {/* Composition Card */}
-                <div style={{ background: '#f8fafc', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0' }}>
-                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-                     <MessageSquare size={20} color="#071A45" /> Compor Mensagem
+                <div style={{ background: '#fafaf9', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4' }}>
+                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+                     <MessageSquare size={20} color="#141112" /> Compor Mensagem
                    </h3>
                    <textarea 
                       value={msg} 
                       onChange={e => setMsg(e.target.value)} 
                       rows={4} 
                       placeholder="Olá {nome}! Sua inscrição na categoria {categoria} está confirmada..." 
-                      style={{ width: '100%', padding: 16, borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none', marginBottom: 20 }} 
+                      style={{ width: '100%', padding: 16, borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none', marginBottom: 20 }} 
                    />
                    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                       <input 
@@ -352,13 +352,13 @@ export default function AdminMensagens() {
                         value={imageUrl} 
                         onChange={e => setImageUrl(e.target.value)} 
                         placeholder="URL da imagem (opcional)" 
-                        style={{ flex: 1, padding: '12px 16px', borderRadius: 10, border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.9rem' }} 
+                        style={{ flex: 1, padding: '12px 16px', borderRadius: 10, border: '1px solid #e7e5e4', outline: 'none', fontSize: '0.9rem' }} 
                       />
                       <button 
                         onClick={handleSendBatch} 
                         disabled={sending || !isConnected}
                         style={{ 
-                          background: '#071A45', color: '#fff', border: 'none', padding: '12px 24px', 
+                          background: '#141112', color: '#fff', border: 'none', padding: '12px 24px', 
                           borderRadius: 10, fontWeight: 800, cursor: 'pointer', opacity: isConnected ? 1 : 0.5 
                         }}
                       >
@@ -370,35 +370,35 @@ export default function AdminMensagens() {
                    )}
                 </div>
 
-                <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0' }}>
-                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-                     <Send size={20} color="#071A45" /> Envio em lote
+                <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4' }}>
+                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
+                     <Send size={20} color="#141112" /> Envio em lote
                    </h3>
-                   <p style={{ margin: '0 0 20px', color: '#64748b', fontSize: '0.85rem', fontWeight: 600 }}>
+                   <p style={{ margin: '0 0 20px', color: '#78716c', fontSize: '0.85rem', fontWeight: 600 }}>
                      Escolha quem deve receber a mensagem composta acima.
                    </p>
                    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 320px) 1fr auto', gap: 12, alignItems: 'end' }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Tipo de destinatário</label>
+                        <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Tipo de destinatário</label>
                         <select
                           value={batchPaymentStatus}
                           onChange={e => setBatchPaymentStatus(e.target.value as 'pago' | 'pendente')}
-                          style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', outline: 'none', fontWeight: 800, color: '#071A45', background: '#fff' }}
+                          style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', outline: 'none', fontWeight: 800, color: '#141112', background: '#fff' }}
                         >
                           <option value="pendente">Pendentes</option>
                           <option value="pago">Pagos</option>
                         </select>
                       </div>
-                      <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '12px 16px' }}>
-                        <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>Encontrados</div>
-                        <strong style={{ fontSize: '1rem', color: '#071A45' }}>{batchRecipients.length} atleta(s)</strong>
+                      <div style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 12, padding: '12px 16px' }}>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: 4 }}>Encontrados</div>
+                        <strong style={{ fontSize: '1rem', color: '#141112' }}>{batchRecipients.length} atleta(s)</strong>
                       </div>
                       <button
                         onClick={handleSendPaymentStatusBatch}
                         disabled={sending || !isConnected}
                         style={{
-                          background: '#6BFF2A',
-                          color: '#071A45',
+                          background: '#e01b22',
+                          color: '#fff',
                           border: 'none',
                           padding: '13px 22px',
                           borderRadius: 12,
@@ -416,33 +416,33 @@ export default function AdminMensagens() {
                 {/* Recipients Table */}
                 <div>
                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 15 }}>
-                      <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45' }}>Destinatários ({filtered.length})</h3>
+                      <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112' }}>Destinatários ({filtered.length})</h3>
                       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                          <div style={{ position: 'relative' }}>
-                            <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                            <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} />
                             <input 
                               value={search} 
                               onChange={e => setSearch(e.target.value)} 
                               placeholder="Buscar..." 
-                              style={{ padding: '10px 12px 10px 36px', borderRadius: 10, border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.85rem', width: 200 }} 
+                              style={{ padding: '10px 12px 10px 36px', borderRadius: 10, border: '1px solid #e7e5e4', outline: 'none', fontSize: '0.85rem', width: 200 }} 
                             />
                          </div>
                          <button 
                            onClick={toggleAll}
-                           style={{ background: '#f1f5f9', color: '#475569', border: 'none', padding: '10px 16px', borderRadius: 10, fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}
+                           style={{ background: '#f5f5f4', color: '#57534e', border: 'none', padding: '10px 16px', borderRadius: 10, fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}
                          >
                            {filtered.every(r => selected.has(r.id)) ? 'DESMARCAR TODOS' : 'MARCAR TODOS'}
                          </button>
                       </div>
                    </div>
 
-                   <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+                   <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e5e4', overflow: 'hidden' }}>
                       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
-                          <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-                            <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b' }}>NOME</th>
-                            <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b' }}>TELEFONE</th>
-                            <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b' }}>STATUS</th>
+                          <tr style={{ background: '#fafaf9', borderBottom: '1px solid #e7e5e4' }}>
+                            <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c' }}>NOME</th>
+                            <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c' }}>TELEFONE</th>
+                            <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c' }}>STATUS</th>
                             <th style={{ padding: '16px 20px', width: 40 }}></th>
                           </tr>
                         </thead>
@@ -452,13 +452,13 @@ export default function AdminMensagens() {
                               key={r.id} 
                               onClick={() => toggle(r.id)}
                               style={{ 
-                                borderBottom: '1px solid #f1f5f9', cursor: 'pointer', 
-                                background: selected.has(r.id) ? '#f8fafc' : 'transparent',
+                                borderBottom: '1px solid #f5f5f4', cursor: 'pointer', 
+                                background: selected.has(r.id) ? '#fafaf9' : 'transparent',
                                 transition: 'all 0.2s'
                               }}
                             >
-                              <td style={{ padding: '16px 20px', fontSize: '0.9rem', fontWeight: 700, color: '#071A45' }}>{r.nome}</td>
-                              <td style={{ padding: '16px 20px', fontSize: '0.9rem', color: '#64748b', fontFamily: 'monospace' }}>{r.telefone}</td>
+                              <td style={{ padding: '16px 20px', fontSize: '0.9rem', fontWeight: 700, color: '#141112' }}>{r.nome}</td>
+                              <td style={{ padding: '16px 20px', fontSize: '0.9rem', color: '#78716c', fontFamily: 'monospace' }}>{r.telefone}</td>
                               <td style={{ padding: '16px 20px' }}>
                                 <span style={{ 
                                   padding: '4px 8px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800,
@@ -470,12 +470,12 @@ export default function AdminMensagens() {
                               </td>
                               <td style={{ padding: '16px 20px' }}>
                                 <div style={{ 
-                                  width: 20, height: 20, borderRadius: 6, border: '2px solid #cbd5e1',
+                                  width: 20, height: 20, borderRadius: 6, border: '2px solid #d6d3d1',
                                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  background: selected.has(r.id) ? '#6BFF2A' : 'transparent',
-                                  borderColor: selected.has(r.id) ? '#6BFF2A' : '#cbd5e1'
+                                  background: selected.has(r.id) ? '#e01b22' : 'transparent',
+                                  borderColor: selected.has(r.id) ? '#e01b22' : '#d6d3d1'
                                 }}>
-                                  {selected.has(r.id) && <CheckCircle2 size={14} color="#071A45" />}
+                                  {selected.has(r.id) && <CheckCircle2 size={14} color="#141112" />}
                                 </div>
                               </td>
                             </tr>
@@ -491,7 +491,7 @@ export default function AdminMensagens() {
           {activeTab === 'conexao' && (
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 30 }}>
-                <div style={{ background: '#fff', padding: 32, borderRadius: 24, border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <div style={{ background: '#fff', padding: 32, borderRadius: 24, border: '1px solid #e7e5e4', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                    <div style={{ 
                      width: 80, height: 80, borderRadius: '50%', 
                      background: isConnected ? '#dcfce7' : '#fee2e2',
@@ -502,20 +502,20 @@ export default function AdminMensagens() {
                    <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: isConnected ? '#166534' : '#ef4444', marginBottom: 8 }}>
                      {isConnected ? 'SISTEMA CONECTADO' : 'SISTEMA DESCONECTADO'}
                    </h3>
-                   <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6, maxWidth: 280 }}>
+                   <p style={{ color: '#78716c', fontSize: '0.9rem', lineHeight: 1.6, maxWidth: 280 }}>
                      {isConnected
                         ? `A inst?ncia ${config.instanceName} est? ativa e pronta para realizar disparos.`
                         : 'Escaneie o QR Code ou inicialize a instncia para comear a enviar mensagens.'}
                    </p>
                 </div>
 
-                <div style={{ background: '#fff', padding: 32, borderRadius: 24, border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ background: '#fff', padding: 32, borderRadius: 24, border: '1px solid #e7e5e4', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                    {qrCode ? (
                      <div style={{ textAlign: 'center' }}>
-                        <div style={{ background: '#fff', padding: 12, borderRadius: 16, border: '1px solid #e2e8f0', marginBottom: 16 }}>
+                        <div style={{ background: '#fff', padding: 12, borderRadius: 16, border: '1px solid #e7e5e4', marginBottom: 16 }}>
                            <img src={qrCode} alt="QR Code" style={{ width: 200, height: 200 }} />
                         </div>
-                        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#071A45' }}>Acesse WhatsApp &gt; Aparelhos Conectados</p>
+                        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#141112' }}>Acesse WhatsApp &gt; Aparelhos Conectados</p>
                         <p style={{ fontSize: '0.72rem', fontWeight: 800, color: '#15803d', marginTop: 8 }}>
                           Monitorando leitura e renovando automaticamente.
                           {lastQrRefreshAt ? ` Ultima geracao: ${formatDateTimeBR(lastQrRefreshAt)}` : ''}
@@ -523,18 +523,18 @@ export default function AdminMensagens() {
                      </div>
                    ) : (
                      <div style={{ width: '100%' }}>
-                        <h4 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Ações de Controle</h4>
+                        <h4 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Ações de Controle</h4>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                            {status.httpStatus === 404 ? (
-                             <button onClick={initInstance} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                             <button onClick={initInstance} style={{ background: '#141112', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                                <RefreshCcw size={18} /> INICIALIZAR INSTÂNCIA
                              </button>
                            ) : (
-                             <button onClick={connectInstance} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                             <button onClick={connectInstance} style={{ background: '#141112', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                                <Smartphone size={18} /> GERAR QR CODE
                              </button>
                            )}
-                           <button onClick={checkWhatsAppStatus} style={{ background: '#f1f5f9', color: '#475569', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                           <button onClick={checkWhatsAppStatus} style={{ background: '#f5f5f4', color: '#57534e', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                              <RefreshCcw size={18} /> ATUALIZAR STATUS
                            </button>
                         </div>
@@ -549,41 +549,41 @@ export default function AdminMensagens() {
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 30 }}>
                 {/* Test Card */}
-                <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0' }}>
-                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Teste de Envio Direto</h3>
+                <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4' }}>
+                   <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Teste de Envio Direto</h3>
                    <div style={{ marginBottom: 20 }}>
-                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8 }}>TELEFONE (DDD)</label>
+                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8 }}>TELEFONE (DDD)</label>
                      <input 
                        value={testPhone} 
                        onChange={e => setTestPhone(e.target.value)} 
                        placeholder="55..." 
-                       style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                       style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                      />
                    </div>
                    <div style={{ marginBottom: 24 }}>
-                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8 }}>MENSAGEM</label>
+                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8 }}>MENSAGEM</label>
                      <textarea 
                         value={testMessage} 
                         onChange={e => setTestMessage(e.target.value)} 
                         rows={3}
-                        style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none', resize: 'none' }}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none', resize: 'none' }}
                      />
                    </div>
-                   <button onClick={sendTest} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, width: '100%', cursor: 'pointer' }}>ENVIAR TESTE AGORA</button>
+                   <button onClick={sendTest} style={{ background: '#141112', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, width: '100%', cursor: 'pointer' }}>ENVIAR TESTE AGORA</button>
                 </div>
 
                 {/* Queue Card */}
-                <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0' }}>
+                <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4' }}>
                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-                      <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45' }}>Fila Pendente ({queueItems.length})</h3>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112' }}>Fila Pendente ({queueItems.length})</h3>
                       <div style={{ display: 'flex', gap: 8 }}>
-                         <button onClick={listQueue} style={{ width: 32, height: 32, borderRadius: 8, background: '#f1f5f9', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><RefreshCcw size={14} /></button>
+                         <button onClick={listQueue} style={{ width: 32, height: 32, borderRadius: 8, background: '#f5f5f4', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><RefreshCcw size={14} /></button>
                          <button onClick={clearQueue} style={{ width: 32, height: 32, borderRadius: 8, background: '#fee2e2', border: 'none', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><Trash2 size={14} /></button>
                       </div>
                    </div>
 
                    {queueItems.length === 0 ? (
-                     <div style={{ textAlign: 'center', padding: '60px 0', color: '#94a3b8' }}>
+                     <div style={{ textAlign: 'center', padding: '60px 0', color: '#a8a29e' }}>
                         <CheckCircle2 size={40} style={{ marginBottom: 12, opacity: 0.3 }} />
                         <p style={{ fontWeight: 600 }}>Tudo pronto! Fila vazia.</p>
                      </div>
@@ -591,16 +591,16 @@ export default function AdminMensagens() {
                      <div>
                         <div style={{ maxHeight: 240, overflowY: 'auto', marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
                            {queueItems.map((item, idx) => (
-                             <div key={idx} style={{ background: '#f8fafc', padding: 12, borderRadius: 12, border: '1px solid #f1f5f9' }}>
+                             <div key={idx} style={{ background: '#fafaf9', padding: 12, borderRadius: 12, border: '1px solid #f5f5f4' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                                   <strong style={{ fontSize: '0.8rem', color: '#071A45' }}>{item.phone}</strong>
-                                   <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{formatDateTimeBR(item.enqueuedAt)}</span>
+                                   <strong style={{ fontSize: '0.8rem', color: '#141112' }}>{item.phone}</strong>
+                                   <span style={{ fontSize: '0.7rem', color: '#a8a29e' }}>{formatDateTimeBR(item.enqueuedAt)}</span>
                                 </div>
-                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.text}</p>
+                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#78716c', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.text}</p>
                              </div>
                            ))}
                         </div>
-                        <button onClick={processQueue} style={{ background: '#6BFF2A', color: '#071A45', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 900, width: '100%', cursor: 'pointer' }}>PROCESSAR FILA</button>
+                        <button onClick={processQueue} style={{ background: '#e01b22', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 900, width: '100%', cursor: 'pointer' }}>PROCESSAR FILA</button>
                      </div>
                    )}
                 </div>
@@ -610,29 +610,29 @@ export default function AdminMensagens() {
 
           {activeTab === 'automacao' && (
             <div style={{ animation: 'fadeIn 0.3s ease', maxWidth: 800 }}>
-               <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Configurações de Automação</h3>
+               <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Configurações de Automação</h3>
                
-               <div style={{ background: '#fff', padding: 30, borderRadius: 24, border: '1px solid #e2e8f0' }}>
-                  <h4 style={{ fontSize: '0.9rem', fontWeight: 900, color: '#071A45', marginBottom: 20, textTransform: 'uppercase' }}>Parâmetros da API</h4>
+               <div style={{ background: '#fff', padding: 30, borderRadius: 24, border: '1px solid #e7e5e4' }}>
+                  <h4 style={{ fontSize: '0.9rem', fontWeight: 900, color: '#141112', marginBottom: 20, textTransform: 'uppercase' }}>Parâmetros da API</h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
                      <div>
-                        <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8 }}>URL DO SERVIDOR</label>
-                        <input value={config.evolutionUrl} onChange={e => setConfig({...config, evolutionUrl: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', outline: 'none' }} />
+                        <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8 }}>URL DO SERVIDOR</label>
+                        <input value={config.evolutionUrl} onChange={e => setConfig({...config, evolutionUrl: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', outline: 'none' }} />
                      </div>
                      <div>
-                        <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8 }}>NOME DA INSTÂNCIA</label>
-                        <input value={config.instanceName} onChange={e => setConfig({...config, instanceName: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', outline: 'none' }} />
+                        <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8 }}>NOME DA INSTÂNCIA</label>
+                        <input value={config.instanceName} onChange={e => setConfig({...config, instanceName: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', outline: 'none' }} />
                      </div>
                   </div>
                   <div style={{ marginBottom: 32 }}>
-                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8 }}>API KEY</label>
-                     <input type="password" value={config.apiKey} onChange={e => setConfig({...config, apiKey: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', outline: 'none' }} />
+                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8 }}>API KEY</label>
+                     <input type="password" value={config.apiKey} onChange={e => setConfig({...config, apiKey: e.target.value})} style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', outline: 'none' }} />
                   </div>
 
-                  <h4 style={{ fontSize: '0.9rem', fontWeight: 900, color: '#071A45', marginBottom: 20, textTransform: 'uppercase' }}>Cobranças Automáticas</h4>
+                  <h4 style={{ fontSize: '0.9rem', fontWeight: 900, color: '#141112', marginBottom: 20, textTransform: 'uppercase' }}>Cobranças Automáticas</h4>
                   <div style={{ marginBottom: 24 }}>
-                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8 }}>HORÁRIO DE ENVIO DIÁRIO</label>
-                     <input type="time" value={config.finAutoSendTime} onChange={e => setConfig({...config, finAutoSendTime: e.target.value})} style={{ width: 140, padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', outline: 'none', fontWeight: 800 }} />
+                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8 }}>HORÁRIO DE ENVIO DIÁRIO</label>
+                     <input type="time" value={config.finAutoSendTime} onChange={e => setConfig({...config, finAutoSendTime: e.target.value})} style={{ width: 140, padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', outline: 'none', fontWeight: 800 }} />
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
@@ -641,10 +641,10 @@ export default function AdminMensagens() {
                       { key: 'finAutoOnDayEnabled', label: 'Aviso no Vencimento', desc: 'Cobra no dia exato do vencimento.' },
                       { key: 'finAutoAfterEnabled', daysKey: 'finAutoAfterDays', label: 'Cobrança Atrasada', desc: 'Envia após o vencimento confirmado.' },
                     ].map(item => (
-                      <div key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 20, padding: 20, background: '#f8fafc', borderRadius: 16, border: '1px solid #f1f5f9' }}>
+                      <div key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 20, padding: 20, background: '#fafaf9', borderRadius: 16, border: '1px solid #f5f5f4' }}>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 800, color: '#071A45', marginBottom: 4 }}>{item.label}</div>
-                          <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{item.desc}</div>
+                          <div style={{ fontWeight: 800, color: '#141112', marginBottom: 4 }}>{item.label}</div>
+                          <div style={{ fontSize: '0.8rem', color: '#78716c' }}>{item.desc}</div>
                         </div>
                         {item.daysKey && (
                           <div style={{ width: 80 }}>
@@ -652,7 +652,7 @@ export default function AdminMensagens() {
                               type="number" 
                               value={config[item.daysKey]} 
                               onChange={e => setConfig({...config, [item.daysKey]: parseInt(e.target.value)})} 
-                              style={{ width: '100%', padding: '8px', borderRadius: 8, border: '1px solid #e2e8f0', textAlign: 'center', fontWeight: 800 }}
+                              style={{ width: '100%', padding: '8px', borderRadius: 8, border: '1px solid #e7e5e4', textAlign: 'center', fontWeight: 800 }}
                             />
                           </div>
                         )}
@@ -665,7 +665,7 @@ export default function AdminMensagens() {
                     ))}
                   </div>
 
-                  <button onClick={handleSaveConfig} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '16px', borderRadius: 12, fontWeight: 800, width: '100%', cursor: 'pointer' }}>SALVAR CONFIGURAÇÕES</button>
+                  <button onClick={handleSaveConfig} style={{ background: '#141112', color: '#fff', border: 'none', padding: '16px', borderRadius: 12, fontWeight: 800, width: '100%', cursor: 'pointer' }}>SALVAR CONFIGURAÇÕES</button>
                </div>
             </div>
           )}

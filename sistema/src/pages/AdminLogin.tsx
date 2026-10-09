@@ -10,7 +10,7 @@ import { db, auth } from '../firebase';
 import { useDialog } from '../context/CustomDialogContext';
 import { useLoading } from '../components/LoadingService';
 import '../App.css';
-import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -68,8 +68,8 @@ export default function AdminLogin() {
     <div className="athlete-login-page">
       <div className="athlete-login-container">
         <header className="athlete-login-header">
-          <img src={withBase("/sistema/LOGO horizontal NIGHT RUN SEM FUNDO (em amarelo e branco).png")} alt="MCU Night Run" className="athlete-login-logo" />
-          <p>Portal Administrativo - MCU Night Run 2026</p>
+          <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} className="athlete-login-logo" />
+          <p>Portal Administrativo — Corrida Flamanhu 2027</p>
           <div className="header-accent-line" />
         </header>
 
@@ -121,12 +121,6 @@ export default function AdminLogin() {
             {!loading && <ArrowRight size={20} />}
           </button>
         </form>
-
-        <div className="partners-banner transparent">
-          <img src={withBase("/sistema/logo-mcu.png")} alt="MCU" className="partner-logo" />
-          <div className="partner-divider" />
-          <img src={withBase("/sistema/logo-ademare.png")} alt="Ademare" className="partner-logo" />
-        </div>
 
         <Link to="/" className="athlete-back-link">
           <ChevronLeft size={18} />

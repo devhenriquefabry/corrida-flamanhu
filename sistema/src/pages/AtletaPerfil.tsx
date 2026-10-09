@@ -13,7 +13,7 @@ export default function AtletaPerfil() {
 
   const InfoRow = ({ icon: Icon, label, value }: any) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-      <div style={{ color: 'var(--adm-accent)', opacity: 0.8 }}><Icon size={18} /></div>
+      <div style={{ color: 'var(--adm-accent-ink)', opacity: 0.8 }}><Icon size={18} /></div>
       <div style={{ flex: 1 }}>
         <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>{label}</div>
         <div style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>{value || '---'}</div>
@@ -33,7 +33,7 @@ export default function AtletaPerfil() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
         {/* IDENTIFICAÇÃO */}
         <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 20, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <h3 style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--adm-accent)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h3 style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--adm-accent-ink)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <User size={14} /> IDENTIFICAÇÃO
           </h3>
           <InfoRow icon={User} label="Nome Completo" value={reg.nome} />

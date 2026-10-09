@@ -11,7 +11,7 @@ interface Props {
   color?: string;
 }
 
-export default function AdminLineChart({ data, height = 200, color = '#6BFF2A' }: Props) {
+export default function AdminLineChart({ data, height = 200, color = '#e01b22' }: Props) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   if (data.length === 0) return null;
@@ -52,8 +52,8 @@ export default function AdminLineChart({ data, height = 200, color = '#6BFF2A' }
           const y = gBottom - (v / maxVal) * gH;
           return (
             <g key={i}>
-              <line x1={gLeft} x2={gRight} y1={y} y2={y} stroke="#f1f5f9" strokeWidth={1} />
-              <text x={gLeft - 12} y={y + 4} textAnchor="end" fill="#94a3b8" fontSize="11" fontWeight="600">{v}</text>
+              <line x1={gLeft} x2={gRight} y1={y} y2={y} stroke="#f5f5f4" strokeWidth={1} />
+              <text x={gLeft - 12} y={y + 4} textAnchor="end" fill="#a8a29e" fontSize="11" fontWeight="600">{v}</text>
             </g>
           );
         })}
@@ -90,7 +90,7 @@ export default function AdminLineChart({ data, height = 200, color = '#6BFF2A' }
             />
             
             {/* X labels */}
-            <text x={p.x} y={gBottom + 25} textAnchor="middle" fill={hoveredIndex === i ? '#071A45' : '#94a3b8'} fontSize="10" fontWeight="700" style={{ transition: 'all 0.2s' }}>
+            <text x={p.x} y={gBottom + 25} textAnchor="middle" fill={hoveredIndex === i ? '#141112' : '#a8a29e'} fontSize="10" fontWeight="700" style={{ transition: 'all 0.2s' }}>
               {p.label}
             </text>
           </g>
@@ -108,7 +108,7 @@ export default function AdminLineChart({ data, height = 200, color = '#6BFF2A' }
                 stroke={color} strokeWidth={1} strokeDasharray="4 4" opacity={0.4} 
               />
               <g transform={`translate(${active.x + (isRightSide ? -110 : 10)}, ${active.y - 60})`}>
-                <rect width={100} height={45} rx={12} fill="#071A45" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.2))' }} />
+                <rect width={100} height={45} rx={12} fill="#141112" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.2))' }} />
                 <text x={50} y={18} textAnchor="middle" fill="white" fontSize="11" fontWeight="800">{active.label}</text>
                 <text x={50} y={32} textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="10" fontWeight="600">Receita: R$ {active.value.toFixed(0)}</text>
               </g>

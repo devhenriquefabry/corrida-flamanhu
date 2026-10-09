@@ -56,7 +56,7 @@ export const KitDrawer = ({ isOpen, onClose, onStart, variant = 'modal' }: KitMo
         <div className="kit-modal-body kit-section-body">
           <div className="kit-inner-container">
             <div className="kit-main-display">
-              <img src={withBase("/sistema/imagem_nova.jpeg")} alt="Kit MCU Night Run" className="kit-image" />
+              <img src={withBase("/sistema/kit-em-breve.jpg")} alt="Kit Corrida Flamanhu" className="kit-image" />
             </div>
 
             <footer className="kit-modal-footer">
@@ -76,7 +76,7 @@ export const KitDrawer = ({ isOpen, onClose, onStart, variant = 'modal' }: KitMo
         <div className="kit-modal-body">
           <div className="kit-inner-container">
             <div className="kit-main-display">
-              <img src={withBase("/sistema/imagem_nova.jpeg")} alt="Kit MCU Night Run" className="kit-image" />
+              <img src={withBase("/sistema/kit-em-breve.jpg")} alt="Kit Corrida Flamanhu" className="kit-image" />
             </div>
 
             <footer className="kit-modal-footer">

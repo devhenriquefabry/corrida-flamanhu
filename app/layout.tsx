@@ -25,9 +25,9 @@ const barlow = Barlow({
 });
 
 export const metadata: Metadata = {
-  title: "Corrida Flamanhu 2026 — A Nação Rubro-Negra corre unida em Manhuaçu",
+  title: "Corrida Flamanhu 2027 — A Nação Rubro-Negra corre unida em Manhuaçu",
   description:
-    "Corrida Flamanhu 2026: percursos de 5K e 10K em Manhuaçu-MG. Corra, caminhe e celebre com a Nação Rubro-Negra. Inscreva-se!",
+    "Corrida Flamanhu 2027: percursos de 5K e 10K em Manhuaçu-MG. Corra, caminhe e celebre com a Nação Rubro-Negra. Inscreva-se!",
   icons: {
     icon: `${BASE_PATH}/assets/logo-flamanhu.svg`,
   },

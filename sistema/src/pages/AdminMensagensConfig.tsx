@@ -138,6 +138,29 @@ const summarizeResetFailure = (data: any) => {
   return `Falha ao ${stepLabel}${failedStep.status ? ` (${failedStep.status})` : ''}${detail ? `: ${detail}` : '.'}`;
 };
 
+// Imagem servida por rota protegida do worker: <img src> não manda o login, então
+// baixa pelo fetch (que anexa o Authorization, ver installWorkerAuth) e exibe o blob.
+function WorkerImage({ src, alt, style }: { src: string; alt: string; style?: React.CSSProperties }) {
+  const [objectUrl, setObjectUrl] = useState('');
+  useEffect(() => {
+    let url = '';
+    let cancelled = false;
+    fetch(src)
+      .then(res => (res.ok ? res.blob() : Promise.reject(new Error(`HTTP ${res.status}`))))
+      .then(blob => {
+        if (cancelled) return;
+        url = URL.createObjectURL(blob);
+        setObjectUrl(url);
+      })
+      .catch(error => console.error('Erro ao carregar banner:', error));
+    return () => {
+      cancelled = true;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [src]);
+  return objectUrl ? <img src={objectUrl} alt={alt} style={style} /> : <div style={{ ...style, aspectRatio: '1 / 1', background: 'rgba(0,0,0,0.05)' }} />;
+}
+
 export default function AdminMensagensConfig() {
   const [config, setConfig] = useState<WhatsAppConfig>(DEFAULT_CONFIG);
   const [loading, setLoading] = useState(true);
@@ -901,16 +924,16 @@ export default function AdminMensagensConfig() {
   const statusIcon = isConnected ? <CheckCircle2 size={24} /> : <XCircle size={24} />;
 
   return (
-    <div className="whatsapp-config-page" style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div className="whatsapp-config-page" style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Configuracao WhatsApp</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Conexao, Evolution API, testes e automacoes financeiras.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Configuracao WhatsApp</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Conexao, Evolution API, testes e automacoes financeiras.</p>
         </div>
         <button
           onClick={saveConfig}
           disabled={saving}
-          style={{ background: '#071A45', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(7, 26, 69, 0.2)' }}
+          style={{ background: '#141112', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(20, 17, 18, 0.2)' }}
         >
           <Save size={18} />
           {saving ? 'Salvando...' : 'Salvar Configuracoes'}
@@ -924,8 +947,8 @@ export default function AdminMensagensConfig() {
         <SummaryCard icon={<MessageSquareText size={24} />} label="Aviso inscricao" value={config.receiveRegistrationNoticeEnabled ? 'Ativo' : 'Inativo'} tone={config.receiveRegistrationNoticeEnabled ? 'success' : 'warning'} />
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-        <div style={{ display: 'flex', borderBottom: '1px solid #f1f5f9', padding: '0 20px', overflowX: 'auto', background: '#f8fafc' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid #f5f5f4', padding: '0 20px', overflowX: 'auto', background: '#fafaf9' }}>
           {[
             { id: 'numeros', label: 'NUMEROS', icon: <Users size={18} /> },
             { id: 'lote', label: 'ENVIO EM LOTE', icon: <Users size={18} /> },
@@ -938,7 +961,7 @@ export default function AdminMensagensConfig() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as TabId)}
-              style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: '18px 24px', color: activeTab === tab.id ? '#071A45' : '#94a3b8', fontWeight: 800, fontSize: '0.8rem', borderBottom: activeTab === tab.id ? '3px solid #6BFF2A' : '3px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: '18px 24px', color: activeTab === tab.id ? '#141112' : '#a8a29e', fontWeight: 800, fontSize: '0.8rem', borderBottom: activeTab === tab.id ? '3px solid #e01b22' : '3px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s' }}
             >
               {tab.icon} {tab.label}
             </button>
@@ -954,8 +977,8 @@ export default function AdminMensagensConfig() {
                     {statusIcon}
                   </div>
                   <div>
-                    <h3 style={{ margin: 0, color: '#071A45', fontSize: '1.2rem', fontWeight: 900 }}>{statusText}</h3>
-                    <p style={{ margin: '4px 0 0', color: '#64748b', fontWeight: 600 }}>{config.instanceName}</p>
+                    <h3 style={{ margin: 0, color: '#141112', fontSize: '1.2rem', fontWeight: 900 }}>{statusText}</h3>
+                    <p style={{ margin: '4px 0 0', color: '#78716c', fontWeight: 600 }}>{config.instanceName}</p>
                   </div>
                 </div>
                 {isOffline && (
@@ -977,10 +1000,10 @@ export default function AdminMensagensConfig() {
               <SectionCard title="Pareamento do aparelho" icon={<QrCode size={20} />}>
                 {qrCode ? (
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                    <div style={{ background: '#fff', padding: 12, borderRadius: 16, border: '1px solid #e2e8f0' }}>
+                    <div style={{ background: '#fff', padding: 12, borderRadius: 16, border: '1px solid #e7e5e4' }}>
                       <img src={qrCode ?? undefined} alt="QR Code do WhatsApp" style={{ width: 220, height: 220, display: 'block' }} />
                     </div>
-                    <p style={{ color: '#64748b', fontWeight: 700, fontSize: '.85rem', textAlign: 'center' }}>WhatsApp &gt; Aparelhos conectados &gt; Conectar aparelho</p>
+                    <p style={{ color: '#78716c', fontWeight: 700, fontSize: '.85rem', textAlign: 'center' }}>WhatsApp &gt; Aparelhos conectados &gt; Conectar aparelho</p>
                     <p style={{ color: '#15803d', fontWeight: 800, fontSize: '.78rem', textAlign: 'center', margin: 0 }}>
                       Monitorando leitura e renovando o QR automaticamente.
                       {lastQrRefreshAt ? ` Ultima geracao: ${formatDateTimeBR(lastQrRefreshAt)}` : ''}
@@ -1020,17 +1043,17 @@ export default function AdminMensagensConfig() {
                 <strong> hoje ou de qualquer data passada</strong> escolhendo a data logo abaixo.
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'center', flexWrap: 'wrap', padding: 16, background: opConfig.enabled ? '#f0fdf4' : '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 16, marginBottom: 18 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'center', flexWrap: 'wrap', padding: 16, background: opConfig.enabled ? '#f0fdf4' : '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 16, marginBottom: 18 }}>
                 <div>
-                  <div style={{ color: '#071A45', fontWeight: 900, marginBottom: 4 }}>Envio automatico diario</div>
-                  <div style={{ color: '#64748b', fontSize: '.84rem' }}>{opConfig.enabled ? 'Ativo' : 'Desativado'}{opConfig.lastSentDate ? ` - ultimo envio: ${opConfig.lastSentDate}` : ''}</div>
+                  <div style={{ color: '#141112', fontWeight: 900, marginBottom: 4 }}>Envio automatico diario</div>
+                  <div style={{ color: '#78716c', fontSize: '.84rem' }}>{opConfig.enabled ? 'Ativo' : 'Desativado'}{opConfig.lastSentDate ? ` - ultimo envio: ${opConfig.lastSentDate}` : ''}</div>
                 </div>
                 <FormSwitch checked={opConfig.enabled} onChange={value => setOpConfig(prev => ({ ...prev, enabled: value }))} label="" />
               </div>
 
               <ResponsiveGrid>
                 <Field label="Horario de envio automatico (HH:MM)">
-                  <input type="time" value={opConfig.time} onChange={e => setOpConfig(prev => ({ ...prev, time: e.target.value }))} className="admin-input" style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e2e8f0', color: '#071A45', fontWeight: 800 }} />
+                  <input type="time" value={opConfig.time} onChange={e => setOpConfig(prev => ({ ...prev, time: e.target.value }))} className="admin-input" style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e7e5e4', color: '#141112', fontWeight: 800 }} />
                 </Field>
                 <Field label="Numero que recebe o resumo">
                   <FormInput value={opConfig.phone} onChange={e => setOpConfig(prev => ({ ...prev, phone: e.target.value }))} placeholder="5533999999999" />
@@ -1042,7 +1065,7 @@ export default function AdminMensagensConfig() {
                   value={opConfig.instanceName || getConnectedInstance()?.instanceName || ''}
                   onChange={e => setOpConfig(prev => ({ ...prev, instanceName: e.target.value }))}
                   className="admin-input"
-                  style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e2e8f0', color: '#071A45', fontWeight: 800 }}
+                  style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e7e5e4', color: '#141112', fontWeight: 800 }}
                 >
                   {getAvailableInstances().map(item => (
                     <option key={item.id} value={item.instanceName}>{(item.label || item.instanceName)} - {getInstanceState(item.instanceName)}</option>
@@ -1054,10 +1077,10 @@ export default function AdminMensagensConfig() {
                 <Save size={16} /> {opSaving ? 'Salvando...' : 'Salvar configuracao'}
               </button>
 
-              <div style={{ height: 1, background: '#f1f5f9', margin: '26px 0' }} />
+              <div style={{ height: 1, background: '#f5f5f4', margin: '26px 0' }} />
 
-              <h3 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: 900, color: '#071A45' }}>Envio manual</h3>
-              <p style={{ margin: '0 0 16px', color: '#64748b', fontSize: '.82rem' }}>Escolha a data (hoje ou passada) para conferir a previa e, se quiser, disparar na hora.</p>
+              <h3 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: 900, color: '#141112' }}>Envio manual</h3>
+              <p style={{ margin: '0 0 16px', color: '#78716c', fontSize: '.82rem' }}>Escolha a data (hoje ou passada) para conferir a previa e, se quiser, disparar na hora.</p>
 
               <Field label="Data do resumo">
                 <input
@@ -1066,24 +1089,24 @@ export default function AdminMensagensConfig() {
                   max={brDateStr(0)}
                   onChange={e => setOpSelectedDate(e.target.value)}
                   className="admin-input"
-                  style={{ width: '100%', maxWidth: 220, height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e2e8f0', color: '#071A45', fontWeight: 800 }}
+                  style={{ width: '100%', maxWidth: 220, height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e7e5e4', color: '#141112', fontWeight: 800 }}
                 />
               </Field>
 
               {/* Preview do banner (gerado pelo worker, com a data real) + da mensagem */}
               <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 300px) 1fr', gap: 18, marginTop: 8, alignItems: 'start' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Imagem (banner)</label>
-                  <img
+                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Imagem (banner)</label>
+                  <WorkerImage
                     key={opBannerNonce}
                     src={`${workerUrl}/operational-summary/banner-preview?date=${opSelectedDate}&v=${opBannerNonce}`}
                     alt="Banner do resumo operacional"
-                    style={{ width: '100%', maxWidth: 280, borderRadius: 16, border: '2px solid rgba(107,255,42,0.3)', display: 'block' }}
+                    style={{ width: '100%', maxWidth: 280, borderRadius: 16, border: '2px solid rgba(224, 27, 34,0.3)', display: 'block' }}
                   />
-                  <div style={{ color: '#94a3b8', fontSize: '0.72rem', fontWeight: 700, marginTop: 8 }}>Gerado com a data real ({opSelectedDate.split('-').reverse().slice(0, 2).join('/')}) no momento do envio/previa.</div>
+                  <div style={{ color: '#a8a29e', fontSize: '0.72rem', fontWeight: 700, marginTop: 8 }}>Gerado com a data real ({opSelectedDate.split('-').reverse().slice(0, 2).join('/')}) no momento do envio/previa.</div>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Pre-visualizacao da mensagem</label>
+                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Pre-visualizacao da mensagem</label>
                   <div style={{ background: '#0b141a', borderRadius: 16, padding: 16, minHeight: 200 }}>
                     {opPreviewLoading ? (
                       <div style={{ color: '#8696a0', textAlign: 'center', padding: 24, fontWeight: 700 }}>Carregando...</div>
@@ -1100,7 +1123,7 @@ export default function AdminMensagensConfig() {
                 <button className="whatsapp-secondary-btn" onClick={() => loadOperationalPreview(opSelectedDate)} disabled={opPreviewLoading}>
                   <RefreshCcw size={16} /> Atualizar previa
                 </button>
-                <button className="whatsapp-primary-btn" onClick={sendManualOperationalSummary} disabled={opSending || !getConnectedInstance()} style={{ flex: 1, minWidth: 200, background: '#25D366', color: '#071A45' }}>
+                <button className="whatsapp-primary-btn" onClick={sendManualOperationalSummary} disabled={opSending || !getConnectedInstance()} style={{ flex: 1, minWidth: 200, background: '#25D366', color: '#141112' }}>
                   <Send size={16} /> {opSending ? 'Enviando...' : `Enviar resumo de ${opSelectedDate.split('-').reverse().slice(0, 2).join('/')}`}
                 </button>
               </div>
@@ -1117,8 +1140,8 @@ export default function AdminMensagensConfig() {
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: 8, border: 'none', cursor: 'pointer',
                       padding: '11px 18px', borderRadius: 12, fontWeight: 900, fontSize: '0.76rem',
-                      background: automacaoView === id ? '#071A45' : '#f1f5f9',
-                      color: automacaoView === id ? '#fff' : '#64748b',
+                      background: automacaoView === id ? '#141112' : '#f5f5f4',
+                      color: automacaoView === id ? '#fff' : '#78716c',
                     }}
                   >
                     {icon} {label}
@@ -1128,11 +1151,11 @@ export default function AdminMensagensConfig() {
 
               {automacaoView === 'avisos' && (
                 <SectionCard title="Avisos de inscricao" icon={<Clock size={20} />}>
-                  <div style={{ padding: 18, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 16 }}>
+                  <div style={{ padding: 18, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 16 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
                       <div style={{ flex: 1, minWidth: 220 }}>
-                        <div style={{ color: '#071A45', fontWeight: 900, marginBottom: 4 }}>Receber aviso de inscricao</div>
-                        <div style={{ color: '#64748b', fontSize: '.84rem', lineHeight: 1.4 }}>Envia a ficha do atleta para um numero assim que a inscricao chega na etapa de pagamento.</div>
+                        <div style={{ color: '#141112', fontWeight: 900, marginBottom: 4 }}>Receber aviso de inscricao</div>
+                        <div style={{ color: '#78716c', fontSize: '.84rem', lineHeight: 1.4 }}>Envia a ficha do atleta para um numero assim que a inscricao chega na etapa de pagamento.</div>
                       </div>
                       <FormSwitch
                         checked={config.receiveRegistrationNoticeEnabled}
@@ -1172,13 +1195,13 @@ export default function AdminMensagensConfig() {
                   {/* Preview */}
                   <div style={{ marginBottom: 20 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
-                      <label style={{ fontSize: '0.72rem', fontWeight: 900, color: '#64748b', textTransform: 'uppercase' }}>Pre-visualizacao da mensagem</label>
+                      <label style={{ fontSize: '0.72rem', fontWeight: 900, color: '#78716c', textTransform: 'uppercase' }}>Pre-visualizacao da mensagem</label>
                       {confirmationRecipients.length > 0 && (
                         <select
                           value={confirmPreviewRegistration?.id || ''}
                           onChange={e => setConfirmPreviewId(e.target.value)}
                           className="admin-input"
-                          style={{ height: 40, padding: '0 12px', borderRadius: 10, border: '1px solid #e2e8f0', color: '#071A45', fontWeight: 800, maxWidth: 260 }}
+                          style={{ height: 40, padding: '0 12px', borderRadius: 10, border: '1px solid #e7e5e4', color: '#141112', fontWeight: 800, maxWidth: 260 }}
                         >
                           {confirmationRecipients.slice(0, 100).map(r => (
                             <option key={r.id} value={r.id}>{r.nome || 'Atleta'}</option>
@@ -1209,12 +1232,12 @@ export default function AdminMensagensConfig() {
                   </button>
 
                   {/* Controle da fila: pausar / retomar o envio ja disparado */}
-                  <div style={{ marginTop: 14, padding: 16, border: '1px solid #e2e8f0', borderRadius: 16, background: queuePaused ? '#fff7ed' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+                  <div style={{ marginTop: 14, padding: 16, border: '1px solid #e7e5e4', borderRadius: 16, background: queuePaused ? '#fff7ed' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                     <div>
-                      <div style={{ color: '#071A45', fontWeight: 900, fontSize: '0.9rem' }}>
+                      <div style={{ color: '#141112', fontWeight: 900, fontSize: '0.9rem' }}>
                         Envio {queuePaused ? 'PAUSADO' : 'em andamento'} · {queueItems.length} na fila
                       </div>
-                      <div style={{ color: '#64748b', fontSize: '0.78rem', fontWeight: 700 }}>
+                      <div style={{ color: '#78716c', fontSize: '0.78rem', fontWeight: 700 }}>
                         As mensagens saem sozinhas no servidor (30s entre cada). Voce pode pausar e retomar quando quiser.
                       </div>
                     </div>
@@ -1241,23 +1264,23 @@ export default function AdminMensagensConfig() {
                   >
                     <Trash2 size={15} /> Cancelar fila e reenviar (pulando quem já recebeu)
                   </button>
-                  <div style={{ color: '#94a3b8', fontSize: '0.74rem', fontWeight: 700, marginTop: 6, lineHeight: 1.4 }}>
+                  <div style={{ color: '#a8a29e', fontSize: '0.74rem', fontWeight: 700, marginTop: 6, lineHeight: 1.4 }}>
                     Descarta as mensagens pendentes antigas e recria a fila com o texto corrigido (acentos), enviando apenas para quem ainda não recebeu.
                   </div>
 
                   {/* Historico */}
                   <div style={{ marginTop: 28 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, margin: 0, color: '#071A45', fontSize: '0.9rem', fontWeight: 950 }}>
+                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, margin: 0, color: '#141112', fontSize: '0.9rem', fontWeight: 950 }}>
                         <History size={16} /> Historico de envios
                       </h3>
                       <button className="whatsapp-secondary-btn" onClick={loadConfirmationHistory} disabled={confirmHistoryLoading}>
                         <RefreshCcw size={15} /> Atualizar
                       </button>
                     </div>
-                    <div style={{ border: '1px solid #e2e8f0', borderRadius: 16, overflow: 'hidden' }}>
+                    <div style={{ border: '1px solid #e7e5e4', borderRadius: 16, overflow: 'hidden' }}>
                       {confirmRuns.length === 0 ? (
-                        <div style={{ padding: 24, textAlign: 'center', color: '#64748b', fontWeight: 800 }}>
+                        <div style={{ padding: 24, textAlign: 'center', color: '#78716c', fontWeight: 800 }}>
                           {confirmHistoryLoading ? 'Carregando...' : 'Nenhum envio realizado ainda.'}
                         </div>
                       ) : (
@@ -1265,23 +1288,23 @@ export default function AdminMensagensConfig() {
                           const runDate = run.createdAt?.toDate?.() || (run.createdAt ? new Date(run.createdAt) : null);
                           const isOpen = expandedRunId === run.id;
                           return (
-                            <div key={run.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                            <div key={run.id} style={{ borderTop: '1px solid #f5f5f4' }}>
                               <button
                                 onClick={() => setExpandedRunId(isOpen ? null : run.id)}
-                                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 16px', background: isOpen ? '#f8fafc' : '#fff', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+                                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 16px', background: isOpen ? '#fafaf9' : '#fff', border: 'none', cursor: 'pointer', textAlign: 'left' }}
                               >
                                 <div>
-                                  <div style={{ color: '#071A45', fontWeight: 900, fontSize: '0.88rem' }}>{run.total} mensagem(ns) enviada(s)</div>
-                                  <div style={{ color: '#64748b', fontSize: '0.76rem', fontWeight: 700 }}>{runDate ? formatDateTimeBR(runDate) : '-'}</div>
+                                  <div style={{ color: '#141112', fontWeight: 900, fontSize: '0.88rem' }}>{run.total} mensagem(ns) enviada(s)</div>
+                                  <div style={{ color: '#78716c', fontSize: '0.76rem', fontWeight: 700 }}>{runDate ? formatDateTimeBR(runDate) : '-'}</div>
                                 </div>
                                 <span style={{ color: '#2563eb', fontSize: '0.72rem', fontWeight: 900 }}>{isOpen ? 'OCULTAR' : 'VER DESTINATARIOS'}</span>
                               </button>
                               {isOpen && (
                                 <div style={{ padding: '4px 16px 16px', display: 'grid', gap: 6 }}>
                                   {(run.recipients || []).map((recipient: any, index: number) => (
-                                    <div key={recipient.id || index} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 12px', background: '#f8fafc', borderRadius: 10, fontSize: '0.8rem' }}>
-                                      <span style={{ color: '#071A45', fontWeight: 800 }}>{recipient.nome || 'Atleta'}</span>
-                                      <span style={{ color: '#64748b', fontWeight: 700 }}>{recipient.telefone || '-'}</span>
+                                    <div key={recipient.id || index} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 12px', background: '#fafaf9', borderRadius: 10, fontSize: '0.8rem' }}>
+                                      <span style={{ color: '#141112', fontWeight: 800 }}>{recipient.nome || 'Atleta'}</span>
+                                      <span style={{ color: '#78716c', fontWeight: 700 }}>{recipient.telefone || '-'}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -1319,12 +1342,12 @@ export default function AdminMensagensConfig() {
                   const state = getInstanceState(item.instanceName);
                   const isItemConnected = state === 'open';
                   return (
-                    <div key={item.id} style={{ border: '1px solid #e2e8f0', borderRadius: 18, padding: 16, background: '#f8fafc' }}>
+                    <div key={item.id} style={{ border: '1px solid #e7e5e4', borderRadius: 18, padding: 16, background: '#fafaf9' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                         <FormSwitch checked={item.active} onChange={value => updateNumberInstance(item.id, { active: value })} label="" />
                         <div style={{ flex: 1, minWidth: 220 }}>
-                          <div style={{ color: '#071A45', fontWeight: 900 }}>{item.label || item.instanceName}</div>
-                          <div style={{ color: '#64748b', fontSize: '.78rem', fontWeight: 700 }}>{item.instanceName}</div>
+                          <div style={{ color: '#141112', fontWeight: 900 }}>{item.label || item.instanceName}</div>
+                          <div style={{ color: '#78716c', fontSize: '.78rem', fontWeight: 700 }}>{item.instanceName}</div>
                         </div>
                         <span style={{ background: isItemConnected ? '#dcfce7' : '#fef3c7', color: isItemConnected ? '#15803d' : '#b45309', padding: '6px 10px', borderRadius: 999, fontSize: '.7rem', fontWeight: 900, textTransform: 'uppercase' }}>
                           {state || 'nao verificado'}
@@ -1336,7 +1359,7 @@ export default function AdminMensagensConfig() {
                       </div>
                       {instanceQr[item.instanceName] && (
                         <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
-                          <div style={{ background: '#fff', padding: 12, borderRadius: 16, border: '1px solid #e2e8f0' }}>
+                          <div style={{ background: '#fff', padding: 12, borderRadius: 16, border: '1px solid #e7e5e4' }}>
                             <img src={instanceQr[item.instanceName]} alt={`QR Code ${item.instanceName}`} style={{ width: 210, height: 210, display: 'block' }} />
                           </div>
                         </div>
@@ -1356,14 +1379,14 @@ export default function AdminMensagensConfig() {
                     value={batchPaymentStatus}
                     onChange={e => setBatchPaymentStatus(e.target.value as 'pago' | 'pendente')}
                     className="admin-input"
-                    style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e2e8f0', color: '#071A45', fontWeight: 800 }}
+                    style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e7e5e4', color: '#141112', fontWeight: 800 }}
                   >
                     <option value="pendente">Pendentes</option>
                     <option value="pago">Pagos</option>
                   </select>
                 </Field>
                 <Field label="Destinatarios encontrados">
-                  <div style={{ height: 46, display: 'flex', alignItems: 'center', color: '#071A45', fontWeight: 900 }}>
+                  <div style={{ height: 46, display: 'flex', alignItems: 'center', color: '#141112', fontWeight: 900 }}>
                     {batchRecipients.length} atleta(s)
                   </div>
                 </Field>
@@ -1382,7 +1405,7 @@ export default function AdminMensagensConfig() {
                   placeholder="https://..."
                 />
               </Field>
-              <div style={{ padding: 14, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, color: '#64748b', fontSize: '.84rem', fontWeight: 700, marginBottom: 18 }}>
+              <div style={{ padding: 14, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 14, color: '#78716c', fontSize: '.84rem', fontWeight: 700, marginBottom: 18 }}>
                 Variaveis disponiveis: {'{nome}'} e {'{categoria}'}.
               </div>
               <button className="whatsapp-primary-btn" onClick={sendBatch} disabled={!isConnected || batchSending} style={{ width: '100%', opacity: isConnected ? 1 : .5 }}>
@@ -1394,12 +1417,12 @@ export default function AdminMensagensConfig() {
           {activeTab === 'fila' && (
             <SectionCard title="Fila de mensagens" icon={<Clock size={20} />}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, marginBottom: 18 }}>
-                <div style={{ padding: 16, border: '1px solid #e2e8f0', borderRadius: 16, background: '#f8fafc' }}>
-                  <div style={{ color: '#94a3b8', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Pendentes</div>
-                  <div style={{ color: '#071A45', fontSize: '1.6rem', fontWeight: 950 }}>{queueItems.length}</div>
+                <div style={{ padding: 16, border: '1px solid #e7e5e4', borderRadius: 16, background: '#fafaf9' }}>
+                  <div style={{ color: '#a8a29e', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Pendentes</div>
+                  <div style={{ color: '#141112', fontSize: '1.6rem', fontWeight: 950 }}>{queueItems.length}</div>
                 </div>
-                <div style={{ padding: 16, border: '1px solid #e2e8f0', borderRadius: 16, background: queuePaused ? '#fff7ed' : '#f0fdf4' }}>
-                  <div style={{ color: '#94a3b8', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Status</div>
+                <div style={{ padding: 16, border: '1px solid #e7e5e4', borderRadius: 16, background: queuePaused ? '#fff7ed' : '#f0fdf4' }}>
+                  <div style={{ color: '#a8a29e', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Status</div>
                   <div style={{ color: queuePaused ? '#c2410c' : '#15803d', fontSize: '1.1rem', fontWeight: 950 }}>{queuePaused ? 'Pausada' : 'Rodando'}</div>
                 </div>
               </div>
@@ -1417,32 +1440,32 @@ export default function AdminMensagensConfig() {
                 </button>
               </ActionRow>
 
-              <div style={{ marginTop: 20, border: '1px solid #e2e8f0', borderRadius: 16, overflow: 'hidden' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr .9fr .9fr', gap: 12, padding: '12px 14px', background: '#f8fafc', color: '#64748b', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase' }}>
+              <div style={{ marginTop: 20, border: '1px solid #e7e5e4', borderRadius: 16, overflow: 'hidden' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr .9fr .9fr', gap: 12, padding: '12px 14px', background: '#fafaf9', color: '#78716c', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase' }}>
                   <span>Destino</span>
                   <span>Mensagem</span>
                   <span>Numero</span>
                   <span>Entrada</span>
                 </div>
                 {queueItems.length === 0 ? (
-                  <div style={{ padding: 28, color: '#64748b', fontWeight: 800, textAlign: 'center' }}>
+                  <div style={{ padding: 28, color: '#78716c', fontWeight: 800, textAlign: 'center' }}>
                     {queueLoading ? 'Carregando fila...' : 'Nenhuma mensagem pendente na fila.'}
                   </div>
                 ) : (
                   queueItems.map(item => (
-                    <div key={item.key} style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr .9fr .9fr', gap: 12, padding: '14px', borderTop: '1px solid #f1f5f9', alignItems: 'center', color: '#071A45', fontSize: '.84rem', fontWeight: 700 }}>
+                    <div key={item.key} style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr .9fr .9fr', gap: 12, padding: '14px', borderTop: '1px solid #f5f5f4', alignItems: 'center', color: '#141112', fontSize: '.84rem', fontWeight: 700 }}>
                       <div>
                         <div style={{ fontWeight: 950 }}>{item.alunoNome || item.phone || '-'}</div>
-                        <div style={{ color: '#64748b', fontSize: '.75rem' }}>{item.phone || '-'}</div>
+                        <div style={{ color: '#78716c', fontSize: '.75rem' }}>{item.phone || '-'}</div>
                       </div>
-                      <div style={{ color: '#475569', lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                      <div style={{ color: '#57534e', lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                         {item.text || (item.imageUrl ? 'Imagem sem texto' : '-')}
                       </div>
                       <div>
                         <div style={{ fontWeight: 900 }}>{item.instanceLabel || item.instanceName || 'Rodizio'}</div>
                         {item.attempts ? <div style={{ color: '#b45309', fontSize: '.72rem' }}>Tentativas: {item.attempts}</div> : null}
                       </div>
-                      <div style={{ color: '#64748b', fontSize: '.78rem' }}>
+                      <div style={{ color: '#78716c', fontSize: '.78rem' }}>
                         {item.enqueuedAt ? formatDateTimeBR(item.enqueuedAt) : '-'}
                       </div>
                     </div>
@@ -1463,7 +1486,7 @@ export default function AdminMensagensConfig() {
                     value={testInstanceName || getAvailableInstances()[0]?.instanceName || ''}
                     onChange={e => setTestInstanceName(e.target.value)}
                     className="admin-input"
-                    style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e2e8f0', color: '#071A45', fontWeight: 800 }}
+                    style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e7e5e4', color: '#141112', fontWeight: 800 }}
                   >
                     {getAvailableInstances().map(item => (
                       <option key={item.id} value={item.instanceName}>
@@ -1476,7 +1499,7 @@ export default function AdminMensagensConfig() {
               <Field label="Mensagem">
                 <FormTextarea value={config.testMessage} onChange={e => updateConfig('testMessage', e.target.value)} />
               </Field>
-              <div style={{ padding: 14, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, color: '#64748b', fontSize: '.84rem', fontWeight: 700, marginBottom: 18 }}>
+              <div style={{ padding: 14, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 14, color: '#78716c', fontSize: '.84rem', fontWeight: 700, marginBottom: 18 }}>
                 Use o botao Status na aba Numeros para conferir se a instancia esta conectada antes de enviar.
               </div>
               <button className="whatsapp-primary-btn" onClick={sendTest} disabled={getAvailableInstances().length === 0} style={{ width: '100%', opacity: getAvailableInstances().length > 0 ? 1 : .5 }}>
@@ -1503,23 +1526,23 @@ export default function AdminMensagensConfig() {
           cursor: pointer;
         }
         .whatsapp-primary-btn {
-          background: #071A45;
+          background: #141112;
           color: #fff;
         }
         .whatsapp-secondary-btn {
-          background: #f1f5f9;
-          color: #475569;
+          background: #f5f5f4;
+          color: #57534e;
         }
         .whatsapp-primary-btn:disabled {
           cursor: not-allowed;
         }
         .whatsapp-config-page .admin-input {
           background: #fff !important;
-          border-color: #e2e8f0 !important;
-          color: #071A45 !important;
+          border-color: #e7e5e4 !important;
+          color: #141112 !important;
         }
         .whatsapp-config-page .admin-input::placeholder {
-          color: #94a3b8 !important;
+          color: #a8a29e !important;
         }
         @media (max-width: 720px) {
           .whatsapp-action-row {
@@ -1540,16 +1563,16 @@ function SummaryCard({ icon, label, value, tone }: { icon: ReactNode; label: str
     danger: ['#fee2e2', '#dc2626'],
     warning: ['#fef3c7', '#b45309'],
     info: ['#dbeafe', '#2563eb'],
-    accent: ['#f3f7c6', '#071A45'],
+    accent: ['#f3f7c6', '#141112'],
   } as const;
   return (
-    <div style={{ background: '#fff', borderRadius: 18, border: '1px solid #e2e8f0', padding: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
+    <div style={{ background: '#fff', borderRadius: 18, border: '1px solid #e7e5e4', padding: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
       <div style={{ width: 46, height: 46, borderRadius: 14, background: colors[tone][0], color: colors[tone][1], display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {icon}
       </div>
       <div style={{ minWidth: 0 }}>
-        <div style={{ color: '#94a3b8', fontSize: '.7rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</div>
-        <div style={{ color: '#071A45', fontSize: '1rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
+        <div style={{ color: '#a8a29e', fontSize: '.7rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</div>
+        <div style={{ color: '#141112', fontSize: '1rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
       </div>
     </div>
   );
@@ -1558,18 +1581,18 @@ function SummaryCard({ icon, label, value, tone }: { icon: ReactNode; label: str
 
 function MiniStat({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
-    <div style={{ padding: 14, border: '1px solid #e2e8f0', borderRadius: 14, background: '#f8fafc', borderLeft: `4px solid ${tone}` }}>
-      <div style={{ color: '#94a3b8', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 5 }}>{label}</div>
-      <div style={{ color: '#071A45', fontSize: '1rem', fontWeight: 950, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
+    <div style={{ padding: 14, border: '1px solid #e7e5e4', borderRadius: 14, background: '#fafaf9', borderLeft: `4px solid ${tone}` }}>
+      <div style={{ color: '#a8a29e', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 5 }}>{label}</div>
+      <div style={{ color: '#141112', fontSize: '1rem', fontWeight: 950, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
     </div>
   );
 }
 
 function SectionCard({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
   return (
-    <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e2e8f0', padding: 24 }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '0 0 22px', color: '#071A45', fontSize: '1.05rem', fontWeight: 900 }}>
-        <span style={{ width: 36, height: 36, borderRadius: 10, background: '#f1f5f9', color: '#071A45', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</span>
+    <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e7e5e4', padding: 24 }}>
+      <h2 style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '0 0 22px', color: '#141112', fontSize: '1.05rem', fontWeight: 900 }}>
+        <span style={{ width: 36, height: 36, borderRadius: 10, background: '#f5f5f4', color: '#141112', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</span>
         {title}
       </h2>
       {children}
@@ -1580,7 +1603,7 @@ function SectionCard({ title, icon, children }: { title: string; icon: ReactNode
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div style={{ marginBottom: 20 }}>
-      <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>{label}</label>
+      <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>{label}</label>
       {children}
     </div>
   );
@@ -1596,9 +1619,9 @@ function ActionRow({ children }: { children: ReactNode }) {
 
 function EmptyState({ title, text }: { title: string; text: string }) {
   return (
-    <div style={{ minHeight: 240, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: '#64748b', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: 18, padding: 24 }}>
+    <div style={{ minHeight: 240, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: '#78716c', background: '#fafaf9', border: '1px dashed #d6d3d1', borderRadius: 18, padding: 24 }}>
       <QrCode size={42} style={{ opacity: .35, marginBottom: 14 }} />
-      <strong style={{ color: '#123068', marginBottom: 4 }}>{title}</strong>
+      <strong style={{ color: '#2e2627', marginBottom: 4 }}>{title}</strong>
       <span style={{ fontSize: '.85rem', lineHeight: 1.5 }}>{text}</span>
     </div>
   );

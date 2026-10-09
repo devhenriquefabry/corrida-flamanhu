@@ -97,80 +97,80 @@ export default function AdminUsuarios() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: '#071A45', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: '#141112', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
           <ShieldCheck size={28} />
         </div>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 2 }}>Gestão de Acesso</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Controle quem pode acessar o painel administrativo do evento.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 2 }}>Gestão de Acesso</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Controle quem pode acessar o painel administrativo do evento.</p>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: 24 }}>
         {/* Autorizar Novo */}
-        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', padding: 30, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-           <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
-             <UserPlus size={20} color="#071A45" /> Autorizar Novo E-mail
+        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', padding: 30, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+           <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+             <UserPlus size={20} color="#141112" /> Autorizar Novo E-mail
            </h3>
            
-           <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: 24, lineHeight: 1.5 }}>
+           <p style={{ color: '#78716c', fontSize: '0.85rem', marginBottom: 24, lineHeight: 1.5 }}>
              Insira o e-mail da pessoa que poderá acessar o painel administrativo. 
              A pessoa recebe um e-mail para definir a senha de acesso.
            </p>
 
            <form onSubmit={handleAddAdmin}>
              <div style={{ marginBottom: 20 }}>
-               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>E-mail do Administrador</label>
+               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>E-mail do Administrador</label>
                <div style={{ position: 'relative' }}>
-                 <Mail size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                 <Mail size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} />
                  <input 
                    type="email" 
                    value={newEmail} 
                    onChange={e => setNewEmail(e.target.value)} 
                    placeholder="exemplo@email.com"
                    required
-                   style={{ width: '100%', padding: '12px 16px 12px 42px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                   style={{ width: '100%', padding: '12px 16px 12px 42px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                  />
                </div>
              </div>
-             <button type="submit" style={{ width: '100%', background: '#071A45', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+             <button type="submit" style={{ width: '100%', background: '#141112', color: '#fff', border: 'none', padding: '14px', borderRadius: 12, fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                <UserPlus size={20} /> AUTORIZAR ACESSO
              </button>
            </form>
         </div>
 
         {/* Lista Atuais */}
-        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', padding: 30, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 20 }}>Administradores Atuais</h3>
+        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', padding: 30, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 20 }}>Administradores Atuais</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {admins.length === 0 ? (
-              <div style={{ padding: 40, textAlign: 'center', color: '#94a3b8', fontWeight: 600 }}>Nenhum administrador cadastrado.</div>
+              <div style={{ padding: 40, textAlign: 'center', color: '#a8a29e', fontWeight: 600 }}>Nenhum administrador cadastrado.</div>
             ) : (
               admins.map((admin) => (
                 <div key={admin.id} style={{ 
-                  background: '#f8fafc', 
+                  background: '#fafaf9', 
                   padding: '16px 20px', 
                   borderRadius: 16, 
                   display: 'flex', 
                   justifyContent: 'space-between', 
                   alignItems: 'center',
-                  border: '1px solid #f1f5f9'
+                  border: '1px solid #f5f5f4'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                     <div style={{ 
                       width: 40, height: 40, borderRadius: 12, 
-                      background: '#071A45', color: '#fff', 
+                      background: '#141112', color: '#fff', 
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: '0.8rem', fontWeight: 800
                     }}>
                       {admin.email.substring(0, 2).toUpperCase()}
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#071A45' }}>{admin.email}</span>
-                      <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>Acesso Total</span>
+                      <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#141112' }}>{admin.email}</span>
+                      <span style={{ fontSize: '0.75rem', color: '#a8a29e', fontWeight: 600 }}>Acesso Total</span>
                     </div>
                   </div>
                   <button 

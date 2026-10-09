@@ -116,9 +116,9 @@ export default function AtletaDashboard() {
   const formatDate = (val: any, onlyDate = false) => onlyDate ? formatDateBR(val) : formatDateTimeBR(val);
 
   const InfoRow = ({ label, value, bold }: any) => (
-    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f1f5f9' }}>
-      <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ fontSize: '0.9rem', color: '#071A45', fontWeight: bold ? 800 : 600 }}>{value || '---'}</span>
+    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f5f5f4' }}>
+      <span style={{ fontSize: '0.75rem', color: '#78716c', fontWeight: 700, textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ fontSize: '0.9rem', color: '#141112', fontWeight: bold ? 800 : 600 }}>{value || '---'}</span>
     </div>
   );
 
@@ -139,17 +139,17 @@ export default function AtletaDashboard() {
         <div
           key={sorteio.id}
           style={{
-            background: 'linear-gradient(135deg, #071A45 0%, #0d2a66 100%)',
+            background: 'linear-gradient(135deg, #141112 0%, #241e1f 100%)',
             borderRadius: 16, padding: '22px 26px', marginBottom: 24,
-            border: '1px solid rgba(107,255,42,0.5)', boxShadow: '0 8px 24px rgba(7,26,69,0.24)',
+            border: '1px solid rgba(224, 27, 34,0.5)', boxShadow: '0 8px 24px rgba(20, 17, 18,0.24)',
             display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap',
           }}
         >
-          <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(107,255,42,0.15)', color: '#6BFF2A', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+          <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(224, 27, 34,0.15)', color: '#ff2e38', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
             <Trophy size={32} />
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>
-            <div style={{ color: '#6BFF2A', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            <div style={{ color: '#ff2e38', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 0.5 }}>
               Você ganhou!
             </div>
             <h2 style={{ margin: '4px 0 4px', color: '#fff', fontSize: '1.25rem', fontWeight: 900 }}>
@@ -167,7 +167,7 @@ export default function AtletaDashboard() {
             href={buildSorteioPublicUrl(sorteio.id)}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#6BFF2A', color: '#071A45', padding: '12px 20px', borderRadius: 12, fontWeight: 900, fontSize: '0.8rem', textDecoration: 'none' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#e01b22', color: '#fff', padding: '12px 20px', borderRadius: 12, fontWeight: 900, fontSize: '0.8rem', textDecoration: 'none' }}
           >
             <ExternalLink size={16} /> Ver sorteio
           </a>
@@ -175,23 +175,23 @@ export default function AtletaDashboard() {
       ))}
 
       {/* Hero Header */}
-      <div style={{ background: '#fff', borderRadius: 16, padding: '24px 30px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 24 }}>
+      <div style={{ background: '#fff', borderRadius: 16, padding: '24px 30px', border: '1px solid #e7e5e4', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 24 }}>
         {/* Foto Quadrada sem contorno */}
-        <div style={{ width: 100, height: 100, background: '#f1f5f9', flexShrink: 0, overflow: 'hidden' }}>
+        <div style={{ width: 100, height: 100, background: '#f5f5f4', flexShrink: 0, overflow: 'hidden' }}>
           {reg.fotoUrl ? (
             <img src={reg.fotoUrl} alt={reg.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 900, color: '#94a3b8' }}>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 900, color: '#a8a29e' }}>
               {initials}
             </div>
           )}
         </div>
 
         <div style={{ flex: 1 }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Olá, {reg.nome.split(' ')[0]}!</h1>
-          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Acompanhe sua inscrição no evento</p>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Olá, {reg.nome.split(' ')[0]}!</h1>
+          <p style={{ color: '#78716c', fontSize: '0.9rem' }}>Acompanhe sua inscrição no evento</p>
           <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-            <div style={{ background: '#f1f5f9', color: '#475569', padding: '6px 16px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>{reg.categoria.toUpperCase()}</div>
+            <div style={{ background: '#f5f5f4', color: '#57534e', padding: '6px 16px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>{reg.categoria.toUpperCase()}</div>
             <div style={{ 
               background: isPago ? '#dcfce7' : '#fef9c3', 
               color: isPago ? '#166534' : '#854d0e', 
@@ -206,8 +206,8 @@ export default function AtletaDashboard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24, justifyContent: 'center' }}>
         {/* Lado Esquerdo: Identificação & Kit */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
               DADOS DO ATLETA
             </h3>
             <InfoRow label="Nome Completo" value={reg.nome} bold />
@@ -220,8 +220,8 @@ export default function AtletaDashboard() {
             {reg.responsavelNome && <InfoRow label="Responsável" value={reg.responsavelNome} />}
           </section>
 
-          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
               <MapPin size={14} style={{ marginRight: 6, verticalAlign: -2 }} />
               ENDEREÇO
             </h3>
@@ -231,8 +231,8 @@ export default function AtletaDashboard() {
             <InfoRow label="CEP" value={reg.endereco?.cep} />
           </section>
 
-          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
               <Package size={14} style={{ marginRight: 6, verticalAlign: -2 }} />
               KIT & CAMISETA
             </h3>
@@ -243,8 +243,8 @@ export default function AtletaDashboard() {
 
         {/* Lado Direito: Prova, Pagamento & Saúde */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
               <Flag size={14} style={{ marginRight: 6, verticalAlign: -2 }} />
               PROVA & EQUIPE
             </h3>
@@ -254,8 +254,8 @@ export default function AtletaDashboard() {
             <InfoRow label="Faz parte de equipe" value={reg.integranteEquipe === 'sim' ? (reg.equipeNome || 'Sim') : 'Não'} />
           </section>
 
-          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+            <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
               <CreditCard size={14} style={{ marginRight: 6, verticalAlign: -2 }} />
               PAGAMENTO
             </h3>
@@ -264,7 +264,7 @@ export default function AtletaDashboard() {
             <InfoRow label="Data da Inscrição" value={formatDate(reg.createdAt, true)} />
           </section>
 
-          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
+          <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
             <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ef4444', marginBottom: 16, borderBottom: '2px solid #ef4444', display: 'inline-block', paddingBottom: 4 }}>
               SAÚDE & EMERGÊNCIA
             </h3>
@@ -280,12 +280,12 @@ export default function AtletaDashboard() {
       </div>
 
       {vinculados.length > 0 && (
-        <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0', marginTop: 24 }}>
-          <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#071A45', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Link2 size={16} color="#6BFF2A" />
+        <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4', marginTop: 24 }}>
+          <h3 style={{ fontSize: '0.85rem', fontWeight: 900, color: '#141112', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Link2 size={16} color="#e01b22" />
             ATLETAS COM LIGAÇÃO A VOCÊ
           </h3>
-          <p style={{ color: '#64748b', fontSize: '0.8rem', marginBottom: 18 }}>
+          <p style={{ color: '#78716c', fontSize: '0.8rem', marginBottom: 18 }}>
             Inscrições com o mesmo e-mail ou vinculadas pelo contato de emergência. Clique para acessar.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14 }}>
@@ -299,19 +299,19 @@ export default function AtletaDashboard() {
                   role="button"
                   tabIndex={0}
                   onKeyDown={e => { if (e.key === 'Enter') acessarVinculado(v.id); }}
-                  style={{ border: '1px solid #e2e8f0', borderRadius: 14, padding: 16, display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer', transition: 'border-color .15s, box-shadow .15s' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#6BFF2A'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(7,26,69,0.08)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = 'none'; }}
+                  style={{ border: '1px solid #e7e5e4', borderRadius: 14, padding: 16, display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer', transition: 'border-color .15s, box-shadow .15s' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#e01b22'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(20, 17, 18,0.08)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#e7e5e4'; e.currentTarget.style.boxShadow = 'none'; }}
                 >
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 10, background: '#f5f5f4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
                     {v.fotoUrl ? (
                       <img src={v.fotoUrl} alt={v.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <span style={{ fontWeight: 900, color: '#94a3b8', fontSize: '0.9rem' }}>{vInitials}</span>
+                      <span style={{ fontWeight: 900, color: '#a8a29e', fontSize: '0.9rem' }}>{vInitials}</span>
                     )}
                   </div>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.nome}</div>
+                    <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.nome}</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, flexWrap: 'wrap' }}>
                       <span style={{
                         background: vPago ? '#dcfce7' : '#fef9c3', color: vPago ? '#166534' : '#854d0e',
@@ -320,7 +320,7 @@ export default function AtletaDashboard() {
                         {vPago ? 'CONFIRMADO' : 'PENDENTE'}
                       </span>
                       {v.integranteEquipe === 'sim' && v.equipeNome && (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, color: '#64748b', fontSize: '0.65rem', fontWeight: 700 }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, color: '#78716c', fontSize: '0.65rem', fontWeight: 700 }}>
                           <Users size={11} /> {v.equipeNome}
                         </span>
                       )}
@@ -339,7 +339,7 @@ export default function AtletaDashboard() {
             <div style={{ fontWeight: 800, color: '#92400e', marginBottom: 4 }}>Pagamento Pendente</div>
             <p style={{ fontSize: '0.85rem', color: '#b45309' }}>Sua inscrição será confirmada após o pagamento.</p>
           </div>
-          <a href={reg.invoiceUrl} target="_blank" style={{ background: '#071A45', color: '#fff', padding: '12px 24px', borderRadius: 12, fontWeight: 800, textDecoration: 'none', fontSize: '0.85rem' }}>
+          <a href={reg.invoiceUrl} target="_blank" style={{ background: '#141112', color: '#fff', padding: '12px 24px', borderRadius: 12, fontWeight: 800, textDecoration: 'none', fontSize: '0.85rem' }}>
             PAGAR AGORA
           </a>
         </div>

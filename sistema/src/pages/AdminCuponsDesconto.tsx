@@ -257,12 +257,12 @@ export default function AdminCuponsDesconto() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return showAlert('Nao foi possivel gerar a imagem.', 'error');
 
-    ctx.fillStyle = '#f1f5f9';
+    ctx.fillStyle = '#f5f5f4';
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = '#071A45';
+    ctx.fillStyle = '#141112';
     ctx.fillRect(0, 0, width, 170);
 
-    ctx.fillStyle = '#6BFF2A';
+    ctx.fillStyle = '#e01b22';
     ctx.font = '900 30px Inter, Arial, sans-serif';
     ctx.fillText(EVENTO.nome.toUpperCase(), 64, 68);
     ctx.fillStyle = '#ffffff';
@@ -290,10 +290,10 @@ export default function AdminCuponsDesconto() {
       ctx.fillStyle = '#ffffff';
       roundRect(ctx, x, 190, 360, 92, 18);
       ctx.fill();
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#78716c';
       ctx.font = '900 17px Inter, Arial, sans-serif';
       ctx.fillText(label.toUpperCase(), x + 24, 224);
-      ctx.fillStyle = index === 1 ? '#16a34a' : '#071A45';
+      ctx.fillStyle = index === 1 ? '#16a34a' : '#141112';
       ctx.font = '900 30px Inter, Arial, sans-serif';
       ctx.fillText(value, x + 24, 262);
     });
@@ -311,41 +311,41 @@ export default function AdminCuponsDesconto() {
       { title: 'Valor final', x: tableX + 970 },
       { title: 'Status', x: tableX + 1150 },
     ];
-    ctx.fillStyle = '#f8fafc';
+    ctx.fillStyle = '#fafaf9';
     ctx.fillRect(tableX, tableY, tableWidth, 56);
-    ctx.fillStyle = '#475569';
+    ctx.fillStyle = '#57534e';
     ctx.font = '900 16px Inter, Arial, sans-serif';
     columns.forEach(column => ctx.fillText(column.title.toUpperCase(), column.x, tableY + 35));
 
     if (!usages.length) {
-      ctx.fillStyle = '#64748b';
+      ctx.fillStyle = '#78716c';
       ctx.font = '800 24px Inter, Arial, sans-serif';
       ctx.fillText('Nenhuma inscricao usou este cupom ainda.', tableX + 28, tableY + 112);
     } else {
       usages.forEach((usage, index) => {
         const y = tableY + 56 + index * rowHeight;
-        ctx.fillStyle = index % 2 === 0 ? '#ffffff' : '#f8fafc';
+        ctx.fillStyle = index % 2 === 0 ? '#ffffff' : '#fafaf9';
         ctx.fillRect(tableX, y, tableWidth, rowHeight);
-        ctx.fillStyle = '#071A45';
+        ctx.fillStyle = '#141112';
         ctx.font = '900 21px Inter, Arial, sans-serif';
         drawClippedText(ctx, usage.nome, tableX + 28, y + 30, 410);
-        ctx.fillStyle = '#64748b';
+        ctx.fillStyle = '#78716c';
         ctx.font = '800 15px Inter, Arial, sans-serif';
         ctx.fillText(formatDate(usage.createdAt), tableX + 28, y + 54);
-        ctx.fillStyle = '#071A45';
+        ctx.fillStyle = '#141112';
         ctx.font = '800 17px Inter, Arial, sans-serif';
         drawClippedText(ctx, `${usage.cpf || 'CPF nao informado'}${usage.telefone ? ` - ${usage.telefone}` : ''}`, tableX + 490, y + 42, 250);
         ctx.fillStyle = '#16a34a';
         ctx.font = '900 18px Inter, Arial, sans-serif';
         ctx.fillText(formatMoney(usage.couponDiscountAmount), tableX + 790, y + 42);
-        ctx.fillStyle = '#071A45';
+        ctx.fillStyle = '#141112';
         ctx.fillText(formatMoney(usage.amount), tableX + 970, y + 42);
         ctx.fillStyle = statusColor(usage.paymentStatus);
         ctx.fillText(String(usage.paymentStatus || 'pendente').toUpperCase(), tableX + 1150, y + 42);
       });
     }
 
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#78716c';
     ctx.font = '800 16px Inter, Arial, sans-serif';
     ctx.fillText(`Gerado em ${new Date().toLocaleString('pt-BR')}`, 64, height - 32);
 
@@ -358,13 +358,13 @@ export default function AdminCuponsDesconto() {
   if (loading && coupons.length === 0) return <AdminPageSkeleton variant="table" />;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Cupons de desconto</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Crie codigos promocionais com desconto em valor fixo ou percentual e controle os usos disponiveis.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Cupons de desconto</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Crie codigos promocionais com desconto em valor fixo ou percentual e controle os usos disponiveis.</p>
         </div>
-        <button onClick={openCreate} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(7, 26, 69, 0.2)' }}>
+        <button onClick={openCreate} style={{ background: '#141112', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(20, 17, 18, 0.2)' }}>
           <Plus size={18} /> Novo cupom
         </button>
       </div>
@@ -372,16 +372,16 @@ export default function AdminCuponsDesconto() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
         <Stat label="Cupons" value={stats.total} tone="#2563eb" />
         <Stat label="Ativos" value={stats.active} tone="#16a34a" />
-        <Stat label="Usos disponiveis" value={stats.available} tone="#071A45" />
+        <Stat label="Usos disponiveis" value={stats.available} tone="#141112" />
         <Stat label="Usos consumidos" value={stats.used} tone="#f59e0b" />
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
-            <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+            <tr style={{ background: '#fafaf9', borderBottom: '1px solid #e7e5e4' }}>
               {['Cupom', 'Desconto', 'Usos', 'Status', 'Acoes'].map(item => (
-                <th key={item} style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', textAlign: item === 'Acoes' ? 'right' : 'left' }}>{item}</th>
+                <th key={item} style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', textAlign: item === 'Acoes' ? 'right' : 'left' }}>{item}</th>
               ))}
             </tr>
           </thead>
@@ -392,26 +392,26 @@ export default function AdminCuponsDesconto() {
               const isExpanded = expandedCouponId === coupon.id;
               return (
                 <Fragment key={coupon.id}>
-                  <tr key={coupon.id} style={{ borderBottom: isExpanded ? 'none' : '1px solid #f1f5f9' }}>
+                  <tr key={coupon.id} style={{ borderBottom: isExpanded ? 'none' : '1px solid #f5f5f4' }}>
                     <td style={{ padding: '16px 24px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                         <div style={{ width: 42, height: 42, borderRadius: 12, background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Gift size={20} /></div>
                         <div>
-                          <div style={{ fontWeight: 900, color: '#071A45' }}>{coupon.code}</div>
-                          {coupon.description && <small style={{ color: '#64748b', fontWeight: 700 }}>{coupon.description}</small>}
+                          <div style={{ fontWeight: 900, color: '#141112' }}>{coupon.code}</div>
+                          {coupon.description && <small style={{ color: '#78716c', fontWeight: 700 }}>{coupon.description}</small>}
                         </div>
                       </div>
                     </td>
-                    <td style={{ padding: '16px 24px', color: '#071A45', fontWeight: 900 }}>{discountLabel(coupon)}</td>
+                    <td style={{ padding: '16px 24px', color: '#141112', fontWeight: 900 }}>{discountLabel(coupon)}</td>
                     <td style={{ padding: '16px 24px' }}>
-                      <div style={{ color: '#071A45', fontWeight: 900 }}>{available} disponiveis</div>
-                      <small style={{ color: '#64748b', fontWeight: 700 }}>{coupon.usedCount} usados de {coupon.maxUses}</small>
+                      <div style={{ color: '#141112', fontWeight: 900 }}>{available} disponiveis</div>
+                      <small style={{ color: '#78716c', fontWeight: 700 }}>{coupon.usedCount} usados de {coupon.maxUses}</small>
                       <button type="button" onClick={() => setExpandedCouponId(isExpanded ? null : coupon.id)} style={{ display: 'block', marginTop: 8, border: 'none', background: '#eff6ff', color: '#2563eb', borderRadius: 9, padding: '6px 10px', fontSize: '.68rem', fontWeight: 950, cursor: 'pointer' }}>
                         {isExpanded ? 'Ocultar usos' : `Ver quem usou (${usages.length})`}
                       </button>
                       {rechargeId === coupon.id && (
                         <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                          <input type="number" min="1" value={rechargeAmount} onChange={event => setRechargeAmount(Number(event.target.value || 0))} style={{ width: 86, padding: '8px 10px', borderRadius: 10, border: '1px solid #e2e8f0', fontWeight: 800 }} />
+                          <input type="number" min="1" value={rechargeAmount} onChange={event => setRechargeAmount(Number(event.target.value || 0))} style={{ width: 86, padding: '8px 10px', borderRadius: 10, border: '1px solid #e7e5e4', fontWeight: 800 }} />
                           <button onClick={() => rechargeCoupon(coupon)} style={{ background: '#dcfce7', border: 'none', color: '#166534', borderRadius: 10, padding: '0 12px', fontWeight: 900, cursor: 'pointer' }}>OK</button>
                         </div>
                       )}
@@ -432,24 +432,24 @@ export default function AdminCuponsDesconto() {
                     </td>
                   </tr>
                   {isExpanded && (
-                    <tr key={`${coupon.id}-usages`} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    <tr key={`${coupon.id}-usages`} style={{ borderBottom: '1px solid #f5f5f4' }}>
                       <td colSpan={5} style={{ padding: '0 24px 20px' }}>
-                        <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 16, overflow: 'hidden' }}>
+                        <div style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 16, overflow: 'hidden' }}>
                           {usages.length ? usages.map(usage => (
-                            <div key={usage.id} style={{ display: 'grid', gridTemplateColumns: 'minmax(180px, 1.4fr) minmax(120px, .8fr) minmax(120px, .8fr) minmax(120px, .8fr) auto', gap: 12, alignItems: 'center', padding: '12px 14px', borderBottom: '1px solid #e2e8f0' }}>
+                            <div key={usage.id} style={{ display: 'grid', gridTemplateColumns: 'minmax(180px, 1.4fr) minmax(120px, .8fr) minmax(120px, .8fr) minmax(120px, .8fr) auto', gap: 12, alignItems: 'center', padding: '12px 14px', borderBottom: '1px solid #e7e5e4' }}>
                               <div>
-                                <strong style={{ color: '#071A45', fontSize: '.88rem' }}>{usage.nome}</strong>
-                                <small style={{ display: 'block', color: '#64748b', fontWeight: 700 }}>{usage.cpf || 'CPF nao informado'} {usage.telefone ? `- ${usage.telefone}` : ''}</small>
+                                <strong style={{ color: '#141112', fontSize: '.88rem' }}>{usage.nome}</strong>
+                                <small style={{ display: 'block', color: '#78716c', fontWeight: 700 }}>{usage.cpf || 'CPF nao informado'} {usage.telefone ? `- ${usage.telefone}` : ''}</small>
                               </div>
-                              <span style={{ color: '#071A45', fontWeight: 900 }}>{formatMoney(usage.couponDiscountAmount)}</span>
-                              <span style={{ color: '#071A45', fontWeight: 800 }}>{formatMoney(usage.amount)}</span>
+                              <span style={{ color: '#141112', fontWeight: 900 }}>{formatMoney(usage.couponDiscountAmount)}</span>
+                              <span style={{ color: '#141112', fontWeight: 800 }}>{formatMoney(usage.amount)}</span>
                               <span style={{ color: statusColor(usage.paymentStatus), fontWeight: 950, textTransform: 'uppercase', fontSize: '.7rem' }}>{usage.paymentStatus || 'pendente'}</span>
-                              <button type="button" onClick={() => navigate(`/admin/inscritos/${usage.id}`)} style={{ border: 'none', background: '#071A45', color: '#fff', borderRadius: 10, height: 34, padding: '0 12px', display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 900, cursor: 'pointer' }}>
+                              <button type="button" onClick={() => navigate(`/admin/inscritos/${usage.id}`)} style={{ border: 'none', background: '#141112', color: '#fff', borderRadius: 10, height: 34, padding: '0 12px', display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 900, cursor: 'pointer' }}>
                                 <Eye size={15} /> Abrir
                               </button>
                             </div>
                           )) : (
-                            <div style={{ padding: 18, color: '#64748b', fontWeight: 800, textAlign: 'center' }}>Nenhuma inscricao usou este cupom ainda.</div>
+                            <div style={{ padding: 18, color: '#78716c', fontWeight: 800, textAlign: 'center' }}>Nenhuma inscricao usou este cupom ainda.</div>
                           )}
                         </div>
                       </td>
@@ -459,18 +459,18 @@ export default function AdminCuponsDesconto() {
               );
             })}
             {coupons.length === 0 && (
-              <tr><td colSpan={5} style={{ padding: 44, textAlign: 'center', color: '#64748b', fontWeight: 700 }}>Nenhum cupom cadastrado.</td></tr>
+              <tr><td colSpan={5} style={{ padding: 44, textAlign: 'center', color: '#78716c', fontWeight: 700 }}>Nenhum cupom cadastrado.</td></tr>
             )}
           </tbody>
         </table>
       </div>
 
       {modalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.68)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1000 }}>
-          <div style={{ background: '#fff', width: '100%', maxWidth: 540, borderRadius: 24, boxShadow: '0 24px 60px rgba(15,23,42,.24)', overflow: 'hidden' }}>
-            <div style={{ padding: '24px 28px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.2rem', fontWeight: 950 }}>{editingId ? 'Editar cupom' : 'Novo cupom'}</h2>
-              <button onClick={() => setModalOpen(false)} style={{ border: 'none', background: '#f1f5f9', width: 38, height: 38, borderRadius: 12, color: '#64748b', cursor: 'pointer' }}><X size={20} /></button>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.68)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1000 }}>
+          <div style={{ background: '#fff', width: '100%', maxWidth: 540, borderRadius: 24, boxShadow: '0 24px 60px rgba(28, 25, 23,.24)', overflow: 'hidden' }}>
+            <div style={{ padding: '24px 28px', borderBottom: '1px solid #e7e5e4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ margin: 0, color: '#141112', fontSize: '1.2rem', fontWeight: 950 }}>{editingId ? 'Editar cupom' : 'Novo cupom'}</h2>
+              <button onClick={() => setModalOpen(false)} style={{ border: 'none', background: '#f5f5f4', width: 38, height: 38, borderRadius: 12, color: '#78716c', cursor: 'pointer' }}><X size={20} /></button>
             </div>
             <div style={{ padding: 28, display: 'grid', gap: 18 }}>
               <Field label="Codigo do cupom">
@@ -503,8 +503,8 @@ export default function AdminCuponsDesconto() {
               </button>
             </div>
             <div style={{ padding: '0 28px 28px', display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 12 }}>
-              <button onClick={() => setModalOpen(false)} style={{ border: '1px solid #e2e8f0', background: '#fff', borderRadius: 12, color: '#64748b', fontWeight: 900, cursor: 'pointer' }}>Cancelar</button>
-              <button onClick={handleSave} disabled={saving} style={{ border: 'none', background: '#071A45', color: '#fff', borderRadius: 12, padding: 14, fontWeight: 900, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <button onClick={() => setModalOpen(false)} style={{ border: '1px solid #e7e5e4', background: '#fff', borderRadius: 12, color: '#78716c', fontWeight: 900, cursor: 'pointer' }}>Cancelar</button>
+              <button onClick={handleSave} disabled={saving} style={{ border: 'none', background: '#141112', color: '#fff', borderRadius: 12, padding: 14, fontWeight: 900, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                 <Save size={18} /> {saving ? 'Salvando...' : 'Salvar cupom'}
               </button>
             </div>
@@ -517,9 +517,9 @@ export default function AdminCuponsDesconto() {
 
 function Stat({ label, value, tone }: { label: string; value: number; tone: string }) {
   return (
-    <div style={{ background: '#fff', borderRadius: 18, border: '1px solid #e2e8f0', padding: 18, borderLeft: `5px solid ${tone}` }}>
-      <span style={{ color: '#64748b', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</span>
-      <strong style={{ display: 'block', marginTop: 8, color: '#071A45', fontSize: '1.55rem', fontWeight: 950 }}>{value}</strong>
+    <div style={{ background: '#fff', borderRadius: 18, border: '1px solid #e7e5e4', padding: 18, borderLeft: `5px solid ${tone}` }}>
+      <span style={{ color: '#78716c', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</span>
+      <strong style={{ display: 'block', marginTop: 8, color: '#141112', fontSize: '1.55rem', fontWeight: 950 }}>{value}</strong>
     </div>
   );
 }
@@ -527,7 +527,7 @@ function Stat({ label, value, tone }: { label: string; value: number; tone: stri
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label style={{ display: 'grid', gap: 7 }}>
-      <span style={{ color: '#64748b', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ color: '#78716c', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</span>
       {children}
     </label>
   );
@@ -535,7 +535,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function IconButton({ title, children, onClick, danger = false }: { title: string; children: React.ReactNode; onClick: () => void; danger?: boolean }) {
   return (
-    <button title={title} onClick={onClick} style={{ width: 38, height: 38, borderRadius: 11, border: 'none', background: danger ? '#fee2e2' : '#f1f5f9', color: danger ? '#dc2626' : '#475569', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+    <button title={title} onClick={onClick} style={{ width: 38, height: 38, borderRadius: 11, border: 'none', background: danger ? '#fee2e2' : '#f5f5f4', color: danger ? '#dc2626' : '#57534e', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
       {children}
     </button>
   );
@@ -568,10 +568,10 @@ function drawClippedText(ctx: CanvasRenderingContext2D, text: string, x: number,
 const inputStyle: React.CSSProperties = {
   width: '100%',
   height: 46,
-  border: '1px solid #e2e8f0',
+  border: '1px solid #e7e5e4',
   borderRadius: 12,
   padding: '0 14px',
-  color: '#071A45',
+  color: '#141112',
   fontWeight: 800,
   outline: 'none',
   background: '#fff',

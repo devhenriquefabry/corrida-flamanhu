@@ -10,6 +10,7 @@ import { AdminLayoutSkeleton } from '../components/Skeleton';
 import { formatDateTimeBR } from '../utils/dateUtils';
 import '../styles/admin.css';
 import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ export default function AdminLayout() {
     <div className="admin-dark-layout">
       {/* Mobile Header */}
       <div className="adm-mobile-header">
-        <img src={withBase("/sistema/LOGO horizontal NIGHT RUN SEM FUNDO (em amarelo e branco).png")} alt="MCU Night Run" />
+        <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} />
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -115,7 +116,7 @@ export default function AdminLayout() {
       <aside className={`adm-sidebar ${isMobile && sidebarOpen ? 'open' : ''}`}>
         {/* Logo */}
         <div className="adm-sidebar-logo">
-          <img src={withBase("/sistema/LOGO horizontal NIGHT RUN SEM FUNDO (em amarelo e branco).png")} alt="MCU Night Run" />
+          <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} />
         </div>
 
         <button
@@ -152,8 +153,8 @@ export default function AdminLayout() {
                   <span style={{ flex: 1 }}>{item.label}</span>
                   {item.path === '/admin/inscritos' && inscritosCount !== null && (
                     <span style={{
-                      background: active ? 'rgba(2,10,34,0.12)' : 'rgba(107,255,42,0.15)',
-                      color: active ? '#020A22' : '#6bff2a',
+                      background: active ? 'rgba(11, 10, 10,0.12)' : 'rgba(224, 27, 34,0.15)',
+                      color: active ? '#0B0A0A' : '#ff2e38',
                       fontSize: '0.7rem',
                       fontWeight: 800,
                       padding: '2px 8px',

@@ -29,7 +29,7 @@ export const FormLabel = ({ htmlFor, label, required, hint, style }: LabelProps)
         display: 'block', 
         fontSize: '0.75rem', 
         fontWeight: 800, 
-        color: 'var(--adm-text, #e2e8f0)', 
+        color: 'var(--adm-text, #e7e5e4)', 
         textTransform: 'uppercase', 
         letterSpacing: '1px',
         ...style
@@ -58,11 +58,11 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(({ class
       style={{
         width: '100%',
         padding: `12px 16px ${icon ? '12px 40px' : ''}`,
-        backgroundColor: 'var(--adm-surface-2, #071A45)',
-        border: '1px solid var(--adm-border, #123068)',
+        backgroundColor: 'var(--adm-surface-2, #141112)',
+        border: '1px solid var(--adm-border, #2e2627)',
         borderRadius: '12px',
         fontSize: '0.95rem',
-        color: 'var(--adm-text, #e2e8f0)',
+        color: 'var(--adm-text, #e7e5e4)',
         transition: 'all 0.2s ease-in-out',
         fontFamily: 'inherit',
         outline: 'none'
@@ -80,11 +80,11 @@ export const FormTextarea = React.forwardRef<HTMLTextAreaElement, TextareaHTMLAt
     style={{
       width: '100%',
       padding: '12px 16px',
-      backgroundColor: 'var(--adm-surface-2, #071A45)',
-      border: '1px solid var(--adm-border, #123068)',
+      backgroundColor: 'var(--adm-surface-2, #141112)',
+      border: '1px solid var(--adm-border, #2e2627)',
       borderRadius: '12px',
       fontSize: '0.95rem',
-      color: 'var(--adm-text, #e2e8f0)',
+      color: 'var(--adm-text, #e7e5e4)',
       transition: 'all 0.2s ease-in-out',
       fontFamily: 'inherit',
       minHeight: '100px',
@@ -103,11 +103,11 @@ export const FormSelect = React.forwardRef<HTMLSelectElement, SelectHTMLAttribut
     style={{
       width: '100%',
       padding: '12px 16px',
-      backgroundColor: 'var(--adm-surface-2, #071A45)',
-      border: '1px solid var(--adm-border, #123068)',
+      backgroundColor: 'var(--adm-surface-2, #141112)',
+      border: '1px solid var(--adm-border, #2e2627)',
       borderRadius: '12px',
       fontSize: '0.95rem',
-      color: 'var(--adm-text, #e2e8f0)',
+      color: 'var(--adm-text, #e7e5e4)',
       transition: 'all 0.2s ease-in-out',
       fontFamily: 'inherit',
       outline: 'none',
@@ -129,7 +129,7 @@ export const FormSwitch = ({ checked, onChange, label, hint }: { checked: boolea
     <div 
       style={{ 
         width: '50px', height: '28px', borderRadius: '30px', 
-        backgroundColor: checked ? 'var(--adm-accent, #6BFF2A)' : 'var(--adm-border, #123068)',
+        backgroundColor: checked ? 'var(--adm-accent, #e01b22)' : 'var(--adm-border, #2e2627)',
         position: 'relative', transition: 'background-color 0.3s' 
       }}
     >
@@ -143,7 +143,7 @@ export const FormSwitch = ({ checked, onChange, label, hint }: { checked: boolea
       />
     </div>
     <div>
-      <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--adm-text, #e2e8f0)' }}>{label}</span>
+      <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--adm-text, #e7e5e4)' }}>{label}</span>
       {hint && <p style={{ fontSize: '0.8rem', color: 'var(--adm-text-muted, #888)', margin: 0 }}>{hint}</p>}
     </div>
   </div>
@@ -163,7 +163,7 @@ export const FormActions = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const Tabs = ({ tabs, activeTab, onChange }: { tabs: { id: string, label: string, icon: React.ReactNode }[], activeTab: string, onChange: (id: string) => void }) => (
-  <div style={{ display: 'flex', gap: '5px', borderBottom: '1px solid var(--adm-border, #123068)', marginBottom: '25px', overflowX: 'auto' }}>
+  <div style={{ display: 'flex', gap: '5px', borderBottom: '1px solid var(--adm-border, #2e2627)', marginBottom: '25px', overflowX: 'auto' }}>
     {tabs.map(tab => (
       <button
         key={tab.id}
@@ -176,8 +176,8 @@ export const Tabs = ({ tabs, activeTab, onChange }: { tabs: { id: string, label:
           padding: '12px 20px',
           background: 'none',
           border: 'none',
-          borderBottom: activeTab === tab.id ? '3px solid var(--adm-accent, #6BFF2A)' : '3px solid transparent',
-          color: activeTab === tab.id ? 'var(--adm-accent, #6BFF2A)' : 'var(--adm-text-muted, #64748b)',
+          borderBottom: activeTab === tab.id ? '3px solid var(--adm-accent, #e01b22)' : '3px solid transparent',
+          color: activeTab === tab.id ? 'var(--adm-accent, #ff2e38)' : 'var(--adm-text-muted, #78716c)',
           fontWeight: activeTab === tab.id ? 800 : 600,
           fontSize: '0.9rem',
           cursor: 'pointer',
@@ -194,7 +194,7 @@ export const Tabs = ({ tabs, activeTab, onChange }: { tabs: { id: string, label:
 
 export const FormHeader = ({ title, icon }: { title: string, icon: React.ReactNode }) => (
   <div className="admin-form-header-bg">
-    {icon && <div style={{ background: '#071A45', borderRadius: '50%', padding: '4px', display: 'flex' }}>{icon}</div>}
+    {icon && <div style={{ background: '#141112', borderRadius: '50%', padding: '4px', display: 'flex' }}>{icon}</div>}
     <h3>{title}</h3>
   </div>
 );

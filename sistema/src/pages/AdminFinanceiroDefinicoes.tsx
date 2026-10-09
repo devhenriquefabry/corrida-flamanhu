@@ -155,9 +155,9 @@ export default function AdminFinanceiroDefinicoes() {
           transition: .2s ease;
         }
         .settings-switch.on {
-          background: rgba(107,255,42,.13);
+          background: rgba(224, 27, 34,.13);
           border-color: var(--adm-accent);
-          color: var(--adm-accent);
+          color: var(--adm-accent-ink);
         }
         .settings-switch.on span {
           background: var(--adm-accent);
@@ -181,7 +181,7 @@ export default function AdminFinanceiroDefinicoes() {
           border: none;
           border-radius: var(--adm-radius-sm);
           background: var(--adm-accent);
-          color: #071A45;
+          color: #fff;
           font-weight: 900;
           display: inline-flex;
           align-items: center;

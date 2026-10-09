@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebase';
 import '../App.css';
 import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 const NAV_ITEMS = [
   { to: '/atleta/dashboard', label: 'Início', icon: Home },
@@ -37,20 +38,20 @@ export default function AtletaLayout() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc', color: '#071A45' }}>
+    <div style={{ minHeight: '100vh', background: '#fafaf9', color: '#141112' }}>
       {/* Top Bar */}
       <header style={{
-        background: 'linear-gradient(135deg, #071A45, #123068)', padding: '12px 24px',
+        background: 'linear-gradient(135deg, #141112, #2e2627)', padding: '12px 24px',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 50,
         boxShadow: '0 2px 10px rgba(0,0,0,.1)'
       }}>
-        <img src={withBase("/sistema/LOGO horizontal NIGHT RUN SEM FUNDO (em amarelo e branco).png")} alt="MCU Night Run" style={{ height: '32px' }} />
+        <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} style={{ height: '46px', width: 'auto' }} />
         <nav style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           {NAV_ITEMS.map(item => (
             <NavLink key={item.to} to={item.to} style={({ isActive }) => ({
-              color: isActive ? '#6BFF2A' : 'rgba(255,255,255,.6)', display: 'flex', alignItems: 'center', gap: 6,
+              color: isActive ? '#ff2e38' : 'rgba(255,255,255,.6)', display: 'flex', alignItems: 'center', gap: 6,
               textDecoration: 'none', fontSize: '.85rem', fontWeight: isActive ? 700 : 500, padding: '6px 12px',
-              borderRadius: 8, background: isActive ? 'rgba(107,255,42,.1)' : 'transparent', transition: 'all .2s'
+              borderRadius: 8, background: isActive ? 'rgba(224, 27, 34,.1)' : 'transparent', transition: 'all .2s'
             })}>
               <item.icon size={18} />
               {!isMobile && item.label}

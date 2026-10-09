@@ -2,7 +2,8 @@ import { ArrowLeft, Download, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { REGULAMENTO_OFICIAL, REGULAMENTO_PDF_URL } from '../content/regulamentoOficial';
 import '../App.css';
-import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
+import { EVENTO } from '../config/evento';
 
 export default function Regulamento() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function Regulamento() {
             Voltar
           </button>
           <div className="regulation-brand">
-            <img src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")} alt="MCU Night Run" />
+            <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} />
           </div>
           <a className="regulation-download" href={REGULAMENTO_PDF_URL} target="_blank" rel="noreferrer">
             <Download size={18} />
@@ -30,8 +31,8 @@ export default function Regulamento() {
               <FileText size={20} />
               Regulamento oficial
             </span>
-            <h1>MCU Night Run 2026</h1>
-            <p>Manhuaçu/MG • 12/09/2026</p>
+            <h1>Corrida Flamanhu 2027</h1>
+            <p>Manhuaçu/MG • {EVENTO.data}</p>
             <div className="regulation-mobile-actions">
               <a href={REGULAMENTO_PDF_URL} target="_blank" rel="noreferrer">
                 <Download size={18} />

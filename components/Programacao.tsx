@@ -18,7 +18,7 @@ const ETAPAS = [
   {
     hora: "08h00",
     titulo: "Largada",
-    texto: "A largada da Corrida FLAMANHU 2026",
+    texto: "A largada da Corrida FLAMANHU 2027",
     icon: (
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M13 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0Z" fill="currentColor" />

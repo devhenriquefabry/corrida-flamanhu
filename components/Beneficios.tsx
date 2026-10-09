@@ -6,7 +6,7 @@ import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 const BENEFICIOS = [
   {
     titulo: "Camisa Temática",
-    texto: "Design exclusivo Corrida FLAMANHU 2026",
+    texto: "Design exclusivo Corrida FLAMANHU 2027",
     icon: (
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z" />

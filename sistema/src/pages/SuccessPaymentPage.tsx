@@ -87,13 +87,13 @@ export default function SuccessPaymentPage() {
       <main className="public-main-content" style={{ display: 'flex', flexDirection: 'column', minHeight: '100svh', justifyContent: 'flex-start', alignItems: 'center', padding: '24px 16px max(24px, env(safe-area-inset-bottom))', gap: '20px', width: '100%' }}>
         
         <div className="form-header-minimal" style={{ display: 'flex', justifyContent: 'center', width: '100%', flex: '0 0 auto' }}>
-          <LogoCombo style={{ height: '38px' }} variant="light" />
+          <LogoCombo />
         </div>
 
         <div className="success-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: 0, margin: 'auto 0' }}>
           <div className="success-card" style={{ padding: '24px 16px', maxWidth: '420px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', gap: '16px', background: 'transparent', border: 'none', boxShadow: 'none' }}>
-            <div className="success-icon-wrapper" style={{ background: 'rgba(107,255,42,0.15)', padding: '16px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
-              <PartyPopper size={44} color="#6BFF2A" />
+            <div className="success-icon-wrapper" style={{ background: 'rgba(224, 27, 34,0.15)', padding: '16px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
+              <PartyPopper size={44} color="#e01b22" />
             </div>
             
             <h1 className="success-title" style={{ fontSize: '1.9rem', fontWeight: 900, margin: 0, textTransform: 'uppercase', color: '#fff', letterSpacing: '0.5px' }}>
@@ -105,8 +105,8 @@ export default function SuccessPaymentPage() {
             </p>
 
             {welcomeWhatsAppUrl && (<>
-            <div style={{ width: '100%', padding: '16px', borderRadius: '16px', background: 'rgba(107,255,42,0.10)', border: '1px solid rgba(107,255,42,0.28)', textAlign: 'left' }}>
-              <div style={{ color: '#6BFF2A', fontWeight: 900, fontSize: '.82rem', textTransform: 'uppercase', marginBottom: 6 }}>
+            <div style={{ width: '100%', padding: '16px', borderRadius: '16px', background: 'rgba(224, 27, 34,0.10)', border: '1px solid rgba(224, 27, 34,0.28)', textAlign: 'left' }}>
+              <div style={{ color: '#ff2e38', fontWeight: 900, fontSize: '.82rem', textTransform: 'uppercase', marginBottom: 6 }}>
                 Próximo passo
               </div>
               <p style={{ color: 'rgba(255,255,255,0.82)', margin: 0, fontSize: '.88rem', lineHeight: 1.45 }}>
@@ -125,8 +125,8 @@ export default function SuccessPaymentPage() {
                 justifyContent: 'center',
                 padding: '16px',
                 borderRadius: '14px',
-                background: '#6BFF2A',
-                color: '#071A45',
+                background: '#e01b22',
+                color: '#fff',
                 fontWeight: 900,
                 fontSize: '0.9rem',
                 textDecoration: 'none',

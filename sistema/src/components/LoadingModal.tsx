@@ -1,5 +1,5 @@
 import React from 'react';
-import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 interface LoadingModalProps {
   isOpen: boolean;
@@ -13,7 +13,7 @@ export default function LoadingModal({ isOpen, message = 'Processando sua inscri
     <div style={{
       position: 'fixed',
       inset: 0,
-      background: 'rgba(7,26,69,0.95)',
+      background: 'rgba(20, 17, 18,0.95)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -31,12 +31,12 @@ export default function LoadingModal({ isOpen, message = 'Processando sua inscri
         <div className="speed-line" style={{ top: '80%', left: '-120px', animationDelay: '0.4s' }} />
         
         <img 
-          src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")} 
-          alt="MCU Night Run" 
+          src={LOGO_CORRIDA} 
+          alt={LOGO_CORRIDA_ALT} 
           style={{ 
             width: 180, 
             animation: 'pulse-fast 0.8s infinite ease-in-out',
-            filter: 'drop-shadow(0 0 20px rgba(107,255,42,0.5))'
+            filter: 'drop-shadow(0 0 20px rgba(224, 27, 34,0.5))'
           }} 
         />
         
@@ -45,13 +45,13 @@ export default function LoadingModal({ isOpen, message = 'Processando sua inscri
       </div>
 
       <h2 style={{ 
-        fontFamily: 'Montserrat', 
+        fontFamily: "'Barlow Condensed', sans-serif", 
         fontWeight: 900, 
         fontSize: '1.5rem', 
         marginBottom: 10,
         textTransform: 'uppercase',
         letterSpacing: 2,
-        color: '#6BFF2A'
+        color: '#ff2e38'
       }}>
         {message}
       </h2>
@@ -69,7 +69,7 @@ export default function LoadingModal({ isOpen, message = 'Processando sua inscri
           position: absolute;
           width: 80px;
           height: 3px;
-          background: linear-gradient(90deg, transparent, #6BFF2A);
+          background: linear-gradient(90deg, transparent, #e01b22);
           border-radius: 3px;
           animation: speed-move 0.6s infinite linear;
           opacity: 0.6;

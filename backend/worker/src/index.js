@@ -8,6 +8,10 @@ import RESVG_WASM_MODULE from "@resvg/resvg-wasm/index_bg.wasm";
 import MONTSERRAT_TTF from "./assets/montserrat-800.ttf";
 import { useFirestoreServiceAccount } from "./firestoreAuth.js";
 import { handlePublicApi } from "./publicApi.js";
+import { handleMediaUpload } from "./mediaUpload.js";
+import { getAdminEmail } from "./adminAuth.js";
+import { isAdminEmail } from "./publicApi.js";
+import { isPublicRoute } from "./publicRoutes.js";
 
 let resvgWasmReady = null;
 async function ensureResvgWasm() {
@@ -26,6 +30,7 @@ function getEvent(env) {
   return {
     name: env.EVENT_NAME || "Corrida",
     date: env.EVENT_DATE || "",
+    startTime: env.EVENT_TIME || "",
     local: env.EVENT_LOCAL || "",
     contactEmail: env.CONTACT_EMAIL || "",
     groupUrl: env.GRUPO_WHATSAPP_URL || "",
@@ -113,8 +118,16 @@ export default {
 
     try {
       useFirestoreServiceAccount(env);
-      const publicResponse = await handlePublicApi(request, env, path, json);
+      const publicResponse = await handlePublicApi(request, env, path, json, {
+        sendWhatsApp: (msg) => sendMessageWithFallback(msg, env),
+        enqueueWhatsApp: (messages) => enqueueWhatsAppMessages(env, ctx, messages),
+      });
       if (publicResponse) return publicResponse;
+
+      if (!isPublicRoute(request.method, path)) {
+        const adminEmail = await getAdminEmail(request, env, (email) => isAdminEmail(env, email));
+        if (!adminEmail) return json({ error: "Acesso restrito ao painel administrativo." }, 401);
+      }
 
       // ==================== ASAAS PROXY ====================
       if (path.startsWith("/asaas/")) {
@@ -164,7 +177,11 @@ export default {
           const accessToken = request.headers.get("asaas-access-token");
           const legacySignature = request.headers.get("asaas-signature");
           const webhookToken = accessToken || legacySignature;
-          if (env.ASAAS_WEBHOOK_SECRET && webhookToken !== env.ASAAS_WEBHOOK_SECRET) {
+          // Sem token configurado, qualquer um poderia forjar "pagamento recebido".
+          if (!env.ASAAS_WEBHOOK_SECRET) {
+            return json({ error: "Webhook do Asaas sem ASAAS_WEBHOOK_SECRET configurado." }, 503);
+          }
+          if (webhookToken !== env.ASAAS_WEBHOOK_SECRET) {
             return json({ error: "Invalid signature" }, 401);
           }
           const body = await request.json();
@@ -348,9 +365,11 @@ export default {
           // exato que a Cora manda pode variar/mudar e um campo nao reconhecido faria o
           // pagamento ficar preso pendente pra sempre, silenciosamente. Em vez disso, qualquer
           // evento relacionado a fatura reconsulta o status real direto na API da Cora (fonte
-          // da verdade) antes de decidir confirmar ou nao.
-          let status = bodyStatus;
-          if (invoiceId && bodyStatus !== "paid") {
+          // da verdade) antes de decidir confirmar ou nao. Vale tambem quando o corpo ja diz
+          // "pago": o token desta rota pode ser dispensado pelo user-agent, entao o corpo
+          // sozinho nunca confirma pagamento.
+          let status = bodyStatus === "paid" ? "unverified" : bodyStatus;
+          if (invoiceId) {
             const liveCheck = await checkCoraInvoiceStatus(env, invoiceId).catch(error => {
               console.error("[Cora Webhook] Live status check failed", { invoiceId, error: error.message });
               return null;
@@ -592,31 +611,7 @@ export default {
 
       // ==================== MEDIA (R2) ====================
       if (path === "/media/upload" && request.method === "POST") {
-        const contentType = request.headers.get("Content-Type") || "";
-        let fileData, fileName, mimeType;
-
-        if (contentType.includes("multipart/form-data")) {
-          const formData = await request.formData();
-          const file = formData.get("file");
-          if (!file) return json({ error: "No file" }, 400);
-          fileData = await file.arrayBuffer();
-          fileName = file.name || crypto.randomUUID();
-          mimeType = file.type || "application/octet-stream";
-          const folder = String(formData.get("folder") || "uploads").replace(/[^a-zA-Z0-9_-]/g, "_");
-          url.searchParams.set("folder", folder);
-        } else {
-          fileData = await request.arrayBuffer();
-          fileName = url.searchParams.get("name") || crypto.randomUUID();
-          mimeType = contentType.split(";")[0] || "image/jpeg";
-        }
-
-        if (fileData.byteLength > 25 * 1024 * 1024) return json({ error: "Arquivo muito grande. Envie uma foto de ate 25MB." }, 413);
-
-        const folder = String(url.searchParams.get("folder") || "uploads").replace(/[^a-zA-Z0-9_-]/g, "_");
-        const key = `${folder}/${Date.now()}_${fileName.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-        await env.MEDIA_BUCKET.put(key, fileData, { httpMetadata: { contentType: mimeType } });
-
-        return json({ url: `${url.origin}/media/${key}`, key });
+        return handleMediaUpload(request, env, url, json);
       }
 
       if (path.startsWith("/media/")) {
@@ -625,6 +620,7 @@ export default {
         if (!obj) return new Response("Not Found", { status: 404 });
         const headers = new Headers(corsHeaders);
         headers.set("Content-Type", obj.httpMetadata?.contentType || "application/octet-stream");
+        headers.set("X-Content-Type-Options", "nosniff");
         headers.set("Cache-Control", "public, max-age=31536000");
         return new Response(obj.body, { headers });
       }
@@ -651,19 +647,7 @@ export default {
       if (path === "/queue/enqueue" && request.method === "POST") {
         const { messages } = await request.json();
         if (!Array.isArray(messages)) return json({ error: "messages must be array" }, 400);
-        const batchId = crypto.randomUUID().substring(0, 8);
-        const now = Date.now();
-        const routedMessages = await distributeWhatsAppInstances(messages, env);
-        const writes = routedMessages.map((message, i) => {
-          const key = `mq:pending:${now}:${batchId}:${i.toString().padStart(4, "0")}`;
-          return env.NIGHTRUN_STORAGE.put(key, JSON.stringify({ ...message, enqueuedAt: new Date().toISOString() }));
-        });
-        for (let i = 0; i < writes.length; i += 25) {
-          await Promise.all(writes.slice(i, i + 25));
-        }
-        await markQueueHasPending(env);
-        ctx?.waitUntil(processQueue(env));
-        return json({ success: true, count: routedMessages.length, batchId });
+        return json(await enqueueWhatsAppMessages(env, ctx, messages));
       }
 
       if (path === "/queue/list" && request.method === "GET") {
@@ -913,6 +897,22 @@ export default {
 
 // ==================== HELPERS ====================
 
+async function enqueueWhatsAppMessages(env, ctx, messages) {
+  const batchId = crypto.randomUUID().substring(0, 8);
+  const now = Date.now();
+  const routedMessages = await distributeWhatsAppInstances(messages, env);
+  const writes = routedMessages.map((message, i) => {
+    const key = `mq:pending:${now}:${batchId}:${i.toString().padStart(4, "0")}`;
+    return env.NIGHTRUN_STORAGE.put(key, JSON.stringify({ ...message, enqueuedAt: new Date().toISOString() }));
+  });
+  for (let i = 0; i < writes.length; i += 25) {
+    await Promise.all(writes.slice(i, i + 25));
+  }
+  await markQueueHasPending(env);
+  ctx?.waitUntil(processQueue(env));
+  return { success: true, count: routedMessages.length, batchId };
+}
+
 function formatPhoneForWhatsApp(phone) {
   const clean = String(phone || "").replace(/\D/g, "");
   return clean.startsWith("55") ? clean : `55${clean}`;
@@ -1085,7 +1085,7 @@ function buildPaymentConfirmationText(env, nome, modalidadeNome) {
     "",
     `Ol\u00e1 ${nome}! Sua inscri\u00e7\u00e3o na ${event.name} est\u00e1 garantida.`,
     "",
-    event.date ? `Data: ${event.date}` : null,
+    event.date ? `Data: ${event.date}${event.startTime ? ` — largada às ${event.startTime}` : ""}` : null,
     event.local ? `Local: ${event.local}` : null,
     `Modalidade: ${modalidade}`,
     "",

@@ -12,7 +12,7 @@ export const SuccessScreen = ({ pixQr, pixPayload, invoiceUrl, nome, onCopy }: S
   return (
     <div className="success-container">
       <div className="success-card">
-        <CheckCircle size={80} color="#6BFF2A" style={{ marginBottom: 24 }} />
+        <CheckCircle size={80} color="#e01b22" style={{ marginBottom: 24 }} />
         <h1 className="success-title">Inscrição Recebida!</h1>
         <p className="success-msg">Olá {nome.split(' ')[0]}, sua vaga está garantida. Realize o pagamento via PIX para confirmar.</p>
         

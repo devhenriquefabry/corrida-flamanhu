@@ -55,7 +55,7 @@ export function CustomDialogProvider({ children }: { children: React.ReactNode }
     success: '#27ae60',
     error: '#e74c3c',
     warning: '#f39c12',
-    info: '#071A45',
+    info: '#141112',
   };
 
   return (

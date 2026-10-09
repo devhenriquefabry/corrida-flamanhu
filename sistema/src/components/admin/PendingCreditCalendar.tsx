@@ -82,19 +82,19 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
   ];
 
   return (
-    <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.62)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1300 }}>
-      <div onClick={event => event.stopPropagation()} style={{ background: '#fff', width: '100%', maxWidth: 720, maxHeight: '90vh', borderRadius: 24, display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 24px 60px rgba(15,23,42,0.3)' }}>
-        <div style={{ padding: '22px 24px 16px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,0.62)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1300 }}>
+      <div onClick={event => event.stopPropagation()} style={{ background: '#fff', width: '100%', maxWidth: 720, maxHeight: '90vh', borderRadius: 24, display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 24px 60px rgba(28, 25, 23,0.3)' }}>
+        <div style={{ padding: '22px 24px 16px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 42, height: 42, borderRadius: 12, background: '#fff7ed', color: '#c2410c', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
               <Calendar size={20} />
             </div>
             <div>
-              <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.1rem', fontWeight: 950, textTransform: 'uppercase' }}>Calendário de créditos (Asaas)</h2>
-              <span style={{ color: '#64748b', fontWeight: 700, fontSize: '0.78rem' }}>Cartão confirmado, ainda não creditado na conta</span>
+              <h2 style={{ margin: 0, color: '#141112', fontSize: '1.1rem', fontWeight: 950, textTransform: 'uppercase' }}>Calendário de créditos (Asaas)</h2>
+              <span style={{ color: '#78716c', fontWeight: 700, fontSize: '0.78rem' }}>Cartão confirmado, ainda não creditado na conta</span>
             </div>
           </div>
-          <button onClick={onClose} style={{ border: 'none', background: '#f1f5f9', width: 36, height: 36, borderRadius: 10, color: '#64748b', cursor: 'pointer', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+          <button onClick={onClose} style={{ border: 'none', background: '#f5f5f4', width: 36, height: 36, borderRadius: 10, color: '#78716c', cursor: 'pointer', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
             <X size={18} />
           </button>
         </div>
@@ -104,7 +104,7 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => changeMonth(-1)} style={navBtnStyle} aria-label="Mês anterior"><ArrowLeft size={16} /></button>
               <button onClick={() => changeMonth(1)} style={navBtnStyle} aria-label="Próximo mês"><ArrowRight size={16} /></button>
-              <strong style={{ color: '#071A45', fontSize: '0.9rem', fontWeight: 900, alignSelf: 'center', marginLeft: 6 }}>{monthLabel}</strong>
+              <strong style={{ color: '#141112', fontSize: '0.9rem', fontWeight: 900, alignSelf: 'center', marginLeft: 6 }}>{monthLabel}</strong>
             </div>
             <span style={{ background: '#fff7ed', color: '#c2410c', padding: '7px 12px', borderRadius: 8, fontWeight: 900, fontSize: '0.78rem' }}>
               A creditar no mês: {fmtCurrency(monthTotal)}
@@ -113,7 +113,7 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginBottom: 6 }}>
             {WEEKDAYS.map((weekday, index) => (
-              <div key={index} style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.72rem', fontWeight: 900 }}>{weekday}</div>
+              <div key={index} style={{ textAlign: 'center', color: '#a8a29e', fontSize: '0.72rem', fontWeight: 900 }}>{weekday}</div>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginBottom: 20 }}>
@@ -128,15 +128,15 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
                   onClick={() => hasCredits && setSelectedDay(day)}
                   style={{
                     minHeight: 78,
-                    border: isToday ? '2px solid #16a34a' : '1px solid #eef2f7',
+                    border: isToday ? '2px solid #16a34a' : '1px solid #f3f1ef',
                     borderRadius: 10,
-                    background: hasCredits ? '#fff7ed' : '#f8fafc',
+                    background: hasCredits ? '#fff7ed' : '#fafaf9',
                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
                     padding: '6px 4px',
                     cursor: hasCredits ? 'pointer' : 'default',
                   }}
                 >
-                  <span style={{ color: isToday ? '#16a34a' : '#475569', fontWeight: 900, fontSize: '0.82rem' }}>{day}</span>
+                  <span style={{ color: isToday ? '#16a34a' : '#57534e', fontWeight: 900, fontSize: '0.82rem' }}>{day}</span>
                   {hasCredits && (
                     <>
                       <span style={{ background: '#c2410c', color: '#fff', borderRadius: 6, padding: '2px 6px', fontSize: '0.64rem', fontWeight: 900 }}>
@@ -153,29 +153,29 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
           </div>
 
           {undated.length > 0 && (
-            <div style={{ background: '#f8fafc', border: '1px solid #eef2f7', borderRadius: 12, padding: '10px 14px', marginBottom: 20, fontSize: '0.76rem', color: '#64748b', fontWeight: 700 }}>
+            <div style={{ background: '#fafaf9', border: '1px solid #f3f1ef', borderRadius: 12, padding: '10px 14px', marginBottom: 20, fontSize: '0.76rem', color: '#78716c', fontWeight: 700 }}>
               {undated.length} pagamento(s) sem data estimada de crédito informada pela Asaas — totalizando {fmtCurrency(undated.reduce((s, i) => s + Number(i.netValueCents || 0), 0))}. Não aparecem no calendário acima.
             </div>
           )}
         </div>
 
         {selectedDay !== null && selectedBucket && (
-          <div style={{ borderTop: '1px solid #f1f5f9', padding: '16px 24px', maxHeight: '38vh', overflowY: 'auto', background: '#fafbfc' }}>
+          <div style={{ borderTop: '1px solid #f5f5f4', padding: '16px 24px', maxHeight: '38vh', overflowY: 'auto', background: '#fafbfc' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <div>
-                <strong style={{ display: 'block', color: '#071A45', fontSize: '0.9rem', fontWeight: 950 }}>Créditos de {selectedDateLabel}</strong>
-                <span style={{ color: '#64748b', fontWeight: 700, fontSize: '0.74rem' }}>
+                <strong style={{ display: 'block', color: '#141112', fontSize: '0.9rem', fontWeight: 950 }}>Créditos de {selectedDateLabel}</strong>
+                <span style={{ color: '#78716c', fontWeight: 700, fontSize: '0.74rem' }}>
                   {selectedBucket.items.length} pagamento{selectedBucket.items.length > 1 ? 's' : ''} · Líquido {fmtCurrency(selectedBucket.totalNet)}
                 </span>
               </div>
-              <button onClick={() => setSelectedDay(null)} style={{ border: 'none', background: 'transparent', color: '#94a3b8', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 900 }}>FECHAR</button>
+              <button onClick={() => setSelectedDay(null)} style={{ border: 'none', background: 'transparent', color: '#a8a29e', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 900 }}>FECHAR</button>
             </div>
             <div style={{ display: 'grid', gap: 8 }}>
               {selectedBucket.items.map(item => (
-                <div key={item.id} style={{ background: '#fff', border: '1px solid #eef2f7', borderRadius: 12, padding: '10px 12px', display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                <div key={item.id} style={{ background: '#fff', border: '1px solid #f3f1ef', borderRadius: 12, padding: '10px 12px', display: 'flex', justifyContent: 'space-between', gap: 12 }}>
                   <div style={{ minWidth: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                     <CreditCard size={14} color="#c2410c" style={{ flexShrink: 0 }} />
-                    <strong style={{ display: 'block', color: '#071A45', fontSize: '0.84rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.customer || 'Cliente Asaas'}</strong>
+                    <strong style={{ display: 'block', color: '#141112', fontSize: '0.84rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.customer || 'Cliente Asaas'}</strong>
                   </div>
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
                     <strong style={{ display: 'block', color: '#c2410c', fontSize: '0.88rem', fontWeight: 950 }}>{fmtCurrency(item.netValueCents)}</strong>
@@ -191,7 +191,7 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
           </div>
         )}
 
-        <button onClick={onClose} style={{ margin: 20, marginTop: selectedDay !== null ? 0 : 20, border: 'none', background: '#071A45', color: '#fff', borderRadius: 12, padding: 15, fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', textTransform: 'uppercase' }}>
+        <button onClick={onClose} style={{ margin: 20, marginTop: selectedDay !== null ? 0 : 20, border: 'none', background: '#141112', color: '#fff', borderRadius: 12, padding: 15, fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', textTransform: 'uppercase' }}>
           Fechar
         </button>
       </div>
@@ -200,6 +200,6 @@ export default function PendingCreditCalendar({ items, onClose }: PendingCreditC
 }
 
 const navBtnStyle: React.CSSProperties = {
-  width: 36, height: 34, border: '1px solid #e2e8f0', borderRadius: 8, background: '#fff',
-  color: '#475569', display: 'grid', placeItems: 'center', cursor: 'pointer',
+  width: 36, height: 34, border: '1px solid #e7e5e4', borderRadius: 8, background: '#fff',
+  color: '#57534e', display: 'grid', placeItems: 'center', cursor: 'pointer',
 };

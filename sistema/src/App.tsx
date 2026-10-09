@@ -6,8 +6,11 @@ import { LoadingProvider } from './components/LoadingService';
 import { AuthProvider } from './context/AuthContext';
 import { isFirebaseConfigured } from './firebase';
 import { withBase } from './utils/withBase';
+import { installWorkerAuth } from './utils/workerApi';
 import './index.css';
 import './App.css';
+
+installWorkerAuth();
 
 // Cada página vira um chunk próprio: quem abre a inscrição não baixa o painel
 // admin inteiro (exceljs, jspdf, html2canvas...).

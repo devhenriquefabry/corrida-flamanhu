@@ -102,7 +102,7 @@ export default function AdminDashboard() {
   const handleExport = () => {
     if (filteredRegistrations.length === 0) return showAlert('Nenhum dado para exportar.', 'warning');
     
-    exportToCSV(filteredRegistrations, 'dashboard_inscritos_mcu', [
+    exportToCSV(filteredRegistrations, 'dashboard_inscritos_flamanhu', [
       { header: 'Nome', key: 'nome' },
       { header: 'CPF', key: 'cpf' },
       { header: 'Modalidade', key: 'categoria', transform: (v) => v.toUpperCase() },
@@ -115,20 +115,20 @@ export default function AdminDashboard() {
   const ticketMedio = pagos.length > 0 ? receita / pagos.length : 0;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Dashboard Administrativo</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Resumo em tempo real da MCU Night Run 2026</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Dashboard Administrativo</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Resumo em tempo real da Corrida Flamanhu 2027</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <div style={{ position: 'relative' }}>
-            <Calendar style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }} size={16} />
+            <Calendar style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e', pointerEvents: 'none' }} size={16} />
             <select 
               value={timeRange} 
               onChange={e => setTimeRange(e.target.value)}
-              style={{ background: '#fff', padding: '10px 20px 10px 40px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 700, color: '#475569', outline: 'none', cursor: 'pointer', appearance: 'none' }}
+              style={{ background: '#fff', padding: '10px 20px 10px 40px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '0.85rem', fontWeight: 700, color: '#57534e', outline: 'none', cursor: 'pointer', appearance: 'none' }}
             >
               <option value="all">Todo o per?odo</option>
               <option value="month">Este m?s</option>
@@ -136,7 +136,7 @@ export default function AdminDashboard() {
               <option value="7d">Últimos 7 dias</option>
             </select>
           </div>
-          <button onClick={() => window.open(withBase('/'), '_blank')} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <button onClick={() => window.open(withBase('/'), '_blank')} style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             Acessar Site <ExternalLink size={16} />
           </button>
         </div>
@@ -159,25 +159,25 @@ export default function AdminDashboard() {
           { label: 'Faturamento', value: (receita / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), sub: 'Total no per?odo', icon: DollarSign, color: '#10b981' },
           { label: 'Kits Confirmados', value: kitsConfirmados, sub: `${total > 0 ? Math.round((kitsConfirmados / total) * 100) : 0}% do total`, icon: Package, color: '#f59e0b' }
         ].map((s, i) => (
-          <div key={i} style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <div key={i} style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: `${s.color}10`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color }}>
                 <s.icon size={22} />
               </div>
               <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#10b981', background: '#d1fae5', padding: '4px 8px', borderRadius: 6 }}>ATIVO</span>
             </div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>{s.value}</div>
-            <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 2 }}>{s.label}</div>
-            <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{s.sub}</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>{s.value}</div>
+            <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 2 }}>{s.label}</div>
+            <div style={{ fontSize: '0.75rem', color: '#a8a29e' }}>{s.sub}</div>
           </div>
         ))}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 24, marginBottom: 32 }}>
         {/* Gráfico de Inscrições */}
-        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0' }}>
+        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45' }}>Inscrições ({timeRange === 'all' ? 'Total' : timeRange === 'month' ? 'Mensal' : timeRange === '30d' ? '30 dias' : '7 dias'})</h3>
+            <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112' }}>Inscrições ({timeRange === 'all' ? 'Total' : timeRange === 'month' ? 'Mensal' : timeRange === '30d' ? '30 dias' : '7 dias'})</h3>
             <button 
               onClick={handleExport} 
               style={{ background: 'none', border: 'none', color: '#3b82f6', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
@@ -189,8 +189,8 @@ export default function AdminDashboard() {
         </div>
 
         {/* Modalidades */}
-        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', alignSelf: 'flex-start', marginBottom: 24 }}>Inscrições por Modalidade</h3>
+        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', alignSelf: 'flex-start', marginBottom: 24 }}>Inscrições por Modalidade</h3>
           {loading ? (
             <SkeletonBlock height={180} width={180} radius={999} />
           ) : (
@@ -199,10 +199,10 @@ export default function AdminDashboard() {
               size={180}
               strokeWidth={30}
               segments={[
-                { label: '5KM', value: cat5, color: '#071A45' },
+                { label: '5KM', value: cat5, color: '#141112' },
                 { label: '10KM', value: cat10, color: '#3b82f6' },
-                { label: 'Kids', value: catKids, color: '#94a3b8' },
-                { label: 'Caminhada', value: catCam, color: '#6BFF2A' },
+                { label: 'Kids', value: catKids, color: '#a8a29e' },
+                { label: 'Caminhada', value: catCam, color: '#ff2e38' },
               ]}
             />
           )}
@@ -210,21 +210,21 @@ export default function AdminDashboard() {
       </div>
 
       {/* Tabela de Últimas Inscrições */}
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45' }}>Últimas Inscrições</h3>
-          <button onClick={() => navigate('/admin/inscritos')} style={{ background: '#f1f5f9', border: 'none', padding: '8px 16px', borderRadius: 8, color: '#475569', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden' }}>
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112' }}>Últimas Inscrições</h3>
+          <button onClick={() => navigate('/admin/inscritos')} style={{ background: '#f5f5f4', border: 'none', padding: '8px 16px', borderRadius: 8, color: '#57534e', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}>
             Ver Todos
           </button>
         </div>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#f8fafc' }}>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Atleta</th>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Modalidade</th>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Status</th>
-                <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Data</th>
+              <tr style={{ background: '#fafaf9' }}>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Atleta</th>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Modalidade</th>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Status</th>
+                <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Data</th>
               </tr>
             </thead>
             <tbody>
@@ -240,20 +240,20 @@ export default function AdminDashboard() {
                 const ct = r.createdAt?.toDate?.() || new Date();
                 const isPaid = r.paymentStatus === 'pago';
                 return (
-                  <tr key={r.id} style={{ borderBottom: '1px solid #f1f5f9', cursor: 'pointer' }} onClick={() => navigate(`/admin/inscritos/${r.id}`)}>
+                  <tr key={r.id} style={{ borderBottom: '1px solid #f5f5f4', cursor: 'pointer' }} onClick={() => navigate(`/admin/inscritos/${r.id}`)}>
                     <td style={{ padding: '16px 24px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 8, background: '#f1f5f9', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: 8, background: '#f5f5f4', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                           {r.fotoUrl ? (
                             <img src={r.fotoUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           ) : (
-                            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#071A45' }}>{r.nome.slice(0, 2).toUpperCase()}</span>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#141112' }}>{r.nome.slice(0, 2).toUpperCase()}</span>
                           )}
                         </div>
-                        <div style={{ fontWeight: 700, color: '#071A45', fontSize: '0.9rem' }}>{r.nome}</div>
+                        <div style={{ fontWeight: 700, color: '#141112', fontSize: '0.9rem' }}>{r.nome}</div>
                       </div>
                     </td>
-                    <td style={{ padding: '16px 24px', fontSize: '0.85rem', color: '#475569', fontWeight: 600 }}>{r.categoria.toUpperCase()}</td>
+                    <td style={{ padding: '16px 24px', fontSize: '0.85rem', color: '#57534e', fontWeight: 600 }}>{r.categoria.toUpperCase()}</td>
                     <td style={{ padding: '16px 24px' }}>
                       <span style={{ 
                         padding: '4px 10px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800,
@@ -263,7 +263,7 @@ export default function AdminDashboard() {
                         {isPaid ? 'PAGO' : 'PENDENTE'}
                       </span>
                     </td>
-                    <td style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>
+                    <td style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.8rem', color: '#a8a29e', fontWeight: 600 }}>
                       {formatDateBR(ct)}
                     </td>
                   </tr>

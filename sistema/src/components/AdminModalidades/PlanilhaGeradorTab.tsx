@@ -14,6 +14,7 @@ import { formatCamisetaLabel, getCamisetaShortLabel } from '../../utils/camiseta
 import { fetchKits, resolveKitNome, type KitRecord } from '../../utils/kitsUtils';
 import { useDialog } from '../../context/CustomDialogContext';
 import { withBase } from '../../utils/withBase';
+import { LOGO_CORRIDA_PNG, LOGO_CORRIDA_RATIO } from '../../config/marca';
 
 type ColumnDef = { id: string; label: string; group: string; always?: boolean };
 
@@ -53,7 +54,7 @@ const STATUS_OPTIONS = [
   { id: 'pago', label: 'Confirmado (pago)', color: '#16a34a' },
   { id: 'pendente', label: 'Pendente', color: '#ca8a04' },
   { id: 'vencido', label: 'Vencido', color: '#dc2626' },
-  { id: 'cancelado', label: 'Cancelado', color: '#64748b' },
+  { id: 'cancelado', label: 'Cancelado', color: '#78716c' },
 ];
 
 const STATUS_LABEL: Record<string, string> = {
@@ -68,21 +69,21 @@ const RESUMO_FIELD_DEFS = [
   { id: 'arrecadado', label: 'Valor total arrecadado' },
 ];
 
-const NAVY = 'FF071A45';
+const NAVY = 'FF141112';
 const HEADER_TEXT = 'FFFFFFFF';
-const STRIPE = 'FFF1F5F9';
+const STRIPE = 'FFF5F5F4';
 const LINK_BLUE = 'FF2563EB';
-const LOGO_RATIO = 2000 / 1180;
+const LOGO_RATIO = LOGO_CORRIDA_RATIO;
 // Fonte única em toda a planilha, pedida pra dar cara de planilha de tesouraria de verdade.
 const FONT_FAMILY = 'Open Sans';
 
 // Borda fina cinza-clara usada em toda célula de tabela - dá aquele visual "grade" de
 // planilha de verdade em vez de dados soltos sem contorno.
 const THIN_BORDER = {
-  top: { style: 'thin' as const, color: { argb: 'FFE2E8F0' } },
-  left: { style: 'thin' as const, color: { argb: 'FFE2E8F0' } },
-  bottom: { style: 'thin' as const, color: { argb: 'FFE2E8F0' } },
-  right: { style: 'thin' as const, color: { argb: 'FFE2E8F0' } },
+  top: { style: 'thin' as const, color: { argb: 'FFE7E5E4' } },
+  left: { style: 'thin' as const, color: { argb: 'FFE7E5E4' } },
+  bottom: { style: 'thin' as const, color: { argb: 'FFE7E5E4' } },
+  right: { style: 'thin' as const, color: { argb: 'FFE7E5E4' } },
 };
 
 // "Selo" colorido pro status de pagamento em cada linha - mesmo espírito de badge
@@ -92,7 +93,7 @@ const STATUS_PILL_COLORS: Record<string, { bg: string; fg: string }> = {
   pago: { bg: 'FFDCFCE7', fg: 'FF166534' },
   pendente: { bg: 'FFFEF9C3', fg: 'FF854D0E' },
   vencido: { bg: 'FFFEE2E2', fg: 'FFB91C1C' },
-  cancelado: { bg: 'FFF1F5F9', fg: 'FF475569' },
+  cancelado: { bg: 'FFF5F5F4', fg: 'FF57534E' },
 };
 
 // Quantidade de inscritos por tamanho de camiseta, do maior para o menor. Tamanho numérico
@@ -362,8 +363,8 @@ function resolveValue(colId: string, r: any, modalidadeMap: Record<string, Modal
 }
 
 const Card = ({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) => (
-  <section style={{ background: '#fff', borderRadius: 16, padding: 22, border: '1px solid #e2e8f0' }}>
-    <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#071A45', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8, textTransform: 'uppercase', letterSpacing: 0.3 }}>
+  <section style={{ background: '#fff', borderRadius: 16, padding: 22, border: '1px solid #e7e5e4' }}>
+    <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#141112', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8, textTransform: 'uppercase', letterSpacing: 0.3 }}>
       {icon}{title}
     </h3>
     {children}
@@ -371,7 +372,7 @@ const Card = ({ title, icon, children }: { title: string; icon: React.ReactNode;
 );
 
 const miniBtnStyle: React.CSSProperties = {
-  background: '#f1f5f9', color: '#334155', border: '1px solid #e2e8f0', borderRadius: 8,
+  background: '#f5f5f4', color: '#44403c', border: '1px solid #e7e5e4', borderRadius: 8,
   padding: '6px 12px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer',
 };
 
@@ -708,12 +709,12 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
   const buildWorkbook = async () => {
     const wb = new ExcelJS.Workbook();
-    wb.creator = 'MCU Night Run 2026';
+    wb.creator = 'Corrida Flamanhu 2027';
     wb.created = new Date();
 
     // Título que aparece dentro da planilha (faixa de cabeçalho de toda aba) - usa o texto
     // personalizado quando definido, senão o padrão do sistema.
-    const tituloBase = tituloPersonalizado.trim() || 'MCU NIGHT RUN 2026';
+    const tituloBase = tituloPersonalizado.trim() || 'CORRIDA FLAMANHU 2027';
 
     // A foto (quando marcada) sempre vira a 1ª coluna, antes do nome - o resto segue a
     // ordem normal de COLUMN_DEFS.
@@ -739,7 +740,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
     // Logo do sistema, baixada uma única vez e reaproveitada no cabeçalho de toda aba.
     setProgressoLabel('CARREGANDO LOGO...');
-    const logoImagem = await fetchImagemBase64(withBase('/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png'));
+    const logoImagem = await fetchImagemBase64(LOGO_CORRIDA_PNG);
     setProgressoLabel('MONTANDO PLANILHA...');
 
     // Saldo dos bancos: precisa consultar mesmo que só o extrato do Asaas esteja marcado,
@@ -832,15 +833,15 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
     const writeSaldoBancosBlock = (ws: ExcelJS.Worksheet) => {
       ws.addRow([]);
       const tituloRow = ws.addRow(['SALDO DOS BANCOS (no momento da geração)']);
-      tituloRow.font = { name: FONT_FAMILY, bold: true, size: 18, color: { argb: 'FF071A45' } };
+      tituloRow.font = { name: FONT_FAMILY, bold: true, size: 18, color: { argb: 'FF141112' } };
       tituloRow.height = 30;
-      tituloRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } };
+      tituloRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } };
 
       const addLinha = (label: string, ok: boolean, valor: number, erro?: string) => {
         const row = ws.addRow([label, ok ? valor : (erro || 'Indisponível')]);
         row.height = 20;
-        row.getCell(1).font = { name: FONT_FAMILY, bold: true, size: 13, color: { argb: 'FF071A45' } };
-        row.getCell(2).font = { name: FONT_FAMILY, bold: true, size: 13, color: { argb: ok ? 'FF071A45' : 'FFDC2626' } };
+        row.getCell(1).font = { name: FONT_FAMILY, bold: true, size: 13, color: { argb: 'FF141112' } };
+        row.getCell(2).font = { name: FONT_FAMILY, bold: true, size: 13, color: { argb: ok ? 'FF141112' : 'FFDC2626' } };
         if (ok) row.getCell(2).numFmt = '"R$" #,##0.00';
       };
       addLinha('Saldo Cora', !!saldoBancos?.cora?.ok, (saldoBancos?.cora?.balanceCents || 0) / 100, saldoBancos?.cora?.error);
@@ -870,7 +871,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       }
 
       ws.getCell('A2').value = `Período: ${formatDateBR(extratoDataInicio, '')} a ${formatDateBR(extratoDataFim, '')}`;
-      ws.getCell('A2').font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FF64748B' } };
+      ws.getCell('A2').font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FF78716C' } };
 
       const items = [...(bankData.items || [])].sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
       const totalEntradas = items.filter((i: any) => i.type === 'entrada').reduce((s: number, i: any) => s + i.amount, 0);
@@ -879,7 +880,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       const kpiCardsExtrato: { label: string; value: any; numFmt?: string; bg: string; fg: string }[] = [
         { label: 'Entradas', value: totalEntradas / 100, numFmt: '"R$" #,##0.00', bg: 'FFDCFCE7', fg: 'FF166534' },
         { label: 'Saídas', value: totalSaidas / 100, numFmt: '"R$" #,##0.00', bg: 'FFFEE2E2', fg: 'FFB91C1C' },
-        { label: 'Saldo do período', value: (totalEntradas - totalSaidas) / 100, numFmt: '"R$" #,##0.00', bg: 'FFDBEAFE', fg: 'FF071A45' },
+        { label: 'Saldo do período', value: (totalEntradas - totalSaidas) / 100, numFmt: '"R$" #,##0.00', bg: 'FFFBE4E4', fg: 'FF141112' },
       ];
       if (pendingCredit?.ok && (pendingCredit.amountCents || 0) > 0) {
         kpiCardsExtrato.push({ label: 'Total a receber', value: pendingCredit.amountCents / 100, numFmt: '"R$" #,##0.00', bg: 'FFFEF3C7', fg: 'FF92400E' });
@@ -905,7 +906,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           item.amount / 100,
           inscritoDoMovimento(item) || (item.type === 'entrada' ? 'Não identificado' : ''),
         ]);
-        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
         row.getCell(4).numFmt = '"R$" #,##0.00';
         const cores = item.type === 'entrada' ? { bg: 'FFDCFCE7', fg: 'FF166534' } : { bg: 'FFFEE2E2', fg: 'FFB91C1C' };
         row.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: cores.bg } };
@@ -922,7 +923,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         ws.autoFilter = { from: { row: tabelaHeaderLinha, column: 1 }, to: { row: tabelaHeaderLinha + items.length, column: 5 } };
       } else {
         ws.getCell(`A${linha}`).value = 'Nenhuma movimentação no período selecionado.';
-        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FF94A3B8' } };
+        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FFA8A29E' } };
         linha++;
       }
 
@@ -940,7 +941,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       if (pendingCredit?.ok && pendingCredit.items?.length > 0) {
         linha += 2;
         ws.getCell(`A${linha}`).value = 'A RECEBER (cartão de crédito confirmado, ainda não creditado)';
-        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF071A45' } };
+        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF141112' } };
         ws.getRow(linha).height = 26;
         linha++;
 
@@ -960,7 +961,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
             pi.status || '',
             pi.estimatedCreditDate ? formatDateBR(pi.estimatedCreditDate, '') : 'Não informado',
           ]);
-          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
           row.getCell(2).numFmt = '"R$" #,##0.00';
           row.getCell(3).numFmt = '"R$" #,##0.00';
           row.eachCell(cell => {
@@ -1004,7 +1005,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       const totalArrecadado = listaEquipes.reduce((s, e) => s + e.arrecadado, 0);
 
       let linha = writeKpiCards(ws, 3, [
-        { label: 'Equipes', value: totalEquipes, bg: 'FFDBEAFE', fg: 'FF071A45' },
+        { label: 'Equipes', value: totalEquipes, bg: 'FFFBE4E4', fg: 'FF141112' },
         { label: 'Integrantes', value: totalIntegrantes, bg: 'FFDCFCE7', fg: 'FF166534' },
         { label: 'Arrecadado', value: totalArrecadado / 100, numFmt: '"R$" #,##0.00', bg: 'FFFEF3C7', fg: 'FF92400E' },
       ]);
@@ -1012,7 +1013,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
       if (listaEquipes.length === 0) {
         ws.getCell(`A${linha}`).value = 'Nenhuma equipe com inscritos confirmados no momento.';
-        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FF94A3B8' } };
+        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FFA8A29E' } };
         ws.getColumn(1).width = 50;
         return;
       }
@@ -1029,7 +1030,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
       listaEquipes.forEach((equipe, idx) => {
         const row = ws.addRow([equipe.nome, equipe.membros.length, equipe.arrecadado / 100]);
-        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
         row.getCell(3).numFmt = '"R$" #,##0.00';
         row.eachCell(cell => {
           if (idx % 2 === 1) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: STRIPE } };
@@ -1044,7 +1045,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
       linha += 2;
       ws.getCell(`A${linha}`).value = 'DETALHE POR INTEGRANTE';
-      ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF071A45' } };
+      ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF141112' } };
       ws.getRow(linha).height = 26;
       linha++;
 
@@ -1068,7 +1069,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
             STATUS_LABEL[m.paymentStatus] || m.paymentStatus || '',
             Number(m.amount || 0) / 100,
           ]);
-          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
           row.getCell(5).numFmt = '"R$" #,##0.00';
           row.eachCell(cell => {
             if (detalheIdx % 2 === 1) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: STRIPE } };
@@ -1094,7 +1095,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       const totalComKit = regs.filter((r: any) => r.kit).length;
 
       let linha = writeKpiCards(ws, 4, [
-        { label: 'Kits cadastrados', value: kitsOrdenados.length, bg: 'FFDBEAFE', fg: 'FF071A45' },
+        { label: 'Kits cadastrados', value: kitsOrdenados.length, bg: 'FFFBE4E4', fg: 'FF141112' },
         { label: 'Kit ativo', value: kitAtivo?.nome || 'Nenhum', bg: 'FFDCFCE7', fg: 'FF166534' },
         { label: 'Inscritos com kit', value: totalComKit, bg: 'FFFEF3C7', fg: 'FF92400E' },
       ]);
@@ -1122,9 +1123,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           confirmados.length,
           arrecadado / 100,
         ]);
-        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
         row.getCell(6).numFmt = '"R$" #,##0.00';
-        const cores = kit.ativo ? { bg: 'FFDCFCE7', fg: 'FF166534' } : { bg: 'FFF1F5F9', fg: 'FF64748B' };
+        const cores = kit.ativo ? { bg: 'FFDCFCE7', fg: 'FF166534' } : { bg: 'FFF5F5F4', fg: 'FF78716C' };
         row.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: cores.bg } };
         row.getCell(2).font = { name: FONT_FAMILY, bold: true, size: 11, color: { argb: cores.fg } };
         row.getCell(2).alignment = { horizontal: 'center' };
@@ -1146,7 +1147,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       // forçado (ou fora de qualquer kit).
       linha += 2;
       ws.getCell(`A${linha}`).value = 'LOTES VIGENTES (preço-base pra quem não está em kit com preço forçado)';
-      ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF071A45' } };
+      ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF141112' } };
       ws.getRow(linha).height = 26;
       linha++;
 
@@ -1171,7 +1172,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         let idxL = 0;
         adultLots.forEach((lote: any) => {
           const row = ws.addRow(['Adulto / Adolescente', lote.max ?? '—', Number(lote.price || 0) / 100, describeDiscount(lote.discount)]);
-          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
           row.getCell(3).numFmt = '"R$" #,##0.00';
           row.eachCell(cell => {
             if (idxL % 2 === 1) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: STRIPE } };
@@ -1182,14 +1183,14 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         });
         if (infantil) {
           const row = ws.addRow(['Infantil', '—', Number(infantil.price || 0) / 100, describeDiscount(infantil.discount)]);
-          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+          row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
           row.getCell(3).numFmt = '"R$" #,##0.00';
           row.eachCell(cell => { cell.border = THIN_BORDER; });
           linha++;
         }
         if (adultLots.length === 0 && !infantil) {
           ws.getCell(`A${linha}`).value = 'Nenhuma configuração de lote encontrada.';
-          ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FF94A3B8' } };
+          ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FFA8A29E' } };
           linha++;
         }
       } catch (e) {
@@ -1201,7 +1202,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       // Detalhe: quem tem cada kit.
       linha += 2;
       ws.getCell(`A${linha}`).value = 'QUEM TEM CADA KIT';
-      ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF071A45' } };
+      ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, bold: true, size: 15, color: { argb: 'FF141112' } };
       ws.getRow(linha).height = 26;
       linha++;
 
@@ -1224,7 +1225,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           STATUS_LABEL[r.paymentStatus] || r.paymentStatus || '',
           Number(r.amount || 0) / 100,
         ]);
-        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
         row.getCell(5).numFmt = '"R$" #,##0.00';
         row.eachCell(cell => {
           if (idx % 2 === 1) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: STRIPE } };
@@ -1245,7 +1246,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       const totalUsosRelatorio = linhas.reduce((s, l) => s + l.usosNoRelatorio, 0);
 
       let linha = writeKpiCards(ws, 3, [
-        { label: 'Cupons cadastrados', value: linhas.length, bg: 'FFDBEAFE', fg: 'FF071A45' },
+        { label: 'Cupons cadastrados', value: linhas.length, bg: 'FFFBE4E4', fg: 'FF141112' },
         { label: 'Usos no relatório', value: totalUsosRelatorio, bg: 'FFDCFCE7', fg: 'FF166534' },
         { label: 'Desconto gerado', value: totalDescontoRelatorio / 100, numFmt: '"R$" #,##0.00', bg: 'FFFEF3C7', fg: 'FF92400E' },
       ]);
@@ -1253,7 +1254,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
       if (linhas.length === 0) {
         ws.getCell(`A${linha}`).value = 'Nenhum cupom cadastrado.';
-        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FF94A3B8' } };
+        ws.getCell(`A${linha}`).font = { name: FONT_FAMILY, italic: true, size: 11, color: { argb: 'FFA8A29E' } };
         ws.getColumn(1).width = 50;
         return;
       }
@@ -1278,9 +1279,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           c.usosNoRelatorio,
           c.descontoNoRelatorio / 100,
         ]);
-        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF334155' } };
+        row.font = { name: FONT_FAMILY, size: 11, color: { argb: 'FF44403C' } };
         row.getCell(7).numFmt = '"R$" #,##0.00';
-        const cores = c.ativo ? { bg: 'FFDCFCE7', fg: 'FF166534' } : { bg: 'FFF1F5F9', fg: 'FF64748B' };
+        const cores = c.ativo ? { bg: 'FFDCFCE7', fg: 'FF166534' } : { bg: 'FFF5F5F4', fg: 'FF78716C' };
         row.getCell(4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: cores.bg } };
         row.getCell(4).font = { name: FONT_FAMILY, bold: true, size: 11, color: { argb: cores.fg } };
         row.getCell(4).alignment = { horizontal: 'center' };
@@ -1397,15 +1398,15 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
     const writeResumoBlock = (ws: ExcelJS.Worksheet, baseRegs: any[]) => {
       ws.addRow([]);
       const tituloRow = ws.addRow(['RESUMO']);
-      tituloRow.font = { name: FONT_FAMILY,bold: true, size: 18, color: { argb: 'FF071A45' } };
+      tituloRow.font = { name: FONT_FAMILY,bold: true, size: 18, color: { argb: 'FF141112' } };
       tituloRow.height = 30;
-      tituloRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } };
+      tituloRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } };
 
       const addLinha = (label: string, valor: any, numFmt?: string, indent = false) => {
         const row = ws.addRow([indent ? `     ${label}` : label, valor]);
         row.height = 20;
-        row.getCell(1).font = { name: FONT_FAMILY,bold: !indent, color: { argb: 'FF334155' }, size: indent ? 12 : 13 };
-        row.getCell(2).font = { name: FONT_FAMILY,bold: !indent, color: { argb: 'FF071A45' }, size: indent ? 12 : 13 };
+        row.getCell(1).font = { name: FONT_FAMILY,bold: !indent, color: { argb: 'FF44403C' }, size: indent ? 12 : 13 };
+        row.getCell(2).font = { name: FONT_FAMILY,bold: !indent, color: { argb: 'FF141112' }, size: indent ? 12 : 13 };
         if (numFmt) row.getCell(2).numFmt = numFmt;
         return row;
       };
@@ -1436,13 +1437,13 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
     const writeCamisetasBlockTop = (ws: ExcelJS.Worksheet, baseRegs: any[]): number => {
       const counts = getCamisetaCounts(baseRegs, camisetaMap);
       const tituloRow = ws.addRow(['RESUMO DE CAMISETAS']);
-      tituloRow.font = { name: FONT_FAMILY,bold: true, size: 22, color: { argb: 'FF071A45' } };
+      tituloRow.font = { name: FONT_FAMILY,bold: true, size: 22, color: { argb: 'FF141112' } };
       tituloRow.height = 36;
-      tituloRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } };
+      tituloRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } };
 
       if (counts.length === 0) {
         const row = ws.addRow(['Nenhum tamanho de camiseta registrado nos filtros atuais.']);
-        row.getCell(1).font = { name: FONT_FAMILY,italic: true, size: 14, color: { argb: 'FF94A3B8' } };
+        row.getCell(1).font = { name: FONT_FAMILY,italic: true, size: 14, color: { argb: 'FFA8A29E' } };
       } else {
         const headerRow = ws.addRow(['Tamanho', 'Quantidade', 'Categoria']);
         headerRow.height = 30;
@@ -1453,9 +1454,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         counts.forEach((c, idx) => {
           const row = ws.addRow([c.label, c.count, c.categoriaLabel]);
           row.height = 26;
-          row.font = { name: FONT_FAMILY,size: 16, color: { argb: 'FF334155' } };
-          row.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 16, color: { argb: 'FF071A45' } };
-          row.getCell(3).font = { name: FONT_FAMILY,bold: c.isInfantil, size: 16, color: { argb: c.isInfantil ? 'FF166534' : 'FF334155' } };
+          row.font = { name: FONT_FAMILY,size: 16, color: { argb: 'FF44403C' } };
+          row.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 16, color: { argb: 'FF141112' } };
+          row.getCell(3).font = { name: FONT_FAMILY,bold: c.isInfantil, size: 16, color: { argb: c.isInfantil ? 'FF166534' : 'FF44403C' } };
           const fillColor = c.isInfantil ? 'FFDCFCE7' : (idx % 2 === 1 ? STRIPE : null);
           row.eachCell(cell => {
             if (fillColor) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fillColor } };
@@ -1465,8 +1466,8 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
         const totalRow = ws.addRow(['TOTAL', counts.reduce((s, c) => s + c.count, 0)]);
         totalRow.height = 28;
-        totalRow.font = { name: FONT_FAMILY,bold: true, size: 16, color: { argb: 'FF071A45' } };
-        totalRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } }; cell.border = THIN_BORDER; });
+        totalRow.font = { name: FONT_FAMILY,bold: true, size: 16, color: { argb: 'FF141112' } };
+        totalRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } }; cell.border = THIN_BORDER; });
       }
 
       ws.addRow([]); // respiro entre o resumo de camisetas e a tabela de inscritos
@@ -1496,7 +1497,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       addHeaderBand(resumoWs, 9, `${tituloBase} — RESUMO DE INSCRITOS`);
       if (incluirResumo && resumoCampos.dataGeracao) {
         resumoWs.getCell('A2').value = `Gerado em ${new Date().toLocaleString('pt-BR')}`;
-        resumoWs.getCell('A2').font = { name: FONT_FAMILY,italic: true, color: { argb: 'FF64748B' }, size: 11 };
+        resumoWs.getCell('A2').font = { name: FONT_FAMILY,italic: true, color: { argb: 'FF78716C' }, size: 11 };
       }
 
       // Cartões de KPI logo abaixo do cabeçalho - visão rápida de confirmados, pendentes e
@@ -1511,7 +1512,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       }
       if (incluirResumo && resumoCampos.arrecadado) {
         const arrecadadoTotalGeral = sortedRegs.reduce((s, r) => s + Number(r.amount || 0), 0) / 100;
-        kpiCards.push({ label: 'Arrecadado', value: arrecadadoTotalGeral, numFmt: '"R$" #,##0.00', bg: 'FFDBEAFE', fg: 'FF071A45' });
+        kpiCards.push({ label: 'Arrecadado', value: arrecadadoTotalGeral, numFmt: '"R$" #,##0.00', bg: 'FFFBE4E4', fg: 'FF141112' });
       }
       if (incluirSaldoBancos) {
         if (saldoBancos?.cora?.ok) kpiCards.push({ label: 'Saldo Cora', value: (saldoBancos.cora.balanceCents || 0) / 100, numFmt: '"R$" #,##0.00', bg: 'FFE0E7FF', fg: 'FF3730A3' });
@@ -1531,13 +1532,13 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       if (incluirResumoCamisetas) {
         const counts = getCamisetaCounts(sortedRegs, camisetaMap);
         resumoWs.getCell(`A${linha}`).value = 'CAMISETAS';
-        resumoWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,bold: true, size: 20, color: { argb: 'FF071A45' } };
+        resumoWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,bold: true, size: 20, color: { argb: 'FF141112' } };
         resumoWs.getRow(linha).height = 34;
         linha++;
 
         if (counts.length === 0) {
           resumoWs.getCell(`A${linha}`).value = 'Nenhum tamanho de camiseta registrado nos filtros atuais.';
-          resumoWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,italic: true, size: 13, color: { argb: 'FF94A3B8' } };
+          resumoWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,italic: true, size: 13, color: { argb: 'FFA8A29E' } };
           linha++;
         } else {
           resumoWs.getCell(`A${linha}`).value = 'Tamanho';
@@ -1553,9 +1554,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
             resumoWs.getCell(`A${linha}`).value = c.label;
             resumoWs.getCell(`B${linha}`).value = c.count;
             resumoWs.getCell(`C${linha}`).value = c.categoriaLabel;
-            row.font = { name: FONT_FAMILY,size: 15, color: { argb: 'FF334155' } };
-            row.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 15, color: { argb: 'FF071A45' } };
-            row.getCell(3).font = { name: FONT_FAMILY,bold: c.isInfantil, size: 15, color: { argb: c.isInfantil ? 'FF166534' : 'FF334155' } };
+            row.font = { name: FONT_FAMILY,size: 15, color: { argb: 'FF44403C' } };
+            row.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 15, color: { argb: 'FF141112' } };
+            row.getCell(3).font = { name: FONT_FAMILY,bold: c.isInfantil, size: 15, color: { argb: c.isInfantil ? 'FF166534' : 'FF44403C' } };
             row.height = 26;
             const fillColor = c.isInfantil ? 'FFDCFCE7' : (idx % 2 === 1 ? STRIPE : null);
             row.eachCell(cell => {
@@ -1568,9 +1569,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           const totalRow = resumoWs.getRow(linha);
           resumoWs.getCell(`A${linha}`).value = 'TOTAL';
           resumoWs.getCell(`B${linha}`).value = counts.reduce((s, c) => s + c.count, 0);
-          totalRow.font = { name: FONT_FAMILY,bold: true, size: 16, color: { argb: 'FF071A45' } };
+          totalRow.font = { name: FONT_FAMILY,bold: true, size: 16, color: { argb: 'FF141112' } };
           totalRow.height = 28;
-          totalRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } }; cell.border = THIN_BORDER; });
+          totalRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } }; cell.border = THIN_BORDER; });
           resumoWs.getColumn(2).width = Math.max(resumoWs.getColumn(2).width || 0, 20);
           resumoWs.getColumn(3).width = Math.max(resumoWs.getColumn(3).width || 0, 16);
           linha++;
@@ -1581,9 +1582,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       if (incluirResumo) {
         if (resumoCampos.totalGeral) {
           resumoWs.getCell(`A${linha}`).value = 'Total geral de inscrições';
-          resumoWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,bold: true, size: 13, color: { argb: 'FF071A45' } };
+          resumoWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,bold: true, size: 13, color: { argb: 'FF141112' } };
           resumoWs.getCell(`B${linha}`).value = sortedRegs.length;
-          resumoWs.getCell(`B${linha}`).font = { name: FONT_FAMILY,bold: true, size: 13, color: { argb: 'FF071A45' } };
+          resumoWs.getCell(`B${linha}`).font = { name: FONT_FAMILY,bold: true, size: 13, color: { argb: 'FF141112' } };
           resumoWs.getRow(linha).height = 20;
           linha += 2;
         }
@@ -1626,7 +1627,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
             if (mostrarPorStatusExtra) values.push(confirmados, pendentes, vencidos, cancelados);
             if (mostrarArrecadado) values.push(arrecadado);
             const row = resumoWs.addRow(values);
-            row.font = { name: FONT_FAMILY,size: 12, color: { argb: 'FF334155' } };
+            row.font = { name: FONT_FAMILY,size: 12, color: { argb: 'FF44403C' } };
             row.height = 22;
             if (mostrarArrecadado) row.getCell(headers.length).numFmt = '"R$" #,##0.00';
             row.eachCell(cell => {
@@ -1648,7 +1649,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           const totalRow = resumoWs.addRow(totalValues);
           totalRow.font = { name: FONT_FAMILY,bold: true, size: 12.5 };
           totalRow.height = 24;
-          totalRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } }; cell.border = THIN_BORDER; });
+          totalRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } }; cell.border = THIN_BORDER; });
           if (mostrarArrecadado) totalRow.getCell(headers.length).numFmt = '"R$" #,##0.00';
 
           for (let i = 1; i <= headers.length; i++) {
@@ -1661,7 +1662,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               const row = resumoWs.getRow(linha);
               resumoWs.getCell(`A${linha}`).value = s.label;
               resumoWs.getCell(`B${linha}`).value = sortedRegs.filter(r => r.paymentStatus === s.id).length;
-              row.font = { name: FONT_FAMILY,size: 12.5, color: { argb: 'FF334155' } };
+              row.font = { name: FONT_FAMILY,size: 12.5, color: { argb: 'FF44403C' } };
               row.height = 22;
               linha++;
             });
@@ -1672,7 +1673,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
             resumoWs.getCell(`A${linha}`).value = 'Valor total arrecadado';
             resumoWs.getCell(`B${linha}`).value = totalArrecadado;
             resumoWs.getCell(`B${linha}`).numFmt = '"R$" #,##0.00';
-            row.font = { name: FONT_FAMILY,bold: true, size: 12.5, color: { argb: 'FF071A45' } };
+            row.font = { name: FONT_FAMILY,bold: true, size: 12.5, color: { argb: 'FF141112' } };
             row.height = 22;
             linha++;
           }
@@ -1747,15 +1748,15 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           diaWs.getCell(`A${linha}`).value = diaLabelBruto.charAt(0).toUpperCase() + diaLabelBruto.slice(1);
           diaWs.getCell(`D${linha}`).value = `${itensDoDia.length} inscrição(ões)`;
           const diaHeaderRow = diaWs.getRow(linha);
-          diaHeaderRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDBEAFE' } }; });
-          diaHeaderRow.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 14, color: { argb: 'FF071A45' } };
-          diaHeaderRow.getCell(4).font = { name: FONT_FAMILY,bold: true, size: 12, color: { argb: itensDoDia.length > 0 ? 'FF16A34A' : 'FF94A3B8' } };
+          diaHeaderRow.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFBE4E4' } }; });
+          diaHeaderRow.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 14, color: { argb: 'FF141112' } };
+          diaHeaderRow.getCell(4).font = { name: FONT_FAMILY,bold: true, size: 12, color: { argb: itensDoDia.length > 0 ? 'FF16A34A' : 'FFA8A29E' } };
           diaHeaderRow.height = 24;
           linha++;
 
           if (itensDoDia.length === 0) {
             diaWs.getCell(`A${linha}`).value = 'Nenhuma inscrição neste dia.';
-            diaWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,italic: true, size: 11, color: { argb: 'FF94A3B8' } };
+            diaWs.getCell(`A${linha}`).font = { name: FONT_FAMILY,italic: true, size: 11, color: { argb: 'FFA8A29E' } };
             diaWs.getRow(linha).height = 20;
             linha++;
           } else {
@@ -1775,8 +1776,8 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               diaWs.getCell(`B${linha}`).value = formatDateTimeBR(r.createdAt, '');
               diaWs.getCell(`C${linha}`).value = modalidadeMap[r.modalidadeId]?.nome || 'Outra';
               diaWs.getCell(`D${linha}`).value = STATUS_LABEL[r.paymentStatus] || r.paymentStatus || '';
-              row.font = { name: FONT_FAMILY,size: 11, color: { argb: 'FF334155' } };
-              row.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 11, color: { argb: 'FF071A45' } };
+              row.font = { name: FONT_FAMILY,size: 11, color: { argb: 'FF44403C' } };
+              row.getCell(1).font = { name: FONT_FAMILY,bold: true, size: 11, color: { argb: 'FF141112' } };
               row.height = 18;
               if (idx % 2 === 1) row.eachCell(cell => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: STRIPE } }; });
               maiorNome = Math.max(maiorNome, String(r.nome || '').length + 2);
@@ -1803,11 +1804,11 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
   // PDF pra impressão em A4 paisagem (mais colunas cabem legíveis do que em retrato).
   // Cada linha só é desenhada se couber inteira na página atual - senão pula pra próxima
   // ANTES de desenhar, então nenhuma linha ou cabeçalho de seção fica cortado ao meio.
-  const PDF_NAVY: [number, number, number] = [7, 26, 69];
-  const PDF_GREEN: [number, number, number] = [22, 163, 74];
-  const PDF_GRAY: [number, number, number] = [100, 116, 139];
-  const PDF_STRIPE: [number, number, number] = [241, 245, 249];
-  const PDF_LIGHT_BLUE: [number, number, number] = [219, 234, 254];
+  const PDF_NAVY: [number, number, number] = [20, 17, 18];
+  const PDF_RUBRO: [number, number, number] = [224, 27, 34];
+  const PDF_GRAY: [number, number, number] = [120, 113, 108];
+  const PDF_STRIPE: [number, number, number] = [245, 245, 244];
+  const PDF_LIGHT_BLUE: [number, number, number] = [251, 228, 228];
 
   // Pesos relativos de largura por coluna - texto tipicamente longo (nome, e-mail, endereço)
   // ganha mais espaço que texto curto (idade, sexo, status), pra evitar corte/truncamento.
@@ -1825,8 +1826,8 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
   const pdfUpperIfName = (colId: string, val: string) => (PDF_NAME_COLS.has(colId) ? val.toUpperCase() : val);
 
   const buildPdf = async () => {
-    const tituloBase = tituloPersonalizado.trim() || 'MCU NIGHT RUN 2026';
-    const logoImagem = await fetchImagemBase64(withBase('/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png'));
+    const tituloBase = tituloPersonalizado.trim() || 'CORRIDA FLAMANHU 2027';
+    const logoImagem = await fetchImagemBase64(LOGO_CORRIDA_PNG);
     const transitionImagem = await fetchImagemBase64(withBase('/sistema/page-transition.png'));
 
     // Fotos dos inscritos (só se a coluna "Foto" estiver marcada) - baixadas uma vez e
@@ -1872,14 +1873,14 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       docPdf.setFillColor(...PDF_NAVY);
       docPdf.rect(0, 0, pageW, HEADER_BAND_H, 'F');
       if (logoImagem) {
-        const logoH = 9;
+        const logoH = 13;
         const logoW = logoH * LOGO_RATIO;
-        docPdf.addImage(logoImagem.base64, logoImagem.extension.toUpperCase(), marginX, (HEADER_BAND_H - logoH) / 2, logoW, logoH, 'mcu-logo-pdf', 'FAST');
+        docPdf.addImage(logoImagem.base64, logoImagem.extension.toUpperCase(), marginX, (HEADER_BAND_H - logoH) / 2, logoW, logoH, 'logo-corrida-pdf', 'FAST');
       } else {
         docPdf.setFont('helvetica', 'bold');
         docPdf.setFontSize(9);
-        docPdf.setTextColor(...PDF_GREEN);
-        docPdf.text('MCU NIGHT RUN 2026', marginX, HEADER_BAND_H / 2 + 3);
+        docPdf.setTextColor(...PDF_RUBRO);
+        docPdf.text('CORRIDA FLAMANHU 2027', marginX, HEADER_BAND_H / 2 + 3);
       }
       docPdf.setFont('helvetica', 'bold');
       docPdf.setFontSize(10);
@@ -1893,7 +1894,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       const barY = pageH - SECTION_BAR_H - 9;
       docPdf.setFillColor(...PDF_STRIPE);
       docPdf.rect(0, barY, pageW, SECTION_BAR_H, 'F');
-      docPdf.setFillColor(...PDF_GREEN);
+      docPdf.setFillColor(...PDF_RUBRO);
       docPdf.rect(0, barY, 2.4, SECTION_BAR_H, 'F');
       docPdf.setFont('helvetica', 'bold');
       docPdf.setFontSize(8);
@@ -1940,7 +1941,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         docPdf.text(total, pageW - marginX, y + 5, { align: 'right' });
       }
       y += 7;
-      docPdf.setDrawColor(...PDF_GREEN);
+      docPdf.setDrawColor(...PDF_RUBRO);
       docPdf.setLineWidth(0.6);
       docPdf.line(marginX, y, marginX + usableW, y);
       docPdf.setLineWidth(0.2);
@@ -1973,27 +1974,27 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         docPdf.setFillColor(...PDF_NAVY);
         docPdf.rect(0, areaTop, pageW, areaH, 'F');
       }
-      docPdf.setFillColor(...PDF_GREEN);
+      docPdf.setFillColor(...PDF_RUBRO);
       docPdf.rect(0, areaTop, 6, areaH, 'F');
 
       // Numeral gigante e discreto no canto - textura de fundo, sem competir com o título.
       docPdf.setFont('helvetica', 'bold');
       docPdf.setFontSize(95);
-      docPdf.setTextColor(24, 38, 68);
+      docPdf.setTextColor(40, 30, 31);
       docPdf.text(String(sectionIndex).padStart(2, '0'), 12, areaBottom - 4);
 
       const titleX = 48;
       const centerY = areaTop + areaH * 0.4;
 
-      // Duplo chevron (»») verde à esquerda do título, como um ícone de "avançar".
-      docPdf.setFillColor(...PDF_GREEN);
+      // Duplo chevron (»») rubro à esquerda do título, como um ícone de "avançar".
+      docPdf.setFillColor(...PDF_RUBRO);
       docPdf.triangle(22, centerY - 7, 22, centerY + 7, 30, centerY, 'F');
-      docPdf.setFillColor(140, 230, 140);
+      docPdf.setFillColor(255, 120, 126);
       docPdf.triangle(31, centerY - 7, 31, centerY + 7, 39, centerY, 'F');
 
       docPdf.setFont('helvetica', 'bold');
       docPdf.setFontSize(9);
-      docPdf.setTextColor(...PDF_GREEN);
+      docPdf.setTextColor(...PDF_RUBRO);
       docPdf.text(`MÓDULO ${String(sectionIndex).padStart(2, '0')}`, titleX, centerY - 14);
 
       docPdf.setFont('helvetica', 'bold');
@@ -2001,7 +2002,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       docPdf.setTextColor(255, 255, 255);
       docPdf.text(title.toUpperCase(), titleX, centerY + 8);
 
-      docPdf.setDrawColor(...PDF_GREEN);
+      docPdf.setDrawColor(...PDF_RUBRO);
       docPdf.setLineWidth(1.1);
       docPdf.line(titleX, centerY + 16, titleX + 60, centerY + 16);
       docPdf.setLineWidth(0.2);
@@ -2009,7 +2010,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       if (subtitle) {
         docPdf.setFont('helvetica', 'italic');
         docPdf.setFontSize(11);
-        docPdf.setTextColor(210, 219, 236);
+        docPdf.setTextColor(231, 224, 219);
         docPdf.text(subtitle, titleX, centerY + 26);
       }
 
@@ -2257,11 +2258,11 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
       docPdf.setFillColor(...PDF_NAVY);
       docPdf.rect(0, 0, pageW, pageH, 'F');
     }
-    docPdf.setFillColor(...PDF_GREEN);
+    docPdf.setFillColor(...PDF_RUBRO);
     docPdf.rect(0, 0, 6, pageH, 'F');
 
     if (logoImagem) {
-      const coverLogoH = 14;
+      const coverLogoH = 34;
       const coverLogoW = coverLogoH * LOGO_RATIO;
       docPdf.addImage(logoImagem.base64, logoImagem.extension.toUpperCase(), 22, 18, coverLogoW, coverLogoH, undefined, 'FAST');
     }
@@ -2273,7 +2274,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
     const coverMaxTitleW = pageW * 0.5 - coverTitleX;
     docPdf.setFont('helvetica', 'bold');
     docPdf.setFontSize(10);
-    docPdf.setTextColor(...PDF_GREEN);
+    docPdf.setTextColor(...PDF_RUBRO);
     docPdf.text('RELATÓRIO OPERACIONAL', coverTitleX, coverCenterY - 20);
 
     docPdf.setFont('helvetica', 'bold');
@@ -2286,14 +2287,14 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
     docPdf.setTextColor(255, 255, 255);
     docPdf.text(tituloBase, coverTitleX, coverCenterY);
 
-    docPdf.setDrawColor(...PDF_GREEN);
+    docPdf.setDrawColor(...PDF_RUBRO);
     docPdf.setLineWidth(1.3);
     docPdf.line(coverTitleX, coverCenterY + 10, coverTitleX + 70, coverCenterY + 10);
     docPdf.setLineWidth(0.2);
 
     docPdf.setFont('helvetica', 'normal');
     docPdf.setFontSize(9);
-    docPdf.setTextColor(160, 175, 205);
+    docPdf.setTextColor(167, 159, 155);
     docPdf.text(`Gerado em ${new Date().toLocaleString('pt-BR')}`, coverTitleX, coverCenterY + 22);
 
     newPage();
@@ -2592,7 +2593,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
     try {
       const nomeBase = nomeArquivo.trim()
         ? nomeArquivo.trim().replace(/[\\/:*?"<>|]+/g, '-').replace(/\.(xlsx|pdf)$/i, '')
-        : `planilha-inscritos-mcu-${new Date().toISOString().slice(0, 10)}`;
+        : `planilha-inscritos-flamanhu-${new Date().toISOString().slice(0, 10)}`;
       if (formatoSaida === 'pdf') {
         const docPdf = await buildPdf();
         docPdf.save(`${nomeBase}.pdf`);
@@ -2620,25 +2621,25 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
 
   return (
     <div style={{ animation: 'fadeIn .3s ease-out' }}>
-      <div style={{ background: '#fff', borderRadius: 16, padding: '20px 24px', border: '1px solid #e2e8f0', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+      <div style={{ background: '#fff', borderRadius: 16, padding: '20px 24px', border: '1px solid #e7e5e4', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{ width: 44, height: 44, borderRadius: 12, background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <FileSpreadsheet size={22} />
           </div>
           <div>
-            <div style={{ fontWeight: 900, color: '#071A45', fontSize: '1rem' }}>Gerador de Planilhas</div>
-            <div style={{ color: '#64748b', fontSize: '0.8rem' }}>Configure os dados, filtros e o nível de detalhe da planilha antes de exportar.</div>
+            <div style={{ fontWeight: 900, color: '#141112', fontSize: '1rem' }}>Gerador de Planilhas</div>
+            <div style={{ color: '#78716c', fontSize: '0.8rem' }}>Configure os dados, filtros e o nível de detalhe da planilha antes de exportar.</div>
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#071A45', lineHeight: 1 }}>{sortedRegs.length}</div>
-          <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>inscrições no relatório</div>
+          <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#141112', lineHeight: 1 }}>{sortedRegs.length}</div>
+          <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>inscrições no relatório</div>
         </div>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 16, padding: '18px 22px', border: '1px solid #e2e8f0', marginBottom: 20 }}>
+      <div style={{ background: '#fff', borderRadius: 16, padding: '18px 22px', border: '1px solid #e7e5e4', marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, marginBottom: showSalvarModelo || modelos.length > 0 ? 12 : 0 }}>
-          <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#071A45', display: 'flex', alignItems: 'center', gap: 8, textTransform: 'uppercase', letterSpacing: 0.3, margin: 0 }}>
+          <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#141112', display: 'flex', alignItems: 'center', gap: 8, textTransform: 'uppercase', letterSpacing: 0.3, margin: 0 }}>
             <Bookmark size={14} /> Modelos de planilha
           </h3>
           {!showSalvarModelo && (
@@ -2661,20 +2662,20 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onKeyDown={e => { if (e.key === 'Enter') salvarModeloAtual(); }}
               placeholder='Ex: "Só confirmados adulto" ou "Kids resumido"'
               autoFocus
-              style={{ flex: 1, minWidth: 220, padding: '9px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+              style={{ flex: 1, minWidth: 220, padding: '9px 12px', borderRadius: 8, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
             />
             <button
               type="button"
               onClick={salvarModeloAtual}
               disabled={salvandoModelo}
-              style={{ background: '#071A45', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 16px', fontSize: '0.75rem', fontWeight: 800, cursor: salvandoModelo ? 'wait' : 'pointer' }}
+              style={{ background: '#141112', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 16px', fontSize: '0.75rem', fontWeight: 800, cursor: salvandoModelo ? 'wait' : 'pointer' }}
             >
               {salvandoModelo ? 'SALVANDO...' : 'SALVAR'}
             </button>
             <button
               type="button"
               onClick={() => { setShowSalvarModelo(false); setNovoModeloNome(''); }}
-              style={{ background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+              style={{ background: '#f5f5f4', color: '#78716c', border: 'none', borderRadius: 8, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
             >
               <X size={16} />
             </button>
@@ -2682,18 +2683,18 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         )}
 
         {loadingModelos ? (
-          <p style={{ color: '#94a3b8', fontSize: '0.78rem' }}>Carregando modelos...</p>
+          <p style={{ color: '#a8a29e', fontSize: '0.78rem' }}>Carregando modelos...</p>
         ) : modelos.length === 0 ? (
-          !showSalvarModelo && <p style={{ color: '#94a3b8', fontSize: '0.78rem' }}>Nenhum modelo salvo ainda. Configure os filtros e colunas abaixo e salve como modelo para reaplicar depois.</p>
+          !showSalvarModelo && <p style={{ color: '#a8a29e', fontSize: '0.78rem' }}>Nenhum modelo salvo ainda. Configure os filtros e colunas abaixo e salve como modelo para reaplicar depois.</p>
         ) : (
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {modelos.map(modelo => (
-              <div key={modelo.id} style={{ display: 'flex', alignItems: 'center', gap: 2, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10 }}>
+              <div key={modelo.id} style={{ display: 'flex', alignItems: 'center', gap: 2, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 10 }}>
                 <button
                   type="button"
                   onClick={() => aplicarModelo(modelo)}
                   title={`Aplicar modelo "${modelo.nome}"`}
-                  style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', padding: '9px 6px 9px 14px', fontSize: '0.8rem', fontWeight: 700, color: '#071A45', cursor: 'pointer' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', padding: '9px 6px 9px 14px', fontSize: '0.8rem', fontWeight: 700, color: '#141112', cursor: 'pointer' }}
                 >
                   <FileSpreadsheet size={14} color="#2563eb" /> {modelo.nome}
                 </button>
@@ -2701,9 +2702,9 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
                   type="button"
                   onClick={() => excluirModelo(modelo)}
                   title={`Excluir modelo "${modelo.nome}"`}
-                  style={{ background: 'none', border: 'none', padding: '9px 12px 9px 4px', color: '#cbd5e1', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                  style={{ background: 'none', border: 'none', padding: '9px 12px 9px 4px', color: '#d6d3d1', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#ef4444'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = '#cbd5e1'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#d6d3d1'; }}
                 >
                   <Trash2 size={14} />
                 </button>
@@ -2717,26 +2718,26 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <Card title="Título e nome do arquivo" icon={<Type size={14} />}>
             <div style={{ marginBottom: 14 }}>
-              <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Título dentro da planilha</label>
+              <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Título dentro da planilha</label>
               <input
                 type="text"
                 value={tituloPersonalizado}
                 onChange={e => setTituloPersonalizado(e.target.value)}
-                placeholder="MCU NIGHT RUN 2026 (padrão)"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+                placeholder="CORRIDA FLAMANHU 2027 (padrão)"
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
               />
-              <p style={{ color: '#94a3b8', fontSize: '0.7rem', marginTop: 6 }}>Aparece na faixa de cabeçalho de toda aba, ao lado da logo. Deixe em branco para usar o padrão.</p>
+              <p style={{ color: '#a8a29e', fontSize: '0.7rem', marginTop: 6 }}>Aparece na faixa de cabeçalho de toda aba, ao lado da logo. Deixe em branco para usar o padrão.</p>
             </div>
             <div>
-              <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Nome do arquivo</label>
+              <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Nome do arquivo</label>
               <input
                 type="text"
                 value={nomeArquivo}
                 onChange={e => setNomeArquivo(e.target.value)}
-                placeholder={`planilha-inscritos-mcu-${toInputDate(new Date())} (padrão)`}
-                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+                placeholder={`planilha-inscritos-flamanhu-${toInputDate(new Date())} (padrão)`}
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
               />
-              <p style={{ color: '#94a3b8', fontSize: '0.7rem', marginTop: 6 }}>Sem precisar digitar ".xlsx" - isso é adicionado automaticamente.</p>
+              <p style={{ color: '#a8a29e', fontSize: '0.7rem', marginTop: 6 }}>Sem precisar digitar ".xlsx" - isso é adicionado automaticamente.</p>
             </div>
           </Card>
 
@@ -2748,12 +2749,12 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               <button style={miniBtnStyle} onClick={() => selecionarModalidades('nenhuma')}>Nenhuma</button>
             </div>
             <div style={{ maxHeight: 220, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2, paddingRight: 4 }}>
-              {modalidades.length === 0 && <p style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Nenhuma modalidade cadastrada.</p>}
+              {modalidades.length === 0 && <p style={{ color: '#a8a29e', fontSize: '0.8rem' }}>Nenhuma modalidade cadastrada.</p>}
               {modalidades.map(mod => (
-                <label key={mod.id} onClick={() => toggleModalidade(mod.id)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 4px', borderRadius: 8, cursor: 'pointer', fontSize: '0.82rem', color: '#334155', fontWeight: 600 }}>
-                  {selectedModalidadeIds.has(mod.id) ? <CheckSquare size={16} color="#071A45" /> : <Square size={16} color="#cbd5e1" />}
+                <label key={mod.id} onClick={() => toggleModalidade(mod.id)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 4px', borderRadius: 8, cursor: 'pointer', fontSize: '0.82rem', color: '#44403c', fontWeight: 600 }}>
+                  {selectedModalidadeIds.has(mod.id) ? <CheckSquare size={16} color="#141112" /> : <Square size={16} color="#d6d3d1" />}
                   {mod.nome}{mod.distancia ? ` — ${mod.distancia}` : ''}
-                  <span style={{ marginLeft: 'auto', fontSize: '0.65rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase' }}>{mod.categoria === 'infantil' ? 'Infantil' : 'Adulto'}</span>
+                  <span style={{ marginLeft: 'auto', fontSize: '0.65rem', color: '#a8a29e', fontWeight: 800, textTransform: 'uppercase' }}>{mod.categoria === 'infantil' ? 'Infantil' : 'Adulto'}</span>
                 </label>
               ))}
             </div>
@@ -2762,15 +2763,15 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           <Card title="Faixa etária" icon={<SlidersHorizontal size={14} />}>
             <div style={{ display: 'flex', gap: 12 }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Idade mínima</label>
-                <input type="number" min={0} value={idadeMin} onChange={e => setIdadeMin(e.target.value)} placeholder="Sem mínimo" style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 600 }} />
+                <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Idade mínima</label>
+                <input type="number" min={0} value={idadeMin} onChange={e => setIdadeMin(e.target.value)} placeholder="Sem mínimo" style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.85rem', fontWeight: 600 }} />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Idade máxima</label>
-                <input type="number" min={0} value={idadeMax} onChange={e => setIdadeMax(e.target.value)} placeholder="Sem máximo" style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 600 }} />
+                <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Idade máxima</label>
+                <input type="number" min={0} value={idadeMax} onChange={e => setIdadeMax(e.target.value)} placeholder="Sem máximo" style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.85rem', fontWeight: 600 }} />
               </div>
             </div>
-            <p style={{ color: '#94a3b8', fontSize: '0.72rem', marginTop: 10 }}>Deixe em branco para não filtrar por idade. Calculada a partir da data de nascimento na data de hoje.</p>
+            <p style={{ color: '#a8a29e', fontSize: '0.72rem', marginTop: 10 }}>Deixe em branco para não filtrar por idade. Calculada a partir da data de nascimento na data de hoje.</p>
           </Card>
 
           <Card title="Status do pagamento" icon={<Filter size={14} />}>
@@ -2789,12 +2790,12 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
                     style={{
                       display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
                       padding: '10px 14px', borderRadius: 10, cursor: 'pointer',
-                      border: `1.5px solid ${ativo ? s.color : '#e2e8f0'}`,
+                      border: `1.5px solid ${ativo ? s.color : '#e7e5e4'}`,
                       background: ativo ? `${s.color}14` : '#fff',
                     }}
                   >
-                    {ativo ? <CheckSquare size={18} color={s.color} /> : <Square size={18} color="#cbd5e1" />}
-                    <span style={{ flex: 1, fontWeight: 700, fontSize: '0.85rem', color: ativo ? '#071A45' : '#64748b' }}>{s.label}</span>
+                    {ativo ? <CheckSquare size={18} color={s.color} /> : <Square size={18} color="#d6d3d1" />}
+                    <span style={{ flex: 1, fontWeight: 700, fontSize: '0.85rem', color: ativo ? '#141112' : '#78716c' }}>{s.label}</span>
                     <span style={{ fontWeight: 900, fontSize: '0.78rem', color: s.color, background: '#fff', borderRadius: 999, padding: '2px 9px', border: `1px solid ${s.color}55` }}>
                       {statusCounts[s.id] ?? 0}
                     </span>
@@ -2808,7 +2809,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           </Card>
 
           <Card title="Ordenação" icon={<Rows3 size={14} />}>
-            <select value={ordenarPor} onChange={e => setOrdenarPor(e.target.value as any)} style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 600 }}>
+            <select value={ordenarPor} onChange={e => setOrdenarPor(e.target.value as any)} style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.85rem', fontWeight: 600 }}>
               <option value="nome">Nome (A-Z)</option>
               <option value="modalidade">Modalidade e depois nome</option>
               <option value="dataInscricao">Data de inscrição (mais antiga primeiro)</option>
@@ -2821,39 +2822,39 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirListaPorDia(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer', marginBottom: incluirListaPorDia ? 14 : 0 }}
             >
-              {incluirListaPorDia ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirListaPorDia ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir lista dividida por dia</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir lista dividida por dia</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Aba própria "Por Dia": um bloco por data, com todos os inscritos daquele dia e o horário exato da inscrição. Dias sem inscrição aparecem também, avisando que não houve.
                 </div>
               </div>
             </label>
             {incluirListaPorDia && (
-              <div style={{ borderLeft: '2px solid #6BFF2A', paddingLeft: 10 }}>
+              <div style={{ borderLeft: '2px solid #e01b22', paddingLeft: 10 }}>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
                   <button type="button" style={miniBtnStyle} onClick={usarPeriodoCompleto}>Período completo (1ª inscrição até hoje)</button>
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                   <div style={{ flex: 1 }}>
-                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>De</label>
+                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>De</label>
                     <input
                       type="date"
                       value={dataInicioLista}
                       max={dataFimLista || undefined}
                       onChange={e => setDataInicioLista(e.target.value)}
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
                     />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Até</label>
+                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Até</label>
                     <input
                       type="date"
                       value={dataFimLista}
                       min={dataInicioLista || undefined}
                       max={toInputDate(new Date())}
                       onChange={e => setDataFimLista(e.target.value)}
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
                     />
                   </div>
                 </div>
@@ -2861,7 +2862,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
                   const dias = Math.round((new Date(`${dataFimLista}T00:00:00`).getTime() - new Date(`${dataInicioLista}T00:00:00`).getTime()) / 86400000) + 1;
                   if (dias <= 0) return <p style={{ color: '#dc2626', fontSize: '0.72rem', marginTop: 10, fontWeight: 700 }}>A data "Até" precisa ser igual ou depois da data "De".</p>;
                   return (
-                    <p style={{ color: dias > 180 ? '#ca8a04' : '#94a3b8', fontSize: '0.72rem', marginTop: 10 }}>
+                    <p style={{ color: dias > 180 ? '#ca8a04' : '#a8a29e', fontSize: '0.72rem', marginTop: 10 }}>
                       {dias} dia(s) no período{dias > 180 ? ' — período longo, a planilha pode ficar grande.' : '.'}
                     </p>
                   );
@@ -2875,10 +2876,10 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirEquipes(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirEquipes ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirEquipes ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir página de Equipes</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir página de Equipes</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Aba própria "Equipes": resumo por equipe (integrantes e arrecadado) + detalhe de cada integrante. Só entram inscritos confirmados marcados como parte de equipe.
                 </div>
               </div>
@@ -2890,10 +2891,10 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirKitsInfo(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirKitsInfo ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirKitsInfo ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir página de Kits</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir página de Kits</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Aba própria "Kits": cada kit cadastrado (ativo, preço forçado ou não), quantos inscritos e quanto arrecadou cada um, a tabela de lotes vigente e o detalhe de quem tem cada kit.
                 </div>
               </div>
@@ -2905,10 +2906,10 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirCupons(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirCupons ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirCupons ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir resumo de cupons</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir resumo de cupons</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Cada cupom cadastrado, quantos usos teve (de sempre) e quanto desconto gerou dentro do recorte atual do relatório.
                 </div>
               </div>
@@ -2920,25 +2921,25 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirSaldoBancos(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirSaldoBancos ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirSaldoBancos ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir saldo atual dos bancos</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir saldo atual dos bancos</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Saldo da Cora e do Asaas consultado na hora, no momento em que a planilha for gerada.
                 </div>
               </div>
             </label>
 
-            <div style={{ borderTop: '1px solid #f1f5f9', margin: '14px 0 12px' }} />
+            <div style={{ borderTop: '1px solid #f5f5f4', margin: '14px 0 12px' }} />
 
             <label
               onClick={() => setIncluirExtratoCora(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirExtratoCora ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirExtratoCora ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir extrato da Cora</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>Aba própria "Extrato Cora" com entradas e saídas do período.</div>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir extrato da Cora</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>Aba própria "Extrato Cora" com entradas e saídas do período.</div>
               </div>
             </label>
 
@@ -2946,44 +2947,44 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirExtratoAsaas(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirExtratoAsaas ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirExtratoAsaas ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir extrato do Asaas</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir extrato do Asaas</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Aba própria "Extrato Asaas" com entradas e saídas do período + os pagamentos de cartão já confirmados que ainda vão cair na conta (com a previsão de quando caem).
                 </div>
               </div>
             </label>
 
             {(incluirExtratoCora || incluirExtratoAsaas) && (
-              <div style={{ borderLeft: '2px solid #6BFF2A', paddingLeft: 10, marginTop: 12 }}>
+              <div style={{ borderLeft: '2px solid #e01b22', paddingLeft: 10, marginTop: 12 }}>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
                   <button type="button" style={miniBtnStyle} onClick={usarUltimos90Dias}>Últimos 90 dias</button>
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                   <div style={{ flex: 1 }}>
-                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>De</label>
+                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>De</label>
                     <input
                       type="date"
                       value={extratoDataInicio}
                       max={extratoDataFim || undefined}
                       onChange={e => setExtratoDataInicio(e.target.value)}
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
                     />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Até</label>
+                    <label style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Até</label>
                     <input
                       type="date"
                       value={extratoDataFim}
                       min={extratoDataInicio || undefined}
                       max={toInputDate(new Date())}
                       onChange={e => setExtratoDataFim(e.target.value)}
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.82rem', fontWeight: 600 }}
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontSize: '0.82rem', fontWeight: 600 }}
                     />
                   </div>
                 </div>
-                <p style={{ color: '#94a3b8', fontSize: '0.7rem', marginTop: 10 }}>
+                <p style={{ color: '#a8a29e', fontSize: '0.7rem', marginTop: 10 }}>
                   Consulta os bancos na hora - pode levar alguns segundos a mais pra gerar a planilha.
                 </p>
               </div>
@@ -2996,26 +2997,26 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <label
                 onClick={() => setComplexidade('simples')}
-                style={{ display: 'flex', gap: 12, padding: 14, borderRadius: 12, border: `2px solid ${complexidade === 'simples' ? '#071A45' : '#e2e8f0'}`, cursor: 'pointer', background: complexidade === 'simples' ? '#f8fafc' : '#fff' }}
+                style={{ display: 'flex', gap: 12, padding: 14, borderRadius: 12, border: `2px solid ${complexidade === 'simples' ? '#141112' : '#e7e5e4'}`, cursor: 'pointer', background: complexidade === 'simples' ? '#fafaf9' : '#fff' }}
               >
-                <div style={{ width: 18, height: 18, borderRadius: 9, border: '2px solid #071A45', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
-                  {complexidade === 'simples' && <div style={{ width: 9, height: 9, borderRadius: 5, background: '#071A45' }} />}
+                <div style={{ width: 18, height: 18, borderRadius: 9, border: '2px solid #141112', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                  {complexidade === 'simples' && <div style={{ width: 9, height: 9, borderRadius: 5, background: '#141112' }} />}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Simples</div>
-                  <div style={{ color: '#64748b', fontSize: '0.75rem', marginTop: 2 }}>Uma única aba, tabela direta com todos os inscritos filtrados. Rápida de ler e importar em outros sistemas.</div>
+                  <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Simples</div>
+                  <div style={{ color: '#78716c', fontSize: '0.75rem', marginTop: 2 }}>Uma única aba, tabela direta com todos os inscritos filtrados. Rápida de ler e importar em outros sistemas.</div>
                 </div>
               </label>
               <label
                 onClick={() => setComplexidade('organizada')}
-                style={{ display: 'flex', gap: 12, padding: 14, borderRadius: 12, border: `2px solid ${complexidade === 'organizada' ? '#071A45' : '#e2e8f0'}`, cursor: 'pointer', background: complexidade === 'organizada' ? '#f8fafc' : '#fff' }}
+                style={{ display: 'flex', gap: 12, padding: 14, borderRadius: 12, border: `2px solid ${complexidade === 'organizada' ? '#141112' : '#e7e5e4'}`, cursor: 'pointer', background: complexidade === 'organizada' ? '#fafaf9' : '#fff' }}
               >
-                <div style={{ width: 18, height: 18, borderRadius: 9, border: '2px solid #071A45', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
-                  {complexidade === 'organizada' && <div style={{ width: 9, height: 9, borderRadius: 5, background: '#071A45' }} />}
+                <div style={{ width: 18, height: 18, borderRadius: 9, border: '2px solid #141112', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                  {complexidade === 'organizada' && <div style={{ width: 9, height: 9, borderRadius: 5, background: '#141112' }} />}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Organizada</div>
-                  <div style={{ color: '#64748b', fontSize: '0.75rem', marginTop: 2 }}>Aba de resumo com totais por modalidade + uma aba separada para cada modalidade, com cabeçalho colorido e linhas zebradas.</div>
+                  <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Organizada</div>
+                  <div style={{ color: '#78716c', fontSize: '0.75rem', marginTop: 2 }}>Aba de resumo com totais por modalidade + uma aba separada para cada modalidade, com cabeçalho colorido e linhas zebradas.</div>
                 </div>
               </label>
             </div>
@@ -3026,10 +3027,10 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               onClick={() => setIncluirResumo(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer', marginBottom: incluirResumo ? 12 : 0 }}
             >
-              {incluirResumo ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirResumo ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir resumo</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir resumo</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   {complexidade === 'simples'
                     ? 'Aparece abaixo da lista de nomes, na mesma aba.'
                     : 'Vira a aba "Resumo", além das abas por modalidade.'}
@@ -3037,33 +3038,33 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               </div>
             </label>
             {incluirResumo && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2, borderLeft: '2px solid #6BFF2A', paddingLeft: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2, borderLeft: '2px solid #e01b22', paddingLeft: 8 }}>
                 {RESUMO_FIELD_DEFS.map(f => {
                   const ativo = !!resumoCampos[f.id];
                   return (
                     <label
                       key={f.id}
                       onClick={() => toggleResumoCampo(f.id)}
-                      style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 8px', borderRadius: 8, cursor: 'pointer', background: ativo ? '#f8fafc' : 'transparent' }}
+                      style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 8px', borderRadius: 8, cursor: 'pointer', background: ativo ? '#fafaf9' : 'transparent' }}
                     >
-                      {ativo ? <CheckSquare size={16} color="#071A45" /> : <Square size={16} color="#cbd5e1" />}
-                      <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>{f.label}</span>
+                      {ativo ? <CheckSquare size={16} color="#141112" /> : <Square size={16} color="#d6d3d1" />}
+                      <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#44403c' }}>{f.label}</span>
                     </label>
                   );
                 })}
               </div>
             )}
 
-            <div style={{ borderTop: '1px solid #f1f5f9', margin: '14px 0 12px' }} />
+            <div style={{ borderTop: '1px solid #f5f5f4', margin: '14px 0 12px' }} />
 
             <label
               onClick={() => setIncluirResumoCamisetas(v => !v)}
               style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 4px', cursor: 'pointer' }}
             >
-              {incluirResumoCamisetas ? <CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+              {incluirResumoCamisetas ? <CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
               <div>
-                <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Incluir resumo de camisetas</div>
-                <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Incluir resumo de camisetas</div>
+                <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                   Quantos inscritos por tamanho de camiseta (independente do resumo geral acima).
                 </div>
               </div>
@@ -3083,7 +3084,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
                 return (
                 <div key={grupo}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: '0.68rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.4 }}>{grupo}</span>
+                    <span style={{ fontSize: '0.68rem', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: 0.4 }}>{grupo}</span>
                     <button
                       type="button"
                       onClick={() => toggleGrupoColunas(cols, !todasMarcadas)}
@@ -3092,7 +3093,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
                       {todasMarcadas ? 'Desmarcar' : 'Marcar todas'}
                     </button>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 2, borderLeft: `2px solid ${algumaMarcada ? '#6BFF2A' : '#e2e8f0'}`, paddingLeft: 8 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 2, borderLeft: `2px solid ${algumaMarcada ? '#e01b22' : '#e7e5e4'}`, paddingLeft: 8 }}>
                     {cols.map(c => {
                       const ativo = !!colunas[c.id];
                       return (
@@ -3102,17 +3103,17 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
                           style={{
                             display: 'flex', alignItems: 'center', gap: 8, padding: '7px 8px', borderRadius: 8,
                             cursor: c.always ? 'not-allowed' : 'pointer',
-                            background: ativo ? '#f8fafc' : 'transparent',
+                            background: ativo ? '#fafaf9' : 'transparent',
                           }}
                         >
-                          {ativo ? <CheckSquare size={16} color="#071A45" /> : <Square size={16} color="#cbd5e1" />}
+                          {ativo ? <CheckSquare size={16} color="#141112" /> : <Square size={16} color="#d6d3d1" />}
                           <div>
-                            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>{c.label}</span>
+                            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#44403c' }}>{c.label}</span>
                             {c.id === 'foto' && ativo && (
-                              <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, marginTop: 1 }}>Baixa e embute a imagem real - deixa a geração mais lenta com muitos inscritos.</div>
+                              <div style={{ fontSize: '0.65rem', color: '#a8a29e', fontWeight: 600, marginTop: 1 }}>Baixa e embute a imagem real - deixa a geração mais lenta com muitos inscritos.</div>
                             )}
                           </div>
-                          {c.always && <span style={{ marginLeft: 'auto', fontSize: '0.6rem', color: '#94a3b8', fontWeight: 800 }}>SEMPRE</span>}
+                          {c.always && <span style={{ marginLeft: 'auto', fontSize: '0.6rem', color: '#a8a29e', fontWeight: 800 }}>SEMPRE</span>}
                         </label>
                       );
                     })}
@@ -3124,7 +3125,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
         </div>
       </div>
 
-      <div style={{ marginTop: 20, background: '#071A45', borderRadius: 16, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+      <div style={{ marginTop: 20, background: '#141112', borderRadius: 16, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
         <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.82rem', fontWeight: 600 }}>
           {sortedRegs.length === 0
             ? 'Nenhuma inscrição corresponde aos filtros atuais.'
@@ -3138,7 +3139,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               style={{
                 padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 800, fontSize: '0.75rem',
                 background: formatoSaida === 'planilha' ? '#fff' : 'transparent',
-                color: formatoSaida === 'planilha' ? '#071A45' : 'rgba(255,255,255,0.65)',
+                color: formatoSaida === 'planilha' ? '#141112' : 'rgba(255,255,255,0.65)',
               }}
             >
               PLANILHA (.XLSX)
@@ -3149,7 +3150,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
               style={{
                 padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 800, fontSize: '0.75rem',
                 background: formatoSaida === 'pdf' ? '#fff' : 'transparent',
-                color: formatoSaida === 'pdf' ? '#071A45' : 'rgba(255,255,255,0.65)',
+                color: formatoSaida === 'pdf' ? '#141112' : 'rgba(255,255,255,0.65)',
               }}
             >
               PDF (A4)
@@ -3158,7 +3159,7 @@ export default function PlanilhaGeradorTab({ modalidades, regs }: { modalidades:
           <button
             onClick={handleGerar}
             disabled={gerando || sortedRegs.length === 0}
-            style={{ background: '#6BFF2A', color: '#071A45', border: 'none', padding: '14px 28px', borderRadius: 12, fontWeight: 900, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 10, cursor: gerando ? 'wait' : 'pointer', opacity: gerando || sortedRegs.length === 0 ? 0.6 : 1 }}
+            style={{ background: '#e01b22', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: 12, fontWeight: 900, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 10, cursor: gerando ? 'wait' : 'pointer', opacity: gerando || sortedRegs.length === 0 ? 0.6 : 1 }}
           >
             <Download size={18} />
             {gerando ? (progressoLabel || 'GERANDO...') : formatoSaida === 'pdf' ? 'GERAR E BAIXAR PDF' : 'GERAR E BAIXAR PLANILHA (.xlsx)'}

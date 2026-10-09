@@ -127,7 +127,7 @@ export default function AdminModalidades() {
       titleCanvas.height = 130;
       titleCtx.font = '90px Anton';
       titleCtx.setTransform(1, 0, -titleSkew, 1, titlePadding, 92);
-      titleCtx.fillStyle = 'rgb(7, 26, 69)';
+      titleCtx.fillStyle = 'rgb(20, 17, 18)';
       titleCtx.textBaseline = 'alphabetic';
       titleCtx.fillText(titleText, 0, 0);
       const titleImgData = titleCanvas.toDataURL('image/png');
@@ -143,8 +143,8 @@ export default function AdminModalidades() {
       const headerAspect = 2172 / 724;
       const headerW = pageW;
       const headerH = headerW / headerAspect;
-      const NAVY_PDF: [number, number, number] = [7, 26, 69];
-      const STRIPE_PDF: [number, number, number] = [241, 245, 249];
+      const NAVY_PDF: [number, number, number] = [20, 17, 18];
+      const STRIPE_PDF: [number, number, number] = [245, 245, 244];
 
       const drawHeader = () => {
         try {
@@ -283,7 +283,7 @@ export default function AdminModalidades() {
       titleCanvas.height = 130;
       titleCtx.font = '90px Anton';
       titleCtx.setTransform(1, 0, -titleSkew, 1, titlePadding, 92);
-      titleCtx.fillStyle = 'rgb(7, 26, 69)';
+      titleCtx.fillStyle = 'rgb(20, 17, 18)';
       titleCtx.textBaseline = 'alphabetic';
       titleCtx.fillText(tituloBase, 0, 0);
       const titleImgData = titleCanvas.toDataURL('image/png');
@@ -299,8 +299,8 @@ export default function AdminModalidades() {
       const headerAspect = 2172 / 724;
       const headerW = pageW;
       const headerH = headerW / headerAspect;
-      const NAVY_PDF: [number, number, number] = [7, 26, 69];
-      const STRIPE_PDF: [number, number, number] = [241, 245, 249];
+      const NAVY_PDF: [number, number, number] = [20, 17, 18];
+      const STRIPE_PDF: [number, number, number] = [245, 245, 244];
 
       const drawHeader = () => {
         try {
@@ -456,12 +456,12 @@ export default function AdminModalidades() {
   if (loading && modalidades.length === 0) return <AdminPageSkeleton variant="table" />;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Modalidades</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Gerencie as distâncias e tipos de prova disponíveis.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Modalidades</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Gerencie as distâncias e tipos de prova disponíveis.</p>
         </div>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <button
@@ -475,14 +475,14 @@ export default function AdminModalidades() {
           <button
             onClick={() => generateCategoriaPdf('infantil')}
             disabled={generatingCategoria === 'infantil'}
-            style={{ background: '#6BFF2A', color: '#071A45', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(107,255,42,0.25)' }}
+            style={{ background: '#e01b22', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(224, 27, 34,0.25)' }}
           >
             <FileText size={18} />
             {generatingCategoria === 'infantil' ? 'GERANDO...' : 'RESUMO MODALIDADES INFANTIS (PDF)'}
           </button>
           <button
             onClick={() => handleOpenModal()}
-            style={{ background: '#071A45', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(7, 26, 69, 0.2)' }}
+            style={{ background: '#141112', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(20, 17, 18, 0.2)' }}
           >
             <Plus size={18} />
             Nova Modalidade
@@ -491,14 +491,14 @@ export default function AdminModalidades() {
       </div>
 
       {/* Abas */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20, background: '#e2e8f0', padding: 5, borderRadius: 12, width: 'fit-content' }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20, background: '#e7e5e4', padding: 5, borderRadius: 12, width: 'fit-content' }}>
         <button
           onClick={() => setActiveTab('modalidades')}
           style={{
             display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 9, border: 'none',
             fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer',
             background: activeTab === 'modalidades' ? '#fff' : 'transparent',
-            color: activeTab === 'modalidades' ? '#071A45' : '#64748b',
+            color: activeTab === 'modalidades' ? '#141112' : '#78716c',
             boxShadow: activeTab === 'modalidades' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
           }}
         >
@@ -510,7 +510,7 @@ export default function AdminModalidades() {
             display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 9, border: 'none',
             fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer',
             background: activeTab === 'planilhas' ? '#fff' : 'transparent',
-            color: activeTab === 'planilhas' ? '#071A45' : '#64748b',
+            color: activeTab === 'planilhas' ? '#141112' : '#78716c',
             boxShadow: activeTab === 'planilhas' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
           }}
         >
@@ -521,30 +521,30 @@ export default function AdminModalidades() {
       {activeTab === 'planilhas' && <PlanilhaGeradorTab modalidades={modalidades} regs={regs} />}
 
       {activeTab === 'modalidades' && (
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
-            <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Modalidade</th>
-              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Distância</th>
-              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Abrangência</th>
-              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Status</th>
-              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase', textAlign: 'right' }}>Ações</th>
+            <tr style={{ background: '#fafaf9', borderBottom: '1px solid #e7e5e4' }}>
+              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Modalidade</th>
+              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Distância</th>
+              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Abrangência</th>
+              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Status</th>
+              <th style={{ padding: '16px 24px', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase', textAlign: 'right' }}>Ações</th>
             </tr>
           </thead>
           <tbody>
             {modalidades.map((mod) => (
-              <tr key={mod.id} style={{ borderBottom: '1px solid #f1f5f9', transition: '0.2s' }}>
+              <tr key={mod.id} style={{ borderBottom: '1px solid #f5f5f4', transition: '0.2s' }}>
                 <td style={{ padding: '16px 24px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <div style={{ width: 40, height: 40, borderRadius: 10, background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Flag size={20} />
                     </div>
-                    <span style={{ fontWeight: 700, color: '#071A45' }}>{mod.nome}</span>
+                    <span style={{ fontWeight: 700, color: '#141112' }}>{mod.nome}</span>
                   </div>
                 </td>
-                <td style={{ padding: '16px 24px', color: '#64748b', fontWeight: 600 }}>{mod.distancia || '-'}</td>
-                <td style={{ padding: '16px 24px', color: '#64748b', fontWeight: 600 }}>
+                <td style={{ padding: '16px 24px', color: '#78716c', fontWeight: 600 }}>{mod.distancia || '-'}</td>
+                <td style={{ padding: '16px 24px', color: '#78716c', fontWeight: 600 }}>
                   {mod.categoria === 'infantil'
                     ? (typeof mod.idadeMin === 'number' && typeof mod.idadeMax === 'number'
                       ? `Infantil: ${mod.idadeMin} a ${mod.idadeMax} anos`
@@ -566,13 +566,13 @@ export default function AdminModalidades() {
                       onClick={() => generateModalidadePdf(mod)}
                       disabled={generatingId === mod.id}
                       title="Gerar PDF resumo"
-                      style={{ background: '#eafff0', border: 'none', width: 36, height: 36, borderRadius: 10, color: '#16a34a', cursor: generatingId === mod.id ? 'wait' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: generatingId === mod.id ? 0.6 : 1 }}
+                      style={{ background: '#fff1f1', border: 'none', width: 36, height: 36, borderRadius: 10, color: '#16a34a', cursor: generatingId === mod.id ? 'wait' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: generatingId === mod.id ? 0.6 : 1 }}
                     >
                       <FileText size={16} />
                     </button>
                     <button
                       onClick={() => handleOpenModal(mod)}
-                      style={{ background: '#f1f5f9', border: 'none', width: 36, height: 36, borderRadius: 10, color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      style={{ background: '#f5f5f4', border: 'none', width: 36, height: 36, borderRadius: 10, color: '#78716c', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
                       <Edit2 size={16} />
                     </button>
@@ -588,7 +588,7 @@ export default function AdminModalidades() {
             ))}
             {modalidades.length === 0 && (
               <tr>
-                <td colSpan={5} style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>
+                <td colSpan={5} style={{ padding: '40px', textAlign: 'center', color: '#78716c' }}>
                   Nenhuma modalidade cadastrada.
                 </td>
               </tr>
@@ -603,35 +603,35 @@ export default function AdminModalidades() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 450, padding: 30, boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#071A45' }}>{editingId ? 'Editar Modalidade' : 'Nova Modalidade'}</h3>
-              <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}><X size={24} /></button>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#141112' }}>{editingId ? 'Editar Modalidade' : 'Nova Modalidade'}</h3>
+              <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', color: '#78716c', cursor: 'pointer' }}><X size={24} /></button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Nome da Modalidade</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Nome da Modalidade</label>
                 <input 
                   type="text" 
                   value={formData.nome} 
                   onChange={e => setFormData({ ...formData, nome: e.target.value })}
                   placeholder="Ex: 5km, 10km, Caminhada..."
-                  style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
+                  style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Distância (opcional)</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Distância (opcional)</label>
                 <input 
                   type="text" 
                   value={formData.distancia} 
                   onChange={e => setFormData({ ...formData, distancia: e.target.value })}
                   placeholder="Ex: 5.000 metros"
-                  style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
+                  style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Tipo de modalidade</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Tipo de modalidade</label>
                 <select
                   value={formData.categoria || 'adulto'}
                   onChange={e => setFormData({
@@ -641,7 +641,7 @@ export default function AdminModalidades() {
                     idadeMin: e.target.value === 'infantil' ? formData.idadeMin : undefined,
                     idadeMax: e.target.value === 'infantil' ? formData.idadeMax : undefined,
                   })}
-                  style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
+                  style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
                 >
                   <option value="adulto">Adulto / adolescente</option>
                   <option value="infantil">Infantil</option>
@@ -651,14 +651,14 @@ export default function AdminModalidades() {
               {formData.categoria === 'infantil' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Provas infantis rápidas</label>
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Provas infantis rápidas</label>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                       {CHILD_RACE_PRESETS.map(preset => (
                         <button
                           key={preset.label}
                           type="button"
                           onClick={() => setFormData({ ...formData, ...preset, categoria: 'infantil' })}
-                          style={{ padding: '10px 12px', borderRadius: 10, border: '1px solid #dbe3ef', background: '#f8fafc', color: '#071A45', fontSize: '0.75rem', fontWeight: 800, cursor: 'pointer', textAlign: 'left' }}
+                          style={{ padding: '10px 12px', borderRadius: 10, border: '1px solid #e4dfdc', background: '#fafaf9', color: '#141112', fontSize: '0.75rem', fontWeight: 800, cursor: 'pointer', textAlign: 'left' }}
                         >
                           {preset.label}
                         </button>
@@ -667,25 +667,25 @@ export default function AdminModalidades() {
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Idade inicial</label>
+                      <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Idade inicial</label>
                       <input
                         type="number"
                         min={0}
                         value={formData.idadeMin ?? ""}
                         onChange={e => setFormData({ ...formData, idadeMin: e.target.value === '' ? undefined : Number(e.target.value) })}
                         placeholder="Ex: 4"
-                        style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
+                        style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
                       />
                     </div>
                     <div>
-                      <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Idade final</label>
+                      <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Idade final</label>
                       <input
                         type="number"
                         min={0}
                         value={formData.idadeMax ?? ""}
                         onChange={e => setFormData({ ...formData, idadeMax: e.target.value === '' ? undefined : Number(e.target.value) })}
                         placeholder="Ex: 6"
-                        style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
+                        style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 600, outline: 'none' }}
                       />
                     </div>
                   </div>
@@ -693,22 +693,22 @@ export default function AdminModalidades() {
               )}
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }} onClick={() => setFormData({ ...formData, ativo: !formData.ativo })}>
-                <div style={{ width: 24, height: 24, borderRadius: 6, border: '2px solid #071A45', display: 'flex', alignItems: 'center', justifyContent: 'center', background: formData.ativo ? '#071A45' : 'transparent' }}>
+                <div style={{ width: 24, height: 24, borderRadius: 6, border: '2px solid #141112', display: 'flex', alignItems: 'center', justifyContent: 'center', background: formData.ativo ? '#141112' : 'transparent' }}>
                   {formData.ativo && <Check size={16} color="#fff" />}
                 </div>
-                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#071A45' }}>Modalidade Ativa</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#141112' }}>Modalidade Ativa</span>
               </div>
 
               <div style={{ display: 'flex', gap: 12, marginTop: 10 }}>
                 <button 
                   onClick={() => setIsModalOpen(false)}
-                  style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 800, cursor: 'pointer' }}
+                  style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: '#fff', color: '#78716c', fontWeight: 800, cursor: 'pointer' }}
                 >
                   Cancelar
                 </button>
                 <button 
                   onClick={handleSave}
-                  style={{ flex: 2, padding: '14px', borderRadius: 12, border: 'none', background: '#071A45', color: '#fff', fontWeight: 800, cursor: 'pointer' }}
+                  style={{ flex: 2, padding: '14px', borderRadius: 12, border: 'none', background: '#141112', color: '#fff', fontWeight: 800, cursor: 'pointer' }}
                 >
                   Salvar Modalidade
                 </button>

@@ -38,6 +38,7 @@ import { buildNewOwnerTransferMessage, buildOldOwnerTransferMessage, buildWhatsA
 
 import '../styles/atleta-detalhes.css';
 import { withBase } from '../utils/withBase';
+import { adminAuthHeaders } from '../utils/workerApi';
 import { buildPaymentConfirmationText, buildPaymentPageUrl, EVENTO } from '../config/evento';
 
 const formatCurrency = (valueInCents: number) => {
@@ -209,7 +210,7 @@ export default function AdminAtletaDetalhes() {
   };
 
   if (loading) return <AdminPageSkeleton variant="detail" />;
-  if (!reg) return <div style={{ padding: 100, textAlign: 'center', color: '#64748b', fontWeight: 600 }}>Atleta não encontrado.</div>;
+  if (!reg) return <div style={{ padding: 100, textAlign: 'center', color: '#78716c', fontWeight: 600 }}>Atleta não encontrado.</div>;
 
   // Data Processing
   const isPago = reg.paymentStatus === 'pago';
@@ -361,7 +362,7 @@ export default function AdminAtletaDetalhes() {
     const form = new FormData();
     form.append('file', file);
     form.append('folder', folder);
-    const res = await fetch(`${workerUrl}/media/upload`, { method: 'POST', body: form });
+    const res = await fetch(`${workerUrl}/media/upload`, { method: 'POST', body: form, headers: await adminAuthHeaders() });
     const body = await res.json().catch(() => ({}));
     if (!res.ok || !body.url) throw new Error(body.error || 'Falha ao enviar arquivo.');
     return body.url as string;
@@ -442,7 +443,7 @@ export default function AdminAtletaDetalhes() {
     const modalityX = canvas.width * (isKidsCard ? 0.108 : 0.095);
     const modalityY = canvas.height * 0.412;
     ctx.font = `900 ${canvas.width * 0.018}px Arial Black, Impact, sans-serif`;
-    ctx.fillStyle = '#6BFF2A';
+    ctx.fillStyle = '#e01b22';
     ctx.fillText('MODALIDADE', modalityX, modalityY + canvas.height * 0.008);
     drawFitText(ctx, modalidadeNome || EVENTO.nome.toUpperCase(), modalityX + canvas.width * 0.012, modalityY + canvas.height * 0.029, canvas.width * 0.205, canvas.width * 0.034, canvas.width * 0.022, '#ffffff');
     ctx.restore();
@@ -690,7 +691,7 @@ export default function AdminAtletaDetalhes() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', paddingBottom: 40 }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', paddingBottom: 40 }}>
       <input
         ref={photoInputRef}
         type="file"
@@ -700,13 +701,13 @@ export default function AdminAtletaDetalhes() {
       />
 
       {/* Top Bar Simplificada */}
-      <div className="admin-det-top-bar" style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '12px 24px', position: 'sticky', top: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="admin-det-top-bar" style={{ background: '#fff', borderBottom: '1px solid #e7e5e4', padding: '12px 24px', position: 'sticky', top: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <button onClick={() => navigate('/admin/inscritos')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', fontWeight: 600 }}>
+          <button onClick={() => navigate('/admin/inscritos')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#78716c', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.9rem', fontWeight: 600 }}>
             <ArrowLeft size={18} /> Voltar
           </button>
-          <div className="admin-det-divider" style={{ width: 1, height: 20, background: '#e2e8f0' }} />
-          <span className="admin-det-breadcrumb-text" style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 600 }}>Inscritos / Detalhes do Atleta</span>
+          <div className="admin-det-divider" style={{ width: 1, height: 20, background: '#e7e5e4' }} />
+          <span className="admin-det-breadcrumb-text" style={{ fontSize: '0.85rem', color: '#a8a29e', fontWeight: 600 }}>Inscritos / Detalhes do Atleta</span>
         </div>
         <div className="admin-det-top-actions" style={{ display: 'flex', gap: 8 }}>
           <button onClick={openWhatsApp} style={{ background: '#25D366', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: 8, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', cursor: 'pointer' }}>
@@ -722,7 +723,7 @@ export default function AdminAtletaDetalhes() {
               responsavelNome: reg.responsavelNome || '',
               responsavelCpf: reg.responsavelCpf || ''
             }); setShowEditModal(true);
-          }} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: 8, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', cursor: 'pointer' }}>
+          }} style={{ background: '#141112', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: 8, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', cursor: 'pointer' }}>
             <Edit size={18} /> Editar
           </button>
           <button onClick={deleteRegistration} style={{ background: '#fee2e2', color: '#dc2626', border: 'none', padding: '8px 16px', borderRadius: 8, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', cursor: 'pointer' }}>
@@ -733,17 +734,17 @@ export default function AdminAtletaDetalhes() {
 
       <div className="admin-det-content" style={{ maxWidth: 1000, margin: '24px auto', padding: '0 20px' }}>
         {/* Header Hero - Lógica Simplificada */}
-        <div className="admin-det-hero-card" style={{ background: '#fff', borderRadius: 16, padding: '24px 30px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', marginBottom: 24, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
+        <div className="admin-det-hero-card" style={{ background: '#fff', borderRadius: 16, padding: '24px 30px', border: '1px solid #e7e5e4', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', marginBottom: 24, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
           {/* Foto Quadrada sem contorno */}
           <div
             onClick={() => { setZoomImageUrl(reg.fotoUrl || withBase('/sistema/fundo-card-atleta.png')); setShowZoomPhoto(true); }}
             className="admin-det-hero-photo"
-            style={{ width: 120, height: 120, background: '#f1f5f9', flexShrink: 0, overflow: 'hidden', cursor: 'pointer', borderRadius: 4 }}
+            style={{ width: 120, height: 120, background: '#f5f5f4', flexShrink: 0, overflow: 'hidden', cursor: 'pointer', borderRadius: 4 }}
           >
             {reg.fotoUrl ? (
               <img src={reg.fotoUrl} alt={reg.nome} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
-              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: 900, color: '#cbd5e1' }}>
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: 900, color: '#d6d3d1' }}>
                 {reg.nome.slice(0, 2).toUpperCase()}
               </div>
             )}
@@ -751,13 +752,13 @@ export default function AdminAtletaDetalhes() {
 
           <div className="admin-det-hero-info" style={{ flex: 1 }}>
             <div className="admin-det-hero-name-wrapper" style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-              <span style={{ background: '#071A45', color: '#6BFF2A', padding: '4px 10px', borderRadius: 6, fontWeight: 900, fontSize: '1rem', flexShrink: 0 }}>#{vagaId}</span>
-              <h1 className="admin-det-hero-name" style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', textTransform: 'uppercase', margin: 0 }}>{reg.nome}</h1>
+              <span style={{ background: '#141112', color: '#ff2e38', padding: '4px 10px', borderRadius: 6, fontWeight: 900, fontSize: '1rem', flexShrink: 0 }}>#{vagaId}</span>
+              <h1 className="admin-det-hero-name" style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', textTransform: 'uppercase', margin: 0 }}>{reg.nome}</h1>
             </div>
             <div className="admin-det-hero-tags" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <div style={{ background: '#f1f5f9', color: '#475569', padding: '6px 16px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>{categoriaLabel.toUpperCase()}</div>
+              <div style={{ background: '#f5f5f4', color: '#57534e', padding: '6px 16px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>{categoriaLabel.toUpperCase()}</div>
               {reg.modalidadeId && (
-                <div style={{ background: '#071A45', color: '#6BFF2A', padding: '6px 16px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>{modalidadeLabel.toUpperCase()}</div>
+                <div style={{ background: '#141112', color: '#ff2e38', padding: '6px 16px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>{modalidadeLabel.toUpperCase()}</div>
               )}
               <div style={{
                 background: isGratuito ? '#ede9fe' : isPago ? '#dcfce7' : '#fef9c3',
@@ -778,7 +779,7 @@ export default function AdminAtletaDetalhes() {
             {reg.paymentStatus === 'pendente' && (
               <button
                 onClick={openPendingChargeWhatsApp}
-                style={{ background: '#f59e0b', color: '#071A45', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', boxShadow: '0 4px 0 #d97706' }}
+                style={{ background: '#f59e0b', color: '#141112', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', boxShadow: '0 4px 0 #d97706' }}
               >
                 COBRAR NO WHATSAPP
               </button>
@@ -800,7 +801,7 @@ export default function AdminAtletaDetalhes() {
                 <Repeat size={16} /> TRANSFERIR TITULARIDADE
               </button>
             )}
-            <button onClick={cancelRegistration} style={{ background: '#f1f5f9', color: '#ef4444', border: '1px solid #fee2e2', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer' }}>
+            <button onClick={cancelRegistration} style={{ background: '#f5f5f4', color: '#ef4444', border: '1px solid #fee2e2', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer' }}>
               CANCELAR INSCRIÇÃO
             </button>
           </div>
@@ -824,7 +825,7 @@ export default function AdminAtletaDetalhes() {
                   onClick={() => window.open(buildWhatsAppUrl(telefoneDestino, buildNewOwnerTransferMessage(nomeDestino, reg.nome || '')), '_blank', 'noopener,noreferrer')}
                   disabled={!telefoneDestino}
                   title={!telefoneDestino ? 'Telefone do novo titular não encontrado' : undefined}
-                  style={{ background: '#25D366', border: 'none', color: '#071A45', borderRadius: 8, padding: '6px 12px', fontWeight: 900, fontSize: '.72rem', cursor: telefoneDestino ? 'pointer' : 'not-allowed', opacity: telefoneDestino ? 1 : .6, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                  style={{ background: '#25D366', border: 'none', color: '#141112', borderRadius: 8, padding: '6px 12px', fontWeight: 900, fontSize: '.72rem', cursor: telefoneDestino ? 'pointer' : 'not-allowed', opacity: telefoneDestino ? 1 : .6, display: 'inline-flex', alignItems: 'center', gap: 6 }}
                 >
                   <MessageCircle size={13} /> AVISAR NOVO TITULAR
                 </button>
@@ -849,7 +850,7 @@ export default function AdminAtletaDetalhes() {
                   onClick={() => window.open(buildWhatsAppUrl(telefoneOrigem, buildOldOwnerTransferMessage(nomeOrigem, reg.nome || '')), '_blank', 'noopener,noreferrer')}
                   disabled={!telefoneOrigem}
                   title={!telefoneOrigem ? 'Telefone do antigo titular não encontrado' : undefined}
-                  style={{ background: '#25D366', border: 'none', color: '#071A45', borderRadius: 8, padding: '6px 12px', fontWeight: 900, fontSize: '.72rem', cursor: telefoneOrigem ? 'pointer' : 'not-allowed', opacity: telefoneOrigem ? 1 : .6, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                  style={{ background: '#25D366', border: 'none', color: '#141112', borderRadius: 8, padding: '6px 12px', fontWeight: 900, fontSize: '.72rem', cursor: telefoneOrigem ? 'pointer' : 'not-allowed', opacity: telefoneOrigem ? 1 : .6, display: 'inline-flex', alignItems: 'center', gap: 6 }}
                 >
                   <MessageCircle size={13} /> AVISAR ANTIGO TITULAR
                 </button>
@@ -866,8 +867,8 @@ export default function AdminAtletaDetalhes() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 450px), 1fr))', gap: 24 }}>
           {/* Lado Esquerdo: Identificação & Kit */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+              <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
                 IDENTIFICAÇÃO DO ATLETA
               </h3>
               {[
@@ -879,15 +880,15 @@ export default function AdminAtletaDetalhes() {
                 ['Servidor municipal', reg.servidorPublicoMunicipal ? 'Sim - contracheque obrigatório' : 'Não'],
                 ['Equipe', equipeLabel]
               ].map(([l, v]) => (
-                <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>{l}</span>
-                  <span style={{ fontSize: '0.9rem', color: '#071A45', fontWeight: 600 }}>{v || '---'}</span>
+                <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f5f5f4' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#78716c', fontWeight: 700, textTransform: 'uppercase' }}>{l}</span>
+                  <span style={{ fontSize: '0.9rem', color: '#141112', fontWeight: 600 }}>{v || '---'}</span>
                 </div>
               ))}
             </section>
 
-            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
-              <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#071A45', marginBottom: 16, borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
+              <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#141112', marginBottom: 16, borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
                 DADOS DA INSCRIÇÃO
               </h3>
               {[
@@ -906,10 +907,10 @@ export default function AdminAtletaDetalhes() {
                 ['Data da Inscrição', formattedCreatedAt],
                 ['Lote', `${reg.lote || '1º Lote'} (R$ ${((reg.amount || 0) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })})`]
               ].map(([l, v]) => (
-                <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>{l}</span>
+                <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #f5f5f4' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#78716c', fontWeight: 700, textTransform: 'uppercase' }}>{l}</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontSize: '0.9rem', color: '#071A45', fontWeight: 700 }}>{v || '---'}</span>
+                    <span style={{ fontSize: '0.9rem', color: '#141112', fontWeight: 700 }}>{v || '---'}</span>
                     {(l === 'Lote' || l === 'Card Eu Vou') && (
                       <div style={{ display: 'flex', gap: 6 }}>
                         {reg.invoiceUrl && (
@@ -917,7 +918,7 @@ export default function AdminAtletaDetalhes() {
                             href={reg.invoiceUrl} 
                             target="_blank" 
                             rel="noreferrer"
-                            style={{ background: '#071A45', color: '#fff', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
+                            style={{ background: '#141112', color: '#fff', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
                           >
                             <ExternalLink size={12} /> FATURA
                           </a>
@@ -927,7 +928,7 @@ export default function AdminAtletaDetalhes() {
                             href={reg.comprovanteUrl} 
                             target="_blank" 
                             rel="noreferrer"
-                            style={{ background: '#f1f5f9', color: '#071A45', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 800, textDecoration: 'none', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 4 }}
+                            style={{ background: '#f5f5f4', color: '#141112', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 800, textDecoration: 'none', border: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', gap: 4 }}
                           >
                             <ClipboardList size={12} /> COMPROVANTE
                           </a>
@@ -938,7 +939,7 @@ export default function AdminAtletaDetalhes() {
                               type="button"
                               onClick={handleSendEuVouCard}
                               disabled={sendingEuVouCard}
-                              style={{ background: '#25D366', color: '#071A45', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 900, border: 'none', display: 'flex', alignItems: 'center', gap: 4, cursor: sendingEuVouCard ? 'wait' : 'pointer', opacity: sendingEuVouCard ? 0.75 : 1 }}
+                              style={{ background: '#25D366', color: '#141112', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 900, border: 'none', display: 'flex', alignItems: 'center', gap: 4, cursor: sendingEuVouCard ? 'wait' : 'pointer', opacity: sendingEuVouCard ? 0.75 : 1 }}
                             >
                               <Send size={12} /> {sendingEuVouCard ? 'ENVIANDO...' : 'ENVIAR'}
                             </button>
@@ -946,7 +947,7 @@ export default function AdminAtletaDetalhes() {
                               type="button"
                               onClick={() => photoInputRef.current?.click()}
                               disabled={generatingEuVouCard}
-                              style={{ background: '#f1f5f9', color: '#071A45', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 900, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 4, cursor: generatingEuVouCard ? 'wait' : 'pointer', opacity: generatingEuVouCard ? 0.7 : 1 }}
+                              style={{ background: '#f5f5f4', color: '#141112', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 900, border: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', gap: 4, cursor: generatingEuVouCard ? 'wait' : 'pointer', opacity: generatingEuVouCard ? 0.7 : 1 }}
                             >
                               <Edit size={12} /> {generatingEuVouCard ? 'GERANDO...' : 'TROCAR FOTO'}
                             </button>
@@ -954,7 +955,7 @@ export default function AdminAtletaDetalhes() {
                               href={reg.euVouCardUrl}
                               target="_blank"
                               rel="noreferrer"
-                              style={{ background: '#6BFF2A', color: '#071A45', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
+                              style={{ background: '#e01b22', color: '#fff', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
                             >
                               <ExternalLink size={12} /> ABRIR
                             </a>
@@ -965,7 +966,7 @@ export default function AdminAtletaDetalhes() {
                             type="button"
                             onClick={handleGenerateEuVouCard}
                             disabled={generatingEuVouCard}
-                            style={{ background: '#6BFF2A', color: '#071A45', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 900, border: 'none', display: 'flex', alignItems: 'center', gap: 4, cursor: generatingEuVouCard ? 'wait' : 'pointer', opacity: generatingEuVouCard ? 0.7 : 1 }}
+                            style={{ background: '#e01b22', color: '#fff', padding: '4px 8px', borderRadius: 6, fontSize: '0.6rem', fontWeight: 900, border: 'none', display: 'flex', alignItems: 'center', gap: 4, cursor: generatingEuVouCard ? 'wait' : 'pointer', opacity: generatingEuVouCard ? 0.7 : 1 }}
                           >
                             <Zap size={12} /> {generatingEuVouCard ? 'GERANDO...' : 'GERAR'}
                           </button>
@@ -980,7 +981,7 @@ export default function AdminAtletaDetalhes() {
 
           {/* Lado Direito: Saúde & Observações */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
+            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
               <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#ef4444', marginBottom: 16, borderBottom: '2px solid #ef4444', display: 'inline-block', paddingBottom: 4 }}>
                 SAÚDE & EMERGÊNCIA
               </h3>
@@ -993,27 +994,27 @@ export default function AdminAtletaDetalhes() {
                 ['Responsabilidade aceita', reg.aceitouTermosResponsabilidade ? 'Sim' : 'Não'],
                 ['Assinatura digital', reg.assinatura ? 'Registrada' : 'Não registrada']
               ].map(([l, v]) => (
-                <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f1f5f9' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>{l}</span>
-                  <span style={{ fontSize: '0.9rem', color: '#071A45', fontWeight: 600 }}>{v || '---'}</span>
+                <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f5f5f4' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#78716c', fontWeight: 700, textTransform: 'uppercase' }}>{l}</span>
+                  <span style={{ fontSize: '0.9rem', color: '#141112', fontWeight: 600 }}>{v || '---'}</span>
                 </div>
               ))}
             </section>
 
-            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0' }}>
+            <section style={{ background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e7e5e4' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#071A45', borderBottom: '2px solid #6BFF2A', display: 'inline-block', paddingBottom: 4 }}>
+                <h3 style={{ fontSize: '0.8rem', fontWeight: 900, color: '#141112', borderBottom: '2px solid #e01b22', display: 'inline-block', paddingBottom: 4 }}>
                   OBSERVAÇÕES INTERNAS
                 </h3>
-                <button onClick={addObservation} style={{ background: '#f1f5f9', border: 'none', padding: '4px 10px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800, cursor: 'pointer', color: '#475569' }}>
+                <button onClick={addObservation} style={{ background: '#f5f5f4', border: 'none', padding: '4px 10px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800, cursor: 'pointer', color: '#57534e' }}>
                   + ADICIONAR
                 </button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {observations.length === 0 ? (
-                  <p style={{ fontSize: '0.85rem', color: '#94a3b8', textAlign: 'center', padding: '20px 0' }}>Nenhuma observação registrada.</p>
+                  <p style={{ fontSize: '0.85rem', color: '#a8a29e', textAlign: 'center', padding: '20px 0' }}>Nenhuma observação registrada.</p>
                 ) : observations.map((obs, idx) => (
-                  <div key={idx} style={{ background: '#f8fafc', padding: '12px', borderRadius: 8, fontSize: '0.85rem', color: '#475569', borderLeft: '3px solid #cbd5e1' }}>
+                  <div key={idx} style={{ background: '#fafaf9', padding: '12px', borderRadius: 8, fontSize: '0.85rem', color: '#57534e', borderLeft: '3px solid #d6d3d1' }}>
                     {obs}
                   </div>
                 ))}
@@ -1022,7 +1023,7 @@ export default function AdminAtletaDetalhes() {
           </div>
         </div>
 
-        <section style={{ background: '#071A45', borderRadius: 16, padding: 22, marginTop: 24, border: '1px solid rgba(107,255,42,0.35)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        <section style={{ background: '#141112', borderRadius: 16, padding: 22, marginTop: 24, border: '1px solid rgba(224, 27, 34,0.35)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div>
             <h3 style={{ color: '#fff', fontSize: '0.98rem', fontWeight: 900, margin: 0 }}>Perfil do atleta</h3>
             <p style={{ color: 'rgba(255,255,255,0.68)', fontSize: '0.82rem', fontWeight: 700, margin: '5px 0 0' }}>
@@ -1032,7 +1033,7 @@ export default function AdminAtletaDetalhes() {
           <button
             type="button"
             onClick={accessAthleteProfile}
-            style={{ background: '#6BFF2A', color: '#071A45', border: 'none', padding: '12px 18px', borderRadius: 10, fontWeight: 950, fontSize: '0.82rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+            style={{ background: '#e01b22', color: '#fff', border: 'none', padding: '12px 18px', borderRadius: 10, fontWeight: 950, fontSize: '0.82rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
           >
             <LogIn size={18} /> ACESSAR PERFIL
           </button>

@@ -30,11 +30,11 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
       {children}
       {loading && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(15,21,53,.95)', zIndex: 99999,
+          position: 'fixed', inset: 0, background: 'rgba(22, 18, 19,.95)', zIndex: 99999,
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20
         }}>
-          <div style={{ width: 50, height: 50, border: '4px solid rgba(107,255,42,.2)', borderTop: '4px solid #6BFF2A', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-          <span style={{ color: '#6BFF2A', fontWeight: 700, fontSize: '1.1rem', fontFamily: 'Montserrat, sans-serif' }}>{text}</span>
+          <div style={{ width: 50, height: 50, border: '4px solid rgba(224, 27, 34,.2)', borderTop: '4px solid #e01b22', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <span style={{ color: '#ff2e38', fontWeight: 700, fontSize: '1.1rem', fontFamily: "'Barlow Condensed', sans-serif" }}>{text}</span>
         </div>
       )}
     </LoadingContext.Provider>

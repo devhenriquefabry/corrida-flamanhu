@@ -219,7 +219,7 @@ export default function AdminIntegracoes() {
         }
         .settings-inner-tabs button.active {
           background: var(--adm-accent);
-          color: #071A45;
+          color: #fff;
         }
         .settings-save-btn {
           height: 48px;
@@ -227,7 +227,7 @@ export default function AdminIntegracoes() {
           border: none;
           border-radius: var(--adm-radius-sm);
           background: var(--adm-accent);
-          color: #071A45;
+          color: #fff;
           font-weight: 900;
           display: inline-flex;
           align-items: center;
@@ -279,8 +279,8 @@ export default function AdminIntegracoes() {
         }
         .payment-provider-option.selected {
           border-color: var(--adm-accent);
-          background: rgba(107,255,42,.1);
-          box-shadow: 0 12px 28px rgba(107,255,42,.08);
+          background: rgba(224, 27, 34,.1);
+          box-shadow: 0 12px 28px rgba(224, 27, 34,.08);
         }
         .settings-footer-actions {
           margin-top: 18px;

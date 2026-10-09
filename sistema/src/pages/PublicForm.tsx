@@ -12,8 +12,9 @@ import { useDialog } from '../context/CustomDialogContext';
 import { REGULAMENTO_OFICIAL } from '../content/regulamentoOficial';
 import '../App.css';
 import { withBase } from '../utils/withBase';
-import { buildPaymentPageUrl, EVENTO } from '../config/evento';
-import { fetchTotalInscricoes } from '../utils/workerApi';
+import { EVENTO } from '../config/evento';
+import { fetchTotalInscricoes, workerApi } from '../utils/workerApi';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 const INITIAL = {
   nome: '',
@@ -99,11 +100,6 @@ const calculateCouponDiscount = (amountInCents: number, type: CouponDiscountType
   };
 };
 
-const normalizeWhatsAppPhone = (phone: string) => {
-  const cleanPhone = (phone || '').replace(/\D/g, '');
-  return cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`;
-};
-
 const validateCPF = (cpf: string) => {
   const clean = cpf.replace(/\D/g, '');
   if (clean.length !== 11 || /^(\d)\1+$/.test(clean)) return false;
@@ -178,57 +174,6 @@ const applyRegistrationDiscount = (pricing: RegistrationPricing, age: number, is
 
 const formatMoney = (valueInCents: number) => {
   return (valueInCents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-};
-
-const formatRegistrationNotice = ({
-  registration,
-  amount,
-  paymentPageUrl,
-  categoriaNome,
-  modalidadeNome,
-  camisetaLabel,
-  invoiceUrl,
-}: {
-  registration: any;
-  amount: number;
-  paymentPageUrl: string;
-  categoriaNome: string;
-  modalidadeNome: string;
-  camisetaLabel: string;
-  invoiceUrl: string;
-}) => {
-  const endereco = registration.endereco || {};
-  const contato = registration.contatoEmergencia || {};
-  const saude = registration.saude || {};
-
-  return `Novo atleta preencheu o formulario:\n\n` +
-    `*Nome:* ${registration.nome || '-'}\n` +
-    `*CPF:* ${registration.cpf || '-'}\n` +
-    `*Nascimento:* ${registration.dataNascimento || '-'}\n` +
-    `*Responsavel:* ${registration.responsavelNome || '-'}\n` +
-    `*CPF Responsavel:* ${registration.responsavelCpf || '-'}\n` +
-    `*Sexo:* ${registration.sexo || '-'}\n` +
-    `*E-mail:* ${registration.email || '-'}\n` +
-    `*WhatsApp:* ${registration.telefone || '-'}\n` +
-    `*PCD:* ${registration.pcd ? 'Sim' : 'Nao'}\n` +
-    `*Servidor publico municipal:* ${registration.servidorPublicoMunicipal ? 'Sim' : 'Nao'}\n` +
-    `*Matricula servidor:* ${registration.matriculaServidor || '-'}\n` +
-    `*Equipe:* ${registration.integranteEquipe === 'sim' ? (registration.equipeNome || 'Sim') : 'Nao'}\n\n` +
-    `*Categoria:* ${categoriaNome || registration.categoria || '-'}\n` +
-    `*Prova:* ${modalidadeNome || '-'}\n` +
-    `*Kit:* ${registration.kit || '-'}\n` +
-    `*Camiseta:* ${camisetaLabel || registration.tamanhoCamiseta || '-'}\n` +
-    `*Valor:* ${formatMoney(amount)}\n\n` +
-    `*Endereco:* ${endereco.rua || '-'}, ${endereco.numero || '-'} - ${endereco.bairro || '-'}, ${endereco.cidade || '-'}-${endereco.uf || '-'}\n` +
-    `*CEP:* ${endereco.cep || '-'}\n\n` +
-    `*Contato de emergencia:* ${contato.nome || '-'}\n` +
-    `*Telefone emergencia:* ${contato.telefone || '-'}\n` +
-    `*Parentesco:* ${contato.parentesco || '-'}\n\n` +
-    `*Saude:* ${saude.condicaoSaude || '-'}\n` +
-    `*Alergia:* ${saude.temAlergia ? (saude.alergiaDesc || 'Sim') : 'Nao'}\n` +
-    `*Medicamento:* ${saude.tomaMedicamento ? (saude.medicamentoDesc || 'Sim') : 'Nao'}\n\n` +
-    `*Pagamento:* ${paymentPageUrl}\n` +
-    (invoiceUrl ? `*Link direto do banco:* ${invoiceUrl}` : '');
 };
 
 export default function PublicForm() {
@@ -611,7 +556,7 @@ export default function PublicForm() {
     const modalityX = canvas.width * (isKidsCard ? 0.108 : 0.095);
     const modalityY = canvas.height * 0.412;
     ctx.font = `900 ${canvas.width * 0.018}px Arial Black, Impact, sans-serif`;
-    ctx.fillStyle = '#6BFF2A';
+    ctx.fillStyle = '#e01b22';
     ctx.fillText('MODALIDADE', modalityX, modalityY + canvas.height * 0.008);
     drawFitText(ctx, modalidadeNome || EVENTO.nome.toUpperCase(), modalityX + canvas.width * 0.012, modalityY + canvas.height * 0.029, canvas.width * 0.205, canvas.width * 0.034, canvas.width * 0.022, '#ffffff');
     ctx.restore();
@@ -946,52 +891,10 @@ export default function PublicForm() {
       const docRef = await addDoc(collection(db, 'nightrun_registrations'), registrationData);
       console.log('[PublicForm] firestore:addDoc:done', { registrationId: docRef.id });
 
-      const paymentPageUrl = buildPaymentPageUrl(docRef.id);
-      const whatsappSettingsSnap = await getDoc(doc(db, 'nightrun_settings', 'whatsapp_registration_notice'));
-      const whatsappSettings = whatsappSettingsSnap.exists() ? whatsappSettingsSnap.data() : {};
-      const noticePhone = whatsappSettings.registrationNoticePhone || '';
-      if (whatsappSettings.receiveRegistrationNoticeEnabled && noticePhone) {
-        const numbersSnap = await getDoc(doc(db, 'nightrun_settings', 'whatsapp_numbers_public'));
-        const activeInstances = numbersSnap.exists() && Array.isArray(numbersSnap.data().instances)
-          ? numbersSnap.data().instances.filter((item: any) => item?.active !== false && item?.instanceName)
-          : [];
-        const singleInstanceName = activeInstances.length === 1 ? String(activeInstances[0].instanceName).trim() : '';
-        const noticeText = formatRegistrationNotice({
-          registration: registrationData,
-          amount,
-          paymentPageUrl,
-          categoriaNome: selectedCategoria,
-          modalidadeNome: selectedModalidadeNome,
-          camisetaLabel: selectedCamiseta?.label || data.tamanhoCamiseta || '-',
-          invoiceUrl,
-        });
-        const noticePayload = {
-          phone: normalizeWhatsAppPhone(noticePhone),
-          text: noticeText,
-          type: 'registration_notice',
-          alunoNome: registrationData.nome,
-          registrationId: docRef.id,
-          instanceName: singleInstanceName || undefined,
-        };
-        const noticeRes = await fetch(`${workerUrl}/whatsapp/send`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(noticePayload),
-        });
-        const noticeBody = await noticeRes.json().catch(() => ({}));
-        console.log('[PublicForm] whatsapp:notice:direct', { status: noticeRes.status, ok: noticeRes.ok, body: noticeBody });
-
-        if (!noticeRes.ok || noticeBody.success === false) {
-          await fetch(`${workerUrl}/queue/enqueue`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [noticePayload],
-          }),
-          }).then(async res => console.log('[PublicForm] whatsapp:notice:queued', { status: res.status, ok: res.ok, body: await res.json().catch(() => ({})) }))
-            .catch(error => console.error('Erro ao enfileirar aviso:', error));
-        }
-      }
+      // Aviso ao organizador: o worker monta o texto e escolhe o destinatário a partir
+      // da inscrição gravada. Falha aqui não pode travar a inscrição do atleta.
+      workerApi('/public/inscricao/aviso', { registrationId: docRef.id })
+        .catch(error => console.error('Erro ao avisar organizador:', error));
 
       navigate(isFreeRegistration ? `/inscricao/confirmada/${docRef.id}` : `/inscricao/pagamento/${docRef.id}`);
     } catch (error: any) {
@@ -1073,9 +976,7 @@ export default function PublicForm() {
         <div className="single-form-shell">
           {data.categoria && (
             <header className="single-form-header">
-              <img src={withBase("/sistema/logo-mcu.png")} alt="Prefeitura de Manhuaçu" className="single-form-side-logo" />
-              <img src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")} alt="MCU Night Run" className="single-form-main-logo" />
-              <img src={withBase("/sistema/logo-ademare.png")} alt="Ademare" className="single-form-side-logo" />
+              <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} className="single-form-main-logo" />
             </header>
           )}
 
@@ -1314,7 +1215,7 @@ export default function PublicForm() {
                         <p className="single-shirt-disclaimer">* A camiseta não faz parte deste kit. Coletamos o tamanho para o caso de disponibilizarmos camisetas para venda futuramente.</p>
                         <div className="size-table-container" onClick={() => setShowSizeTable(true)} style={{ marginBottom: 16, borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', cursor: 'zoom-in' }}>
                           <img src={sizeTableImage} alt="Tabela de tamanhos" style={{ width: '100%', display: 'block', height: 'auto' }} />
-                          <div style={{ padding: 8, textAlign: 'center', fontSize: '0.7rem', color: '#6BFF2A', fontWeight: 600, background: 'rgba(0,0,0,0.3)' }}>CLIQUE PARA AMPLIAR</div>
+                          <div style={{ padding: 8, textAlign: 'center', fontSize: '0.7rem', color: '#ff2e38', fontWeight: 600, background: 'rgba(0,0,0,0.3)' }}>CLIQUE PARA AMPLIAR</div>
                         </div>
                         <div className="single-size-group"><span>Padrão</span><div className="single-size-grid">{renderCamisetaCards('Padrão')}</div></div>
                         <div className="single-size-group"><span>Baby Look</span><div className="single-size-grid">{renderCamisetaCards('Baby Look')}</div></div>

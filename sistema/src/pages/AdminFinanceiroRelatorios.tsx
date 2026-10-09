@@ -13,6 +13,7 @@ import { findCamisetaByValue, formatCamisetaLabel, getCamisetaType } from '../ut
 import { SkeletonTable } from '../components/Skeleton';
 import '../styles/admin.css';
 import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 type Provider = 'asaas' | 'cora';
 type MovementType = 'entrada' | 'saida';
@@ -55,7 +56,7 @@ const TONES: Record<SemanticTone, { color: string; soft: string; border: string;
   income: { color: '#15803d', soft: '#ecfdf3', border: '#bbf7d0', label: 'Entrada / recebido' },
   expense: { color: '#b91c1c', soft: '#fef2f2', border: '#fecaca', label: 'Saida / taxa' },
   pending: { color: '#b45309', soft: '#fffbeb', border: '#fde68a', label: 'Pendente' },
-  neutral: { color: '#071A45', soft: '#f8fafc', border: '#dbe3ef', label: 'Informativo' },
+  neutral: { color: '#141112', soft: '#fafaf9', border: '#e4dfdc', label: 'Informativo' },
   danger: { color: '#991b1b', soft: '#fff1f2', border: '#fecdd3', label: 'Cancelado / alerta' },
   bank: { color: '#2563eb', soft: '#eff6ff', border: '#bfdbfe', label: 'Banco / conciliacao' },
 };
@@ -243,30 +244,30 @@ export default function AdminFinanceiroRelatorios() {
   }, [report, kitsCadastrados]);
 
   return (
-    <div className="finance-report-page" style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div className="finance-report-page" style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div className="finance-report-controls no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 18, flexWrap: 'wrap', marginBottom: 22 }}>
         <div>
           <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 950 }}>Relatorios financeiros</h1>
-          <p style={{ margin: '5px 0 0', color: '#64748b', fontWeight: 700 }}>Escolha os topicos, confirme e gere um relatorio visual completo.</p>
+          <p style={{ margin: '5px 0 0', color: '#78716c', fontWeight: 700 }}>Escolha os topicos, confirme e gere um relatorio visual completo.</p>
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <button onClick={() => window.print()} disabled={!report} style={actionButton('#fff', '#071A45', '1px solid #cbd5e1')}>
+          <button onClick={() => window.print()} disabled={!report} style={actionButton('#fff', '#141112', '1px solid #d6d3d1')}>
             <Printer size={17} /> Imprimir / PDF
           </button>
-          <button onClick={loadReport} disabled={loading} style={actionButton('#071A45', '#fff')}>
+          <button onClick={loadReport} disabled={loading} style={actionButton('#141112', '#fff')}>
             {loading ? <RefreshCw size={17} /> : <FileText size={17} />} {loading ? 'Gerando...' : 'Confirmar e gerar'}
           </button>
         </div>
       </div>
 
-      <section className="finance-report-controls no-print" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, padding: 18, marginBottom: 18 }}>
+      <section className="finance-report-controls no-print" style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 16, padding: 18, marginBottom: 18 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 10 }}>
           {reportOptions.map(option => (
-            <label key={option.key} style={{ border: `1px solid ${selected[option.key] ? '#071A45' : '#e2e8f0'}`, background: selected[option.key] ? '#f8fafc' : '#fff', borderRadius: 12, padding: 12, display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', minHeight: 86 }}>
+            <label key={option.key} style={{ border: `1px solid ${selected[option.key] ? '#141112' : '#e7e5e4'}`, background: selected[option.key] ? '#fafaf9' : '#fff', borderRadius: 12, padding: 12, display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', minHeight: 86 }}>
               <input type="checkbox" checked={selected[option.key]} onChange={() => toggle(option.key)} style={{ marginTop: 3, width: 16, height: 16 }} />
               <span>
-                <strong style={{ display: 'block', color: '#071A45', fontSize: '.86rem', fontWeight: 950 }}>{option.title}</strong>
-                <small style={{ display: 'block', color: '#64748b', fontWeight: 700, lineHeight: 1.35, marginTop: 3 }}>{option.description}</small>
+                <strong style={{ display: 'block', color: '#141112', fontSize: '.86rem', fontWeight: 950 }}>{option.title}</strong>
+                <small style={{ display: 'block', color: '#78716c', fontWeight: 700, lineHeight: 1.35, marginTop: 3 }}>{option.description}</small>
               </span>
             </label>
           ))}
@@ -276,13 +277,13 @@ export default function AdminFinanceiroRelatorios() {
       {loading && <div className="no-print" style={{ background: '#fff', borderRadius: 16, padding: 24 }}><SkeletonTable rows={8} columns={5} /></div>}
 
       {!loading && !report && (
-        <div className="no-print" style={{ minHeight: 280, display: 'grid', placeItems: 'center', background: '#fff', border: '1px dashed #cbd5e1', borderRadius: 16, color: '#64748b', fontWeight: 900, textAlign: 'center' }}>
+        <div className="no-print" style={{ minHeight: 280, display: 'grid', placeItems: 'center', background: '#fff', border: '1px dashed #d6d3d1', borderRadius: 16, color: '#78716c', fontWeight: 900, textAlign: 'center' }}>
           <div><BarChart3 size={42} style={{ marginBottom: 10 }} />Selecione os marcadores e clique em confirmar para criar o relatorio.</div>
         </div>
       )}
 
       {!loading && report && (
-        <main id="finance-report" className="finance-report-document" style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, overflow: 'hidden' }}>
+        <main id="finance-report" className="finance-report-document" style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 18, overflow: 'hidden' }}>
           <ReportCover generatedAt={report.generatedAt} count={model.registrations.length} />
 
           {include('executiveSummary') && (
@@ -326,7 +327,7 @@ export default function AdminFinanceiroRelatorios() {
 }
 
 function groupStats(registrations: any[], getLabel: (item: any) => string) {
-  const fallbackColors = ['#071A45', '#2563eb', '#7c3aed', '#0f766e'];
+  const fallbackColors = ['#141112', '#2563eb', '#7c3aed', '#0f766e'];
   return Object.values(registrations.reduce((acc: Record<string, any>, item) => {
     const label = getLabel(item);
     if (!acc[label]) {
@@ -478,21 +479,21 @@ function actionButton(background: string, color: string, border = 'none') {
 
 function ReportCover({ generatedAt, count }: { generatedAt: Date; count: number }) {
   return (
-    <header className="finance-report-cover" style={{ background: '#071A45', color: '#fff', padding: 28, display: 'flex', justifyContent: 'space-between', gap: 18, flexWrap: 'wrap' }}>
+    <header className="finance-report-cover" style={{ background: '#141112', color: '#fff', padding: 28, display: 'flex', justifyContent: 'space-between', gap: 18, flexWrap: 'wrap' }}>
       <div>
-        <h2 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 950 }}>Relatorio financeiro MCU Night Run</h2>
-        <p style={{ margin: '7px 0 0', color: '#cbd5e1', fontWeight: 700 }}>Gerado em {formatDateTimeBR(generatedAt)} com {count} inscricoes analisadas.</p>
+        <h2 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 950 }}>Relatório financeiro Corrida Flamanhu</h2>
+        <p style={{ margin: '7px 0 0', color: '#d6d3d1', fontWeight: 700 }}>Gerado em {formatDateTimeBR(generatedAt)} com {count} inscricoes analisadas.</p>
       </div>
-      <img src={withBase("/sistema/LOGO horizontal NIGHT RUN SEM FUNDO (em amarelo e branco).png")} alt="MCU Night Run" style={{ width: 190, height: 54, objectFit: 'contain' }} />
+      <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} style={{ width: 96, height: 88, objectFit: 'contain' }} />
     </header>
   );
 }
 
 function ReportSection({ title, subtitle, children }: { title: string; subtitle?: string; children: any }) {
   return (
-    <section className="finance-report-section" style={{ padding: 24, borderBottom: '1px solid #e2e8f0' }}>
-      <h3 style={{ margin: 0, color: '#071A45', fontSize: '1.18rem', fontWeight: 950 }}>{title}</h3>
-      {subtitle && <p style={{ margin: '4px 0 16px', color: '#64748b', fontWeight: 700, fontSize: '.84rem' }}>{subtitle}</p>}
+    <section className="finance-report-section" style={{ padding: 24, borderBottom: '1px solid #e7e5e4' }}>
+      <h3 style={{ margin: 0, color: '#141112', fontSize: '1.18rem', fontWeight: 950 }}>{title}</h3>
+      {subtitle && <p style={{ margin: '4px 0 16px', color: '#78716c', fontWeight: 700, fontSize: '.84rem' }}>{subtitle}</p>}
       {children}
     </section>
   );
@@ -503,7 +504,7 @@ function Metric({ icon, label, value, tone = 'neutral' }: { icon: any; label: st
   return (
     <div className="finance-report-card" style={{ border: `1px solid ${palette.border}`, borderLeft: `5px solid ${palette.color}`, borderRadius: 12, padding: 14, background: palette.soft, display: 'flex', gap: 12, alignItems: 'center' }}>
       <div style={{ width: 40, height: 40, borderRadius: 10, background: '#fff', color: palette.color, display: 'grid', placeItems: 'center', border: `1px solid ${palette.border}` }}>{icon}</div>
-      <div><span style={{ display: 'block', color: '#64748b', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase' }}>{label}</span><strong style={{ color: palette.color, fontSize: '1.05rem', fontWeight: 950 }}>{value}</strong></div>
+      <div><span style={{ display: 'block', color: '#78716c', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase' }}>{label}</span><strong style={{ color: palette.color, fontSize: '1.05rem', fontWeight: 950 }}>{value}</strong></div>
     </div>
   );
 }
@@ -516,12 +517,12 @@ function BalanceCard({ name, logo, value, ok, pendingCredit }: { name: string; l
     <div className="finance-report-card" style={{ border: `1px solid ${palette.border}`, borderLeft: `5px solid ${palette.color}`, borderRadius: 12, padding: 16, background: palette.soft }}>
       <img src={logo} alt={name} style={{ width: name === 'Cora' ? 58 : 72, height: 24, objectFit: 'contain', marginBottom: 10 }} />
       <strong style={{ display: 'block', color: palette.color, fontSize: '1.35rem', fontWeight: 950 }}>{ok ? value : 'Indisponivel'}</strong>
-      <span style={{ color: '#64748b', fontSize: '.76rem', fontWeight: 800 }}>Conta {name}</span>
+      <span style={{ color: '#78716c', fontSize: '.76rem', fontWeight: 800 }}>Conta {name}</span>
       {name === 'Asaas' && ok && (
         <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #bfdbfe' }}>
-          <span style={{ display: 'block', color: '#64748b', fontSize: '.66rem', fontWeight: 950, textTransform: 'uppercase' }}>Cartao confirmado a creditar no Asaas</span>
+          <span style={{ display: 'block', color: '#78716c', fontSize: '.66rem', fontWeight: 950, textTransform: 'uppercase' }}>Cartao confirmado a creditar no Asaas</span>
           <strong style={{ display: 'block', color: pendingCreditCents > 0 ? '#b45309' : '#2563eb', fontSize: '1rem', fontWeight: 950, marginTop: 3 }}>{fmt(pendingCreditCents)}</strong>
-          <span style={{ display: 'block', color: '#64748b', fontSize: '.7rem', fontWeight: 800, marginTop: 2 }}>{pendingCreditCount} pagamento(s), valor liquido direto do Asaas</span>
+          <span style={{ display: 'block', color: '#78716c', fontSize: '.7rem', fontWeight: 800, marginTop: 2 }}>{pendingCreditCount} pagamento(s), valor liquido direto do Asaas</span>
         </div>
       )}
     </div>
@@ -538,8 +539,8 @@ function ChartSection({ title, data, total }: { title: string; data: { label: st
               <span style={{ width: 8, height: 8, borderRadius: 99, background: item.color, display: 'inline-block' }} />
               {item.label}
             </strong>
-            <div style={{ height: 12, background: '#e2e8f0', borderRadius: 99, overflow: 'hidden' }}><div style={{ width: pct(item.amount, total), height: '100%', background: item.color }} /></div>
-            <span className="finance-report-chart-value" style={{ textAlign: 'right', color: '#475569', fontWeight: 850, fontSize: '.8rem' }}>{item.count} / {fmt(item.amount)}</span>
+            <div style={{ height: 12, background: '#e7e5e4', borderRadius: 99, overflow: 'hidden' }}><div style={{ width: pct(item.amount, total), height: '100%', background: item.color }} /></div>
+            <span className="finance-report-chart-value" style={{ textAlign: 'right', color: '#57534e', fontWeight: 850, fontSize: '.8rem' }}>{item.count} / {fmt(item.amount)}</span>
           </div>
         ))}
       </div>
@@ -551,11 +552,11 @@ function DailyChart({ data }: { data: any[] }) {
   const max = Math.max(...data.map(item => item.amount), 1);
   return (
     <ReportSection title="Evolucao diaria da receita" subtitle="Entradas confirmadas por data de confirmacao/cadastro.">
-      <div className="finance-report-daily-chart" style={{ display: 'flex', alignItems: 'end', gap: 7, minHeight: 180, borderBottom: '1px solid #e2e8f0', paddingTop: 10, overflowX: 'auto' }}>
+      <div className="finance-report-daily-chart" style={{ display: 'flex', alignItems: 'end', gap: 7, minHeight: 180, borderBottom: '1px solid #e7e5e4', paddingTop: 10, overflowX: 'auto' }}>
         {data.map(item => (
           <div key={item.label} title={`${item.label}: ${fmt(item.amount)}`} style={{ minWidth: 34, display: 'grid', alignItems: 'end', gap: 6 }}>
             <div style={{ height: Math.max(12, (item.amount / max) * 150), background: TONES.income.color, borderRadius: '7px 7px 0 0' }} />
-            <small style={{ color: '#64748b', fontWeight: 800, fontSize: '.62rem', transform: 'rotate(-35deg)', transformOrigin: 'left top', height: 26 }}>{item.label.slice(0, 5)}</small>
+            <small style={{ color: '#78716c', fontWeight: 800, fontSize: '.62rem', transform: 'rotate(-35deg)', transformOrigin: 'left top', height: 26 }}>{item.label.slice(0, 5)}</small>
           </div>
         ))}
       </div>
@@ -589,25 +590,25 @@ function TeamTable({ rows }: { rows: any[] }) {
     <ReportSection title="Equipes" subtitle="Agrupamento por equipe informada no cadastro.">
       <div className="finance-report-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 12 }}>
         {teamRows.length === 0 ? (
-          <div style={{ border: '1px dashed #cbd5e1', borderRadius: 12, padding: 18, color: '#94a3b8', fontWeight: 900, textAlign: 'center' }}>
+          <div style={{ border: '1px dashed #d6d3d1', borderRadius: 12, padding: 18, color: '#a8a29e', fontWeight: 900, textAlign: 'center' }}>
             Nenhuma equipe informada.
           </div>
         ) : teamRows.map(row => (
-          <div key={row.name} className="finance-report-team-card" style={{ border: '1px solid #dbe3ef', borderLeft: `5px solid ${row.pending > 0 ? TONES.pending.color : TONES.income.color}`, borderRadius: 12, padding: 14, background: '#fff' }}>
+          <div key={row.name} className="finance-report-team-card" style={{ border: '1px solid #e4dfdc', borderLeft: `5px solid ${row.pending > 0 ? TONES.pending.color : TONES.income.color}`, borderRadius: 12, padding: 14, background: '#fff' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '42px minmax(0, 1fr)', gap: 11, alignItems: 'center' }}>
-              <div style={{ width: 42, height: 42, borderRadius: 10, background: '#f1f5f9', color: '#071A45', display: 'grid', placeItems: 'center', overflow: 'hidden', fontWeight: 950, fontSize: '.78rem', border: '1px solid #e2e8f0' }}>
+              <div style={{ width: 42, height: 42, borderRadius: 10, background: '#f5f5f4', color: '#141112', display: 'grid', placeItems: 'center', overflow: 'hidden', fontWeight: 950, fontSize: '.78rem', border: '1px solid #e7e5e4' }}>
                 {row.logoUrl ? <img src={row.logoUrl} alt={row.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : teamInitials(row.name)}
               </div>
               <div style={{ minWidth: 0 }}>
-                <strong style={{ display: 'block', color: '#071A45', fontSize: '.92rem', fontWeight: 950, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{row.name}</strong>
-                <span style={{ display: 'block', color: '#64748b', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase', marginTop: 2 }}>{row.total} inscrito(s) / {row.paid} pago(s)</span>
+                <strong style={{ display: 'block', color: '#141112', fontSize: '.92rem', fontWeight: 950, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{row.name}</strong>
+                <span style={{ display: 'block', color: '#78716c', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase', marginTop: 2 }}>{row.total} inscrito(s) / {row.paid} pago(s)</span>
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'center', marginTop: 12 }}>
-              <span style={{ color: '#64748b', fontSize: '.7rem', fontWeight: 900 }}>Participacao</span>
-              <strong style={{ color: '#071A45', fontSize: '.84rem', fontWeight: 950 }}>{row.participation}</strong>
+              <span style={{ color: '#78716c', fontSize: '.7rem', fontWeight: 900 }}>Participacao</span>
+              <strong style={{ color: '#141112', fontSize: '.84rem', fontWeight: 950 }}>{row.participation}</strong>
             </div>
-            <div style={{ height: 9, background: '#e2e8f0', borderRadius: 999, overflow: 'hidden', marginTop: 6 }}>
+            <div style={{ height: 9, background: '#e7e5e4', borderRadius: 999, overflow: 'hidden', marginTop: 6 }}>
               <div style={{ width: row.participation, height: '100%', background: row.pending > 0 ? TONES.pending.color : TONES.income.color }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 7, marginTop: 12 }}>
@@ -619,7 +620,7 @@ function TeamTable({ rows }: { rows: any[] }) {
         ))}
       </div>
       {total && (
-        <div style={{ marginTop: 12, border: '1px solid #bfdbfe', borderLeft: `5px solid ${TONES.bank.color}`, borderRadius: 12, background: TONES.bank.soft, padding: 12, display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', color: '#071A45', fontWeight: 950 }}>
+        <div style={{ marginTop: 12, border: '1px solid #bfdbfe', borderLeft: `5px solid ${TONES.bank.color}`, borderRadius: 12, background: TONES.bank.soft, padding: 12, display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', color: '#141112', fontWeight: 950 }}>
           <span>Total em equipes: {total.total}</span>
           <span>Pagos: {total.paid}</span>
           <span>Pendentes: {total.pending}</span>
@@ -662,16 +663,16 @@ function MovementTable({ title, rows }: { title: string; rows: Movement[] }) {
 
 function SimpleTable({ headers, rows, rowTones }: { headers: string[]; rows: any[][]; rowTones?: SemanticTone[] }) {
   return (
-    <div className="finance-report-table-wrap" style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: 12 }}>
+    <div className="finance-report-table-wrap" style={{ overflowX: 'auto', border: '1px solid #e7e5e4', borderRadius: 12 }}>
       <table className="finance-report-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '.78rem' }}>
-        <thead><tr style={{ background: '#f8fafc' }}>{headers.map(header => <th key={header} style={{ padding: '10px 12px', textAlign: 'left', color: '#64748b', textTransform: 'uppercase', fontSize: '.66rem' }}>{header}</th>)}</tr></thead>
+        <thead><tr style={{ background: '#fafaf9' }}>{headers.map(header => <th key={header} style={{ padding: '10px 12px', textAlign: 'left', color: '#78716c', textTransform: 'uppercase', fontSize: '.66rem' }}>{header}</th>)}</tr></thead>
         <tbody>
-          {rows.length === 0 ? <tr><td colSpan={headers.length} style={{ padding: 18, textAlign: 'center', color: '#94a3b8', fontWeight: 800 }}>Nenhum registro.</td></tr> : rows.map((row, index) => (
-            <tr key={index} style={{ borderTop: '1px solid #eef2f7', background: rowTones?.[index] ? TONES[rowTones[index]].soft : '#fff' }}>{row.map((cell, cellIndex) => {
+          {rows.length === 0 ? <tr><td colSpan={headers.length} style={{ padding: 18, textAlign: 'center', color: '#a8a29e', fontWeight: 800 }}>Nenhum registro.</td></tr> : rows.map((row, index) => (
+            <tr key={index} style={{ borderTop: '1px solid #f3f1ef', background: rowTones?.[index] ? TONES[rowTones[index]].soft : '#fff' }}>{row.map((cell, cellIndex) => {
               const tone = rowTones?.[index];
               const palette = tone ? TONES[tone] : TONES.neutral;
               const isValue = cellIndex === row.length - 1 && tone;
-              return <td key={cellIndex} style={{ padding: '9px 12px', color: isValue ? palette.color : '#334155', fontWeight: cellIndex === 0 || isValue ? 900 : 700, borderLeft: cellIndex === 0 && tone ? `4px solid ${palette.color}` : undefined }}>{cell}</td>;
+              return <td key={cellIndex} style={{ padding: '9px 12px', color: isValue ? palette.color : '#44403c', fontWeight: cellIndex === 0 || isValue ? 900 : 700, borderLeft: cellIndex === 0 && tone ? `4px solid ${palette.color}` : undefined }}>{cell}</td>;
             })}</tr>
           ))}
         </tbody>

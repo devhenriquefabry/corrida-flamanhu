@@ -12,6 +12,7 @@ import WinnerExperience from '../components/WinnerExperience';
 import { formatDateBR, formatDateTimeBR } from '../utils/dateUtils';
 import { generateOperatorToken, readGanhadores, sorteioStatusInfo } from '../utils/sorteioUtils';
 import '../App.css';
+import { adminAuthHeaders } from '../utils/workerApi';
 
 export default function AdminSorteios() {
   const navigate = useNavigate();
@@ -225,7 +226,7 @@ export default function AdminSorteios() {
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -271,6 +272,7 @@ export default function AdminSorteios() {
     };
 
     xhr.open("POST", `${workerUrl}/media/upload`, true);
+    Object.entries(await adminAuthHeaders()).forEach(([name, value]) => xhr.setRequestHeader(name, value));
     xhr.send(formData);
   };
 
@@ -389,46 +391,46 @@ export default function AdminSorteios() {
   const availablePrizesCount = premios.reduce((acc, p) => acc + (p.ativo !== false ? (p.quantidade - (p.distribuidos || 0)) : 0), 0);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Sorteio Surpresa</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Configure as regras e acompanhe os ganhadores em tempo real.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Sorteio Surpresa</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Configure as regras e acompanhe os ganhadores em tempo real.</p>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 32 }}>
-        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: '#f1f5f9', color: '#071A45', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Gift size={26} /></div>
+        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <div style={{ width: 52, height: 52, borderRadius: 14, background: '#f5f5f4', color: '#141112', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Gift size={26} /></div>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 900, color: '#071A45' }}>{availablePrizesCount}</h3>
-            <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Prêmios em Estoque</p>
+            <h3 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 900, color: '#141112' }}>{availablePrizesCount}</h3>
+            <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Prêmios em Estoque</p>
           </div>
         </div>
-        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: '#f1f5f9', color: '#071A45', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Trophy size={26} /></div>
+        <div style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <div style={{ width: 52, height: 52, borderRadius: 14, background: '#f5f5f4', color: '#141112', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Trophy size={26} /></div>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 900, color: '#071A45' }}>{ganhadores.length}</h3>
-            <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Ganhadores Totais</p>
+            <h3 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 900, color: '#141112' }}>{ganhadores.length}</h3>
+            <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Ganhadores Totais</p>
           </div>
         </div>
         <div 
           onClick={toggleAtivo}
-          style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'all 0.2s' }}
+          style={{ background: '#fff', padding: 24, borderRadius: 24, border: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'all 0.2s' }}
         >
           <div style={{ width: 52, height: 52, borderRadius: 14, background: config?.ativo ? '#dcfce7' : '#fee2e2', color: config?.ativo ? '#166534' : '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {config?.ativo ? <ToggleRight size={30} /> : <ToggleLeft size={30} />}
           </div>
           <div>
             <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: config?.ativo ? '#166534' : '#ef4444' }}>{config?.ativo ? 'ATIVO' : 'DESATIVADO'}</h3>
-            <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Status do Sorteio</p>
+            <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Status do Sorteio</p>
           </div>
         </div>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
         {/* Tabs */}
-        <div style={{ display: 'flex', borderBottom: '1px solid #f1f5f9', padding: '0 20px', overflowX: 'auto', background: '#f8fafc' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid #f5f5f4', padding: '0 20px', overflowX: 'auto', background: '#fafaf9' }}>
           {[
             { id: 'sorteios', label: 'SORTEIOS', icon: <Radio size={18} /> },
             { id: 'premios', label: 'PRÊMIOS', icon: <Gift size={18} /> },
@@ -443,9 +445,9 @@ export default function AdminSorteios() {
                 display: 'flex', alignItems: 'center', gap: 10,
                 background: 'transparent', border: 'none',
                 padding: '18px 24px',
-                color: activeTab === tab.id ? '#071A45' : '#94a3b8',
+                color: activeTab === tab.id ? '#141112' : '#a8a29e',
                 fontWeight: 800, fontSize: '0.8rem',
-                borderBottom: activeTab === tab.id ? '3px solid #6BFF2A' : '3px solid transparent',
+                borderBottom: activeTab === tab.id ? '3px solid #e01b22' : '3px solid transparent',
                 cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s'
               }}
             >
@@ -458,22 +460,22 @@ export default function AdminSorteios() {
           {activeTab === 'sorteios' && (
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, gap: 16, flexWrap: 'wrap' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', margin: 0 }}>Histórico de sorteios</h3>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', margin: 0 }}>Histórico de sorteios</h3>
                 <button
                   onClick={handleCreateSorteio}
                   disabled={creatingSorteio}
-                  style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
+                  style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
                 >
                   <Plus size={18} /> {creatingSorteio ? 'CRIANDO...' : 'NOVO SORTEIO'}
                 </button>
               </div>
-              <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: 24, lineHeight: 1.5 }}>
+              <p style={{ color: '#78716c', fontSize: '0.85rem', marginBottom: 24, lineHeight: 1.5 }}>
                 Cada sorteio tem a sua própria página pública para o público acompanhar ao vivo. Clique em um item para configurar o prêmio, controlar o status e enviar o resultado ao ganhador.
               </p>
 
               {sorteios.length === 0 ? (
-                <div style={{ padding: 70, textAlign: 'center', color: '#94a3b8', fontWeight: 700, background: '#f8fafc', borderRadius: 20, border: '1px dashed #cbd5e1' }}>
-                  <Radio size={34} color="#cbd5e1" />
+                <div style={{ padding: 70, textAlign: 'center', color: '#a8a29e', fontWeight: 700, background: '#fafaf9', borderRadius: 20, border: '1px dashed #d6d3d1' }}>
+                  <Radio size={34} color="#d6d3d1" />
                   <p style={{ margin: '12px 0 0' }}>Nenhum sorteio criado ainda.</p>
                 </div>
               ) : (
@@ -489,26 +491,26 @@ export default function AdminSorteios() {
                         style={{
                           display: 'flex', alignItems: 'center', gap: 16, padding: 16,
                           background: isLive ? '#fffbeb' : '#fff',
-                          border: `1px solid ${isLive ? '#fde68a' : '#e2e8f0'}`,
+                          border: `1px solid ${isLive ? '#fde68a' : '#e7e5e4'}`,
                           borderRadius: 18, cursor: 'pointer', transition: 'all 0.16s ease',
                         }}
                       >
-                        <div style={{ width: 62, height: 62, borderRadius: 14, flexShrink: 0, background: s.premioImagem ? `url(${s.premioImagem}) center/cover` : '#f1f5f9', display: 'grid', placeItems: 'center' }}>
-                          {!s.premioImagem && <Gift size={24} color="#cbd5e1" />}
+                        <div style={{ width: 62, height: 62, borderRadius: 14, flexShrink: 0, background: s.premioImagem ? `url(${s.premioImagem}) center/cover` : '#f5f5f4', display: 'grid', placeItems: 'center' }}>
+                          {!s.premioImagem && <Gift size={24} color="#d6d3d1" />}
                         </div>
 
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                            <strong style={{ color: '#071A45', fontSize: '1rem' }}>{s.titulo || 'Sorteio sem título'}</strong>
+                            <strong style={{ color: '#141112', fontSize: '1rem' }}>{s.titulo || 'Sorteio sem título'}</strong>
                             <span style={{ padding: '3px 10px', borderRadius: 999, background: `${info.color}1a`, color: info.color, fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase' }}>
                               {info.label}
                             </span>
                           </div>
-                          <div style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: 700, marginTop: 4 }}>
+                          <div style={{ color: '#78716c', fontSize: '0.8rem', fontWeight: 700, marginTop: 4 }}>
                             {s.premioNome || 'Prêmio não definido'}
                             {s.tipo === 'cupom' && <span style={{ marginLeft: 8, padding: '2px 8px', borderRadius: 999, background: '#ede9fe', color: '#6d28d9', fontSize: '0.65rem', fontWeight: 900 }}>CUPOM {s.couponCode}</span>}
                           </div>
-                          <div style={{ color: '#94a3b8', fontSize: '0.75rem', fontWeight: 700, marginTop: 3 }}>
+                          <div style={{ color: '#a8a29e', fontSize: '0.75rem', fontWeight: 700, marginTop: 3 }}>
                             {vencedores.length
                               ? `${vencedores.length > 1 ? 'Ganhadores' : 'Ganhador'}: ${vencedores.map((g: any) => g.nome).join(', ')}`
                               : s.dataPrevista
@@ -517,7 +519,7 @@ export default function AdminSorteios() {
                           </div>
                         </div>
 
-                        <ChevronRight size={20} color="#cbd5e1" />
+                        <ChevronRight size={20} color="#d6d3d1" />
                       </div>
                     );
                   })}
@@ -529,10 +531,10 @@ export default function AdminSorteios() {
           {activeTab === 'premios' && (
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-                 <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45' }}>Pool de Prêmios</h3>
+                 <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112' }}>Pool de Prêmios</h3>
                  <button 
                    onClick={() => setEditingPremio({ id: 'new', nome: '', imagem: '', quantidade: 1, distribuidos: 0 })}
-                   style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
+                   style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
                  >
                    <Plus size={18} /> ADICIONAR PRÊMIO
                  </button>
@@ -547,22 +549,22 @@ export default function AdminSorteios() {
                       key={p.id}
                       onClick={() => setEditingPremio(p)}
                       style={{ 
-                        background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, 
+                        background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, 
                         overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.03)', opacity: isPrizeAtivo ? 1 : 0.6
                       }}
                     >
                       <div style={{ 
                         height: 140, 
-                        background: p.imagem ? `url(${p.imagem}) center/cover` : '#f1f5f9', 
+                        background: p.imagem ? `url(${p.imagem}) center/cover` : '#f5f5f4', 
                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                       }}>
-                        {!p.imagem && <Gift size={32} color="#cbd5e1" />}
+                        {!p.imagem && <Gift size={32} color="#d6d3d1" />}
                       </div>
                       <div style={{ padding: 16 }}>
-                        <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 800, color: '#071A45', marginBottom: 12 }}>{p.nome}</h4>
+                        <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 800, color: '#141112', marginBottom: 12 }}>{p.nome}</h4>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8' }}>ESTOQUE</span>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#a8a29e' }}>ESTOQUE</span>
                           <span style={{ 
                             fontSize: '0.85rem', fontWeight: 900, 
                             color: disponiveis > 0 ? '#10b981' : '#ef4444' 
@@ -580,14 +582,14 @@ export default function AdminSorteios() {
 
           {activeTab === 'config' && (
             <div style={{ animation: 'fadeIn 0.3s ease', maxWidth: 800 }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Regras de Distribuição</h3>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Regras de Distribuição</h3>
               <form onSubmit={saveConfig}>
                 <div style={{ marginBottom: 24 }}>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Método de Seleção</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Método de Seleção</label>
                   <select 
                     value={tipoRegra} 
                     onChange={(e) => setTipoRegra(e.target.value as any)}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 700, outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 700, outline: 'none' }}
                   >
                     <option value="frequencia">Frequência Fixa (ex: a cada 50 pagamentos)</option>
                     <option value="especifico">Números Específicos (ex: 1º, 100º, 500º)</option>
@@ -596,43 +598,43 @@ export default function AdminSorteios() {
 
                 {tipoRegra === 'frequencia' ? (
                   <div style={{ marginBottom: 24 }}>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Frequência Vencedora</label>
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Frequência Vencedora</label>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <span style={{ fontWeight: 700, color: '#475569' }}>A cada</span>
+                      <span style={{ fontWeight: 700, color: '#57534e' }}>A cada</span>
                       <input 
                         type="number" 
                         value={frequencia} 
                         onChange={e => setFrequencia(Number(e.target.value))} 
-                        style={{ width: 100, padding: '12px', borderRadius: 12, border: '1px solid #e2e8f0', textAlign: 'center', fontSize: '1.1rem', fontWeight: 900 }}
+                        style={{ width: 100, padding: '12px', borderRadius: 12, border: '1px solid #e7e5e4', textAlign: 'center', fontSize: '1.1rem', fontWeight: 900 }}
                       />
-                      <span style={{ fontWeight: 700, color: '#475569' }}>pagamentos confirmados</span>
+                      <span style={{ fontWeight: 700, color: '#57534e' }}>pagamentos confirmados</span>
                     </div>
                   </div>
                 ) : (
                   <div style={{ marginBottom: 24 }}>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Números dos Contemplados</label>
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Números dos Contemplados</label>
                     <input 
                       type="text" 
                       value={numerosEspecificos} 
                       onChange={e => setNumerosEspecificos(e.target.value)} 
                       placeholder="Ex: 50, 100, 153" 
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 700, outline: 'none' }}
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 700, outline: 'none' }}
                     />
-                    <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 8 }}>Separe os números por vírgula.</p>
+                    <p style={{ fontSize: '0.75rem', color: '#a8a29e', marginTop: 8 }}>Separe os números por vírgula.</p>
                   </div>
                 )}
 
                 <div style={{ marginBottom: 30 }}>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Mensagem de Notificação (WhatsApp)</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Mensagem de Notificação (WhatsApp)</label>
                   <textarea 
                     value={instrucoes} 
                     onChange={e => setInstrucoes(e.target.value)} 
                     placeholder="Instruções para retirada do prêmio..." 
-                    style={{ width: '100%', padding: '16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none', minHeight: 120, lineHeight: 1.5 }}
+                    style={{ width: '100%', padding: '16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none', minHeight: 120, lineHeight: 1.5 }}
                   />
                 </div>
 
-                <button type="submit" style={{ background: '#071A45', color: '#fff', border: 'none', padding: '14px 40px', borderRadius: 12, fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer' }}>
+                <button type="submit" style={{ background: '#141112', color: '#fff', border: 'none', padding: '14px 40px', borderRadius: 12, fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer' }}>
                   SALVAR CONFIGURAÇÃO
                 </button>
               </form>
@@ -641,24 +643,24 @@ export default function AdminSorteios() {
 
           {activeTab === 'teste' && (
             <div style={{ animation: 'fadeIn 0.3s ease', maxWidth: 800 }}>
-               <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Ferramentas de Simulação</h3>
+               <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Ferramentas de Simulação</h3>
                
-               <div style={{ background: ganhoGarantido ? '#fef9c3' : '#f8fafc', padding: 24, borderRadius: 20, border: '1px solid #e2e8f0', marginBottom: 24 }}>
+               <div style={{ background: ganhoGarantido ? '#fef9c3' : '#fafaf9', padding: 24, borderRadius: 20, border: '1px solid #e7e5e4', marginBottom: 24 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <h4 style={{ fontWeight: 800, color: '#071A45' }}>Ganho Garantido (DEBUG)</h4>
+                    <h4 style={{ fontWeight: 800, color: '#141112' }}>Ganho Garantido (DEBUG)</h4>
                     <FormSwitch checked={ganhoGarantido} onChange={setGanhoGarantido} label="" />
                   </div>
-                  <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: 1.5 }}>
+                  <p style={{ fontSize: '0.85rem', color: '#78716c', lineHeight: 1.5 }}>
                     Ao ativar esta opção, <strong>todas as inscrições reais</strong> que forem pagas serão contempladas imediatamente, ignorando as regras, até que o estoque acabe.
                   </p>
                </div>
 
-               <div style={{ background: '#071A45', padding: 30, borderRadius: 24, color: '#fff' }}>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#6BFF2A', marginBottom: 12 }}>Simulador Visual de Ganhador</h4>
+               <div style={{ background: '#141112', padding: 30, borderRadius: 24, color: '#fff' }}>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ff2e38', marginBottom: 12 }}>Simulador Visual de Ganhador</h4>
                   <p style={{ opacity: 0.8, fontSize: '0.9rem', marginBottom: 24, lineHeight: 1.5 }}>
                     Inicia a animação completa de sorteio e envia uma mensagem de teste para o seu WhatsApp. Excelente para demonstrar a experiência do ganhador.
                   </p>
-                  <button onClick={handleSimulateWinner} style={{ background: '#6BFF2A', color: '#071A45', border: 'none', padding: '14px 28px', borderRadius: 12, fontWeight: 800, cursor: 'pointer' }}>
+                  <button onClick={handleSimulateWinner} style={{ background: '#e01b22', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: 12, fontWeight: 800, cursor: 'pointer' }}>
                     RODAR SIMULAÇÃO COMPLETA
                   </button>
                </div>
@@ -667,13 +669,13 @@ export default function AdminSorteios() {
 
           {activeTab === 'ganhadores' && (
             <div style={{ animation: 'fadeIn 0.3s ease' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Histórico de Contemplados</h3>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Histórico de Contemplados</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
                 {ganhadores.length === 0 ? (
-                  <div style={{ gridColumn: '1/-1', padding: 80, textAlign: 'center', color: '#94a3b8', fontWeight: 600 }}>Nenhum ganhador registrado ainda.</div>
+                  <div style={{ gridColumn: '1/-1', padding: 80, textAlign: 'center', color: '#a8a29e', fontWeight: 600 }}>Nenhum ganhador registrado ainda.</div>
                 ) : (
                   ganhadores.map((g: any) => (
-                    <div key={g.id} style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
+                    <div key={g.id} style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
                        {g.vitoriaImageUrl ? (
                         <div style={{ width: '100%', aspectRatio: '4/5', position: 'relative' }}>
                           <img src={g.vitoriaImageUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -682,17 +684,17 @@ export default function AdminSorteios() {
                                <div style={{ fontSize: '0.7rem', fontWeight: 800, opacity: 0.8 }}>{formatDateBR(g.dataHora)}</div>
                                <div style={{ fontSize: '1rem', fontWeight: 900 }}>{g.alunoNome}</div>
                             </div>
-                            <a href={g.vitoriaImageUrl} target="_blank" style={{ width: 36, height: 36, borderRadius: 10, background: '#6BFF2A', color: '#071A45', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Download size={18} /></a>
+                            <a href={g.vitoriaImageUrl} target="_blank" style={{ width: 36, height: 36, borderRadius: 10, background: '#e01b22', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Download size={18} /></a>
                           </div>
                         </div>
                        ) : (
                         <div style={{ padding: 20 }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                            <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8' }}>{formatDateBR(g.dataHora)}</span>
+                            <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#a8a29e' }}>{formatDateBR(g.dataHora)}</span>
                             <span style={{ background: '#eff6ff', color: '#1e40af', padding: '4px 8px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800 }}>{g.premioNome}</span>
                           </div>
-                          <div style={{ fontWeight: 800, fontSize: '1rem', color: '#071A45' }}>{g.alunoNome}</div>
-                          <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: 4 }}>{g.telefone}</div>
+                          <div style={{ fontWeight: 800, fontSize: '1rem', color: '#141112' }}>{g.alunoNome}</div>
+                          <div style={{ fontSize: '0.8rem', color: '#78716c', marginTop: 4 }}>{g.telefone}</div>
                         </div>
                        )}
                     </div>
@@ -707,7 +709,7 @@ export default function AdminSorteios() {
       {editingPremio && (
         <div className="modal-overlay" onClick={() => setEditingPremio(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 500, padding: 30 }}>
-            <h2 style={{ fontFamily: 'Montserrat', fontWeight: 800, color: '#071A45', marginBottom: 20 }}>
+            <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800, color: '#141112', marginBottom: 20 }}>
               {editingPremio.id === 'new' ? 'Adicionar Novo Prêmio' : 'Editar Prêmio'}
             </h2>
             <form onSubmit={e => { e.preventDefault(); handleSaveEditingPremio(); }}>
@@ -725,7 +727,7 @@ export default function AdminSorteios() {
                 <FormLabel label="Foto do Prêmio" hint="Envie a foto real do produto" />
                 <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
                   <div style={{ 
-                    width: 80, height: 80, borderRadius: 12, border: '1px solid #e2e8f0', 
+                    width: 80, height: 80, borderRadius: 12, border: '1px solid #e7e5e4', 
                     background: editingPremio.imagem ? `url(${editingPremio.imagem}) center/cover` : '#f8f9fa',
                     display: 'flex', alignItems: 'center', justifyContent: 'center'
                   }}>
@@ -735,13 +737,13 @@ export default function AdminSorteios() {
                     <label style={{ 
                       display: 'inline-flex', alignItems: 'center', gap: 8, 
                       padding: '10px 16px', background: uploadingImage ? '#f8f9fa' : '#fff', 
-                      border: uploadingImage ? '2px solid #6BFF2A' : '2px dashed #ccc', 
+                      border: uploadingImage ? '2px solid #e01b22' : '2px dashed #ccc', 
                       borderRadius: 8, cursor: uploadingImage ? 'not-allowed' : 'pointer',
-                      fontWeight: 600, color: uploadingImage ? '#071A45' : '#666', transition: 'all 0.2s', width: '100%', justifyContent: 'center',
+                      fontWeight: 600, color: uploadingImage ? '#141112' : '#666', transition: 'all 0.2s', width: '100%', justifyContent: 'center',
                       position: 'relative', overflow: 'hidden'
                     }}>
                       {uploadingImage && (
-                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${uploadProgress}%`, background: 'rgba(107,255,42,0.3)', transition: 'width 0.2s' }} />
+                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${uploadProgress}%`, background: 'rgba(224, 27, 34,0.3)', transition: 'width 0.2s' }} />
                       )}
                       <UploadCloud size={20} style={{ position: 'relative', zIndex: 1 }} />
                       <span style={{ position: 'relative', zIndex: 1 }}>
@@ -784,7 +786,7 @@ export default function AdminSorteios() {
                 padding: '15px 20px', 
                 borderRadius: 12, 
                 marginBottom: 20, 
-                border: editingPremio.ativo !== false ? '1px solid #6BFF2A' : '1px solid #eee'
+                border: editingPremio.ativo !== false ? '1px solid #e01b22' : '1px solid #eee'
               }}>
                 <FormSwitch 
                   label="Prêmio Ativo para Sorteio"
@@ -812,12 +814,12 @@ export default function AdminSorteios() {
       {simulating && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999 }}>
           {!simulatedPrize ? (
-            <div style={{ position: 'fixed', inset: 0, background: 'rgba(7,26,69,0.95)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: 20, fontWeight: 800, color: '#6BFF2A', textAlign: 'center' }}>
+            <div style={{ position: 'fixed', inset: 0, background: 'rgba(20, 17, 18,0.95)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+              <h2 style={{ fontSize: '2.5rem', marginBottom: 20, fontWeight: 800, color: '#ff2e38', textAlign: 'center' }}>
                 Sorteando Prêmio...
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
-                <div style={{ width: 80, height: 80, border: '6px solid rgba(107,255,42,0.2)', borderTopColor: '#6BFF2A', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                <div style={{ width: 80, height: 80, border: '6px solid rgba(224, 27, 34,0.2)', borderTopColor: '#e01b22', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
                 <p style={{ opacity: 0.7 }}>Rodando roleta digital...</p>
                 <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
               </div>

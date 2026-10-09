@@ -378,7 +378,7 @@ export default function AdminFinanceiro() {
   const handleExport = () => {
     if (filtered.length === 0) return showAlert('Nenhum dado para exportar.', 'warning');
     
-    exportToCSV(filtered, 'financeiro_mcu_night_run', [
+    exportToCSV(filtered, 'financeiro_corrida_flamanhu', [
       { header: 'Nome', key: 'nome' },
       { header: 'CPF', key: 'cpf' },
       { header: 'E-mail', key: 'email' },
@@ -395,7 +395,7 @@ export default function AdminFinanceiro() {
     const visibleItems = items.slice(0, previewLimit);
     if (visibleItems.length === 0) {
       return (
-        <div style={{ minHeight: 150, display: 'grid', placeItems: 'center', color: '#94a3b8', fontWeight: 800, textAlign: 'center' }}>
+        <div style={{ minHeight: 150, display: 'grid', placeItems: 'center', color: '#a8a29e', fontWeight: 800, textAlign: 'center' }}>
           Nenhuma movimentacao registrada.
         </div>
       );
@@ -404,29 +404,29 @@ export default function AdminFinanceiro() {
     return (
       <div style={{ display: 'grid', gap: 10 }}>
         {visibleItems.map(item => (
-          <div key={item.id} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 14, alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #eef2f7' }}>
+          <div key={item.id} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 14, alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #f3f1ef' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
               <div style={{ width: 36, height: 36, borderRadius: 10, background: isEntrada ? '#dcfce7' : '#fee2e2', color: isEntrada ? '#166534' : '#ef4444', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                 {isEntrada ? <ArrowDownLeft size={18} /> : <ArrowUpRight size={18} />}
               </div>
               <div style={{ minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                  <strong style={{ color: '#071A45', fontSize: '.88rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</strong>
+                  <strong style={{ color: '#141112', fontSize: '.88rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</strong>
                   {showProviderLogo && <img src={item.provider === 'cora' ? withBase('/sistema/cora-logo.svg') : withBase('/sistema/asaas-logo.svg')} alt={item.provider === 'cora' ? 'Cora' : 'Asaas'} style={{ width: item.provider === 'cora' ? 38 : 46, height: 16, objectFit: 'contain', flexShrink: 0 }} />}
                 </div>
-                <span style={{ display: 'block', color: '#64748b', fontSize: '.74rem', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 3 }}>{item.description}</span>
+                <span style={{ display: 'block', color: '#78716c', fontSize: '.74rem', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 3 }}>{item.description}</span>
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
               <strong style={{ display: 'block', color: isEntrada ? '#166534' : '#ef4444', fontSize: '.9rem', fontWeight: 950 }}>{isEntrada ? '+' : '-'} {fmt(item.amount)}</strong>
-              <span style={{ display: 'block', color: '#94a3b8', fontSize: '.7rem', fontWeight: 800, marginTop: 3 }}>
+              <span style={{ display: 'block', color: '#a8a29e', fontSize: '.7rem', fontWeight: 800, marginTop: 3 }}>
                 {formatDateTimeBR(item.date)}
               </span>
             </div>
           </div>
         ))}
         {items.length > previewLimit && (
-          <div style={{ background: '#f8fafc', border: '1px dashed #cbd5e1', color: '#64748b', borderRadius: 12, padding: '10px 12px', textAlign: 'center', fontSize: '.76rem', fontWeight: 900 }}>
+          <div style={{ background: '#fafaf9', border: '1px dashed #d6d3d1', color: '#78716c', borderRadius: 12, padding: '10px 12px', textAlign: 'center', fontSize: '.76rem', fontWeight: 900 }}>
             + {items.length - previewLimit} movimentacoes no historico completo
           </div>
         )}
@@ -435,32 +435,32 @@ export default function AdminFinanceiro() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Financeiro</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Acompanhe o desempenho financeiro e o status das cobranças.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Financeiro</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Acompanhe o desempenho financeiro e o status das cobranças.</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <div style={{ background: '#fff', border: '1px solid #e2e8f0', color: '#475569', padding: '10px 20px', borderRadius: 12, fontWeight: 700, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ background: '#fff', border: '1px solid #e7e5e4', color: '#57534e', padding: '10px 20px', borderRadius: 12, fontWeight: 700, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8 }}>
             <Calendar size={16} /> 01/05/2026 - 31/07/2026
           </div>
           <button
             onClick={() => navigate('/admin/financeiro/faturas')}
-            style={{ background: '#fff', border: '1px solid #cbd5e1', color: '#071A45', padding: '10px 16px', borderRadius: 10, fontWeight: 900, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+            style={{ background: '#fff', border: '1px solid #d6d3d1', color: '#141112', padding: '10px 16px', borderRadius: 10, fontWeight: 900, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
           >
             <CreditCard size={16} /> Faturas
           </button>
           <button
             onClick={() => navigate('/admin/financeiro/relatorios')}
-            style={{ background: '#fff', border: '1px solid #cbd5e1', color: '#071A45', padding: '10px 16px', borderRadius: 10, fontWeight: 900, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+            style={{ background: '#fff', border: '1px solid #d6d3d1', color: '#141112', padding: '10px 16px', borderRadius: 10, fontWeight: 900, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
           >
             <Download size={16} /> Relatorios
           </button>
           <button 
             onClick={handleExport}
-            style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+            style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
           >
             <Download size={18} /> Exportar Relatório
           </button>
@@ -484,12 +484,12 @@ export default function AdminFinanceiro() {
             </div>
           </SkeletonCard>
         )) : [
-          { label: 'Receita Total', value: fmt(stats.total), net: fmt(stats.totalLiquido), icon: Wallet, color: '#071A45', bg: '#111c32', fg: '#fff', sub: 'Valor total arrecadado', provider: stats.totalByProvider, providerNet: stats.totalNetByProvider },
+          { label: 'Receita Total', value: fmt(stats.total), net: fmt(stats.totalLiquido), icon: Wallet, color: '#141112', bg: '#1a1516', fg: '#fff', sub: 'Valor total arrecadado', provider: stats.totalByProvider, providerNet: stats.totalNetByProvider },
           { label: 'Recebido', value: fmt(stats.recebido), net: fmt(stats.recebidoLiquido), icon: CheckCircle, color: '#10b981', bg: '#10b981', fg: '#fff', sub: stats.percRecebido + '% do total', provider: stats.recebidoByProvider, providerNet: stats.recebidoNetByProvider },
-          { label: 'Pendente', value: fmt(stats.pendente), net: fmt(stats.pendenteLiquido), icon: Clock, color: '#f59e0b', bg: '#fff', fg: '#071A45', sub: stats.percPendente + '% do total', provider: stats.pendenteByProvider, providerNet: stats.pendenteNetByProvider },
-          { label: 'Cancelado', value: fmt(stats.cancelado), net: fmt(stats.canceladoLiquido), icon: AlertCircle, color: '#ef4444', bg: '#fff', fg: '#071A45', sub: stats.percCancelado + '% do total', provider: stats.canceladoByProvider, providerNet: stats.canceladoNetByProvider }
+          { label: 'Pendente', value: fmt(stats.pendente), net: fmt(stats.pendenteLiquido), icon: Clock, color: '#f59e0b', bg: '#fff', fg: '#141112', sub: stats.percPendente + '% do total', provider: stats.pendenteByProvider, providerNet: stats.pendenteNetByProvider },
+          { label: 'Cancelado', value: fmt(stats.cancelado), net: fmt(stats.canceladoLiquido), icon: AlertCircle, color: '#ef4444', bg: '#fff', fg: '#141112', sub: stats.percCancelado + '% do total', provider: stats.canceladoByProvider, providerNet: stats.canceladoNetByProvider }
         ].map((s, i) => (
-          <div key={i} className="finance-summary-card" style={{ background: s.bg, minHeight: 170, padding: '20px 18px', borderRadius: 0, border: s.bg === '#fff' ? '1px solid #eef2f7' : 'none', borderLeft: `5px solid ${s.color}`, boxShadow: '0 10px 24px rgba(15,23,42,0.06)', color: s.fg }}>
+          <div key={i} className="finance-summary-card" style={{ background: s.bg, minHeight: 170, padding: '20px 18px', borderRadius: 0, border: s.bg === '#fff' ? '1px solid #f3f1ef' : 'none', borderLeft: `5px solid ${s.color}`, boxShadow: '0 10px 24px rgba(28, 25, 23,0.06)', color: s.fg }}>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 38, height: 38, borderRadius: 10, background: s.bg === '#fff' ? `${s.color}15` : 'rgba(255,255,255,.14)', color: s.bg === '#fff' ? s.color : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <s.icon size={22} />
@@ -499,17 +499,17 @@ export default function AdminFinanceiro() {
              <div>
                <div style={{ fontSize: '0.72rem', fontWeight: 950, color: s.bg === '#fff' ? '#4b5563' : 'rgba(255,255,255,.82)', textTransform: 'uppercase', marginBottom: 12, lineHeight: 1.25 }}>{s.label}</div>
                <div style={{ fontSize: '1.55rem', fontWeight: 950, color: s.fg, marginBottom: 8, lineHeight: 1.05 }}>{s.value}</div>
-               <div style={{ fontSize: '0.72rem', fontWeight: 900, color: s.bg === '#fff' ? '#475569' : 'rgba(255,255,255,.86)', marginBottom: 4 }}>Liquido: {s.net}</div>
-               <div style={{ fontSize: '0.72rem', fontWeight: 800, color: s.bg === '#fff' ? '#64748b' : 'rgba(255,255,255,.78)' }}>{s.sub}</div>
+               <div style={{ fontSize: '0.72rem', fontWeight: 900, color: s.bg === '#fff' ? '#57534e' : 'rgba(255,255,255,.86)', marginBottom: 4 }}>Liquido: {s.net}</div>
+               <div style={{ fontSize: '0.72rem', fontWeight: 800, color: s.bg === '#fff' ? '#78716c' : 'rgba(255,255,255,.78)' }}>{s.sub}</div>
                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 12 }}>
-                 <div style={{ background: s.bg === '#fff' ? '#f8fafc' : 'rgba(255,255,255,.1)', border: `1px solid ${s.bg === '#fff' ? '#eef2f7' : 'rgba(255,255,255,.14)'}`, borderRadius: 8, padding: '7px 8px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: s.bg === '#fff' ? '#64748b' : '#fff', fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 3 }}>
+                 <div style={{ background: s.bg === '#fff' ? '#fafaf9' : 'rgba(255,255,255,.1)', border: `1px solid ${s.bg === '#fff' ? '#f3f1ef' : 'rgba(255,255,255,.14)'}`, borderRadius: 8, padding: '7px 8px' }}>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: s.bg === '#fff' ? '#78716c' : '#fff', fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 3 }}>
                      <img src={withBase("/sistema/cora-logo.svg")} alt="Cora" style={{ width: 34, height: 15, objectFit: 'contain' }} />
                    </div>
                    <strong style={{ color: s.fg, fontSize: '0.76rem', fontWeight: 950 }}>{fmt(s.provider.cora)}</strong>
                  </div>
-                 <div style={{ background: s.bg === '#fff' ? '#f8fafc' : 'rgba(255,255,255,.1)', border: `1px solid ${s.bg === '#fff' ? '#eef2f7' : 'rgba(255,255,255,.14)'}`, borderRadius: 8, padding: '7px 8px' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: s.bg === '#fff' ? '#64748b' : '#fff', fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 3 }}>
+                 <div style={{ background: s.bg === '#fff' ? '#fafaf9' : 'rgba(255,255,255,.1)', border: `1px solid ${s.bg === '#fff' ? '#f3f1ef' : 'rgba(255,255,255,.14)'}`, borderRadius: 8, padding: '7px 8px' }}>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: s.bg === '#fff' ? '#78716c' : '#fff', fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 3 }}>
                      <img src={withBase("/sistema/asaas-logo.svg")} alt="Asaas" style={{ width: 42, height: 15, objectFit: 'contain' }} />
                    </div>
                    <strong style={{ color: s.fg, fontSize: '0.76rem', fontWeight: 950 }}>{fmt(s.provider.asaas)}</strong>
@@ -520,13 +520,13 @@ export default function AdminFinanceiro() {
         ))}
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: 28 }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: 28 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap', marginBottom: 16 }}>
           <div>
-            <h2 style={{ color: '#071A45', fontSize: '1.05rem', fontWeight: 950, margin: 0 }}>Pagamentos por forma</h2>
-            <p style={{ color: '#64748b', fontSize: '.82rem', fontWeight: 700, margin: '4px 0 0' }}>Confirmados e pendentes por Pix e cartão, separado por banco.</p>
+            <h2 style={{ color: '#141112', fontSize: '1.05rem', fontWeight: 950, margin: 0 }}>Pagamentos por forma</h2>
+            <p style={{ color: '#78716c', fontSize: '.82rem', fontWeight: 700, margin: '4px 0 0' }}>Confirmados e pendentes por Pix e cartão, separado por banco.</p>
           </div>
-          <span style={{ background: '#f1f5f9', color: '#64748b', borderRadius: 8, padding: '6px 9px', fontSize: '.72rem', fontWeight: 900 }}>
+          <span style={{ background: '#f5f5f4', color: '#78716c', borderRadius: 8, padding: '6px 9px', fontSize: '.72rem', fontWeight: 900 }}>
             Confirmado: {paymentMethodSummary.confirmado.count} / {fmt(paymentMethodSummary.confirmado.amount)} | Pendente: {paymentMethodSummary.pendente.count} / {fmt(paymentMethodSummary.pendente.amount)}
           </span>
         </div>
@@ -545,40 +545,40 @@ export default function AdminFinanceiro() {
                 { key: 'asaas' as const, label: 'Asaas', logo: withBase('/sistema/asaas-logo.svg'), width: 46 },
               ];
               return (
-                <div key={method.key} style={{ border: '1px solid #eef2f7', borderRadius: 14, background: '#f8fafc', padding: 16 }}>
+                <div key={method.key} style={{ border: '1px solid #f3f1ef', borderRadius: 14, background: '#fafaf9', padding: 16 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                     <div style={{ width: 38, height: 38, borderRadius: 11, background: `${method.color}18`, color: method.color, display: 'grid', placeItems: 'center' }}>
                       <Icon size={20} />
                     </div>
                     <div>
-                      <span style={{ display: 'block', color: '#64748b', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase' }}>{method.label}</span>
-                      <strong style={{ display: 'block', color: '#071A45', fontSize: '1.08rem', fontWeight: 950 }}>{fmt(data.confirmado.amount + data.pendente.amount)}</strong>
+                      <span style={{ display: 'block', color: '#78716c', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase' }}>{method.label}</span>
+                      <strong style={{ display: 'block', color: '#141112', fontSize: '1.08rem', fontWeight: 950 }}>{fmt(data.confirmado.amount + data.pendente.amount)}</strong>
                     </div>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
                     <div style={{ background: '#ecfdf5', border: '1px solid #bbf7d0', borderRadius: 10, padding: '9px 10px' }}>
                       <span style={{ display: 'block', color: '#166534', fontSize: '.67rem', fontWeight: 950, textTransform: 'uppercase' }}>Confirmado</span>
-                      <strong style={{ display: 'block', color: '#071A45', fontSize: '.84rem', fontWeight: 950, marginTop: 3 }}>{data.confirmado.count} inscr.</strong>
+                      <strong style={{ display: 'block', color: '#141112', fontSize: '.84rem', fontWeight: 950, marginTop: 3 }}>{data.confirmado.count} inscr.</strong>
                       <span style={{ display: 'block', color: '#166534', fontSize: '.78rem', fontWeight: 900 }}>{fmt(data.confirmado.amount)}</span>
                     </div>
                     <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '9px 10px' }}>
                       <span style={{ display: 'block', color: '#c2410c', fontSize: '.67rem', fontWeight: 950, textTransform: 'uppercase' }}>Pendente</span>
-                      <strong style={{ display: 'block', color: '#071A45', fontSize: '.84rem', fontWeight: 950, marginTop: 3 }}>{data.pendente.count} inscr.</strong>
+                      <strong style={{ display: 'block', color: '#141112', fontSize: '.84rem', fontWeight: 950, marginTop: 3 }}>{data.pendente.count} inscr.</strong>
                       <span style={{ display: 'block', color: '#c2410c', fontSize: '.78rem', fontWeight: 900 }}>{fmt(data.pendente.amount)}</span>
                     </div>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                     {providers.map(provider => (
-                      <div key={provider.key} style={{ background: '#fff', border: '1px solid #eef2f7', borderRadius: 10, padding: '9px 10px' }}>
+                      <div key={provider.key} style={{ background: '#fff', border: '1px solid #f3f1ef', borderRadius: 10, padding: '9px 10px' }}>
                         <img src={provider.logo} alt={provider.label} style={{ width: provider.width, height: 15, objectFit: 'contain', display: 'block', marginBottom: 7 }} />
                         <div style={{ display: 'grid', gap: 5 }}>
                           <div>
                             <span style={{ display: 'block', color: '#166534', fontSize: '.64rem', fontWeight: 950, textTransform: 'uppercase' }}>Confirmado</span>
-                            <strong style={{ color: '#071A45', fontSize: '.78rem', fontWeight: 950 }}>{data.confirmado.provider[provider.key].count} / {fmt(data.confirmado.provider[provider.key].amount)}</strong>
+                            <strong style={{ color: '#141112', fontSize: '.78rem', fontWeight: 950 }}>{data.confirmado.provider[provider.key].count} / {fmt(data.confirmado.provider[provider.key].amount)}</strong>
                           </div>
                           <div>
                             <span style={{ display: 'block', color: '#c2410c', fontSize: '.64rem', fontWeight: 950, textTransform: 'uppercase' }}>Pendente</span>
-                            <strong style={{ color: '#071A45', fontSize: '.78rem', fontWeight: 950 }}>{data.pendente.provider[provider.key].count} / {fmt(data.pendente.provider[provider.key].amount)}</strong>
+                            <strong style={{ color: '#141112', fontSize: '.78rem', fontWeight: 950 }}>{data.pendente.provider[provider.key].count} / {fmt(data.pendente.provider[provider.key].amount)}</strong>
                           </div>
                         </div>
                       </div>
@@ -592,42 +592,42 @@ export default function AdminFinanceiro() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, marginBottom: 28 }}>
-        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+        <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
                 <img src={withBase("/sistema/cora-logo.svg")} alt="Cora" style={{ height: 20, maxWidth: 62, objectFit: 'contain' }} />
-                <span style={{ color: '#64748b', fontWeight: 900, fontSize: '.72rem', textTransform: 'uppercase' }}>Saldo atual</span>
+                <span style={{ color: '#78716c', fontWeight: 900, fontSize: '.72rem', textTransform: 'uppercase' }}>Saldo atual</span>
               </div>
               {loadingBalances ? (
                 <SkeletonBlock width={150} height={28} radius={999} />
               ) : (
-                <strong style={{ color: '#071A45', fontSize: '1.45rem', fontWeight: 950 }}>{fmtBankBalance(safeBankBalances.cora, 'cora')}</strong>
+                <strong style={{ color: '#141112', fontSize: '1.45rem', fontWeight: 950 }}>{fmtBankBalance(safeBankBalances.cora, 'cora')}</strong>
               )}
-              <div style={{ marginTop: 8, color: '#64748b', fontSize: '.76rem', fontWeight: 900, textTransform: 'uppercase' }}>
-                Confirmado no sistema: <span style={{ color: '#071A45' }}>{fmt(stats.recebidoByProvider.cora)}</span>
+              <div style={{ marginTop: 8, color: '#78716c', fontSize: '.76rem', fontWeight: 900, textTransform: 'uppercase' }}>
+                Confirmado no sistema: <span style={{ color: '#141112' }}>{fmt(stats.recebidoByProvider.cora)}</span>
               </div>
               {!safeBankBalances.cora.ok && safeBankBalances.cora.error && <div style={{ color: '#ef4444', fontSize: '.72rem', fontWeight: 700, marginTop: 6 }}>{safeBankBalances.cora.error}</div>}
             </div>
-            <button onClick={loadBankBalances} disabled={loadingBalances} style={{ background: '#f1f5f9', border: 'none', color: '#475569', padding: '8px 10px', borderRadius: 10, fontWeight: 900, cursor: loadingBalances ? 'wait' : 'pointer' }}>
+            <button onClick={loadBankBalances} disabled={loadingBalances} style={{ background: '#f5f5f4', border: 'none', color: '#57534e', padding: '8px 10px', borderRadius: 10, fontWeight: 900, cursor: loadingBalances ? 'wait' : 'pointer' }}>
               Atualizar
             </button>
           </div>
         </div>
-        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+        <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
                 <img src={withBase("/sistema/asaas-logo.svg")} alt="Asaas" style={{ height: 20, maxWidth: 72, objectFit: 'contain' }} />
-                <span style={{ color: '#64748b', fontWeight: 900, fontSize: '.72rem', textTransform: 'uppercase' }}>Saldo atual</span>
+                <span style={{ color: '#78716c', fontWeight: 900, fontSize: '.72rem', textTransform: 'uppercase' }}>Saldo atual</span>
               </div>
               {loadingBalances ? (
                 <SkeletonBlock width={150} height={28} radius={999} />
               ) : (
-                <strong style={{ color: '#071A45', fontSize: '1.45rem', fontWeight: 950 }}>{fmtBankBalance(safeBankBalances.asaas, 'asaas')}</strong>
+                <strong style={{ color: '#141112', fontSize: '1.45rem', fontWeight: 950 }}>{fmtBankBalance(safeBankBalances.asaas, 'asaas')}</strong>
               )}
-              <div style={{ marginTop: 8, color: '#64748b', fontSize: '.76rem', fontWeight: 900, textTransform: 'uppercase' }}>
-                Confirmado no sistema: <span style={{ color: '#071A45' }}>{fmt(stats.recebidoByProvider.asaas)}</span>
+              <div style={{ marginTop: 8, color: '#78716c', fontSize: '.76rem', fontWeight: 900, textTransform: 'uppercase' }}>
+                Confirmado no sistema: <span style={{ color: '#141112' }}>{fmt(stats.recebidoByProvider.asaas)}</span>
               </div>
               {safeBankBalances.asaas?.pendingCredit?.ok && (
                 <div style={{ marginTop: 10, padding: '9px 10px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10 }}>
@@ -652,7 +652,7 @@ export default function AdminFinanceiro() {
               )}
               {!safeBankBalances.asaas.ok && safeBankBalances.asaas.error && <div style={{ color: '#ef4444', fontSize: '.72rem', fontWeight: 700, marginTop: 6 }}>{safeBankBalances.asaas.error}</div>}
             </div>
-            <button onClick={loadBankBalances} disabled={loadingBalances} style={{ background: '#f1f5f9', border: 'none', color: '#475569', padding: '8px 10px', borderRadius: 10, fontWeight: 900, cursor: loadingBalances ? 'wait' : 'pointer' }}>
+            <button onClick={loadBankBalances} disabled={loadingBalances} style={{ background: '#f5f5f4', border: 'none', color: '#57534e', padding: '8px 10px', borderRadius: 10, fontWeight: 900, cursor: loadingBalances ? 'wait' : 'pointer' }}>
               Atualizar
             </button>
           </div>
@@ -662,13 +662,13 @@ export default function AdminFinanceiro() {
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16, marginBottom: 14, flexWrap: 'wrap' }}>
           <div>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 950, color: '#071A45', margin: 0 }}>Historico das contas</h2>
-            <p style={{ color: '#64748b', fontWeight: 700, margin: '4px 0 0', fontSize: '.86rem' }}>Extrato real dos bancos Cora e Asaas dos ultimos 90 dias.</p>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 950, color: '#141112', margin: 0 }}>Historico das contas</h2>
+            <p style={{ color: '#78716c', fontWeight: 700, margin: '4px 0 0', fontSize: '.86rem' }}>Extrato real dos bancos Cora e Asaas dos ultimos 90 dias.</p>
           </div>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <span style={{ background: '#dcfce7', color: '#166534', padding: '7px 10px', borderRadius: 8, fontWeight: 900, fontSize: '.76rem' }}>Entradas: {fmt(accountHistory.entradaTotal)}</span>
             <span style={{ background: '#fee2e2', color: '#ef4444', padding: '7px 10px', borderRadius: 8, fontWeight: 900, fontSize: '.76rem' }}>Saidas: {fmt(accountHistory.saidaTotal)}</span>
-            <button onClick={loadBankMovements} disabled={loadingMovements} style={{ background: '#f1f5f9', border: 'none', color: '#475569', padding: '7px 10px', borderRadius: 8, fontWeight: 900, fontSize: '.76rem', cursor: loadingMovements ? 'wait' : 'pointer' }}>
+            <button onClick={loadBankMovements} disabled={loadingMovements} style={{ background: '#f5f5f4', border: 'none', color: '#57534e', padding: '7px 10px', borderRadius: 8, fontWeight: 900, fontSize: '.76rem', cursor: loadingMovements ? 'wait' : 'pointer' }}>
               {loadingMovements ? 'Atualizando...' : 'Atualizar extrato'}
             </button>
           </div>
@@ -691,18 +691,18 @@ export default function AdminFinanceiro() {
             const saidaTotal = saidas.reduce((sum, item) => sum + item.amount, 0);
 
             return (
-              <section key={account.id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 16, paddingBottom: 14, borderBottom: '1px solid #eef2f7', flexWrap: 'wrap' }}>
+              <section key={account.id} style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 20, padding: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 16, paddingBottom: 14, borderBottom: '1px solid #f3f1ef', flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <img src={account.logo} alt={account.name} style={{ width: account.logoWidth, height: 22, objectFit: 'contain' }} />
-                    <strong style={{ color: '#071A45', fontSize: '.96rem', fontWeight: 950 }}>Conta {account.name}</strong>
+                    <strong style={{ color: '#141112', fontSize: '.96rem', fontWeight: 950 }}>Conta {account.name}</strong>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                    <span style={{ color: '#64748b', background: '#f1f5f9', padding: '5px 8px', borderRadius: 8, fontSize: '.72rem', fontWeight: 900 }}>{entradas.length + saidas.length} registros</span>
+                    <span style={{ color: '#78716c', background: '#f5f5f4', padding: '5px 8px', borderRadius: 8, fontSize: '.72rem', fontWeight: 900 }}>{entradas.length + saidas.length} registros</span>
                     <button
                       type="button"
                       onClick={() => navigate(`/admin/financeiro/${account.id}`)}
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#071A45', color: '#fff', border: 'none', padding: '7px 10px', borderRadius: 8, fontSize: '.72rem', fontWeight: 900, cursor: 'pointer' }}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#141112', color: '#fff', border: 'none', padding: '7px 10px', borderRadius: 8, fontSize: '.72rem', fontWeight: 900, cursor: 'pointer' }}
                     >
                       Historico completo <ArrowRight size={14} />
                     </button>
@@ -723,7 +723,7 @@ export default function AdminFinanceiro() {
                 <div style={{ display: 'grid', gap: 18 }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 6 }}>
-                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#071A45', fontSize: '.86rem', fontWeight: 950, margin: 0 }}>
+                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#141112', fontSize: '.86rem', fontWeight: 950, margin: 0 }}>
                         <ArrowDownLeft size={16} color="#166534" /> Entradas
                       </h3>
                       <span style={{ color: '#166534', background: '#dcfce7', padding: '4px 7px', borderRadius: 8, fontSize: '.68rem', fontWeight: 900 }}>{entradas.length}</span>
@@ -733,7 +733,7 @@ export default function AdminFinanceiro() {
 
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 6 }}>
-                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#071A45', fontSize: '.86rem', fontWeight: 950, margin: 0 }}>
+                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#141112', fontSize: '.86rem', fontWeight: 950, margin: 0 }}>
                         <ArrowUpRight size={16} color="#ef4444" /> Saidas
                       </h3>
                       <span style={{ color: '#ef4444', background: '#fee2e2', padding: '4px 7px', borderRadius: 8, fontSize: '.68rem', fontWeight: 900 }}>{saidas.length}</span>
@@ -752,11 +752,11 @@ export default function AdminFinanceiro() {
 
       {/* Charts Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 32 }}>
-        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', padding: 24 }}>
+        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45' }}>Evolução da Receita</h3>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112' }}>Evolução da Receita</h3>
             <div style={{ display: 'flex', gap: 8 }}>
-               <select style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.8rem', fontWeight: 600, color: '#64748b', outline: 'none' }}>
+               <select style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #e7e5e4', fontSize: '0.8rem', fontWeight: 600, color: '#78716c', outline: 'none' }}>
                  <option>Diário</option>
                  <option>Semanal</option>
                </select>
@@ -767,8 +767,8 @@ export default function AdminFinanceiro() {
           </div>
         </div>
 
-        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', padding: 24 }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45', marginBottom: 24 }}>Distribuição por Status</h3>
+        <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', padding: 24 }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112', marginBottom: 24 }}>Distribuição por Status</h3>
           <div style={{ height: 250, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {loading ? (
               <SkeletonBlock height={180} width={180} radius={999} />
@@ -790,57 +790,57 @@ export default function AdminFinanceiro() {
 
       {/* Transactions Section */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, marginTop: 40 }}>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#071A45' }}>Transações</h2>
+        <h2 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#141112' }}>Transações</h2>
       </div>
 
       {/* Filters Area */}
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', padding: '24px', marginBottom: 24, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', padding: '24px', marginBottom: 24, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
           <div style={{ flex: 1, minWidth: 300, position: 'relative' }}>
-            <Search style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={20} />
+            <Search style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} size={20} />
             <input 
               type="text" 
               placeholder="Buscar por nome, CPF ou e-mail..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
-              style={{ width: '100%', padding: '14px 16px 14px 48px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.95rem', outline: 'none', background: '#f8fafc', fontWeight: 600, color: '#071A45', transition: 'all 0.2s' }}
+              style={{ width: '100%', padding: '14px 16px 14px 48px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.95rem', outline: 'none', background: '#fafaf9', fontWeight: 600, color: '#141112', transition: 'all 0.2s' }}
             />
           </div>
           
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <div style={{ position: 'relative', minWidth: 140 }}>
-              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ width: '100%', padding: '14px 16px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 700, color: '#071A45', outline: 'none', cursor: 'pointer', background: '#fff', appearance: 'none' }}>
+              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ width: '100%', padding: '14px 16px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.85rem', fontWeight: 700, color: '#141112', outline: 'none', cursor: 'pointer', background: '#fff', appearance: 'none' }}>
                 <option value="todos">Status</option>
                 <option value="pago">Pago</option>
                 <option value="pendente">Pendente</option>
                 <option value="cancelado">Cancelado</option>
               </select>
-              <div style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}><Filter size={14} /></div>
+              <div style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#a8a29e' }}><Filter size={14} /></div>
             </div>
 
             <div style={{ position: 'relative', minWidth: 140 }}>
-              <select value={filterKit} onChange={e => setFilterKit(e.target.value)} style={{ width: '100%', padding: '14px 16px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontWeight: 700, color: '#071A45', outline: 'none', cursor: 'pointer', background: '#fff', appearance: 'none' }}>
+              <select value={filterKit} onChange={e => setFilterKit(e.target.value)} style={{ width: '100%', padding: '14px 16px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.85rem', fontWeight: 700, color: '#141112', outline: 'none', cursor: 'pointer', background: '#fff', appearance: 'none' }}>
                 <option value="todos">Kit</option>
                 {kitsCadastrados.map(k => <option key={k.id} value={k.id}>{k.nome}</option>)}
               </select>
-              <div style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}><Filter size={14} /></div>
+              <div style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#a8a29e' }}><Filter size={14} /></div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Table */}
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Atleta</th>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Kit</th>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Valor</th>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Status</th>
-                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Inscrição</th>
-                <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Ações</th>
+              <tr style={{ background: '#fafaf9', borderBottom: '1px solid #f5f5f4' }}>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Atleta</th>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Kit</th>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Valor</th>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Status</th>
+                <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Inscrição</th>
+                <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -853,15 +853,15 @@ export default function AdminFinanceiro() {
                   </td>
                 </tr>
               ) : paginatedData.length === 0 ? (
-                <tr><td colSpan={6} style={{ textAlign: 'center', padding: 60, color: '#94a3b8', fontWeight: 600 }}>Nenhuma transação encontrada.</td></tr>
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: 60, color: '#a8a29e', fontWeight: 600 }}>Nenhuma transação encontrada.</td></tr>
               ) : paginatedData.map(r => {
                 const isPaid = r.paymentStatus === 'pago';
                 const ct = r.createdAt?.toDate?.() || new Date();
                 return (
-                  <tr key={r.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                  <tr key={r.id} style={{ borderBottom: '1px solid #f5f5f4' }}>
                     <td style={{ padding: '16px 24px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 10, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 800, color: '#071A45', overflow: 'hidden' }}>
+                        <div style={{ width: 36, height: 36, borderRadius: 10, background: '#f5f5f4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 800, color: '#141112', overflow: 'hidden' }}>
                           {r.fotoUrl ? (
                             <img src={r.fotoUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           ) : (
@@ -869,15 +869,15 @@ export default function AdminFinanceiro() {
                           )}
                         </div>
                         <div>
-                          <div style={{ fontWeight: 700, color: '#071A45', fontSize: '0.9rem' }}>{r.nome}</div>
-                          <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 500 }}>{r.email}</div>
+                          <div style={{ fontWeight: 700, color: '#141112', fontSize: '0.9rem' }}>{r.nome}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#a8a29e', fontWeight: 500 }}>{r.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td style={{ padding: '16px 24px', color: '#475569', fontSize: '0.85rem', fontWeight: 600 }}>
+                    <td style={{ padding: '16px 24px', color: '#57534e', fontSize: '0.85rem', fontWeight: 600 }}>
                       {resolveKitNome(kitsCadastrados, r.kit, r.kitNome)}
                     </td>
-                    <td style={{ padding: '16px 24px', fontWeight: 800, color: '#071A45' }}>{fmt(r.amount || 0)}</td>
+                    <td style={{ padding: '16px 24px', fontWeight: 800, color: '#141112' }}>{fmt(r.amount || 0)}</td>
                     <td style={{ padding: '16px 24px' }}>
                       <span style={{ 
                         padding: '4px 10px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800,
@@ -887,21 +887,21 @@ export default function AdminFinanceiro() {
                         {r.paymentStatus.toUpperCase()}
                       </span>
                     </td>
-                    <td style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>
+                    <td style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#78716c', fontWeight: 600 }}>
                       {formatDateBR(ct)}
                     </td>
                     <td style={{ padding: '16px 24px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => navigate(`/admin/inscritos/${r.id}`)}
-                          style={{ background: '#f1f5f9', border: 'none', padding: 8, borderRadius: 8, color: '#071A45', cursor: 'pointer' }} 
+                          style={{ background: '#f5f5f4', border: 'none', padding: 8, borderRadius: 8, color: '#141112', cursor: 'pointer' }} 
                           title="Ver Detalhes"
                         >
                           <Eye size={18} />
                         </button>
                         <button 
                           onClick={() => r.invoiceUrl ? window.open(r.invoiceUrl, '_blank') : navigate(`/admin/inscritos/${r.id}`)}
-                          style={{ background: '#f1f5f9', border: 'none', padding: 8, borderRadius: 8, color: '#071A45', cursor: 'pointer' }} 
+                          style={{ background: '#f5f5f4', border: 'none', padding: 8, borderRadius: 8, color: '#141112', cursor: 'pointer' }} 
                           title="Baixar Comprovante"
                         >
                           <Download size={18} />
@@ -917,20 +917,20 @@ export default function AdminFinanceiro() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div style={{ padding: '16px 24px', background: '#f8fafc', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-             <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>Página {currentPage} de {totalPages}</span>
+          <div style={{ padding: '16px 24px', background: '#fafaf9', borderTop: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+             <span style={{ fontSize: '0.8rem', color: '#78716c', fontWeight: 600 }}>Página {currentPage} de {totalPages}</span>
              <div style={{ display: 'flex', gap: 8 }}>
                <button 
                  disabled={currentPage === 1}
                  onClick={() => setCurrentPage(prev => prev - 1)}
-                 style={{ background: '#fff', border: '1px solid #e2e8f0', padding: 8, borderRadius: 8, cursor: currentPage === 1 ? 'not-allowed' : 'pointer', color: currentPage === 1 ? '#cbd5e1' : '#475569' }}
+                 style={{ background: '#fff', border: '1px solid #e7e5e4', padding: 8, borderRadius: 8, cursor: currentPage === 1 ? 'not-allowed' : 'pointer', color: currentPage === 1 ? '#d6d3d1' : '#57534e' }}
                >
                  <ChevronLeft size={18} />
                </button>
                <button 
                  disabled={currentPage === totalPages}
                  onClick={() => setCurrentPage(prev => prev + 1)}
-                 style={{ background: '#fff', border: '1px solid #e2e8f0', padding: 8, borderRadius: 8, cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', color: currentPage === totalPages ? '#cbd5e1' : '#475569' }}
+                 style={{ background: '#fff', border: '1px solid #e7e5e4', padding: 8, borderRadius: 8, cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', color: currentPage === totalPages ? '#d6d3d1' : '#57534e' }}
                >
                  <ChevronRight size={18} />
                </button>

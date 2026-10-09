@@ -15,7 +15,7 @@ export type SorteioGanhador = {
 };
 
 export const SORTEIO_STATUS: { id: SorteioStatus; label: string; color: string }[] = [
-  { id: 'agendado', label: 'Agendado', color: '#64748b' },
+  { id: 'agendado', label: 'Agendado', color: '#78716c' },
   { id: 'acontecendo', label: 'Acontecendo', color: '#f59e0b' },
   { id: 'finalizado', label: 'Finalizado', color: '#16a34a' },
 ];

@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 import { LogoCombo } from './LogoCombo';
 import { useNavigate } from 'react-router-dom';
 import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA_ALT, LOGO_CORRIDA_PNG } from '../config/marca';
 
 interface WinnerExperienceProps {
   atletaNome: string;
@@ -59,7 +60,7 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
       const canvas = await html2canvas(hiddenCardRef.current, {
         useCORS: true,
         scale: 2,
-        backgroundColor: '#070D1E',
+        backgroundColor: '#0D0B0B',
         logging: false,
         width: 450,
         height: 800
@@ -104,7 +105,7 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
       const blob = await response.blob();
       const file = new File([blob], `MCU_Winner.png`, { type: 'image/png' });
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'MCU Night Run!', text: 'Ganhei um prêmio! 🏆' });
+        await navigator.share({ files: [file], title: 'Corrida Flamanhu!', text: 'Ganhei um prêmio! 🏆' });
       } else {
         const link = document.createElement('a');
         link.href = generatedImg;
@@ -149,13 +150,13 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
             {premioImagem ? (
               <img src={premioImagem} alt="Premio" crossOrigin="anonymous" className="tpl-prize-img" />
             ) : (
-              <Trophy size={100} color="#6BFF2A" />
+              <Trophy size={100} color="#e01b22" />
             )}
           </div>
 
           {/* Nome do Prêmio */}
           <div className="tpl-prize-label">
-            <Gift size={16} color="#6BFF2A" />
+            <Gift size={16} color="#e01b22" />
             <span className="tpl-prize-name">{premioNome.toUpperCase()}</span>
           </div>
 
@@ -165,7 +166,7 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
             {atletaFoto ? (
               <img src={atletaFoto} alt="Atleta" crossOrigin="anonymous" className="tpl-athlete-img" />
             ) : (
-              <div className="tpl-athlete-placeholder"><User size={36} color="#6BFF2A" /></div>
+              <div className="tpl-athlete-placeholder"><User size={36} color="#e01b22" /></div>
             )}
           </div>
 
@@ -179,21 +180,9 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
           </div>
 
           {/* Logo */}
-          <img src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")} alt="MCU Night Run" crossOrigin="anonymous" className="tpl-logo-main" />
+          <img src={LOGO_CORRIDA_PNG} alt={LOGO_CORRIDA_ALT} crossOrigin="anonymous" className="tpl-logo-main" />
 
-          {/* Parceiros */}
-          <div className="tpl-partners">
-            <div className="tpl-partner">
-              <span className="tpl-partner-lbl">REALIZAÇÃO</span>
-              <img src={withBase("/sistema/logo-mcu.png")} alt="MCU" crossOrigin="anonymous" className="tpl-partner-img" />
-            </div>
-            <div className="tpl-partner">
-              <span className="tpl-partner-lbl">APOIO</span>
-              <img src={withBase("/sistema/logo-ademare.png")} alt="Grupo MCU" crossOrigin="anonymous" className="tpl-partner-img" />
-            </div>
-          </div>
-
-          <div className="tpl-handle">@MCUNIGHTRUN</div>
+          <div className="tpl-handle">@CORRIDA_FLAMANHU</div>
         </div>
       </div>
 
@@ -201,7 +190,7 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
         <div className="suspense-screen admin-form-animated">
           <div className="suspense-loader">
              <div className="loader-ring" />
-             <Gift size={60} color="#6BFF2A" className="pulse-gentle" />
+             <Gift size={60} color="#e01b22" className="pulse-gentle" />
           </div>
           <h2 className="suspense-text">PREPARE-SE...</h2>
           <p className="suspense-subtext">Algo especial para você!</p>
@@ -213,7 +202,7 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
                <img src={generatedImg} alt="Resultado" className="story-final-render" />
              ) : (
                <div className="render-loading-clean">
-                  <Loader2 size={50} className="spin" color="#6BFF2A" />
+                  <Loader2 size={50} className="spin" color="#e01b22" />
                   <p>REVELANDO PRÊMIO...</p>
                </div>
              )}
@@ -221,7 +210,7 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
 
           <div className="share-warning-banner">
             <div className="share-warning-icon">⚠️</div>
-            <p className="share-warning-text">Para retirar seu prêmio, é <strong>obrigatório</strong> compartilhar esta imagem nos seus Stories marcando <strong>@mcunightrun</strong></p>
+            <p className="share-warning-text">Para retirar seu prêmio, é <strong>obrigatório</strong> compartilhar esta imagem nos seus Stories marcando <strong>@corrida_flamanhu</strong></p>
           </div>
 
           <div className="actions-row-clean">
@@ -238,20 +227,20 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
       <style>{`
         .winner-overlay {
           position: fixed; inset: 0; z-index: 999999;
-          background: #070D1E; display: flex; align-items: center;
+          background: #0D0B0B; display: flex; align-items: center;
           justify-content: center; padding: 15px; overflow: hidden;
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Barlow Condensed', sans-serif;
         }
 
         .suspense-screen { text-align: center; color: #fff; }
         .suspense-loader { position: relative; width: 120px; height: 120px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; }
-        .loader-ring { position: absolute; inset: 0; border: 4px solid rgba(107,255,42,0.1); border-top-color: #6BFF2A; border-radius: 50%; animation: spin 1s linear infinite; }
-        .suspense-text { font-size: 2.8rem; font-weight: 950; color: #6BFF2A; letter-spacing: -2px; }
+        .loader-ring { position: absolute; inset: 0; border: 4px solid rgba(224, 27, 34,0.1); border-top-color: #e01b22; border-radius: 50%; animation: spin 1s linear infinite; }
+        .suspense-text { font-size: 2.8rem; font-weight: 950; color: #ff2e38; letter-spacing: -2px; }
 
         /* === ARTBOARD === */
-        .story-artboard-clean-v2 { width: 450px; height: 800px; position: relative; overflow: hidden; background: #070D1E; }
+        .story-artboard-clean-v2 { width: 450px; height: 800px; position: relative; overflow: hidden; background: #0D0B0B; }
         .tpl-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; }
-        .tpl-dark-overlay { position: absolute; inset: 0; z-index: 1; background: rgba(7,13,30,0.35); }
+        .tpl-dark-overlay { position: absolute; inset: 0; z-index: 1; background: rgba(13, 11, 11,0.35); }
 
         /* Conteúdo flex vertical */
         .tpl-content {
@@ -261,10 +250,10 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
         }
 
         /* Header */
-        .tpl-congrats { color: #6BFF2A; font-size: 0.7rem; font-weight: 900; letter-spacing: 4px; font-style: italic; margin-bottom: 2px; }
+        .tpl-congrats { color: #ff2e38; font-size: 0.7rem; font-weight: 900; letter-spacing: 4px; font-style: italic; margin-bottom: 2px; }
         .tpl-name { color: #fff; font-size: 3.2rem; font-weight: 950; margin: 0; font-style: italic; letter-spacing: -2px; line-height: 1; text-shadow: 0 3px 15px rgba(0,0,0,0.5); }
-        .tpl-highlight-bar { background: #6BFF2A; padding: 5px 22px; margin-top: 6px; margin-bottom: 14px; display: inline-block; transform: skewX(-5deg); }
-        .tpl-highlight-bar span { color: #0A1128; font-size: 0.65rem; font-weight: 950; font-style: italic; letter-spacing: 1px; display: block; transform: skewX(5deg); }
+        .tpl-highlight-bar { background: #e01b22; padding: 5px 22px; margin-top: 6px; margin-bottom: 14px; display: inline-block; transform: skewX(-5deg); }
+        .tpl-highlight-bar span { color: #fff; font-size: 0.65rem; font-weight: 950; font-style: italic; letter-spacing: 1px; display: block; transform: skewX(5deg); }
 
         /* Prize Frame */
         .tpl-prize-frame { 
@@ -278,25 +267,25 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
         /* Prize Label */
         .tpl-prize-label { 
           display: flex; align-items: center; gap: 10px; 
-          background: rgba(10,17,40,0.7); border: 1px solid rgba(255,255,255,0.08); 
+          background: rgba(17, 14, 15,0.7); border: 1px solid rgba(255,255,255,0.08); 
           border-radius: 12px; padding: 10px 20px; margin-bottom: 16px;
         }
         .tpl-prize-name { color: #fff; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px; line-height: 1.3; text-align: center; }
 
         /* Winner Section */
-        .tpl-winner-label { color: #6BFF2A; font-size: 0.55rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; }
+        .tpl-winner-label { color: #ff2e38; font-size: 0.55rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; }
         .tpl-athlete-circle { 
           width: 105px; height: 105px; border-radius: 50%; 
-          border: 3px solid #6BFF2A; overflow: hidden; 
+          border: 3px solid #e01b22; overflow: hidden; 
           margin-bottom: 12px; flex-shrink: 0;
         }
         .tpl-athlete-img { width: 100%; height: 100%; object-fit: cover; }
-        .tpl-athlete-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #071A45; }
+        .tpl-athlete-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #141112; }
 
         /* Thanks Card */
         .tpl-thanks-card { 
           display: flex; align-items: center; gap: 12px; 
-          background: rgba(10,17,40,0.65); border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(17, 14, 15,0.65); border: 1px solid rgba(255,255,255,0.06);
           border-radius: 14px; padding: 12px 20px; 
           margin-bottom: 14px; width: 88%;
         }
@@ -304,31 +293,25 @@ export default function WinnerExperience({ atletaNome, premioNome, premioImagem,
         .tpl-thanks-text { color: #fff; font-size: 0.8rem; font-weight: 900; font-style: italic; line-height: 1.35; }
 
         /* Logo */
-        .tpl-logo-main { height: 45px; margin-bottom: 10px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.3)); }
-
-        /* Partners */
-        .tpl-partners { display: flex; align-items: center; gap: 25px; margin-bottom: 6px; }
-        .tpl-partner { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        .tpl-partner-lbl { color: rgba(255,255,255,0.35); font-size: 0.38rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-        .tpl-partner-img { height: 18px; filter: brightness(0) invert(1); opacity: 0.6; }
+        .tpl-logo-main { height: 96px; margin-bottom: 10px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.3)); }
 
         /* Handle */
         .tpl-handle { color: rgba(255,255,255,0.25); font-size: 0.65rem; font-weight: 950; letter-spacing: 4px; margin-top: auto; }
 
         /* === RESULT SCREEN === */
         .winner-result-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .display-frame-clean { width: 100%; max-width: 400px; aspect-ratio: 9/16; border-radius: 0px; overflow: hidden; background: #070D1E; box-shadow: 0 40px 100px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 10; }
+        .display-frame-clean { width: 100%; max-width: 400px; aspect-ratio: 9/16; border-radius: 0px; overflow: hidden; background: #0D0B0B; box-shadow: 0 40px 100px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 10; }
         .story-final-render { width: 100%; height: 100%; object-fit: contain; }
-        .render-loading-clean { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #6BFF2A; gap: 20px; font-weight: 900; }
+        .render-loading-clean { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ff2e38; gap: 20px; font-weight: 900; }
         .actions-row-clean { width: 100%; max-width: 400px; margin-top: 25px; display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 10; }
         .btn-insta-share-clean { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; border: none; padding: 18px; border-radius: 12px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; }
-        .btn-close-clean { background: #6BFF2A; color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 950; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-close-clean { background: #e01b22; color: #fff; border: none; padding: 18px; border-radius: 12px; font-weight: 950; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
         /* Banner de aviso */
-        .share-warning-banner { width: 100%; max-width: 400px; margin-top: 15px; background: rgba(107,255,42,0.08); border: 1px solid rgba(107,255,42,0.3); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 10; }
+        .share-warning-banner { width: 100%; max-width: 400px; margin-top: 15px; background: rgba(224, 27, 34,0.08); border: 1px solid rgba(224, 27, 34,0.3); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 10; }
         .share-warning-icon { font-size: 1.4rem; flex-shrink: 0; }
         .share-warning-text { color: rgba(255,255,255,0.85); font-size: 0.8rem; font-weight: 600; margin: 0; line-height: 1.4; }
-        .share-warning-text strong { color: #6BFF2A; font-weight: 900; }
+        .share-warning-text strong { color: #ff2e38; font-weight: 900; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
         .spin { animation: spin 1s linear infinite; }

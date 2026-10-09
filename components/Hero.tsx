@@ -125,7 +125,7 @@ export default function Hero() {
                 <i></i>
                 <i></i>
               </span>
-              2026
+              2027
             </span>
           </h1>
 
@@ -163,11 +163,11 @@ export default function Hero() {
         <div className="hero__visual" aria-hidden="true">
           <div className="hero__badge-glow"></div>
           <img
-            src={`${BASE_PATH}/assets/logo-flamanhu.svg`}
+            src={`${BASE_PATH}/assets/logo-corrida-flamanhu.webp`}
             alt=""
             className="hero__badge"
-            width={440}
-            height={440}
+            width={800}
+            height={731}
           />
         </div>
       </div>

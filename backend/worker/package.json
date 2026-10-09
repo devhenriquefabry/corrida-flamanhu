@@ -1,1 +1,17 @@
-{"name":"corrida-flamanhu-worker","version":"1.0.0","private":true,"scripts":{"dev":"npx wrangler dev","deploy":"npx wrangler deploy","test":"node --test"},"dependencies":{"@resvg/resvg-wasm":"^2.6.2"},"devDependencies":{"wrangler":"^4.148.0"}}
+{
+  "name": "corrida-flamanhu-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:sandbox": "wrangler deploy --var ASAAS_BASE_URL:https://api-sandbox.asaas.com/v3",
+    "test": "node --test test/*.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-wasm": "^2.6.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.148.0"
+  }
+}

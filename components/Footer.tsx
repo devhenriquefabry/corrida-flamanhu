@@ -50,7 +50,7 @@ export default function Footer() {
           <h3 className="footer__heading">Siga a Nação</h3>
           <ul className="footer__social">
             <li>
-              <a href="#" aria-label="Instagram">
+              <a href="https://www.instagram.com/corrida_flamanhu" target="_blank" rel="noopener noreferrer" aria-label="Instagram @corrida_flamanhu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect width="20" height="20" x="2" y="2" rx="5" />
                   <circle cx="12" cy="12" r="4" />
@@ -81,7 +81,7 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-          <p className="footer__hashtag">#CorridaFLAMANHU2026</p>
+          <p className="footer__hashtag">#CorridaFLAMANHU2027</p>
         </div>
 
         <div className="footer__col">
@@ -92,20 +92,20 @@ export default function Footer() {
                 <rect width="20" height="16" x="2" y="4" rx="2" />
                 <path d="m22 7-10 6L2 7" />
               </svg>
-              <a href="mailto:contato@corridaflamanhu.com.br">contato@corridaflamanhu.com.br</a>
+              <a href="mailto:corridaflamanhu@gmail.com">corridaflamanhu@gmail.com</a>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3A19.5 19.5 0 0 1 5.2 13 19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z" />
               </svg>
-              <a href="tel:+5533999990000">(33) 9 9999-0000</a>
+              <a href="https://wa.me/5533984500707" target="_blank" rel="noopener noreferrer">(33) 98450-0707</a>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              Manhuaçu · MG
+              Praça Cordovil Pinto Coelho · Centro · Manhuaçu-MG
             </li>
           </ul>
         </div>

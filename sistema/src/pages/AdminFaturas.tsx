@@ -181,7 +181,7 @@ export default function AdminFaturas() {
         id: String(invoiceId || item.id),
         provider,
         customer: registration.nome || 'Atleta',
-        description: registration.modalidadeNome || registration.modalidade || registration.categoria || 'Inscricao MCU Night Run',
+        description: registration.modalidadeNome || registration.modalidade || registration.categoria || 'Inscricao Corrida Flamanhu',
         amount: Number(registration.amount || 0),
         dueDate: registration.dueDate || '',
         createdAt: registration.createdAt?.toDate?.()?.toISOString?.() || registration.createdAt || '',
@@ -496,16 +496,16 @@ export default function AdminFaturas() {
     const normalized = status.toUpperCase();
     if (/PAID|RECEIVED|CONFIRMED/.test(normalized)) return { background: '#dcfce7', color: '#166534' };
     if (/OVERDUE/.test(normalized)) return { background: '#fee2e2', color: '#b91c1c' };
-    if (/CANCEL|DELETE|REFUND/.test(normalized)) return { background: '#f1f5f9', color: '#64748b' };
+    if (/CANCEL|DELETE|REFUND/.test(normalized)) return { background: '#f5f5f4', color: '#78716c' };
     return { background: '#fef3c7', color: '#92400e' };
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 18, flexWrap: 'wrap', marginBottom: 22 }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 950, margin: 0 }}>Faturas</h1>
-          <p style={{ color: '#64748b', fontWeight: 700, margin: '5px 0 0' }}>Consulte, abra ou exclua as faturas emitidas em cada banco.</p>
+          <p style={{ color: '#78716c', fontWeight: 700, margin: '5px 0 0' }}>Consulte, abra ou exclua as faturas emitidas em cada banco.</p>
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <button onClick={verifyAsaasInvoices} disabled={reconcileLoading || reconcileApplying} title="Verificar faturas pagas no sistema e pendentes no Asaas" style={{ minHeight: 44, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#f59e0b', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 15px', fontWeight: 900, cursor: reconcileLoading ? 'wait' : 'pointer' }}>
@@ -517,17 +517,17 @@ export default function AdminFaturas() {
           <button onClick={verifyCleanupCandidates} disabled={cleanupLoading || cleanupDeleting} title="Selecionar cadastros pendentes/vencidos e apagar no Asaas e no sistema" style={{ minHeight: 44, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#b91c1c', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 15px', fontWeight: 900, cursor: cleanupLoading ? 'wait' : 'pointer' }}>
             <Trash2 size={17} /> {cleanupLoading ? 'Verificando...' : 'Limpar pendentes'}
           </button>
-          <button onClick={loadInvoices} disabled={loading} title="Atualizar faturas" style={{ minHeight: 44, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#071A45', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 15px', fontWeight: 900, cursor: loading ? 'wait' : 'pointer' }}>
+          <button onClick={loadInvoices} disabled={loading} title="Atualizar faturas" style={{ minHeight: 44, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#141112', color: '#fff', border: 'none', borderRadius: 10, padding: '10px 15px', fontWeight: 900, cursor: loading ? 'wait' : 'pointer' }}>
             <RefreshCw size={17} /> {loading ? 'Atualizando...' : 'Atualizar'}
           </button>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 5, padding: 5, width: 'fit-content', background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, marginBottom: 18 }}>
+      <div style={{ display: 'flex', gap: 5, padding: 5, width: 'fit-content', background: '#fff', border: '1px solid #e7e5e4', borderRadius: 12, marginBottom: 18 }}>
         {banks.map(bank => {
           const active = provider === bank.id;
           return (
-            <button key={bank.id} onClick={() => setProvider(bank.id)} title={`Faturas do ${bank.name}`} style={{ minWidth: 112, minHeight: 44, border: 'none', borderRadius: 8, background: active ? '#071A45' : '#fff', cursor: 'pointer', display: 'grid', placeItems: 'center' }}>
+            <button key={bank.id} onClick={() => setProvider(bank.id)} title={`Faturas do ${bank.name}`} style={{ minWidth: 112, minHeight: 44, border: 'none', borderRadius: 8, background: active ? '#141112' : '#fff', cursor: 'pointer', display: 'grid', placeItems: 'center' }}>
               <img src={bank.logo} alt={bank.name} style={{ width: bank.width, height: 20, objectFit: 'contain', filter: active && bank.id === 'asaas' ? 'brightness(0) invert(1)' : 'none' }} />
             </button>
           );
@@ -540,49 +540,49 @@ export default function AdminFaturas() {
         </div>
       )}
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap' }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 16, padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap' }}>
         <div style={{ position: 'relative', flex: '1 1 320px', maxWidth: 560 }}>
-          <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-          <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Buscar cliente, descricao, ID ou status..." style={{ width: '100%', minHeight: 44, padding: '10px 14px 10px 42px', border: '1px solid #e2e8f0', borderRadius: 10, background: '#f8fafc', color: '#071A45', fontWeight: 700, outline: 'none' }} />
+          <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} />
+          <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Buscar cliente, descricao, ID ou status..." style={{ width: '100%', minHeight: 44, padding: '10px 14px 10px 42px', border: '1px solid #e7e5e4', borderRadius: 10, background: '#fafaf9', color: '#141112', fontWeight: 700, outline: 'none' }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8, flexWrap: 'wrap' }}>
           {provider === 'asaas' && selectableOverdue.length > 0 && (
             <>
-              <button onClick={selectAllVisibleOverdue} style={{ minHeight: 38, border: '1px solid #cbd5e1', background: '#fff', color: '#071A45', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: 'pointer' }}>
+              <button onClick={selectAllVisibleOverdue} style={{ minHeight: 38, border: '1px solid #d6d3d1', background: '#fff', color: '#141112', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: 'pointer' }}>
                 Selecionar vencidas
               </button>
-              <button onClick={clearSelection} disabled={selectedOverdueIds.length === 0} style={{ minHeight: 38, border: '1px solid #cbd5e1', background: '#fff', color: selectedOverdueIds.length ? '#071A45' : '#cbd5e1', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: selectedOverdueIds.length ? 'pointer' : 'not-allowed' }}>
+              <button onClick={clearSelection} disabled={selectedOverdueIds.length === 0} style={{ minHeight: 38, border: '1px solid #d6d3d1', background: '#fff', color: selectedOverdueIds.length ? '#141112' : '#d6d3d1', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: selectedOverdueIds.length ? 'pointer' : 'not-allowed' }}>
                 Limpar
               </button>
-              <button onClick={requestDeleteSelectedOverdue} disabled={bulkDeleting || selectedOverdueIds.length === 0} style={{ minHeight: 38, border: 'none', background: selectedOverdueIds.length ? '#b91c1c' : '#cbd5e1', color: '#fff', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: selectedOverdueIds.length ? (bulkDeleting ? 'wait' : 'pointer') : 'not-allowed' }}>
+              <button onClick={requestDeleteSelectedOverdue} disabled={bulkDeleting || selectedOverdueIds.length === 0} style={{ minHeight: 38, border: 'none', background: selectedOverdueIds.length ? '#b91c1c' : '#d6d3d1', color: '#fff', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: selectedOverdueIds.length ? (bulkDeleting ? 'wait' : 'pointer') : 'not-allowed' }}>
                 {bulkDeleting ? 'Excluindo...' : `Excluir selecionadas (${selectedOverdueIds.length})`}
               </button>
             </>
           )}
-          <strong style={{ color: '#64748b', fontSize: '.8rem' }}>{filtered.length} de {invoices.length} faturas</strong>
+          <strong style={{ color: '#78716c', fontSize: '.8rem' }}>{filtered.length} de {invoices.length} faturas</strong>
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, overflow: 'hidden' }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 16, overflow: 'hidden' }}>
         {loading ? (
           <div style={{ padding: 24 }}><SkeletonTable rows={8} columns={6} /></div>
         ) : filtered.length === 0 ? (
-          <div style={{ minHeight: 260, display: 'grid', placeItems: 'center', textAlign: 'center', color: '#94a3b8', fontWeight: 900 }}>
+          <div style={{ minHeight: 260, display: 'grid', placeItems: 'center', textAlign: 'center', color: '#a8a29e', fontWeight: 900 }}>
             <div><FileText size={34} style={{ marginBottom: 8 }} /><div>Nenhuma fatura encontrada.</div></div>
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                <tr style={{ background: '#fafaf9', borderBottom: '1px solid #e7e5e4' }}>
                   {['', 'Cliente / Fatura', 'Valor', 'Vencimento', 'Status', 'Emissao', 'Acoes'].map((label, index) => (
-                    <th key={label} style={{ padding: '14px 18px', textAlign: index === 5 ? 'right' : 'left', color: '#64748b', fontSize: '.7rem', fontWeight: 950, textTransform: 'uppercase' }}>{label}</th>
+                    <th key={label} style={{ padding: '14px 18px', textAlign: index === 5 ? 'right' : 'left', color: '#78716c', fontSize: '.7rem', fontWeight: 950, textTransform: 'uppercase' }}>{label}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {filtered.map(invoice => (
-                  <tr key={invoice.id} style={{ borderBottom: '1px solid #eef2f7' }}>
+                  <tr key={invoice.id} style={{ borderBottom: '1px solid #f3f1ef' }}>
                     <td style={{ padding: '15px 0 15px 18px', width: 44 }}>
                       <input
                         type="checkbox"
@@ -595,20 +595,20 @@ export default function AdminFaturas() {
                     </td>
                     <td style={{ padding: '15px 18px', minWidth: 260 }}>
                       <strong style={{ display: 'block', fontSize: '.88rem', fontWeight: 950 }}>{invoice.customer}</strong>
-                      <span style={{ display: 'block', color: '#64748b', fontSize: '.74rem', fontWeight: 700, marginTop: 3 }}>{invoice.description || invoice.id}</span>
+                      <span style={{ display: 'block', color: '#78716c', fontSize: '.74rem', fontWeight: 700, marginTop: 3 }}>{invoice.description || invoice.id}</span>
                     </td>
                     <td style={{ padding: '15px 18px', fontWeight: 950 }}>{fmt(invoice.amount)}</td>
-                    <td style={{ padding: '15px 18px', color: '#475569', fontWeight: 800 }}>{invoice.dueDate ? formatDateBR(invoice.dueDate) : '-'}</td>
+                    <td style={{ padding: '15px 18px', color: '#57534e', fontWeight: 800 }}>{invoice.dueDate ? formatDateBR(invoice.dueDate) : '-'}</td>
                     <td style={{ padding: '15px 18px' }}>
                       <span style={{ ...statusColors(invoice.status), display: 'inline-flex', padding: '5px 9px', borderRadius: 7, fontSize: '.7rem', fontWeight: 950 }}>{invoice.statusLabel}</span>
                     </td>
-                    <td style={{ padding: '15px 18px', color: '#475569', fontWeight: 800 }}>{invoice.createdAt ? formatDateBR(invoice.createdAt) : '-'}</td>
+                    <td style={{ padding: '15px 18px', color: '#57534e', fontWeight: 800 }}>{invoice.createdAt ? formatDateBR(invoice.createdAt) : '-'}</td>
                     <td style={{ padding: '15px 18px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-                        <button type="button" disabled={!invoice.invoiceUrl} onClick={() => window.open(invoice.invoiceUrl, '_blank', 'noopener,noreferrer')} title={invoice.invoiceUrl ? 'Abrir fatura' : 'Link nao fornecido pelo banco'} style={{ width: 38, height: 38, border: 'none', borderRadius: 8, display: 'grid', placeItems: 'center', background: '#f1f5f9', color: invoice.invoiceUrl ? '#071A45' : '#cbd5e1', cursor: invoice.invoiceUrl ? 'pointer' : 'not-allowed' }}>
+                        <button type="button" disabled={!invoice.invoiceUrl} onClick={() => window.open(invoice.invoiceUrl, '_blank', 'noopener,noreferrer')} title={invoice.invoiceUrl ? 'Abrir fatura' : 'Link nao fornecido pelo banco'} style={{ width: 38, height: 38, border: 'none', borderRadius: 8, display: 'grid', placeItems: 'center', background: '#f5f5f4', color: invoice.invoiceUrl ? '#141112' : '#d6d3d1', cursor: invoice.invoiceUrl ? 'pointer' : 'not-allowed' }}>
                           <ExternalLink size={18} />
                         </button>
-                        <button type="button" disabled={!invoice.bankManaged || deletingId === invoice.id} onClick={() => requestDelete(invoice)} title={invoice.bankManaged ? 'Excluir fatura' : 'Exclusao indisponivel ate atualizar a integracao'} style={{ width: 38, height: 38, border: 'none', borderRadius: 8, display: 'grid', placeItems: 'center', background: invoice.bankManaged ? '#fee2e2' : '#f1f5f9', color: invoice.bankManaged ? '#b91c1c' : '#cbd5e1', cursor: invoice.bankManaged ? (deletingId ? 'wait' : 'pointer') : 'not-allowed' }}>
+                        <button type="button" disabled={!invoice.bankManaged || deletingId === invoice.id} onClick={() => requestDelete(invoice)} title={invoice.bankManaged ? 'Excluir fatura' : 'Exclusao indisponivel ate atualizar a integracao'} style={{ width: 38, height: 38, border: 'none', borderRadius: 8, display: 'grid', placeItems: 'center', background: invoice.bankManaged ? '#fee2e2' : '#f5f5f4', color: invoice.bankManaged ? '#b91c1c' : '#d6d3d1', cursor: invoice.bankManaged ? (deletingId ? 'wait' : 'pointer') : 'not-allowed' }}>
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -622,14 +622,14 @@ export default function AdminFaturas() {
       </div>
 
       {reconcileOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.55)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: 20 }}>
-          <div style={{ width: 'min(760px, 100%)', maxHeight: '88vh', overflow: 'auto', background: '#fff', borderRadius: 18, boxShadow: '0 24px 70px rgba(15,23,42,.28)', border: '1px solid #e2e8f0' }}>
-            <div style={{ padding: 20, borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.55)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: 20 }}>
+          <div style={{ width: 'min(760px, 100%)', maxHeight: '88vh', overflow: 'auto', background: '#fff', borderRadius: 18, boxShadow: '0 24px 70px rgba(28, 25, 23,.28)', border: '1px solid #e7e5e4' }}>
+            <div style={{ padding: 20, borderBottom: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
               <div>
-                <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.2rem', fontWeight: 950 }}>Verificacao de faturas Asaas</h2>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '.82rem', fontWeight: 700 }}>Usa pagamentos marcados como pagos no sistema como base.</p>
+                <h2 style={{ margin: 0, color: '#141112', fontSize: '1.2rem', fontWeight: 950 }}>Verificacao de faturas Asaas</h2>
+                <p style={{ margin: '4px 0 0', color: '#78716c', fontSize: '.82rem', fontWeight: 700 }}>Usa pagamentos marcados como pagos no sistema como base.</p>
               </div>
-              <button onClick={() => setReconcileOpen(false)} style={{ width: 38, height: 38, border: 'none', borderRadius: 10, display: 'grid', placeItems: 'center', background: '#f1f5f9', color: '#071A45', cursor: 'pointer' }} title="Fechar">
+              <button onClick={() => setReconcileOpen(false)} style={{ width: 38, height: 38, border: 'none', borderRadius: 10, display: 'grid', placeItems: 'center', background: '#f5f5f4', color: '#141112', cursor: 'pointer' }} title="Fechar">
                 <X size={18} />
               </button>
             </div>
@@ -657,15 +657,15 @@ export default function AdminFaturas() {
                   )}
 
                   {reconcileResult.conflicts.length > 0 && (
-                    <div style={{ border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
+                    <div style={{ border: '1px solid #e7e5e4', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
                       {reconcileResult.conflicts.map(item => (
-                        <div key={item.paymentId} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 12, padding: 12, borderBottom: '1px solid #eef2f7' }}>
+                        <div key={item.paymentId} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 12, padding: 12, borderBottom: '1px solid #f3f1ef' }}>
                           <div style={{ minWidth: 0 }}>
-                            <strong style={{ color: '#071A45', fontSize: '.9rem', fontWeight: 950 }}>{item.nome}</strong>
-                            <div style={{ color: '#64748b', fontSize: '.76rem', fontWeight: 700, marginTop: 3, overflowWrap: 'anywhere' }}>{item.paymentId}</div>
+                            <strong style={{ color: '#141112', fontSize: '.9rem', fontWeight: 950 }}>{item.nome}</strong>
+                            <div style={{ color: '#78716c', fontSize: '.76rem', fontWeight: 700, marginTop: 3, overflowWrap: 'anywhere' }}>{item.paymentId}</div>
                           </div>
                           <div style={{ textAlign: 'right' }}>
-                            <strong style={{ display: 'block', color: '#071A45' }}>{fmt(item.amount)}</strong>
+                            <strong style={{ display: 'block', color: '#141112' }}>{fmt(item.amount)}</strong>
                             <span style={{ color: '#b45309', fontSize: '.72rem', fontWeight: 900 }}>{item.asaasStatusLabel}</span>
                           </div>
                         </div>
@@ -680,8 +680,8 @@ export default function AdminFaturas() {
                   )}
 
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, flexWrap: 'wrap' }}>
-                    <button onClick={() => setReconcileOpen(false)} style={{ minHeight: 42, border: '1px solid #cbd5e1', background: '#fff', color: '#071A45', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: 'pointer' }}>Fechar</button>
-                    <button onClick={applyAsaasCorrections} disabled={reconcileApplying || reconcileResult.conflictCount === 0} style={{ minHeight: 42, border: 'none', background: reconcileResult.conflictCount ? '#071A45' : '#cbd5e1', color: '#fff', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: reconcileResult.conflictCount ? (reconcileApplying ? 'wait' : 'pointer') : 'not-allowed' }}>
+                    <button onClick={() => setReconcileOpen(false)} style={{ minHeight: 42, border: '1px solid #d6d3d1', background: '#fff', color: '#141112', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: 'pointer' }}>Fechar</button>
+                    <button onClick={applyAsaasCorrections} disabled={reconcileApplying || reconcileResult.conflictCount === 0} style={{ minHeight: 42, border: 'none', background: reconcileResult.conflictCount ? '#141112' : '#d6d3d1', color: '#fff', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: reconcileResult.conflictCount ? (reconcileApplying ? 'wait' : 'pointer') : 'not-allowed' }}>
                       {reconcileApplying ? 'Aplicando...' : 'Aplicar correcao'}
                     </button>
                   </div>
@@ -693,14 +693,14 @@ export default function AdminFaturas() {
       )}
 
       {reverseOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.55)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: 20 }}>
-          <div style={{ width: 'min(860px, 100%)', maxHeight: '88vh', overflow: 'auto', background: '#fff', borderRadius: 18, boxShadow: '0 24px 70px rgba(15,23,42,.28)', border: '1px solid #e2e8f0' }}>
-            <div style={{ padding: 20, borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.55)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: 20 }}>
+          <div style={{ width: 'min(860px, 100%)', maxHeight: '88vh', overflow: 'auto', background: '#fff', borderRadius: 18, boxShadow: '0 24px 70px rgba(28, 25, 23,.28)', border: '1px solid #e7e5e4' }}>
+            <div style={{ padding: 20, borderBottom: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
               <div>
-                <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.2rem', fontWeight: 950 }}>Pagas no Asaas e pendentes no sistema</h2>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '.82rem', fontWeight: 700 }}>Confirme no sistema e depois envie o card Eu Vou sem fechar esta tela.</p>
+                <h2 style={{ margin: 0, color: '#141112', fontSize: '1.2rem', fontWeight: 950 }}>Pagas no Asaas e pendentes no sistema</h2>
+                <p style={{ margin: '4px 0 0', color: '#78716c', fontSize: '.82rem', fontWeight: 700 }}>Confirme no sistema e depois envie o card Eu Vou sem fechar esta tela.</p>
               </div>
-              <button onClick={() => setReverseOpen(false)} style={{ width: 38, height: 38, border: 'none', borderRadius: 10, display: 'grid', placeItems: 'center', background: '#f1f5f9', color: '#071A45', cursor: 'pointer' }} title="Fechar">
+              <button onClick={() => setReverseOpen(false)} style={{ width: 38, height: 38, border: 'none', borderRadius: 10, display: 'grid', placeItems: 'center', background: '#f5f5f4', color: '#141112', cursor: 'pointer' }} title="Fechar">
                 <X size={18} />
               </button>
             </div>
@@ -712,9 +712,9 @@ export default function AdminFaturas() {
                 <>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10, marginBottom: 16 }}>
                     <Metric label="Verificadas" value={reverseResult.checked} />
-                    <Metric label="Para confirmar" value={reverseResult.conflictCount} tone={reverseResult.conflictCount ? '#166534' : '#071A45'} />
+                    <Metric label="Para confirmar" value={reverseResult.conflictCount} tone={reverseResult.conflictCount ? '#166534' : '#141112'} />
                     <Metric label="Confirmadas" value={Object.keys(confirmedRows).length || reverseResult.confirmedCount || 0} tone="#166534" />
-                    <Metric label="Erros" value={reverseResult.errorCount || 0} tone={reverseResult.errorCount ? '#b91c1c' : '#071A45'} />
+                    <Metric label="Erros" value={reverseResult.errorCount || 0} tone={reverseResult.errorCount ? '#b91c1c' : '#141112'} />
                   </div>
 
                   {reverseResult.conflictCount === 0 ? (
@@ -728,28 +728,28 @@ export default function AdminFaturas() {
                   )}
 
                   {reverseResult.conflicts.length > 0 && (
-                    <div style={{ border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
+                    <div style={{ border: '1px solid #e7e5e4', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
                       {reverseResult.conflicts.map(item => {
                         const confirmed = confirmedRows[item.registrationId];
                         const cardSent = sentCardRows[item.registrationId];
                         return (
-                          <div key={item.registrationId} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 12, padding: 12, borderBottom: '1px solid #eef2f7', alignItems: 'center' }}>
+                          <div key={item.registrationId} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: 12, padding: 12, borderBottom: '1px solid #f3f1ef', alignItems: 'center' }}>
                             <div style={{ minWidth: 0 }}>
-                              <strong style={{ color: '#071A45', fontSize: '.9rem', fontWeight: 950 }}>{item.nome}</strong>
-                              <div style={{ color: '#64748b', fontSize: '.76rem', fontWeight: 700, marginTop: 3, overflowWrap: 'anywhere' }}>{item.paymentId}</div>
+                              <strong style={{ color: '#141112', fontSize: '.9rem', fontWeight: 950 }}>{item.nome}</strong>
+                              <div style={{ color: '#78716c', fontSize: '.76rem', fontWeight: 700, marginTop: 3, overflowWrap: 'anywhere' }}>{item.paymentId}</div>
                               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 7 }}>
                                 <span style={{ background: '#dcfce7', color: '#166534', padding: '4px 7px', borderRadius: 7, fontSize: '.68rem', fontWeight: 950 }}>Asaas: {item.asaasStatusLabel}</span>
                                 <span style={{ background: confirmed ? '#dcfce7' : '#fef3c7', color: confirmed ? '#166534' : '#92400e', padding: '4px 7px', borderRadius: 7, fontSize: '.68rem', fontWeight: 950 }}>Sistema: {confirmed ? 'Pago' : item.systemStatus}</span>
                               </div>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                              <strong style={{ color: '#071A45', minWidth: 92, textAlign: 'right' }}>{fmt(item.amount)}</strong>
+                              <strong style={{ color: '#141112', minWidth: 92, textAlign: 'right' }}>{fmt(item.amount)}</strong>
                               {!confirmed ? (
-                                <button onClick={() => confirmSystemPayment([item.registrationId])} disabled={confirmingRowId === item.registrationId || reverseConfirmingAll} style={{ minHeight: 38, border: 'none', background: '#071A45', color: '#fff', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: confirmingRowId === item.registrationId ? 'wait' : 'pointer' }}>
+                                <button onClick={() => confirmSystemPayment([item.registrationId])} disabled={confirmingRowId === item.registrationId || reverseConfirmingAll} style={{ minHeight: 38, border: 'none', background: '#141112', color: '#fff', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: confirmingRowId === item.registrationId ? 'wait' : 'pointer' }}>
                                   {confirmingRowId === item.registrationId ? 'Confirmando...' : 'Confirmar pagamento'}
                                 </button>
                               ) : (
-                                <button onClick={() => sendEuVouCard(item.registrationId)} disabled={!item.hasCard || sendingCardId === item.registrationId || cardSent} title={item.hasCard ? 'Enviar card Eu Vou' : 'Card Eu Vou nao gerado'} style={{ minHeight: 38, border: 'none', background: cardSent ? '#dcfce7' : item.hasCard ? '#16a34a' : '#cbd5e1', color: cardSent ? '#166534' : '#fff', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: item.hasCard && !cardSent ? (sendingCardId === item.registrationId ? 'wait' : 'pointer') : 'not-allowed' }}>
+                                <button onClick={() => sendEuVouCard(item.registrationId)} disabled={!item.hasCard || sendingCardId === item.registrationId || cardSent} title={item.hasCard ? 'Enviar card Eu Vou' : 'Card Eu Vou nao gerado'} style={{ minHeight: 38, border: 'none', background: cardSent ? '#dcfce7' : item.hasCard ? '#16a34a' : '#d6d3d1', color: cardSent ? '#166534' : '#fff', borderRadius: 9, padding: '8px 10px', fontSize: '.72rem', fontWeight: 900, cursor: item.hasCard && !cardSent ? (sendingCardId === item.registrationId ? 'wait' : 'pointer') : 'not-allowed' }}>
                                   {cardSent ? 'Card enviado' : sendingCardId === item.registrationId ? 'Enviando...' : 'Enviar card Eu Vou'}
                                 </button>
                               )}
@@ -767,8 +767,8 @@ export default function AdminFaturas() {
                   )}
 
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, flexWrap: 'wrap' }}>
-                    <button onClick={() => setReverseOpen(false)} style={{ minHeight: 42, border: '1px solid #cbd5e1', background: '#fff', color: '#071A45', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: 'pointer' }}>Fechar</button>
-                    <button onClick={() => confirmSystemPayment(reverseResult.conflicts.filter(item => !confirmedRows[item.registrationId]).map(item => item.registrationId))} disabled={reverseConfirmingAll || reverseResult.conflictCount === 0 || reverseResult.conflicts.every(item => confirmedRows[item.registrationId])} style={{ minHeight: 42, border: 'none', background: reverseResult.conflictCount ? '#071A45' : '#cbd5e1', color: '#fff', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: reverseResult.conflictCount ? (reverseConfirmingAll ? 'wait' : 'pointer') : 'not-allowed' }}>
+                    <button onClick={() => setReverseOpen(false)} style={{ minHeight: 42, border: '1px solid #d6d3d1', background: '#fff', color: '#141112', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: 'pointer' }}>Fechar</button>
+                    <button onClick={() => confirmSystemPayment(reverseResult.conflicts.filter(item => !confirmedRows[item.registrationId]).map(item => item.registrationId))} disabled={reverseConfirmingAll || reverseResult.conflictCount === 0 || reverseResult.conflicts.every(item => confirmedRows[item.registrationId])} style={{ minHeight: 42, border: 'none', background: reverseResult.conflictCount ? '#141112' : '#d6d3d1', color: '#fff', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: reverseResult.conflictCount ? (reverseConfirmingAll ? 'wait' : 'pointer') : 'not-allowed' }}>
                       {reverseConfirmingAll ? 'Confirmando...' : 'Confirmar todas'}
                     </button>
                   </div>
@@ -780,14 +780,14 @@ export default function AdminFaturas() {
       )}
 
       {cleanupOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.55)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: 20 }}>
-          <div style={{ width: 'min(900px, 100%)', maxHeight: '88vh', overflow: 'auto', background: '#fff', borderRadius: 18, boxShadow: '0 24px 70px rgba(15,23,42,.28)', border: '1px solid #e2e8f0' }}>
-            <div style={{ padding: 20, borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.55)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: 20 }}>
+          <div style={{ width: 'min(900px, 100%)', maxHeight: '88vh', overflow: 'auto', background: '#fff', borderRadius: 18, boxShadow: '0 24px 70px rgba(28, 25, 23,.28)', border: '1px solid #e7e5e4' }}>
+            <div style={{ padding: 20, borderBottom: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14 }}>
               <div>
-                <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.2rem', fontWeight: 950 }}>Limpar cadastros pendentes/vencidos</h2>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '.82rem', fontWeight: 700 }}>Apaga a fatura no Asaas quando existir e tambem apaga a inscricao do sistema.</p>
+                <h2 style={{ margin: 0, color: '#141112', fontSize: '1.2rem', fontWeight: 950 }}>Limpar cadastros pendentes/vencidos</h2>
+                <p style={{ margin: '4px 0 0', color: '#78716c', fontSize: '.82rem', fontWeight: 700 }}>Apaga a fatura no Asaas quando existir e tambem apaga a inscricao do sistema.</p>
               </div>
-              <button onClick={() => setCleanupOpen(false)} style={{ width: 38, height: 38, border: 'none', borderRadius: 10, display: 'grid', placeItems: 'center', background: '#f1f5f9', color: '#071A45', cursor: 'pointer' }} title="Fechar">
+              <button onClick={() => setCleanupOpen(false)} style={{ width: 38, height: 38, border: 'none', borderRadius: 10, display: 'grid', placeItems: 'center', background: '#f5f5f4', color: '#141112', cursor: 'pointer' }} title="Fechar">
                 <X size={18} />
               </button>
             </div>
@@ -799,7 +799,7 @@ export default function AdminFaturas() {
                 <>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10, marginBottom: 16 }}>
                     <Metric label="Verificados" value={cleanupResult.checked} />
-                    <Metric label="Selecionaveis" value={cleanupResult.candidateCount} tone={cleanupResult.candidateCount ? '#b91c1c' : '#071A45'} />
+                    <Metric label="Selecionaveis" value={cleanupResult.candidateCount} tone={cleanupResult.candidateCount ? '#b91c1c' : '#141112'} />
                     <Metric label="Ignorados" value={cleanupResult.ignoredCount} />
                     <Metric label="Apagados" value={cleanupResult.deletedCount || 0} tone="#166534" />
                   </div>
@@ -813,9 +813,9 @@ export default function AdminFaturas() {
                       <CheckCircle size={18} /> Nenhum cadastro pendente/vencido para limpeza.
                     </div>
                   ) : (
-                    <div style={{ border: '1px solid #e2e8f0', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
+                    <div style={{ border: '1px solid #e7e5e4', borderRadius: 12, overflow: 'hidden', marginBottom: 16 }}>
                       {cleanupResult.candidates.map(item => (
-                        <div key={item.registrationId} style={{ display: 'grid', gridTemplateColumns: 'auto minmax(0, 1fr) auto', gap: 12, padding: 12, borderBottom: '1px solid #eef2f7', alignItems: 'center' }}>
+                        <div key={item.registrationId} style={{ display: 'grid', gridTemplateColumns: 'auto minmax(0, 1fr) auto', gap: 12, padding: 12, borderBottom: '1px solid #f3f1ef', alignItems: 'center' }}>
                           <input
                             type="checkbox"
                             checked={Boolean(selectedCleanupIds[item.registrationId])}
@@ -823,18 +823,18 @@ export default function AdminFaturas() {
                             style={{ width: 17, height: 17, cursor: 'pointer' }}
                           />
                           <div style={{ minWidth: 0 }}>
-                            <strong style={{ color: '#071A45', fontSize: '.9rem', fontWeight: 950 }}>{item.nome}</strong>
-                            <div style={{ color: '#64748b', fontSize: '.76rem', fontWeight: 700, marginTop: 3, overflowWrap: 'anywhere' }}>{item.paymentId}</div>
+                            <strong style={{ color: '#141112', fontSize: '.9rem', fontWeight: 950 }}>{item.nome}</strong>
+                            <div style={{ color: '#78716c', fontSize: '.76rem', fontWeight: 700, marginTop: 3, overflowWrap: 'anywhere' }}>{item.paymentId}</div>
                             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 7 }}>
                               <span style={{ background: '#fef3c7', color: '#92400e', padding: '4px 7px', borderRadius: 7, fontSize: '.68rem', fontWeight: 950 }}>Sistema: {item.systemStatus}</span>
-                              <span style={{ background: item.invoiceDeleted ? '#f1f5f9' : '#fee2e2', color: item.invoiceDeleted ? '#64748b' : '#b91c1c', padding: '4px 7px', borderRadius: 7, fontSize: '.68rem', fontWeight: 950 }}>
+                              <span style={{ background: item.invoiceDeleted ? '#f5f5f4' : '#fee2e2', color: item.invoiceDeleted ? '#78716c' : '#b91c1c', padding: '4px 7px', borderRadius: 7, fontSize: '.68rem', fontWeight: 950 }}>
                                 Asaas: {item.asaasStatusLabel}
                               </span>
                             </div>
                           </div>
                           <div style={{ textAlign: 'right' }}>
-                            <strong style={{ display: 'block', color: '#071A45' }}>{fmt(item.amount)}</strong>
-                            <span style={{ color: item.invoiceDeleted ? '#64748b' : '#b91c1c', fontSize: '.72rem', fontWeight: 900 }}>
+                            <strong style={{ display: 'block', color: '#141112' }}>{fmt(item.amount)}</strong>
+                            <span style={{ color: item.invoiceDeleted ? '#78716c' : '#b91c1c', fontSize: '.72rem', fontWeight: 900 }}>
                               {item.invoiceDeleted ? 'Fatura ja apagada' : 'Apaga fatura + cadastro'}
                             </span>
                           </div>
@@ -851,12 +851,12 @@ export default function AdminFaturas() {
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                      <button onClick={selectAllCleanupCandidates} disabled={cleanupResult.candidates.length === 0} style={{ minHeight: 42, border: '1px solid #cbd5e1', background: '#fff', color: cleanupResult.candidates.length ? '#071A45' : '#cbd5e1', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: cleanupResult.candidates.length ? 'pointer' : 'not-allowed' }}>Selecionar todos</button>
-                      <button onClick={() => setSelectedCleanupIds({})} disabled={cleanupSelectedIds.length === 0} style={{ minHeight: 42, border: '1px solid #cbd5e1', background: '#fff', color: cleanupSelectedIds.length ? '#071A45' : '#cbd5e1', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: cleanupSelectedIds.length ? 'pointer' : 'not-allowed' }}>Limpar selecao</button>
+                      <button onClick={selectAllCleanupCandidates} disabled={cleanupResult.candidates.length === 0} style={{ minHeight: 42, border: '1px solid #d6d3d1', background: '#fff', color: cleanupResult.candidates.length ? '#141112' : '#d6d3d1', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: cleanupResult.candidates.length ? 'pointer' : 'not-allowed' }}>Selecionar todos</button>
+                      <button onClick={() => setSelectedCleanupIds({})} disabled={cleanupSelectedIds.length === 0} style={{ minHeight: 42, border: '1px solid #d6d3d1', background: '#fff', color: cleanupSelectedIds.length ? '#141112' : '#d6d3d1', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: cleanupSelectedIds.length ? 'pointer' : 'not-allowed' }}>Limpar selecao</button>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                      <button onClick={() => setCleanupOpen(false)} style={{ minHeight: 42, border: '1px solid #cbd5e1', background: '#fff', color: '#071A45', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: 'pointer' }}>Fechar</button>
-                      <button onClick={requestDeleteCleanupCandidates} disabled={cleanupDeleting || cleanupSelectedIds.length === 0} style={{ minHeight: 42, border: 'none', background: cleanupSelectedIds.length ? '#b91c1c' : '#cbd5e1', color: '#fff', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: cleanupSelectedIds.length ? (cleanupDeleting ? 'wait' : 'pointer') : 'not-allowed' }}>
+                      <button onClick={() => setCleanupOpen(false)} style={{ minHeight: 42, border: '1px solid #d6d3d1', background: '#fff', color: '#141112', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: 'pointer' }}>Fechar</button>
+                      <button onClick={requestDeleteCleanupCandidates} disabled={cleanupDeleting || cleanupSelectedIds.length === 0} style={{ minHeight: 42, border: 'none', background: cleanupSelectedIds.length ? '#b91c1c' : '#d6d3d1', color: '#fff', borderRadius: 10, padding: '9px 14px', fontWeight: 900, cursor: cleanupSelectedIds.length ? (cleanupDeleting ? 'wait' : 'pointer') : 'not-allowed' }}>
                         {cleanupDeleting ? 'Apagando...' : `Apagar selecionados (${cleanupSelectedIds.length})`}
                       </button>
                     </div>
@@ -871,10 +871,10 @@ export default function AdminFaturas() {
   );
 }
 
-function Metric({ label, value, tone = '#071A45' }: { label: string; value: number; tone?: string }) {
+function Metric({ label, value, tone = '#141112' }: { label: string; value: number; tone?: string }) {
   return (
-    <div style={{ border: '1px solid #e2e8f0', borderRadius: 12, padding: 12, background: '#f8fafc' }}>
-      <span style={{ display: 'block', color: '#64748b', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 4 }}>{label}</span>
+    <div style={{ border: '1px solid #e7e5e4', borderRadius: 12, padding: 12, background: '#fafaf9' }}>
+      <span style={{ display: 'block', color: '#78716c', fontSize: '.68rem', fontWeight: 950, textTransform: 'uppercase', marginBottom: 4 }}>{label}</span>
       <strong style={{ color: tone, fontSize: '1.25rem', fontWeight: 950 }}>{value}</strong>
     </div>
   );

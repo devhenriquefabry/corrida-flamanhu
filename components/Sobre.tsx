@@ -105,7 +105,7 @@ export default function Sobre() {
           </h2>
 
           <p className="sobre__text">
-            A Corrida <strong>FLAMANHU 2026</strong> reúne a Nação Rubro-Negra de
+            A Corrida <strong>FLAMANHU 2027</strong> reúne a Nação Rubro-Negra de
             Manhuaçu e região para um dia de esporte, superação e paixão pelo
             Mengão. Mais que uma corrida, é uma experiência que celebra nossa
             história, nossa luta e nossa união.
@@ -150,7 +150,7 @@ export default function Sobre() {
             </defs>
             <text>
               <textPath href="#ringPath" startOffset="0">
-                NAÇÃO RUBRO-NEGRA ✦ MANHUAÇU · MG ✦ CORRIDA FLAMANHU 2026 ✦
+                NAÇÃO RUBRO-NEGRA ✦ MANHUAÇU · MG ✦ CORRIDA FLAMANHU 2027 ✦
               </textPath>
             </text>
           </svg>

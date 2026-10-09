@@ -14,8 +14,8 @@ import EquipeDetalheModal from '../components/AdminEquipes/EquipeDetalheModal';
 import type { EquipeGroup, EquipeOficial } from '../components/AdminEquipes/equipesTypes';
 import { normalizeEquipeNome, findEquipeMergeSuggestions, type EquipeMergeSuggestion } from '../utils/equipeMatching';
 import '../styles/admin.css';
-import { withBase } from '../utils/withBase';
 import { EVENTO } from '../config/evento';
+import { LOGO_CORRIDA_PNG } from '../config/marca';
 
 const DISMISSED_STORAGE_KEY = 'mcu_admin_equipes_fusoes_ignoradas';
 const pairId = (a: string, b: string) => [a, b].sort().join('::');
@@ -359,7 +359,7 @@ export default function AdminEquipes() {
     const img = new Image();
     img.onload = () => { logoImageRef.current = img; resolve(img); };
     img.onerror = () => resolve(null);
-    img.src = withBase('/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png');
+    img.src = LOGO_CORRIDA_PNG;
   });
 
   // Resumo de TODAS as equipes em PDF: mesmo motor de paginação já validado no PDF de
@@ -372,11 +372,11 @@ export default function AdminEquipes() {
       const logo = await loadLogoImage();
       const logoRatio = logo ? logo.naturalWidth / logo.naturalHeight : 1.695;
 
-      const NAVY: [number, number, number] = [7, 26, 69];
-      const GREEN: [number, number, number] = [22, 163, 74];
-      const GRAY: [number, number, number] = [100, 116, 139];
-      const STRIPE: [number, number, number] = [241, 245, 249];
-      const LIGHT_BLUE: [number, number, number] = [219, 234, 254];
+      const NAVY: [number, number, number] = [20, 17, 18];
+      const RUBRO: [number, number, number] = [224, 27, 34];
+      const GRAY: [number, number, number] = [120, 113, 108];
+      const STRIPE: [number, number, number] = [245, 245, 244];
+      const LIGHT_BLUE: [number, number, number] = [251, 228, 228];
 
       const docPdf = new jsPDF({ unit: 'mm', format: 'a4' });
       const pageW = docPdf.internal.pageSize.getWidth();
@@ -395,13 +395,13 @@ export default function AdminEquipes() {
         docPdf.setFillColor(...NAVY);
         docPdf.rect(0, 0, pageW, HEADER_BAND_H, 'F');
         if (logo) {
-          const logoH = 10;
+          const logoH = 14;
           const logoW = logoH * logoRatio;
-          docPdf.addImage(logo, 'PNG', marginX, (HEADER_BAND_H - logoH) / 2, logoW, logoH, 'mcu-logo', 'FAST');
+          docPdf.addImage(logo, 'PNG', marginX, (HEADER_BAND_H - logoH) / 2, logoW, logoH, 'logo-corrida', 'FAST');
         } else {
           docPdf.setFont('helvetica', 'bold');
           docPdf.setFontSize(9);
-          docPdf.setTextColor(...GREEN);
+          docPdf.setTextColor(...RUBRO);
           docPdf.text(EVENTO.nome.toUpperCase(), marginX, HEADER_BAND_H / 2 + 3);
         }
         docPdf.setFont('helvetica', 'bold');
@@ -500,7 +500,7 @@ export default function AdminEquipes() {
             docPdf.rect(marginX, y, pageW - marginX * 2, ROW_H, 'F');
           }
           docPdf.setFont('helvetica', 'bold');
-          docPdf.setTextColor(...GREEN);
+          docPdf.setTextColor(...RUBRO);
           docPdf.text(`${String(index + 1).padStart(2, '0')}.`, marginX + 3, y + 4.2);
           docPdf.setFont('helvetica', 'normal');
           docPdf.setTextColor(...NAVY);
@@ -544,19 +544,19 @@ export default function AdminEquipes() {
   if (loading && regs.length === 0) return <AdminPageSkeleton variant="table" />;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Equipes</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Veja e gerencie as equipes formadas pelos inscritos confirmados: renomeie, mescle duplicadas e acompanhe cada uma.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Equipes</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Veja e gerencie as equipes formadas pelos inscritos confirmados: renomeie, mescle duplicadas e acompanhe cada uma.</p>
         </div>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <button
             onClick={() => setShowSuggestions(v => !v)}
             style={{
-              background: visibleSuggestions.length > 0 ? '#f5f3ff' : '#f1f5f9',
-              color: visibleSuggestions.length > 0 ? '#7c3aed' : '#94a3b8',
-              border: `1px solid ${visibleSuggestions.length > 0 ? '#ddd6fe' : '#e2e8f0'}`,
+              background: visibleSuggestions.length > 0 ? '#f5f3ff' : '#f5f5f4',
+              color: visibleSuggestions.length > 0 ? '#7c3aed' : '#a8a29e',
+              border: `1px solid ${visibleSuggestions.length > 0 ? '#ddd6fe' : '#e7e5e4'}`,
               padding: '12px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem',
               display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', position: 'relative',
             }}
@@ -571,7 +571,7 @@ export default function AdminEquipes() {
           <button
             onClick={toggleSelectionMode}
             style={{
-              background: selectionMode ? '#071A45' : '#f1f5f9', color: selectionMode ? '#fff' : '#475569',
+              background: selectionMode ? '#141112' : '#f5f5f4', color: selectionMode ? '#fff' : '#57534e',
               border: 'none', padding: '12px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem',
               display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer',
             }}
@@ -581,13 +581,13 @@ export default function AdminEquipes() {
           <button
             onClick={generateEquipesPdf}
             disabled={generatingPdf}
-            style={{ background: '#fff', color: '#071A45', border: '1px solid #e2e8f0', padding: '12px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+            style={{ background: '#fff', color: '#141112', border: '1px solid #e7e5e4', padding: '12px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
           >
             <FileText size={18} /> {generatingPdf ? 'Gerando...' : 'PDF de resumo'}
           </button>
           <button
             onClick={() => setShowCreate(true)}
-            style={{ background: '#071A45', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(7, 26, 69, 0.2)' }}
+            style={{ background: '#141112', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', boxShadow: '0 4px 12px rgba(20, 17, 18, 0.2)' }}
           >
             <Plus size={18} /> Nova equipe
           </button>
@@ -596,7 +596,7 @@ export default function AdminEquipes() {
 
       {/* Barra de ação da seleção múltipla */}
       {selectionMode && (
-        <div style={{ position: 'sticky', top: 12, zIndex: 50, background: '#071A45', borderRadius: 16, padding: '14px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', boxShadow: '0 8px 20px rgba(7,26,69,.25)' }}>
+        <div style={{ position: 'sticky', top: 12, zIndex: 50, background: '#141112', borderRadius: 16, padding: '14px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', boxShadow: '0 8px 20px rgba(20, 17, 18,.25)' }}>
           <span style={{ color: '#fff', fontWeight: 800, fontSize: '.88rem' }}>
             {selectedForMerge.size === 0 ? 'Clique nas equipes que deseja mesclar' : `${selectedForMerge.size} equipe(s) selecionada(s)`}
           </span>
@@ -607,7 +607,7 @@ export default function AdminEquipes() {
             <button
               onClick={openMergeSelectedModal}
               disabled={selectedForMerge.size < 2}
-              style={{ background: '#6BFF2A', color: '#071A45', border: 'none', borderRadius: 10, padding: '9px 18px', fontWeight: 900, fontSize: '.78rem', cursor: selectedForMerge.size < 2 ? 'default' : 'pointer', opacity: selectedForMerge.size < 2 ? .5 : 1, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              style={{ background: '#e01b22', color: '#fff', border: 'none', borderRadius: 10, padding: '9px 18px', fontWeight: 900, fontSize: '.78rem', cursor: selectedForMerge.size < 2 ? 'default' : 'pointer', opacity: selectedForMerge.size < 2 ? .5 : 1, display: 'inline-flex', alignItems: 'center', gap: 6 }}
             >
               <GitMerge size={15} /> Mesclar selecionadas
             </button>
@@ -622,14 +622,14 @@ export default function AdminEquipes() {
             <div style={{ width: 36, height: 36, borderRadius: 10, background: '#f5f3ff', color: '#7c3aed', display: 'grid', placeItems: 'center' }}>
               <Wand2 size={18} />
             </div>
-            <h3 style={{ margin: 0, color: '#071A45', fontSize: '1rem', fontWeight: 950 }}>Sugestões de fusão</h3>
+            <h3 style={{ margin: 0, color: '#141112', fontSize: '1rem', fontWeight: 950 }}>Sugestões de fusão</h3>
           </div>
-          <p style={{ color: '#64748b', fontSize: '.82rem', marginBottom: 16, lineHeight: 1.5 }}>
+          <p style={{ color: '#78716c', fontSize: '.82rem', marginBottom: 16, lineHeight: 1.5 }}>
             Analisa o nome de todas as equipes (digitação, abreviação, palavra a mais) e aponta pares que provavelmente são a mesma equipe.
             Nada é fundido automaticamente - você confirma cada sugestão.
           </p>
           {visibleSuggestions.length === 0 ? (
-            <div style={{ padding: '24px 0', textAlign: 'center', color: '#94a3b8', fontWeight: 700 }}>
+            <div style={{ padding: '24px 0', textAlign: 'center', color: '#a8a29e', fontWeight: 700 }}>
               Nenhuma equipe parecida encontrada no momento.
             </div>
           ) : (
@@ -642,11 +642,11 @@ export default function AdminEquipes() {
                 return (
                   <div key={pairId(s.aKey, s.bKey)} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 16px', background: '#faf9ff', border: '1px solid #ede9fe', borderRadius: 14, flexWrap: 'wrap' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 260 }}>
-                      <strong style={{ color: '#071A45', fontSize: '.88rem' }}>{a.nome}</strong>
-                      <span style={{ color: '#94a3b8', fontSize: '.72rem', fontWeight: 800 }}>({a.membros.length})</span>
+                      <strong style={{ color: '#141112', fontSize: '.88rem' }}>{a.nome}</strong>
+                      <span style={{ color: '#a8a29e', fontSize: '.72rem', fontWeight: 800 }}>({a.membros.length})</span>
                       <GitMerge size={15} color="#a78bfa" />
-                      <strong style={{ color: '#071A45', fontSize: '.88rem' }}>{b.nome}</strong>
-                      <span style={{ color: '#94a3b8', fontSize: '.72rem', fontWeight: 800 }}>({b.membros.length})</span>
+                      <strong style={{ color: '#141112', fontSize: '.88rem' }}>{b.nome}</strong>
+                      <span style={{ color: '#a8a29e', fontSize: '.72rem', fontWeight: 800 }}>({b.membros.length})</span>
                     </div>
                     <span style={{ background: pct >= 80 ? '#dcfce7' : '#fef3c7', color: pct >= 80 ? '#166534' : '#92400e', borderRadius: 999, padding: '4px 10px', fontSize: '.68rem', fontWeight: 900 }}>
                       {pct}% parecido
@@ -655,7 +655,7 @@ export default function AdminEquipes() {
                       <button onClick={() => acceptSuggestion(s)} style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 9, padding: '8px 14px', fontWeight: 900, fontSize: '.74rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                         <GitMerge size={13} /> Fundir
                       </button>
-                      <button onClick={() => dismissSuggestion(s)} title="Ignorar esta sugestão" style={{ background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: 9, width: 32, height: 32, cursor: 'pointer', display: 'grid', placeItems: 'center' }}>
+                      <button onClick={() => dismissSuggestion(s)} title="Ignorar esta sugestão" style={{ background: '#f5f5f4', color: '#78716c', border: 'none', borderRadius: 9, width: 32, height: 32, cursor: 'pointer', display: 'grid', placeItems: 'center' }}>
                         <XIcon size={14} />
                       </button>
                     </div>
@@ -669,21 +669,21 @@ export default function AdminEquipes() {
 
       {/* Stats gerais */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14, marginBottom: 22 }}>
-        <StatCard icon={<UsersRound size={20} />} label="Equipes" value={String(globalStats.totalEquipes)} tone="#071A45" />
+        <StatCard icon={<UsersRound size={20} />} label="Equipes" value={String(globalStats.totalEquipes)} tone="#141112" />
         <StatCard icon={<ShieldCheck size={20} />} label="Cadastradas oficialmente" value={String(globalStats.totalOficiais)} tone="#2563eb" />
         <StatCard icon={<Trophy size={20} />} label="Membros confirmados" value={String(globalStats.totalMembros)} tone="#7c3aed" />
         <StatCard icon={<Wallet size={20} />} label="Arrecadado" value={formatMoneyBR(globalStats.totalArrecadado)} tone="#16a34a" />
       </div>
 
       {/* Filtros */}
-      <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e2e8f0', padding: 18, marginBottom: 20, display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+      <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e7e5e4', padding: 18, marginBottom: 20, display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ flex: 1, minWidth: 240, position: 'relative' }}>
-          <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={18} />
+          <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} size={18} />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Buscar equipe por nome..."
-            style={{ width: '100%', height: 44, padding: '0 14px 0 42px', borderRadius: 12, border: '1px solid #e2e8f0', fontWeight: 700, color: '#071A45', outline: 'none' }}
+            style={{ width: '100%', height: 44, padding: '0 14px 0 42px', borderRadius: 12, border: '1px solid #e7e5e4', fontWeight: 700, color: '#141112', outline: 'none' }}
           />
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -697,7 +697,7 @@ export default function AdminEquipes() {
               onClick={() => setFilter(id)}
               style={{
                 border: 'none', borderRadius: 10, padding: '10px 16px', fontWeight: 800, fontSize: '0.76rem', cursor: 'pointer',
-                background: filter === id ? '#071A45' : '#f1f5f9', color: filter === id ? '#fff' : '#64748b',
+                background: filter === id ? '#141112' : '#f5f5f4', color: filter === id ? '#fff' : '#78716c',
               }}
             >
               {label}
@@ -706,11 +706,11 @@ export default function AdminEquipes() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <ArrowUpDown size={16} color="#94a3b8" />
+          <ArrowUpDown size={16} color="#a8a29e" />
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value as typeof sortBy)}
-            style={{ height: 44, padding: '0 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontWeight: 800, fontSize: '.8rem', color: '#071A45', background: '#fff', cursor: 'pointer' }}
+            style={{ height: 44, padding: '0 12px', borderRadius: 10, border: '1px solid #e7e5e4', fontWeight: 800, fontSize: '.8rem', color: '#141112', background: '#fff', cursor: 'pointer' }}
           >
             <option value="membros-desc">Mais membros</option>
             <option value="membros-asc">Menos membros</option>
@@ -724,8 +724,8 @@ export default function AdminEquipes() {
 
       {/* Lista de equipes */}
       {filteredGroups.length === 0 ? (
-        <div style={{ background: '#fff', borderRadius: 20, border: '1px dashed #cbd5e1', padding: 70, textAlign: 'center', color: '#94a3b8', fontWeight: 700 }}>
-          <UsersRound size={34} color="#cbd5e1" />
+        <div style={{ background: '#fff', borderRadius: 20, border: '1px dashed #d6d3d1', padding: 70, textAlign: 'center', color: '#a8a29e', fontWeight: 700 }}>
+          <UsersRound size={34} color="#d6d3d1" />
           <p style={{ marginTop: 12 }}>Nenhuma equipe encontrada com esses filtros.</p>
         </div>
       ) : (
@@ -739,41 +739,41 @@ export default function AdminEquipes() {
                 onClick={() => selectionMode ? toggleCardSelected(group.key) : setSelectedKey(group.key)}
                 style={{
                   textAlign: 'left', background: isSelected ? '#f5f3ff' : '#fff',
-                  border: isSelected ? '2px solid #7c3aed' : '1px solid #e2e8f0', borderRadius: 18,
+                  border: isSelected ? '2px solid #7c3aed' : '1px solid #e7e5e4', borderRadius: 18,
                   padding: isSelected ? 19 : 20, cursor: 'pointer',
                   display: 'flex', flexDirection: 'column', gap: 14, transition: 'box-shadow .15s ease, transform .15s ease',
                 }}
-                onMouseEnter={e => { if (!selectionMode) { e.currentTarget.style.boxShadow = '0 8px 20px rgba(15,23,42,.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; } }}
+                onMouseEnter={e => { if (!selectionMode) { e.currentTarget.style.boxShadow = '0 8px 20px rgba(28, 25, 23,.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; } }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
                     {selectionMode ? (
-                      <div style={{ width: 42, height: 42, borderRadius: 12, background: isSelected ? '#7c3aed' : '#f1f5f9', color: isSelected ? '#fff' : '#94a3b8', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                      <div style={{ width: 42, height: 42, borderRadius: 12, background: isSelected ? '#7c3aed' : '#f5f5f4', color: isSelected ? '#fff' : '#a8a29e', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                         {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
                       </div>
                     ) : (
-                      <div style={{ width: 42, height: 42, borderRadius: 12, background: group.oficial ? '#eff6ff' : '#f1f5f9', color: group.oficial ? '#2563eb' : '#94a3b8', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                      <div style={{ width: 42, height: 42, borderRadius: 12, background: group.oficial ? '#eff6ff' : '#f5f5f4', color: group.oficial ? '#2563eb' : '#a8a29e', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                         <UsersRound size={20} />
                       </div>
                     )}
                     <div style={{ minWidth: 0 }}>
-                      <strong style={{ display: 'block', color: '#071A45', fontSize: '0.98rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{group.nome}</strong>
-                      <span style={{ color: group.oficial ? '#2563eb' : '#94a3b8', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase' }}>
+                      <strong style={{ display: 'block', color: '#141112', fontSize: '0.98rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{group.nome}</strong>
+                      <span style={{ color: group.oficial ? '#2563eb' : '#a8a29e', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase' }}>
                         {group.oficial ? 'Cadastrada' : 'Não cadastrada'}
                       </span>
                     </div>
                   </div>
-                  {!selectionMode && <ArrowRight size={18} color="#cbd5e1" style={{ flexShrink: 0, marginTop: 8 }} />}
+                  {!selectionMode && <ArrowRight size={18} color="#d6d3d1" style={{ flexShrink: 0, marginTop: 8 }} />}
                 </div>
 
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   <Badge tone="#166534" bg="#dcfce7">{s.total} confirmado{s.total === 1 ? '' : 's'}</Badge>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: 12 }}>
-                  <span style={{ color: '#94a3b8', fontSize: '.72rem', fontWeight: 800, textTransform: 'uppercase' }}>Arrecadado</span>
-                  <strong style={{ color: '#071A45', fontSize: '.95rem', fontWeight: 900 }}>{formatMoneyBR(s.arrecadado)}</strong>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f5f5f4', paddingTop: 12 }}>
+                  <span style={{ color: '#a8a29e', fontSize: '.72rem', fontWeight: 800, textTransform: 'uppercase' }}>Arrecadado</span>
+                  <strong style={{ color: '#141112', fontSize: '.95rem', fontWeight: 900 }}>{formatMoneyBR(s.arrecadado)}</strong>
                 </div>
               </button>
             );
@@ -783,33 +783,33 @@ export default function AdminEquipes() {
 
       {/* Modal: nova equipe */}
       {showCreate && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.68)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1500 }}>
-          <div style={{ background: '#fff', width: '100%', maxWidth: 440, borderRadius: 20, padding: 26, boxShadow: '0 24px 60px rgba(15,23,42,.28)' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.68)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1500 }}>
+          <div style={{ background: '#fff', width: '100%', maxWidth: 440, borderRadius: 20, padding: 26, boxShadow: '0 24px 60px rgba(28, 25, 23,.28)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
               <div style={{ width: 40, height: 40, borderRadius: 12, background: '#eff6ff', color: '#2563eb', display: 'grid', placeItems: 'center' }}>
                 <Sparkles size={19} />
               </div>
-              <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.05rem', fontWeight: 950 }}>Nova equipe</h2>
+              <h2 style={{ margin: 0, color: '#141112', fontSize: '1.05rem', fontWeight: 950 }}>Nova equipe</h2>
             </div>
-            <label style={{ display: 'block', fontSize: '.72rem', fontWeight: 900, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Nome da equipe</label>
+            <label style={{ display: 'block', fontSize: '.72rem', fontWeight: 900, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Nome da equipe</label>
             <input
               value={newNome}
               onChange={e => setNewNome(e.target.value)}
               placeholder="Ex: Correndo Juntos"
-              style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e2e8f0', fontWeight: 700, color: '#071A45', outline: 'none', marginBottom: 16 }}
+              style={{ width: '100%', height: 46, padding: '0 14px', borderRadius: 12, border: '1px solid #e7e5e4', fontWeight: 700, color: '#141112', outline: 'none', marginBottom: 16 }}
             />
-            <label style={{ display: 'block', fontSize: '.72rem', fontWeight: 900, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Observações (opcional)</label>
+            <label style={{ display: 'block', fontSize: '.72rem', fontWeight: 900, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Observações (opcional)</label>
             <textarea
               value={newObs}
               onChange={e => setNewObs(e.target.value)}
               placeholder="Anotações internas sobre a equipe..."
-              style={{ width: '100%', minHeight: 80, padding: 12, borderRadius: 12, border: '1px solid #e2e8f0', fontWeight: 600, color: '#071A45', outline: 'none', resize: 'vertical', marginBottom: 20, fontFamily: 'inherit' }}
+              style={{ width: '100%', minHeight: 80, padding: 12, borderRadius: 12, border: '1px solid #e7e5e4', fontWeight: 600, color: '#141112', outline: 'none', resize: 'vertical', marginBottom: 20, fontFamily: 'inherit' }}
             />
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => setShowCreate(false)} style={{ flex: 1, border: '1px solid #e2e8f0', background: '#fff', borderRadius: 12, padding: 13, color: '#64748b', fontWeight: 900, cursor: 'pointer' }}>
+              <button onClick={() => setShowCreate(false)} style={{ flex: 1, border: '1px solid #e7e5e4', background: '#fff', borderRadius: 12, padding: 13, color: '#78716c', fontWeight: 900, cursor: 'pointer' }}>
                 Cancelar
               </button>
-              <button onClick={handleCreateEquipe} disabled={saving} style={{ flex: 1.4, border: 'none', background: '#071A45', color: '#fff', borderRadius: 12, padding: 13, fontWeight: 900, cursor: 'pointer' }}>
+              <button onClick={handleCreateEquipe} disabled={saving} style={{ flex: 1.4, border: 'none', background: '#141112', color: '#fff', borderRadius: 12, padding: 13, fontWeight: 900, cursor: 'pointer' }}>
                 {saving ? 'Salvando...' : 'Cadastrar equipe'}
               </button>
             </div>
@@ -819,15 +819,15 @@ export default function AdminEquipes() {
 
       {/* Modal: mesclar equipes selecionadas na lista */}
       {showMergeSelected && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,.68)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1500 }}>
-          <div style={{ background: '#fff', width: '100%', maxWidth: 480, borderRadius: 20, padding: 26, boxShadow: '0 24px 60px rgba(15,23,42,.28)' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23,.68)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 1500 }}>
+          <div style={{ background: '#fff', width: '100%', maxWidth: 480, borderRadius: 20, padding: 26, boxShadow: '0 24px 60px rgba(28, 25, 23,.28)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
               <div style={{ width: 40, height: 40, borderRadius: 12, background: '#f5f3ff', color: '#7c3aed', display: 'grid', placeItems: 'center' }}>
                 <GitMerge size={19} />
               </div>
-              <h2 style={{ margin: 0, color: '#071A45', fontSize: '1.05rem', fontWeight: 950 }}>Mesclar {selectedGroupsForMerge.length} equipes</h2>
+              <h2 style={{ margin: 0, color: '#141112', fontSize: '1.05rem', fontWeight: 950 }}>Mesclar {selectedGroupsForMerge.length} equipes</h2>
             </div>
-            <p style={{ color: '#64748b', fontSize: '.82rem', margin: '4px 0 18px', lineHeight: 1.5 }}>
+            <p style={{ color: '#78716c', fontSize: '.82rem', margin: '4px 0 18px', lineHeight: 1.5 }}>
               Escolha qual delas vai dar nome ao grupo final. As demais serão fundidas dentro dela.
             </p>
 
@@ -837,14 +837,14 @@ export default function AdminEquipes() {
                   key={g.key}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', borderRadius: 12, cursor: 'pointer',
-                    border: mergeSelectedTarget === g.key ? '2px solid #7c3aed' : '1px solid #e2e8f0',
+                    border: mergeSelectedTarget === g.key ? '2px solid #7c3aed' : '1px solid #e7e5e4',
                     background: mergeSelectedTarget === g.key ? '#faf9ff' : '#fff',
                   }}
                 >
                   <input type="radio" name="merge-target" checked={mergeSelectedTarget === g.key} onChange={() => setMergeSelectedTarget(g.key)} style={{ accentColor: '#7c3aed', width: 16, height: 16 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <strong style={{ display: 'block', color: '#071A45', fontSize: '.88rem' }}>{g.nome}</strong>
-                    <small style={{ color: '#94a3b8', fontWeight: 700 }}>{g.membros.length} membro{g.membros.length === 1 ? '' : 's'}{g.oficial ? ' · cadastrada' : ''}</small>
+                    <strong style={{ display: 'block', color: '#141112', fontSize: '.88rem' }}>{g.nome}</strong>
+                    <small style={{ color: '#a8a29e', fontWeight: 700 }}>{g.membros.length} membro{g.membros.length === 1 ? '' : 's'}{g.oficial ? ' · cadastrada' : ''}</small>
                   </div>
                   {mergeSelectedTarget === g.key && <span style={{ background: '#7c3aed', color: '#fff', borderRadius: 999, padding: '3px 10px', fontSize: '.65rem', fontWeight: 900 }}>NOME FINAL</span>}
                 </label>
@@ -852,7 +852,7 @@ export default function AdminEquipes() {
             </div>
 
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => setShowMergeSelected(false)} style={{ flex: 1, border: '1px solid #e2e8f0', background: '#fff', borderRadius: 12, padding: 13, color: '#64748b', fontWeight: 900, cursor: 'pointer' }}>
+              <button onClick={() => setShowMergeSelected(false)} style={{ flex: 1, border: '1px solid #e7e5e4', background: '#fff', borderRadius: 12, padding: 13, color: '#78716c', fontWeight: 900, cursor: 'pointer' }}>
                 Cancelar
               </button>
               <button onClick={confirmMergeSelected} disabled={saving || !mergeSelectedTarget} style={{ flex: 1.4, border: 'none', background: '#7c3aed', color: '#fff', borderRadius: 12, padding: 13, fontWeight: 900, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
@@ -886,13 +886,13 @@ export default function AdminEquipes() {
 
 function StatCard({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: string; tone: string }) {
   return (
-    <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e2e8f0', padding: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+    <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e5e4', padding: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
       <div style={{ width: 40, height: 40, borderRadius: 12, background: `${tone}15`, color: tone, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
         {icon}
       </div>
       <div style={{ minWidth: 0 }}>
-        <div style={{ color: '#071A45', fontSize: '1.1rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
-        <div style={{ color: '#94a3b8', fontSize: '.68rem', fontWeight: 800, textTransform: 'uppercase' }}>{label}</div>
+        <div style={{ color: '#141112', fontSize: '1.1rem', fontWeight: 900, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
+        <div style={{ color: '#a8a29e', fontSize: '.68rem', fontWeight: 800, textTransform: 'uppercase' }}>{label}</div>
       </div>
     </div>
   );

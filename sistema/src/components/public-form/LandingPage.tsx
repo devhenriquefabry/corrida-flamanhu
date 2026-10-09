@@ -10,7 +10,7 @@ import {
   MoonStar,
   Zap
 } from 'lucide-react';
-import { withBase } from '../../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../../config/marca';
 
 interface LandingPageProps {
   displayVagas: number;
@@ -100,13 +100,11 @@ export const LandingPage = ({ displayVagas, vagas, eventDate, showUrgencyBanner 
 
         {/* Top Branding */}
         <div className="landing-brand-lockup animate-fade-up">
-          <img src={withBase("/sistema/logo-mcu.png")} alt="Prefeitura de Manhuacu" className="landing-side-logo" />
           <img
-            src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")}
-            alt="MCU Night Run"
+            src={LOGO_CORRIDA}
+            alt={LOGO_CORRIDA_ALT}
             className="landing-main-logo"
           />
-          <img src={withBase("/sistema/logo-ademare.png")} alt="Ademare" className="landing-side-logo" />
         </div>
 
         {/* Hero Text */}

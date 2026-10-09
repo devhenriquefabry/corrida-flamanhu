@@ -5,7 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import PublicForm from './PublicForm';
 import '../App.css';
-import { withBase } from '../utils/withBase';
+import { LOGO_CORRIDA, LOGO_CORRIDA_ALT } from '../config/marca';
 
 export default function ClosedRegistrations() {
   const [bypassClosedScreen, setBypassClosedScreen] = useState(() => sessionStorage.getItem('nightrun:bypass-closed-screen') === 'true');
@@ -45,7 +45,7 @@ export default function ClosedRegistrations() {
   return (
     <main className="closed-site-page">
       <section className="closed-site-content">
-        <img src={withBase("/sistema/LOGO NIGHT RUN SEM FUNDO (em amarelo).png")} alt="MCU Night Run" className="closed-site-logo" />
+        <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} className="closed-site-logo" />
         <div className="closed-site-icon">
           <CalendarClock size={34} />
         </div>

@@ -141,16 +141,16 @@ export default function AdminCobrancaPendentes() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 28 }}>
         <div>
-          <button onClick={() => navigate('/admin/inscritos')} style={{ border: 'none', background: 'transparent', color: '#64748b', fontWeight: 800, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: 10 }}>
+          <button onClick={() => navigate('/admin/inscritos')} style={{ border: 'none', background: 'transparent', color: '#78716c', fontWeight: 800, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: 10 }}>
             <ArrowLeft size={18} /> Voltar para inscritos
           </button>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', margin: 0 }}>Cobrança de pendentes</h1>
-          <p style={{ color: '#64748b', fontWeight: 600, marginTop: 6 }}>Envie um aviso para quem ainda não teve o pagamento registrado.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', margin: 0 }}>Cobrança de pendentes</h1>
+          <p style={{ color: '#78716c', fontWeight: 600, marginTop: 6 }}>Envie um aviso para quem ainda não teve o pagamento registrado.</p>
         </div>
-        <button onClick={load} style={{ background: '#fff', border: '1px solid #e2e8f0', color: '#475569', padding: '10px 18px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+        <button onClick={load} style={{ background: '#fff', border: '1px solid #e7e5e4', color: '#57534e', padding: '10px 18px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
           <RefreshCcw size={17} /> Atualizar
         </button>
       </div>
@@ -161,7 +161,7 @@ export default function AdminCobrancaPendentes() {
         <Metric label="Sem telefone" value={pendentes.length - sendable.length} tone="#ef4444" />
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: 24, marginBottom: 24 }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 24, padding: 24, marginBottom: 24 }}>
         <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: 18, borderRadius: 18, background: '#fff7ed', border: '1px solid #fed7aa', color: '#9a3412', marginBottom: 22 }}>
           <MessageSquareWarning size={24} style={{ flexShrink: 0 }} />
           <div style={{ fontWeight: 800, lineHeight: 1.5 }}>
@@ -169,60 +169,60 @@ export default function AdminCobrancaPendentes() {
           </div>
         </div>
 
-        <label style={{ display: 'block', color: '#64748b', fontSize: '.74rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 8 }}>Modelo da mensagem</label>
+        <label style={{ display: 'block', color: '#78716c', fontSize: '.74rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 8 }}>Modelo da mensagem</label>
         <textarea
           value={template}
           onChange={event => setTemplate(event.target.value)}
           rows={9}
-          style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: 16, padding: 16, color: '#071A45', fontWeight: 650, lineHeight: 1.5, outline: 'none', resize: 'vertical' }}
+          style={{ width: '100%', border: '1px solid #e7e5e4', borderRadius: 16, padding: 16, color: '#141112', fontWeight: 650, lineHeight: 1.5, outline: 'none', resize: 'vertical' }}
         />
-        <div style={{ color: '#64748b', fontSize: '.78rem', fontWeight: 700, marginTop: 10 }}>
+        <div style={{ color: '#78716c', fontSize: '.78rem', fontWeight: 700, marginTop: 10 }}>
           Variáveis: {'{nome}'}, {'{nome_completo}'}, {'{link_pagamento}'} e {'{valor}'}.
         </div>
 
-        <div style={{ marginTop: 18, padding: 16, border: '1px solid #e2e8f0', borderRadius: 16, background: '#f8fafc' }}>
-          <div style={{ color: '#071A45', fontWeight: 900, marginBottom: 12 }}>Enviar teste</div>
+        <div style={{ marginTop: 18, padding: 16, border: '1px solid #e7e5e4', borderRadius: 16, background: '#fafaf9' }}>
+          <div style={{ color: '#141112', fontWeight: 900, marginBottom: 12 }}>Enviar teste</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, 1fr) auto', gap: 12, alignItems: 'end' }}>
             <label style={{ display: 'block' }}>
-              <span style={{ display: 'block', color: '#64748b', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Número do teste</span>
+              <span style={{ display: 'block', color: '#78716c', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Número do teste</span>
               <input
                 value={testPhone}
                 onChange={event => setTestPhone(event.target.value)}
                 placeholder="5533999999999"
-                style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: 12, padding: '12px 14px', color: '#071A45', fontWeight: 800, outline: 'none' }}
+                style={{ width: '100%', border: '1px solid #e7e5e4', borderRadius: 12, padding: '12px 14px', color: '#141112', fontWeight: 800, outline: 'none' }}
               />
             </label>
             <label style={{ display: 'block' }}>
-              <span style={{ display: 'block', color: '#64748b', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Pendente usado no modelo</span>
+              <span style={{ display: 'block', color: '#78716c', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 6 }}>Pendente usado no modelo</span>
               <select
                 value={selectedTestRegistration?.id || ''}
                 onChange={event => setTestRegistrationId(event.target.value)}
-                style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: 12, padding: '12px 14px', color: '#071A45', fontWeight: 800, outline: 'none', background: '#fff' }}
+                style={{ width: '100%', border: '1px solid #e7e5e4', borderRadius: 12, padding: '12px 14px', color: '#141112', fontWeight: 800, outline: 'none', background: '#fff' }}
               >
                 {sendable.map(item => (
                   <option key={item.id} value={item.id}>{item.nome || 'Sem nome'} - {item.telefone || 'sem telefone'}</option>
                 ))}
               </select>
             </label>
-            <button onClick={sendTest} disabled={sendingTest || !selectedTestRegistration} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '12px 18px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: sendingTest ? 'wait' : 'pointer', opacity: selectedTestRegistration ? 1 : .55 }}>
+            <button onClick={sendTest} disabled={sendingTest || !selectedTestRegistration} style={{ background: '#141112', color: '#fff', border: 'none', padding: '12px 18px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: sendingTest ? 'wait' : 'pointer', opacity: selectedTestRegistration ? 1 : .55 }}>
               <Send size={17} /> {sendingTest ? 'Enviando...' : 'Enviar teste'}
             </button>
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 22 }}>
-          <button onClick={saveTemplate} disabled={saving} style={{ background: '#f1f5f9', color: '#071A45', border: 'none', padding: '12px 18px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: saving ? 'wait' : 'pointer' }}>
+          <button onClick={saveTemplate} disabled={saving} style={{ background: '#f5f5f4', color: '#141112', border: 'none', padding: '12px 18px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: saving ? 'wait' : 'pointer' }}>
             <Save size={17} /> {saving ? 'Salvando...' : 'Salvar modelo'}
           </button>
-          <button onClick={sendCharges} disabled={sending} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '12px 22px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: sending ? 'wait' : 'pointer' }}>
+          <button onClick={sendCharges} disabled={sending} style={{ background: '#141112', color: '#fff', border: 'none', padding: '12px 22px', borderRadius: 12, fontWeight: 900, display: 'inline-flex', alignItems: 'center', gap: 8, cursor: sending ? 'wait' : 'pointer' }}>
             <Send size={17} /> {sending ? 'Enfileirando...' : 'Confirmar e enviar para pendentes'}
           </button>
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 24, padding: 24 }}>
-        <h2 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', margin: '0 0 14px' }}>Prévia</h2>
-        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit', color: '#475569', background: '#f8fafc', border: '1px solid #eef2f7', borderRadius: 16, padding: 16, lineHeight: 1.5 }}>{preview}</pre>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 24, padding: 24 }}>
+        <h2 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', margin: '0 0 14px' }}>Prévia</h2>
+        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit', color: '#57534e', background: '#fafaf9', border: '1px solid #f3f1ef', borderRadius: 16, padding: 16, lineHeight: 1.5 }}>{preview}</pre>
       </div>
 
       <LoadingModal isOpen={loading} />
@@ -232,9 +232,9 @@ export default function AdminCobrancaPendentes() {
 
 function Metric({ label, value, tone }: { label: string; value: number; tone: string }) {
   return (
-    <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
+    <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 18, padding: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
       <div style={{ width: 42, height: 42, borderRadius: 12, background: `${tone}15`, color: tone, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900 }}>{value}</div>
-      <div style={{ color: '#64748b', fontWeight: 900, textTransform: 'uppercase', fontSize: '.75rem' }}>{label}</div>
+      <div style={{ color: '#78716c', fontWeight: 900, textTransform: 'uppercase', fontSize: '.75rem' }}>{label}</div>
     </div>
   );
 }

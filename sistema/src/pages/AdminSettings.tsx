@@ -180,7 +180,7 @@ export default function AdminSettings() {
           border: none;
           border-radius: var(--adm-radius-sm);
           background: var(--adm-accent);
-          color: #071A45;
+          color: #fff;
           font-weight: 900;
           display: inline-flex;
           align-items: center;

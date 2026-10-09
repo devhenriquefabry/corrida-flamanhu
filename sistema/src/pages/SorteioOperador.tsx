@@ -104,7 +104,7 @@ export default function SorteioOperador() {
     return (
       <div className="sorteio-page">
         <div className="sorteio-shell">
-          <LogoCombo style={{ height: 38 }} variant="light" />
+          <LogoCombo />
           <div className="sorteio-empty">
             <Lock size={38} />
             <strong>Acesso negado</strong>
@@ -124,7 +124,7 @@ export default function SorteioOperador() {
     <div className={`sorteio-page ${isLive ? 'is-live' : ''}`}>
       <div className="sorteio-bg-glow" />
       <div className="sorteio-shell">
-        <header className="sorteio-header"><LogoCombo style={{ height: 38 }} variant="light" /></header>
+        <header className="sorteio-header"><LogoCombo /></header>
 
         <span className="sorteio-status-pill finalizado"><ShieldCheck size={13} /> Painel do coordenador</span>
 
@@ -184,7 +184,7 @@ export default function SorteioOperador() {
           <ExternalLink size={14} /> Abrir telão público
         </a>
 
-        <footer className="sorteio-footer">MCU Night Run 2026</footer>
+        <footer className="sorteio-footer">Corrida Flamanhu 2027</footer>
       </div>
     </div>
   );

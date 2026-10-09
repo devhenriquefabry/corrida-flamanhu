@@ -1,20 +1,21 @@
 /* ============================================
-   ADMIN DARK THEME — MCU Night Run
+   ADMIN DARK THEME — Corrida Flamanhu
    ============================================ */
 
 :root {
-  --adm-bg: #020A22;
-  --adm-surface: #06163D;
-  --adm-surface-2: #071A45;
-  --adm-surface-3: #0B2458;
-  --adm-border: #123068;
+  --adm-bg: #0B0A0A;
+  --adm-surface: #161314;
+  --adm-surface-2: #141112;
+  --adm-surface-3: #211C1D;
+  --adm-border: #2e2627;
   --adm-border-light: rgba(255,255,255,0.06);
-  --adm-text: #e2e8f0;
-  --adm-text-muted: #64748b;
-  --adm-text-dim: #475569;
-  --adm-accent: #6BFF2A;
-  --adm-accent-dim: rgba(107,255,42,0.15);
-  --adm-primary: #071A45;
+  --adm-text: #e7e5e4;
+  --adm-text-muted: #a79f9b;
+  --adm-text-dim: #78716c;
+  --adm-accent: #e01b22;
+  --adm-accent-ink: #ff2e38;
+  --adm-accent-dim: rgba(224, 27, 34,0.15);
+  --adm-primary: #141112;
   --adm-success: #22c55e;
   --adm-warning: #f59e0b;
   --adm-danger: #ef4444;
@@ -23,7 +24,8 @@
   --adm-sidebar-collapsed: 78px;
   --adm-radius: 14px;
   --adm-radius-sm: 10px;
-  --adm-font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --adm-font: 'Barlow', 'Segoe UI', system-ui, sans-serif;
+  --adm-font-title: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 }
 
 html, body, #root {
@@ -78,22 +80,22 @@ html, body, #root {
 .adm-sidebar.collapsed { width: var(--adm-sidebar-collapsed); }
 
 .adm-sidebar-logo {
-  padding: 22px 20px;
+  padding: 16px 20px 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--adm-border);
   min-height: 75px;
 }
-.adm-sidebar-logo img { max-width: 170px; width: 100%; }
-.adm-sidebar.collapsed .adm-sidebar-logo img { max-width: 38px; }
+.adm-sidebar-logo img { max-width: 132px; width: 100%; height: auto; filter: drop-shadow(0 6px 14px rgba(0,0,0,.45)); }
+.adm-sidebar.collapsed .adm-sidebar-logo img { max-width: 50px; }
 
 .adm-event-date {
   margin: 14px 10px 8px;
   padding: 12px;
-  border: 1px solid rgba(107,255,42,0.35);
+  border: 1px solid rgba(224, 27, 34,0.35);
   border-radius: var(--adm-radius-sm);
-  background: rgba(107,255,42,0.08);
+  background: rgba(224, 27, 34,0.08);
   color: var(--adm-text);
   display: flex;
   align-items: center;
@@ -103,15 +105,15 @@ html, body, #root {
   transition: all .15s;
 }
 .adm-event-date:hover {
-  background: rgba(107,255,42,0.14);
-  border-color: rgba(107,255,42,0.55);
+  background: rgba(224, 27, 34,0.14);
+  border-color: rgba(224, 27, 34,0.55);
 }
 .adm-event-date-icon {
   width: 34px;
   height: 34px;
   border-radius: 10px;
   background: var(--adm-accent);
-  color: #020A22;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,7 +125,7 @@ html, body, #root {
   gap: 2px;
 }
 .adm-event-date strong {
-  color: var(--adm-accent);
+  color: var(--adm-accent-ink);
   font-size: .72rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -161,7 +163,7 @@ html, body, #root {
 .adm-nav-item:hover { background: rgba(255,255,255,0.04); color: var(--adm-text); }
 .adm-nav-item.active {
   background: var(--adm-accent);
-  color: #020A22;
+  color: #fff;
   font-weight: 700;
 }
 .adm-nav-item .nav-icon { display: flex; align-items: center; flex-shrink: 0; }
@@ -235,7 +237,7 @@ html, body, #root {
   width: 38px; height: 38px;
   border-radius: var(--adm-radius-sm);
   background: var(--adm-accent);
-  color: #020A22;
+  color: #fff;
   display: flex; align-items: center; justify-content: center;
   font-weight: 800;
   font-size: .85rem;
@@ -272,7 +274,7 @@ html, body, #root {
   align-items: center;
   justify-content: space-between;
 }
-.adm-mobile-header img { height: 24px; }
+.adm-mobile-header img { height: 44px; width: auto; }
 .adm-mobile-header button {
   background: none; border: none; color: var(--adm-text); cursor: pointer; padding: 4px;
 }
@@ -292,7 +294,7 @@ html, body, #root {
   color: var(--adm-text);
   margin: 0;
 }
-.adm-dash-header h1 span { color: var(--adm-accent); }
+.adm-dash-header h1 span { color: var(--adm-accent-ink); }
 .adm-dash-header .subtitle { color: var(--adm-text-muted); font-size: .88rem; margin-top: 4px; }
 .adm-dash-header .header-actions { display: flex; gap: 10px; align-items: center; }
 
@@ -310,7 +312,7 @@ html, body, #root {
   display: flex; align-items: center; gap: 8px;
   padding: 9px 18px;
   background: var(--adm-accent);
-  color: #020A22;
+  color: #fff;
   border: none;
   border-radius: var(--adm-radius-sm);
   font-weight: 700;
@@ -338,7 +340,7 @@ html, body, #root {
   align-items: flex-start;
   transition: border-color .2s, transform .15s;
 }
-.adm-stat-card:hover { border-color: rgba(107,255,42,.25); transform: translateY(-2px); }
+.adm-stat-card:hover { border-color: rgba(224, 27, 34,.25); transform: translateY(-2px); }
 
 .adm-stat-icon {
   width: 48px; height: 48px;
@@ -469,7 +471,7 @@ html, body, #root {
 .adm-badge-warning { background: rgba(245,158,11,.15); color: var(--adm-warning); }
 .adm-badge-danger { background: rgba(239,68,68,.15); color: var(--adm-danger); }
 .adm-badge-info { background: rgba(59,130,246,.15); color: var(--adm-info); }
-.adm-badge-accent { background: var(--adm-accent-dim); color: var(--adm-accent); }
+.adm-badge-accent { background: var(--adm-accent-dim); color: var(--adm-accent-ink); }
 
 /* ---- ACTIVITY FEED ---- */
 .adm-activity-item {
@@ -522,7 +524,7 @@ html, body, #root {
   width: 100%;
   margin-top: 14px;
 }
-.adm-btn-outline:hover { border-color: var(--adm-accent); color: var(--adm-accent); }
+.adm-btn-outline:hover { border-color: var(--adm-accent); color: var(--adm-accent-ink); }
 
 /* ---- DONUT LEGEND ---- */
 .adm-donut-legend {
@@ -545,7 +547,7 @@ html, body, #root {
 
 /* ---- LINK STYLES ---- */
 .adm-link {
-  color: var(--adm-accent);
+  color: var(--adm-accent-ink);
   font-size: .82rem;
   font-weight: 600;
   cursor: pointer;
@@ -815,7 +817,7 @@ html, body, #root {
   gap: 6px;
   background: none;
   border: none;
-  color: var(--adm-accent);
+  color: var(--adm-accent-ink);
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -948,7 +950,7 @@ html, body, #root {
 
 .adm-pagination-btn.active {
   background: var(--adm-accent);
-  color: var(--adm-bg);
+  color: #fff;
   border-color: var(--adm-accent);
 }
 
@@ -996,8 +998,8 @@ html, body, #root {
 /* ---- SKELETON SYSTEM ---- */
 .ui-skeleton-page {
   min-height: 100vh;
-  background: #f1f5f9;
-  color: #071A45;
+  background: #f5f5f4;
+  color: #141112;
   padding: 24px 30px;
 }
 
@@ -1039,7 +1041,7 @@ html, body, #root {
   max-width: 100%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(226, 232, 240, 0.76), rgba(214, 226, 240, 0.54));
+  background: linear-gradient(135deg, rgba(231, 229, 228, 0.76), rgba(231, 229, 228, 0.54));
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
 }
 
@@ -1051,10 +1053,10 @@ html, body, #root {
 
 .ui-skeleton-card {
   background: #fff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e7e5e4;
   border-radius: 22px;
   padding: 22px;
-  box-shadow: 0 1px 3px rgba(7, 26, 69, 0.05);
+  box-shadow: 0 1px 3px rgba(20, 17, 18, 0.05);
   animation: uiSkeletonContainerPulse 1.8s ease-in-out infinite;
   contain: content;
 }
@@ -1112,12 +1114,12 @@ html, body, #root {
 
 .ui-skeleton-table-head {
   padding: 4px 2px 18px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f5f5f4;
 }
 
 .ui-skeleton-table-row {
   min-height: 74px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f5f5f4;
 }
 
 .ui-skeleton-table-row:last-child {
@@ -1143,7 +1145,7 @@ html, body, #root {
 
 .ui-skeleton-reveal-stage {
   position: relative;
-  background: #f1f5f9;
+  background: #f5f5f4;
 }
 
 .ui-skeleton-reveal-stage .ui-skeleton-exit-wrap {
@@ -1168,17 +1170,17 @@ html, body, #root {
 
 .admin-loading {
   min-height: 100vh;
-  background: #f1f5f9;
+  background: #f5f5f4;
 }
 
 @keyframes uiSkeletonContainerPulse {
   0%, 100% {
     opacity: 0.78;
-    box-shadow: 0 1px 3px rgba(7, 26, 69, 0.05);
+    box-shadow: 0 1px 3px rgba(20, 17, 18, 0.05);
   }
   50% {
     opacity: 1;
-    box-shadow: 0 1px 3px rgba(7, 26, 69, 0.05), 0 0 18px rgba(107,255,42,0.055);
+    box-shadow: 0 1px 3px rgba(20, 17, 18, 0.05), 0 0 18px rgba(224, 27, 34,0.055);
   }
 }
 
@@ -1239,7 +1241,7 @@ html, body, #root {
     right: 0;
     height: 64px;
     z-index: 90;
-    background: #020a22;
+    background: #0b0a0a;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
@@ -1279,9 +1281,9 @@ html, body, #root {
 
 .admin-inscritos-list {
   background: #fff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e7e5e4;
   border-radius: 20px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.06);
   overflow: hidden;
 }
 
@@ -1290,12 +1292,12 @@ html, body, #root {
   grid-template-columns: minmax(280px, 1.5fr) minmax(190px, 0.95fr) minmax(120px, 0.55fr) minmax(130px, 0.55fr);
   gap: 20px;
   padding: 18px 24px;
-  background: #f8fafc;
-  border-bottom: 1px solid #eef2f7;
+  background: #fafaf9;
+  border-bottom: 1px solid #f3f1ef;
 }
 
 .admin-inscritos-list-head span {
-  color: #64748b;
+  color: #78716c;
   font-size: 0.7rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -1307,15 +1309,15 @@ html, body, #root {
   gap: 20px;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid #f3f1ef;
   cursor: pointer;
   transition: background 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
 }
 
 .admin-inscrito-row:hover,
 .admin-inscrito-row:focus-visible {
-  background: #f8fbff;
-  box-shadow: inset 4px 0 0 #6bff2a;
+  background: #fbfaf9;
+  box-shadow: inset 4px 0 0 #e01b22;
   outline: none;
 }
 
@@ -1334,7 +1336,7 @@ html, body, #root {
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  background: #eef4fb;
+  background: #f5f2f0;
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -1348,7 +1350,7 @@ html, body, #root {
 }
 
 .admin-inscrito-photo span {
-  color: #071a45;
+  color: #141112;
   font-size: 0.9rem;
   font-weight: 900;
 }
@@ -1363,7 +1365,7 @@ html, body, #root {
 .admin-inscrito-meta strong,
 .admin-inscrito-date strong {
   display: block;
-  color: #071a45;
+  color: #141112;
   font-size: 0.95rem;
   font-weight: 900;
   line-height: 1.25;
@@ -1377,7 +1379,7 @@ html, body, #root {
 .admin-inscrito-meta span,
 .admin-inscrito-date span {
   display: block;
-  color: #64748b;
+  color: #78716c;
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1.35;
@@ -1388,7 +1390,7 @@ html, body, #root {
 }
 
 .admin-inscrito-person small {
-  color: #94a3b8;
+  color: #a8a29e;
 }
 
 .admin-inscrito-status {
@@ -1430,7 +1432,7 @@ html, body, #root {
 
 .admin-inscrito-row.is-free:hover,
 .admin-inscrito-row.is-free:focus-visible {
-  background: linear-gradient(90deg, rgba(124, 58, 237, 0.12), #f8fbff 60%);
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.12), #fbfaf9 60%);
   box-shadow: inset 4px 0 0 #7c3aed;
 }
 
@@ -1451,7 +1453,7 @@ html, body, #root {
 }
 
 .admin-inscritos-empty {
-  color: #94a3b8;
+  color: #a8a29e;
   font-size: 0.95rem;
   font-weight: 800;
   padding: 72px 24px;
@@ -1473,10 +1475,10 @@ html, body, #root {
 
 .admin-inscrito-card {
   background: #fff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e7e5e4;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.06);
   cursor: pointer;
   transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
   display: flex;
@@ -1486,8 +1488,8 @@ html, body, #root {
 .admin-inscrito-card:hover,
 .admin-inscrito-card:focus-visible {
   transform: translateY(-3px);
-  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.14);
-  border-color: #6bff2a;
+  box-shadow: 0 12px 26px rgba(28, 25, 23, 0.14);
+  border-color: #e01b22;
   outline: none;
 }
 
@@ -1500,7 +1502,7 @@ html, body, #root {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  background: #020a22;
+  background: #0b0a0a;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -1514,7 +1516,7 @@ html, body, #root {
 }
 
 .admin-inscrito-card-placeholder {
-  color: #6bff2a;
+  color: #ff2e38;
   font-size: 2.2rem;
   font-weight: 900;
   letter-spacing: 1px;
@@ -1585,20 +1587,20 @@ html, body, #root {
 }
 
 .admin-inscrito-card-info strong {
-  color: #071a45;
+  color: #141112;
   font-size: 0.98rem;
   font-weight: 900;
 }
 
 .admin-inscrito-card-info span {
-  color: #475569;
+  color: #57534e;
   margin-top: 4px;
   font-size: 0.78rem;
   font-weight: 800;
 }
 
 .admin-inscrito-card-info small {
-  color: #94a3b8;
+  color: #a8a29e;
   margin-top: 4px;
   font-size: 0.76rem;
   font-weight: 700;
@@ -1611,18 +1613,18 @@ html, body, #root {
   gap: 8px;
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid #f5f5f4;
 }
 
 .admin-inscrito-card-foot span {
   margin: 0;
-  color: #64748b;
+  color: #78716c;
   font-size: 0.74rem;
   font-weight: 800;
 }
 
 .admin-inscrito-card-foot span:last-child {
-  color: #94a3b8;
+  color: #a8a29e;
   font-weight: 700;
 }
 
@@ -1644,12 +1646,12 @@ html, body, #root {
 
 .admin-inscrito-card-send.euvou {
   background: #25d366;
-  color: #071a45;
+  color: #141112;
 }
 
 .admin-inscrito-card-send.cobrar {
   background: #f59e0b;
-  color: #071a45;
+  color: #141112;
 }
 
 .admin-inscrito-card-send:hover {
@@ -1691,9 +1693,9 @@ html, body, #root {
     gap: 10px 12px;
     padding: 14px;
     background: #fff;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e7e5e4;
     border-radius: 16px;
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 1px 2px rgba(28, 25, 23, 0.05);
   }
 
   .admin-inscrito-athlete {
@@ -1719,7 +1721,7 @@ html, body, #root {
     justify-content: space-between;
     gap: 12px;
     padding-top: 10px;
-    border-top: 1px solid #eef2f7;
+    border-top: 1px solid #f3f1ef;
   }
 
   .admin-inscrito-date {
@@ -1744,7 +1746,7 @@ html, body, #root {
   }
 
   .admin-inscritos-pagination {
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e7e5e4;
     border-radius: 16px;
     margin-top: 12px;
   }
@@ -1753,8 +1755,8 @@ html, body, #root {
 /* ---- CARD #EUVOU ---- */
 .admin-card-euvou-page {
   min-height: 100vh;
-  background: #f1f5f9;
-  color: #071a45;
+  background: #f5f5f4;
+  color: #141112;
   padding: 24px 30px;
 }
 
@@ -1779,14 +1781,14 @@ html, body, #root {
 
 .admin-card-euvou-header h1 {
   margin: 10px 0 4px;
-  color: #071a45;
+  color: #141112;
   font-size: 1.85rem;
   font-weight: 900;
 }
 
 .admin-card-euvou-header p {
   margin: 0;
-  color: #64748b;
+  color: #78716c;
   font-weight: 700;
 }
 
@@ -1801,17 +1803,17 @@ html, body, #root {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #a8a29e;
 }
 
 .admin-card-euvou-search input {
   width: 100%;
   min-height: 46px;
   padding: 12px 14px 12px 44px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e7e5e4;
   border-radius: 14px;
   background: #fff;
-  color: #071a45;
+  color: #141112;
   font-size: 0.9rem;
   font-weight: 700;
   outline: none;
@@ -1825,10 +1827,10 @@ html, body, #root {
 
 .admin-card-euvou-item {
   background: #fff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e7e5e4;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.06);
 }
 
 .admin-card-euvou-image {
@@ -1837,7 +1839,7 @@ html, body, #root {
   aspect-ratio: 4 / 5;
   padding: 0;
   border: 0;
-  background: #020a22;
+  background: #0b0a0a;
   cursor: zoom-in;
 }
 
@@ -1863,7 +1865,7 @@ html, body, #root {
 }
 
 .admin-card-euvou-info strong {
-  color: #071a45;
+  color: #141112;
   font-size: 0.98rem;
   font-weight: 900;
 }
@@ -1877,7 +1879,7 @@ html, body, #root {
 }
 
 .admin-card-euvou-info small {
-  color: #64748b;
+  color: #78716c;
   margin-top: 4px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -1911,8 +1913,8 @@ html, body, #root {
 }
 
 .admin-card-euvou-status.pending {
-  background: #f1f5f9;
-  color: #64748b;
+  background: #f5f5f4;
+  color: #78716c;
 }
 
 .admin-card-euvou-send {
@@ -1922,7 +1924,7 @@ html, body, #root {
   border: 0;
   border-radius: 8px;
   background: #25d366;
-  color: #071a45;
+  color: #141112;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1938,20 +1940,20 @@ html, body, #root {
 
 .admin-card-euvou-empty {
   min-height: 360px;
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed #d6d3d1;
   border-radius: 8px;
   background: #fff;
   display: grid;
   place-items: center;
   align-content: center;
   gap: 8px;
-  color: #94a3b8;
+  color: #a8a29e;
   text-align: center;
   padding: 32px;
 }
 
 .admin-card-euvou-empty strong {
-  color: #071a45;
+  color: #141112;
   font-size: 1rem;
 }
 

@@ -341,7 +341,7 @@ export default function AdminInscritos() {
     const exportRows = await loadAllForExport();
     if (exportRows.length === 0) return showAlert('Nenhum dado para exportar.', 'warning');
     
-    exportToCSV(exportRows, 'inscritos_mcu_night_run', [
+    exportToCSV(exportRows, 'inscritos_corrida_flamanhu', [
       { header: 'Nome', key: 'nome' },
       { header: 'CPF', key: 'cpf' },
       { header: 'E-mail', key: 'email' },
@@ -438,21 +438,21 @@ export default function AdminInscritos() {
   };
 
   return (
-    <div className="admin-inscritos-page" style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div className="admin-inscritos-page" style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Gerenciar Inscritos</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>{totalItems} atletas encontrados na base de dados</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Gerenciar Inscritos</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>{totalItems} atletas encontrados na base de dados</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <button 
             onClick={handleExport}
-            style={{ background: '#fff', border: '1px solid #e2e8f0', color: '#475569', padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+            style={{ background: '#fff', border: '1px solid #e7e5e4', color: '#57534e', padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
           >
             <Download size={18} /> Exportar
           </button>
-          <button style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <button style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <Plus size={18} /> Novo Atleta
           </button>
         </div>
@@ -475,35 +475,35 @@ export default function AdminInscritos() {
             key={i}
             onClick={() => s.filter ? setFilterStatus(s.filter) : s.path ? navigate(s.path) : undefined}
             title={s.filter ? 'Filtrar inscrições gratuitas' : s.path ? 'Abrir cobrança de pendentes' : undefined}
-            style={{ background: '#fff', flex: 1, minWidth: 200, padding: '16px 20px', borderRadius: 16, border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 16, cursor: (s.filter || s.path) ? 'pointer' : 'default' }}
+            style={{ background: '#fff', flex: 1, minWidth: 200, padding: '16px 20px', borderRadius: 16, border: '1px solid #e7e5e4', display: 'flex', alignItems: 'center', gap: 16, cursor: (s.filter || s.path) ? 'pointer' : 'default' }}
           >
              <div style={{ width: 40, height: 40, borderRadius: 12, background: `${s.color}15`, color: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                {s.icon}
              </div>
              <div>
-               <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#071A45' }}>{s.value}</div>
-               <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>{s.label}</div>
+               <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#141112' }}>{s.value}</div>
+               <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>{s.label}</div>
              </div>
           </div>
         ))}
       </div>
 
       {/* Filters Area */}
-      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e2e8f0', padding: '24px', marginBottom: 32, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+      <div style={{ background: '#fff', borderRadius: 24, border: '1px solid #e7e5e4', padding: '24px', marginBottom: 32, boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
           <div style={{ flex: 1, minWidth: 250, position: 'relative' }}>
-            <Search style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={20} />
+            <Search style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#a8a29e' }} size={20} />
             <input 
               type="text" 
               placeholder="Buscar..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px 12px 48px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.9rem', outline: 'none', background: '#f8fafc', fontWeight: 600 }}
+              style={{ width: '100%', padding: '12px 16px 12px 48px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.9rem', outline: 'none', background: '#fafaf9', fontWeight: 600 }}
             />
           </div>
           
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '12px 16px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.8rem', fontWeight: 700, outline: 'none' }}>
+            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '12px 16px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.8rem', fontWeight: 700, outline: 'none' }}>
               <option value="todos">Status</option>
               <option value="pago">Pago</option>
               <option value="pendente">Pendente</option>
@@ -512,18 +512,18 @@ export default function AdminInscritos() {
               <option value="fantasma">Pendência fantasma</option>
             </select>
 
-            <select value={filterMod} onChange={e => setFilterMod(e.target.value)} style={{ padding: '12px 16px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.8rem', fontWeight: 700, outline: 'none' }}>
+            <select value={filterMod} onChange={e => setFilterMod(e.target.value)} style={{ padding: '12px 16px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.8rem', fontWeight: 700, outline: 'none' }}>
               <option value="todos">Modalidade</option>
               {modalidades.map(m => <option key={m.id} value={m.id}>{m.nome}</option>)}
             </select>
 
-            <select value={filterCat} onChange={e => setFilterCat(e.target.value)} style={{ padding: '12px 16px', borderRadius: 14, border: '1px solid #e2e8f0', fontSize: '0.8rem', fontWeight: 700, outline: 'none' }}>
+            <select value={filterCat} onChange={e => setFilterCat(e.target.value)} style={{ padding: '12px 16px', borderRadius: 14, border: '1px solid #e7e5e4', fontSize: '0.8rem', fontWeight: 700, outline: 'none' }}>
               <option value="todos">Categoria</option>
               <option value="adulto">Adulto</option>
               <option value="infantil">Infantil</option>
             </select>
 
-            <button onClick={clearFilters} style={{ background: '#f1f5f9', border: 'none', padding: '12px 16px', borderRadius: 14, color: '#475569', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}>
+            <button onClick={clearFilters} style={{ background: '#f5f5f4', border: 'none', padding: '12px 16px', borderRadius: 14, color: '#57534e', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}>
               LIMPAR
             </button>
           </div>
@@ -602,18 +602,18 @@ export default function AdminInscritos() {
                     {linked.length > 0 && (
                       <div
                         onClick={(event) => event.stopPropagation()}
-                        style={{ marginTop: 12, paddingTop: 12, borderTop: '1px dashed #e2e8f0', display: 'flex', flexDirection: 'column', gap: 6 }}
+                        style={{ marginTop: 12, paddingTop: 12, borderTop: '1px dashed #e7e5e4', display: 'flex', flexDirection: 'column', gap: 6 }}
                       >
-                        <span style={{ fontSize: '.62rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: .4 }}>
+                        <span style={{ fontSize: '.62rem', fontWeight: 800, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: .4 }}>
                           Vinculados ({linked.length})
                         </span>
                         {linked.map(item => {
                           const itemIsPaid = item.paymentStatus === 'pago';
                           return (
-                            <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f8fafc', border: '1px solid #eef2f7', borderRadius: 10, padding: '6px 8px' }}>
+                            <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fafaf9', border: '1px solid #f3f1ef', borderRadius: 10, padding: '6px 8px' }}>
                               <div style={{ flex: 1, minWidth: 0, cursor: 'pointer' }} onClick={() => openDetails(item.id)}>
-                                <strong style={{ display: 'block', fontSize: '.72rem', color: '#071A45', fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.nome || 'Atleta sem nome'}</strong>
-                                <span style={{ display: 'block', fontSize: '.62rem', color: itemIsPaid ? '#16a34a' : '#94a3b8', fontWeight: 700 }}>
+                                <strong style={{ display: 'block', fontSize: '.72rem', color: '#141112', fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.nome || 'Atleta sem nome'}</strong>
+                                <span style={{ display: 'block', fontSize: '.62rem', color: itemIsPaid ? '#16a34a' : '#a8a29e', fontWeight: 700 }}>
                                   {itemIsPaid ? 'Pago' : String(item.paymentStatus || 'pendente').toUpperCase()}
                                 </span>
                               </div>
@@ -622,7 +622,7 @@ export default function AdminInscritos() {
                                 onClick={(event) => openSendChoice(item, event)}
                                 disabled={sendingId === item.id}
                                 title={itemIsPaid ? 'Enviar card #EUVOU' : 'Cobrar no WhatsApp'}
-                                style={{ border: 'none', background: '#071A45', color: '#fff', width: 26, height: 26, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: sendingId === item.id ? 'wait' : 'pointer', flexShrink: 0 }}
+                                style={{ border: 'none', background: '#141112', color: '#fff', width: 26, height: 26, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: sendingId === item.id ? 'wait' : 'pointer', flexShrink: 0 }}
                               >
                                 <Send size={12} />
                               </button>
@@ -640,20 +640,20 @@ export default function AdminInscritos() {
 
         {/* Pagination Footer */}
         {totalPages > 1 && (
-          <div className="admin-inscritos-pagination" style={{ padding: '16px 24px', background: '#f8fafc', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-             <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>Página {currentPage} de {totalPages}</span>
+          <div className="admin-inscritos-pagination" style={{ padding: '16px 24px', background: '#fafaf9', borderTop: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+             <span style={{ fontSize: '0.8rem', color: '#78716c', fontWeight: 600 }}>Página {currentPage} de {totalPages}</span>
              <div style={{ display: 'flex', gap: 8 }}>
                <button
                  disabled={currentPage === 1 || loadingPage}
                  onClick={() => clientMode ? setCurrentPage(prev => prev - 1) : loadPage(currentPage - 1)}
-                 style={{ background: '#fff', border: '1px solid #e2e8f0', padding: 8, borderRadius: 8, cursor: currentPage === 1 ? 'not-allowed' : 'pointer', color: currentPage === 1 ? '#cbd5e1' : '#475569' }}
+                 style={{ background: '#fff', border: '1px solid #e7e5e4', padding: 8, borderRadius: 8, cursor: currentPage === 1 ? 'not-allowed' : 'pointer', color: currentPage === 1 ? '#d6d3d1' : '#57534e' }}
                >
                  <ChevronLeft size={18} />
                </button>
                <button
                  disabled={loadingPage || (clientMode ? currentPage === totalPages : !hasNextPage)}
                  onClick={() => clientMode ? setCurrentPage(prev => prev + 1) : loadPage(currentPage + 1)}
-                 style={{ background: '#fff', border: '1px solid #e2e8f0', padding: 8, borderRadius: 8, cursor: (clientMode ? currentPage === totalPages : !hasNextPage) ? 'not-allowed' : 'pointer', color: (clientMode ? currentPage === totalPages : !hasNextPage) ? '#cbd5e1' : '#475569' }}
+                 style={{ background: '#fff', border: '1px solid #e7e5e4', padding: 8, borderRadius: 8, cursor: (clientMode ? currentPage === totalPages : !hasNextPage) ? 'not-allowed' : 'pointer', color: (clientMode ? currentPage === totalPages : !hasNextPage) ? '#d6d3d1' : '#57534e' }}
                >
                  <ChevronRight size={18} />
                </button>

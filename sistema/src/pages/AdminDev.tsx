@@ -10,7 +10,7 @@ import { EVENTO } from '../config/evento';
 
 export default function AdminDev() {
   const [phone, setPhone] = useState('55');
-  const [message, setMessage] = useState('Mensagem de teste MCU Night Run');
+  const [message, setMessage] = useState('Mensagem de teste Corrida Flamanhu');
   const [loading, setLoading] = useState(false);
   const [queueItems, setQueueItems] = useState<any[]>([]);
   const [status, setStatus] = useState<any>(null);
@@ -127,7 +127,7 @@ export default function AdminDev() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `mcu_registrations_export_${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `flamanhu_registrations_export_${new Date().toISOString().split('T')[0]}.json`;
       a?.click();
       showAlert('Base exportada com sucesso!', 'success');
     } catch (e) { showAlert('Erro ao exportar base', 'error'); }
@@ -233,7 +233,7 @@ export default function AdminDev() {
                 }
               }} 
               className="btn-nav" 
-              style={{ width: '100%', gap: 10, justifyContent: 'center', background: 'rgba(107,255,42,0.1)', color: 'var(--accent)' }}
+              style={{ width: '100%', gap: 10, justifyContent: 'center', background: 'rgba(224, 27, 34,0.1)', color: 'var(--accent-ink)' }}
             >
               <Package size={18} /> Sincronizar Kits & Camisetas
             </button>
@@ -283,7 +283,7 @@ export default function AdminDev() {
               <Send size={18} style={{ marginRight: 8 }} />
               Enviar Direto
             </button>
-            <button onClick={enqueue} className="btn-nav" style={{ flex: 1, background: 'rgba(107,255,42,0.1)', color: 'var(--accent)' }}>
+            <button onClick={enqueue} className="btn-nav" style={{ flex: 1, background: 'rgba(224, 27, 34,0.1)', color: 'var(--accent-ink)' }}>
               <RefreshCcw size={18} style={{ marginRight: 8 }} />
               Enfileirar
             </button>

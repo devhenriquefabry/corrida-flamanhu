@@ -113,8 +113,8 @@ export const AtletaEditModal: React.FC<AtletaEditModalProps> = ({
               <label>Tamanho da camiseta</label>
               <div style={{ display: 'grid', gap: 12 }}>
                 {camisetaGroups.map(group => (
-                  <div key={group.title} style={{ border: '1px solid rgba(226,232,240,0.16)', borderRadius: 12, padding: 10, background: 'rgba(255,255,255,0.03)' }}>
-                    <div style={{ color: '#94a3b8', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 8 }}>{group.title}</div>
+                  <div key={group.title} style={{ border: '1px solid rgba(231, 229, 228,0.16)', borderRadius: 12, padding: 10, background: 'rgba(255,255,255,0.03)' }}>
+                    <div style={{ color: '#a8a29e', fontSize: '.68rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 8 }}>{group.title}</div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(92px, 1fr))', gap: 8 }}>
                       {group.items.map(t => {
                         const selected = form.tamanhoCamiseta === t.id;
@@ -125,19 +125,19 @@ export const AtletaEditModal: React.FC<AtletaEditModalProps> = ({
                             type="button"
                             onClick={() => setForm({ ...form, tamanhoCamiseta: t.id })}
                             style={{
-                              border: selected ? '2px solid #6BFF2A' : '1px solid rgba(148,163,184,0.28)',
-                              background: selected ? 'rgba(107,255,42,0.12)' : 'rgba(15,23,42,0.62)',
-                              color: selected ? '#fff' : '#e2e8f0',
+                              border: selected ? '2px solid #e01b22' : '1px solid rgba(168, 162, 158,0.28)',
+                              background: selected ? 'rgba(224, 27, 34,0.12)' : 'rgba(28, 25, 23,0.62)',
+                              color: selected ? '#fff' : '#e7e5e4',
                               borderRadius: 10,
                               padding: '10px 8px',
                               cursor: 'pointer',
                               textAlign: 'left',
                               minHeight: 62,
-                              boxShadow: selected ? '0 0 0 2px rgba(107,255,42,0.10)' : 'none'
+                              boxShadow: selected ? '0 0 0 2px rgba(224, 27, 34,0.10)' : 'none'
                             }}
                           >
                             <strong style={{ display: 'block', fontSize: '.95rem', fontWeight: 950, lineHeight: 1 }}>{sizeShort(t)}</strong>
-                            <span style={{ display: 'block', marginTop: 6, color: selected ? '#baff9e' : '#94a3b8', fontSize: '.68rem', fontWeight: 850 }}>
+                            <span style={{ display: 'block', marginTop: 6, color: selected ? '#baff9e' : '#a8a29e', fontSize: '.68rem', fontWeight: 850 }}>
                               {count} confirmados
                             </span>
                           </button>

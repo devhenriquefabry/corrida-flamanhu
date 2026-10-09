@@ -110,13 +110,68 @@ async function updateDocument(env, collection, id, data) {
 
 // Conta tentativas numa janela de 15 min. O CPF tem só 9 dígitos livres: sem
 // limite, dava para descobrir o de alguém por força bruta sabendo o e-mail.
-async function tooManyAttempts(env, key, max) {
+export async function tooManyAttempts(env, key, max) {
   if (!env.NIGHTRUN_STORAGE) return false;
   const fullKey = `ratelimit:${key}`;
   const current = Number(await env.NIGHTRUN_STORAGE.get(fullKey)) || 0;
   if (current >= max) return true;
   await env.NIGHTRUN_STORAGE.put(fullKey, String(current + 1), { expirationTtl: 900 });
   return false;
+}
+
+// Cache curto: o painel faz várias chamadas por tela e cada uma passa por aqui.
+// Admin removido perde o acesso em até 1 minuto.
+const adminCache = new Map(); // email -> { isAdmin, at }
+
+export async function isAdminEmail(env, email) {
+  if (!email) return false;
+  const cached = adminCache.get(email);
+  if (cached && Date.now() - cached.at < 60_000) return cached.isAdmin;
+  const isAdmin = Boolean(await getDocument(env, "nightrun_admins", email));
+  adminCache.set(email, { isAdmin, at: Date.now() });
+  return isAdmin;
+}
+
+// ---------- aviso de nova inscrição (WhatsApp do organizador) ----------
+
+const CATEGORIAS = { adulto: "ADULTO / ADOLESCENTE", infantil: "INFANTIL (até 12 anos)" };
+const formatMoney = (cents) =>
+  (Number(cents || 0) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+// Mesmo texto que o formulário montava no navegador (PublicForm.tsx), agora
+// a partir do que está gravado no banco.
+function formatRegistrationNotice(reg, paymentPageUrl) {
+  const endereco = reg.endereco || {};
+  const contato = reg.contatoEmergencia || {};
+  const saude = reg.saude || {};
+  return `Novo atleta preencheu o formulario:\n\n` +
+    `*Nome:* ${reg.nome || "-"}\n` +
+    `*CPF:* ${reg.cpf || "-"}\n` +
+    `*Nascimento:* ${reg.dataNascimento || "-"}\n` +
+    `*Responsavel:* ${reg.responsavelNome || "-"}\n` +
+    `*CPF Responsavel:* ${reg.responsavelCpf || "-"}\n` +
+    `*Sexo:* ${reg.sexo || "-"}\n` +
+    `*E-mail:* ${reg.email || "-"}\n` +
+    `*WhatsApp:* ${reg.telefone || "-"}\n` +
+    `*PCD:* ${reg.pcd ? "Sim" : "Nao"}\n` +
+    `*Servidor publico municipal:* ${reg.servidorPublicoMunicipal ? "Sim" : "Nao"}\n` +
+    `*Matricula servidor:* ${reg.matriculaServidor || "-"}\n` +
+    `*Equipe:* ${reg.integranteEquipe === "sim" ? (reg.equipeNome || "Sim") : "Nao"}\n\n` +
+    `*Categoria:* ${CATEGORIAS[reg.categoria] || reg.categoria || "-"}\n` +
+    `*Prova:* ${reg.modalidadeNome || "-"}\n` +
+    `*Kit:* ${reg.kitNome || reg.kit || "-"}\n` +
+    `*Camiseta:* ${reg.tamanhoCamiseta || "-"}\n` +
+    `*Valor:* ${formatMoney(reg.amount)}\n\n` +
+    `*Endereco:* ${endereco.rua || "-"}, ${endereco.numero || "-"} - ${endereco.bairro || "-"}, ${endereco.cidade || "-"}-${endereco.uf || "-"}\n` +
+    `*CEP:* ${endereco.cep || "-"}\n\n` +
+    `*Contato de emergencia:* ${contato.nome || "-"}\n` +
+    `*Telefone emergencia:* ${contato.telefone || "-"}\n` +
+    `*Parentesco:* ${contato.parentesco || "-"}\n\n` +
+    `*Saude:* ${saude.condicaoSaude || "-"}\n` +
+    `*Alergia:* ${saude.temAlergia ? (saude.alergiaDesc || "Sim") : "Nao"}\n` +
+    `*Medicamento:* ${saude.tomaMedicamento ? (saude.medicamentoDesc || "Sim") : "Nao"}\n\n` +
+    `*Pagamento:* ${paymentPageUrl}\n` +
+    (reg.invoiceUrl ? `*Link direto do banco:* ${reg.invoiceUrl}` : "");
 }
 
 // ---------- regras de negócio (espelho de sistema/src/utils/sorteioUtils.ts) ----------
@@ -175,10 +230,47 @@ async function listElegiveis(env, sorteio) {
 
 let totalCache = { value: 0, at: 0 };
 
-export async function handlePublicApi(request, env, path, json) {
+// deps: { sendWhatsApp(msg), enqueueWhatsApp(messages) } — funções do index.js
+export async function handlePublicApi(request, env, path, json, deps = {}) {
   if (!path.startsWith("/public/")) return null;
   if (!hasFirestoreServiceAccount()) {
     return json({ error: "Worker sem FIREBASE_SERVICE_ACCOUNT configurada." }, 503);
+  }
+
+  // Aviso de nova inscrição para o WhatsApp do organizador. O formulário só
+  // informa o ID: destinatário e texto saem daqui (o /whatsapp/send aberto
+  // deixava qualquer um mandar qualquer mensagem pelo número da corrida).
+  // Uma vez por inscrição.
+  if (path === "/public/inscricao/aviso" && request.method === "POST") {
+    const body = await request.json().catch(() => ({}));
+    const registrationId = String(body.registrationId || "");
+    const lockKey = `notice:registration:${registrationId}`;
+    if (!registrationId || !env.NIGHTRUN_STORAGE) return json({ error: "Inscrição inválida." }, 400);
+    if (await env.NIGHTRUN_STORAGE.get(lockKey)) return json({ skipped: "already_sent" });
+
+    const [reg, settings] = await Promise.all([
+      getDocument(env, REGISTRATIONS, registrationId),
+      getDocument(env, "nightrun_settings", "whatsapp_registration_notice"),
+    ]);
+    if (!reg) return json({ error: "Inscrição não encontrada." }, 404);
+    const phone = digits(settings?.data.registrationNoticePhone);
+    if (!settings?.data.receiveRegistrationNoticeEnabled || !phone) return json({ skipped: "disabled" });
+
+    await env.NIGHTRUN_STORAGE.put(lockKey, new Date().toISOString(), { expirationTtl: 90 * 86400 });
+    const siteUrl = String(env.SITE_URL || "").replace(/\/+$/, "");
+    const message = {
+      phone: phone.startsWith("55") ? phone : `55${phone}`,
+      text: formatRegistrationNotice(reg.data, `${siteUrl}/inscricao/pagamento/${reg.id}`),
+      type: "registration_notice",
+      alunoNome: reg.data.nome || "",
+      registrationId: reg.id,
+    };
+    const sent = deps.sendWhatsApp
+      ? await deps.sendWhatsApp(message).catch((error) => ({ success: false, error: error.message }))
+      : { success: false };
+    if (sent?.success !== false) return json({ success: true });
+    if (deps.enqueueWhatsApp) await deps.enqueueWhatsApp([message]);
+    return json({ success: true, queued: true });
   }
 
   // Login do atleta: e-mail + CPF conferidos aqui, nunca no navegador.

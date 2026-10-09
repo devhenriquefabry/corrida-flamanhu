@@ -21,6 +21,7 @@ import {
   type SorteioTipo,
 } from '../utils/sorteioUtils';
 import '../styles/admin.css';
+import { adminAuthHeaders } from '../utils/workerApi';
 
 export default function AdminSorteioDetalhe() {
   const { sorteioId } = useParams();
@@ -125,7 +126,7 @@ export default function AdminSorteioDetalhe() {
     }
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
     setUploading(true);
@@ -153,6 +154,7 @@ export default function AdminSorteioDetalhe() {
       setUploadProgress(0);
     };
     xhr.open('POST', `${process.env.NEXT_PUBLIC_WORKER_URL}/media/upload`, true);
+    Object.entries(await adminAuthHeaders()).forEach(([name, value]) => xhr.setRequestHeader(name, value));
     xhr.send(formData);
   };
 
@@ -253,15 +255,15 @@ export default function AdminSorteioDetalhe() {
   const operatorUrl = sorteio.operatorToken ? buildSorteioOperatorUrl(sorteioId || '', sorteio.operatorToken) : '';
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
-      <button onClick={() => navigate('/admin/sorteios')} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', border: 'none', color: '#64748b', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', marginBottom: 16, padding: 0 }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
+      <button onClick={() => navigate('/admin/sorteios')} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'transparent', border: 'none', color: '#78716c', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', marginBottom: 16, padding: 0 }}>
         <ArrowLeft size={16} /> VOLTAR PARA SORTEIOS
       </button>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20, flexWrap: 'wrap', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: 4 }}>{sorteio.titulo || 'Sorteio sem título'}</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Configure o prêmio, controle o status e envie o resultado aos ganhadores.</p>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Configure o prêmio, controle o status e envie o resultado aos ganhadores.</p>
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <a href={publicUrl} target="_blank" rel="noopener noreferrer" style={{ ...btnSecondary, textDecoration: 'none' }}>
@@ -274,9 +276,9 @@ export default function AdminSorteioDetalhe() {
       </div>
 
       {/* Link do coordenador */}
-      <div style={{ background: '#071A45', borderRadius: 20, padding: 22, marginBottom: 24, color: '#fff' }}>
+      <div style={{ background: '#141112', borderRadius: 20, padding: 22, marginBottom: 24, color: '#fff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-          <KeyRound size={18} color="#6BFF2A" />
+          <KeyRound size={18} color="#e01b22" />
           <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900 }}>Link do coordenador</h3>
         </div>
         <p style={{ margin: '0 0 14px', color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', lineHeight: 1.5 }}>
@@ -291,7 +293,7 @@ export default function AdminSorteioDetalhe() {
           />
           {operatorUrl && (
             <>
-              <button onClick={() => copy(operatorUrl, 'Link do coordenador')} style={{ ...btnPrimary, background: '#6BFF2A', color: '#071A45' }}>
+              <button onClick={() => copy(operatorUrl, 'Link do coordenador')} style={{ ...btnPrimary, background: '#e01b22', color: '#fff' }}>
                 <Copy size={16} /> Copiar
               </button>
               <a href={operatorUrl} target="_blank" rel="noopener noreferrer" style={{ ...btnPrimary, background: 'rgba(255,255,255,0.12)', textDecoration: 'none' }}>
@@ -306,9 +308,9 @@ export default function AdminSorteioDetalhe() {
       </div>
 
       {/* Status */}
-      <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e2e8f0', padding: 22, marginBottom: 24 }}>
+      <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e7e5e4', padding: 22, marginBottom: 24 }}>
         <h3 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: 900 }}>Status do sorteio</h3>
-        <p style={{ margin: '0 0 16px', color: '#64748b', fontSize: '0.82rem' }}>
+        <p style={{ margin: '0 0 16px', color: '#78716c', fontSize: '0.82rem' }}>
           Em <strong>Acontecendo</strong>, a página pública entra em modo suspense para quem estiver acompanhando.
         </p>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -318,7 +320,7 @@ export default function AdminSorteioDetalhe() {
               <button key={item.id} onClick={() => changeStatus(item.id)} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8, border: 'none', cursor: 'pointer',
                 padding: '12px 20px', borderRadius: 12, fontWeight: 900, fontSize: '0.8rem',
-                background: active ? item.color : '#f1f5f9', color: active ? '#fff' : '#64748b',
+                background: active ? item.color : '#f5f5f4', color: active ? '#fff' : '#78716c',
                 boxShadow: active ? `0 4px 12px ${item.color}55` : 'none',
               }}>
                 {item.id === 'acontecendo' && <Radio size={16} />}
@@ -330,7 +332,7 @@ export default function AdminSorteioDetalhe() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 24, alignItems: 'start' }}>
-        <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e2e8f0', padding: 24 }}>
+        <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e7e5e4', padding: 24 }}>
           <h3 style={{ margin: '0 0 20px', fontSize: '1rem', fontWeight: 900 }}>Dados e prêmio</h3>
 
           <Field label="Título do sorteio">
@@ -347,11 +349,11 @@ export default function AdminSorteioDetalhe() {
 
           <Field label="Foto do prêmio">
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 88, height: 88, borderRadius: 14, border: '1px solid #e2e8f0', flexShrink: 0, background: form.premioImagem ? `url(${form.premioImagem}) center/cover` : '#f8fafc', display: 'grid', placeItems: 'center' }}>
-                {!form.premioImagem && <Gift size={30} color="#cbd5e1" />}
+              <div style={{ width: 88, height: 88, borderRadius: 14, border: '1px solid #e7e5e4', flexShrink: 0, background: form.premioImagem ? `url(${form.premioImagem}) center/cover` : '#fafaf9', display: 'grid', placeItems: 'center' }}>
+                {!form.premioImagem && <Gift size={30} color="#d6d3d1" />}
               </div>
-              <label style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 16px', border: '2px dashed #cbd5e1', borderRadius: 12, cursor: uploading ? 'not-allowed' : 'pointer', fontWeight: 800, color: '#475569' }}>
-                {uploading && <div style={{ position: 'absolute', inset: 0, width: `${uploadProgress}%`, background: 'rgba(107,255,42,0.3)' }} />}
+              <label style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 16px', border: '2px dashed #d6d3d1', borderRadius: 12, cursor: uploading ? 'not-allowed' : 'pointer', fontWeight: 800, color: '#57534e' }}>
+                {uploading && <div style={{ position: 'absolute', inset: 0, width: `${uploadProgress}%`, background: 'rgba(224, 27, 34,0.3)' }} />}
                 <UploadCloud size={18} style={{ position: 'relative' }} />
                 <span style={{ position: 'relative' }}>{uploading ? `Enviando... ${Math.round(uploadProgress)}%` : form.premioImagem ? 'Trocar imagem' : 'Fazer upload'}</span>
                 <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} style={{ display: 'none' }} />
@@ -394,7 +396,7 @@ export default function AdminSorteioDetalhe() {
         </div>
 
         {/* Ganhadores */}
-        <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e2e8f0', padding: 24 }}>
+        <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e7e5e4', padding: 24 }}>
           <h3 style={{ margin: '0 0 16px', fontSize: '1rem', fontWeight: 900 }}>
             {ganhadores.length > 1 ? 'Ganhadores' : 'Ganhador'}
           </h3>
@@ -418,19 +420,19 @@ export default function AdminSorteioDetalhe() {
                     </div>
                     <div style={{ minWidth: 0, flex: 1 }}>
                       <strong style={{ display: 'block', fontSize: '0.92rem' }}>{ganhador.nome}</strong>
-                      <small style={{ color: '#64748b', fontWeight: 700 }}>{ganhador.telefone || 'Sem telefone'}</small>
+                      <small style={{ color: '#78716c', fontWeight: 700 }}>{ganhador.telefone || 'Sem telefone'}</small>
                     </div>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', fontWeight: 800, marginBottom: 10 }}>
                     <span style={{ color: ganhador.visualizouEm ? '#16a34a' : '#b45309' }}>
                       {ganhador.visualizouEm ? 'Já viu que ganhou' : 'Ainda não viu'}
                     </span>
-                    <span style={{ color: '#64748b' }}>
+                    <span style={{ color: '#78716c' }}>
                       {ganhador.whatsappEnviadoEm ? 'WhatsApp enviado' : 'Não notificado'}
                     </span>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 8 }}>
-                    <button onClick={() => handleSendWhatsApp(ganhador)} disabled={sendingId === ganhador.registrationId} style={{ ...btnPrimary, background: '#25D366', color: '#071A45', padding: '10px 12px', fontSize: '0.76rem' }}>
+                    <button onClick={() => handleSendWhatsApp(ganhador)} disabled={sendingId === ganhador.registrationId} style={{ ...btnPrimary, background: '#25D366', color: '#141112', padding: '10px 12px', fontSize: '0.76rem' }}>
                       <Send size={14} /> {sendingId === ganhador.registrationId ? 'Enviando...' : 'Enviar'}
                     </button>
                     <button onClick={() => navigate(`/admin/inscritos/${ganhador.registrationId}`)} style={{ ...btnSecondary, justifyContent: 'center', padding: '10px 12px', fontSize: '0.76rem' }}>
@@ -440,7 +442,7 @@ export default function AdminSorteioDetalhe() {
                 </div>
               ))}
               {sorteio.sorteadoEm && (
-                <p style={{ color: '#94a3b8', fontSize: '0.74rem', fontWeight: 700, textAlign: 'center', margin: '10px 0 0' }}>
+                <p style={{ color: '#a8a29e', fontSize: '0.74rem', fontWeight: 700, textAlign: 'center', margin: '10px 0 0' }}>
                   Sorteado em {formatDateTimeBR(sorteio.sorteadoEm.toDate?.() || sorteio.sorteadoEm)}
                   {sorteio.totalElegiveis ? ` entre ${sorteio.totalElegiveis} inscritos` : ''}
                 </p>
@@ -451,11 +453,11 @@ export default function AdminSorteioDetalhe() {
             </>
           ) : (
             <>
-              <div style={{ padding: '26px 18px', textAlign: 'center', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: 16, marginBottom: 14 }}>
-                <Trophy size={28} color="#cbd5e1" />
-                <p style={{ margin: '10px 0 0', color: '#64748b', fontWeight: 700, fontSize: '0.85rem' }}>Nenhum ganhador sorteado ainda.</p>
+              <div style={{ padding: '26px 18px', textAlign: 'center', background: '#fafaf9', border: '1px dashed #d6d3d1', borderRadius: 16, marginBottom: 14 }}>
+                <Trophy size={28} color="#d6d3d1" />
+                <p style={{ margin: '10px 0 0', color: '#78716c', fontWeight: 700, fontSize: '0.85rem' }}>Nenhum ganhador sorteado ainda.</p>
               </div>
-              <p style={{ color: '#64748b', fontSize: '0.76rem', lineHeight: 1.5, marginBottom: 14 }}>
+              <p style={{ color: '#78716c', fontSize: '0.76rem', lineHeight: 1.5, marginBottom: 14 }}>
                 A escolha é aleatória e imparcial (sorteio criptográfico), entre os inscritos pagos que se encaixam no tipo escolhido e que ainda não ganharam outro sorteio.
               </p>
               <button onClick={handleDraw} disabled={drawing || elegiveis === 0} style={{ ...btnPrimary, width: '100%' }}>
@@ -472,23 +474,23 @@ export default function AdminSorteioDetalhe() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label style={{ display: 'grid', gap: 7, marginBottom: 18 }}>
-      <span style={{ color: '#94a3b8', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ color: '#a8a29e', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase' }}>{label}</span>
       {children}
     </label>
   );
 }
 
 const inputStyle: React.CSSProperties = {
-  width: '100%', minHeight: 46, border: '1px solid #e2e8f0', borderRadius: 12, padding: '0 14px',
-  color: '#071A45', fontWeight: 700, outline: 'none', background: '#fff', fontFamily: 'inherit', fontSize: '0.9rem',
+  width: '100%', minHeight: 46, border: '1px solid #e7e5e4', borderRadius: 12, padding: '0 14px',
+  color: '#141112', fontWeight: 700, outline: 'none', background: '#fff', fontFamily: 'inherit', fontSize: '0.9rem',
 };
 
 const btnPrimary: React.CSSProperties = {
-  background: '#071A45', color: '#fff', border: 'none', padding: '13px 22px', borderRadius: 12,
+  background: '#141112', color: '#fff', border: 'none', padding: '13px 22px', borderRadius: 12,
   fontWeight: 900, fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer',
 };
 
 const btnSecondary: React.CSSProperties = {
-  background: '#f1f5f9', color: '#475569', border: 'none', padding: '11px 18px', borderRadius: 12,
+  background: '#f5f5f4', color: '#57534e', border: 'none', padding: '11px 18px', borderRadius: 12,
   fontWeight: 800, fontSize: '0.78rem', display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer',
 };

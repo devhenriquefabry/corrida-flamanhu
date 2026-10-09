@@ -36,12 +36,13 @@ fallthrough = true
 #   npx wrangler secret put NOME   (lista em .dev.vars.example)
 [vars]
 # --- evento (espelho de sistema/src/config/evento.ts) ---
-EVENT_NAME = "Corrida Flamanhu 2026"
-EVENT_DATE = ""
-EVENT_LOCAL = ""
-CONTACT_EMAIL = "contato@corridaflamanhu.com.br"
+EVENT_NAME = "Corrida Flamanhu 2027"
+EVENT_DATE = "15/05/2027"
+EVENT_TIME = "9h"
+EVENT_LOCAL = "Praça Cordovil Pinto Coelho, Centro - Manhuaçu"
+CONTACT_EMAIL = "corridaflamanhu@gmail.com"
 GRUPO_WHATSAPP_URL = ""
-INSTAGRAM_URL = ""
+INSTAGRAM_URL = "https://www.instagram.com/corrida_flamanhu"
 # endereço público do site, sem barra no final (monta os links de pagamento)
 SITE_URL = "https://devhenriquefabry.github.io/corrida-flamanhu"
 # PNG público do logo, usado no banner do resumo operacional diário (vazio = sem logo)

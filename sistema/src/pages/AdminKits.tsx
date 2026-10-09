@@ -466,7 +466,7 @@ export default function AdminKits() {
       titleCanvas.height = 130;
       titleCtx.font = '90px Anton';
       titleCtx.setTransform(1, 0, -titleSkew, 1, titlePadding, 92);
-      titleCtx.fillStyle = 'rgb(7, 26, 69)';
+      titleCtx.fillStyle = 'rgb(20, 17, 18)';
       titleCtx.textBaseline = 'alphabetic';
       titleCtx.fillText(tituloBase, 0, 0);
       const titleImgData = titleCanvas.toDataURL('image/png');
@@ -482,8 +482,8 @@ export default function AdminKits() {
       const headerAspect = 2172 / 724;
       const headerW = pageW;
       const headerH = headerW / headerAspect;
-      const NAVY_PDF: [number, number, number] = [7, 26, 69];
-      const STRIPE_PDF: [number, number, number] = [241, 245, 249];
+      const NAVY_PDF: [number, number, number] = [20, 17, 18];
+      const STRIPE_PDF: [number, number, number] = [245, 245, 244];
 
       const drawHeader = () => {
         try {
@@ -564,8 +564,8 @@ export default function AdminKits() {
 
         // Falta/sobra em destaque: vermelho quando falta camiseta, verde quando sobra.
         const diffX = marginX + colGrupoW + colTamanhoW + colPedidoW + colTenhoW;
-        const diffColor: [number, number, number] = item.diferenca < 0 ? [220, 38, 38] : item.diferenca > 0 ? [22, 101, 52] : [100, 116, 139];
-        const diffBg: [number, number, number] = item.diferenca < 0 ? [254, 226, 226] : item.diferenca > 0 ? [220, 252, 231] : [241, 245, 249];
+        const diffColor: [number, number, number] = item.diferenca < 0 ? [220, 38, 38] : item.diferenca > 0 ? [22, 101, 52] : [120, 113, 108];
+        const diffBg: [number, number, number] = item.diferenca < 0 ? [254, 226, 226] : item.diferenca > 0 ? [220, 252, 231] : [245, 245, 244];
         const diffLabel = item.diferenca < 0 ? `FALTA ${Math.abs(item.diferenca)}` : item.diferenca > 0 ? `SOBRA ${item.diferenca}` : 'EXATO';
         docPdf.setFillColor(...diffBg);
         docPdf.roundedRect(diffX, y + 1.3, colTenhoW - 5, rowH - 2.6, 1.5, 1.5, 'F');
@@ -650,7 +650,7 @@ export default function AdminKits() {
       titleCanvas.height = 130;
       titleCtx.font = '90px Anton';
       titleCtx.setTransform(1, 0, -titleSkew, 1, titlePadding, 92);
-      titleCtx.fillStyle = `rgb(7, 26, 69)`;
+      titleCtx.fillStyle = `rgb(20, 17, 18)`;
       titleCtx.textBaseline = 'alphabetic';
       titleCtx.fillText(titleText, 0, 0);
       const titleImgData = titleCanvas.toDataURL('image/png');
@@ -666,8 +666,8 @@ export default function AdminKits() {
       const headerAspect = 2172 / 724;
       const headerW = pageW;
       const headerH = headerW / headerAspect;
-      const NAVY: [number, number, number] = [7, 26, 69];
-      const STRIPE: [number, number, number] = [241, 245, 249];
+      const NAVY: [number, number, number] = [20, 17, 18];
+      const STRIPE: [number, number, number] = [245, 245, 244];
 
       const drawHeader = () => {
         try {
@@ -780,17 +780,17 @@ export default function AdminKits() {
   );
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Configurações de Kits</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Gerencie os itens inclusos e a grade de tamanhos disponível.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Configurações de Kits</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Gerencie os itens inclusos e a grade de tamanhos disponível.</p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24, borderBottom: '1px solid #e2e8f0', paddingBottom: 0 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 24, borderBottom: '1px solid #e7e5e4', paddingBottom: 0 }}>
         {[
           { id: 'kits', label: 'Kits', icon: Lucide.Boxes },
           { id: 'itens', label: 'Itens do Kit', icon: Lucide.Package },
@@ -802,10 +802,10 @@ export default function AdminKits() {
             style={{ 
               padding: '12px 24px', borderRadius: '12px 12px 0 0', border: 'none', 
               background: activeTab === tab.id ? '#fff' : 'transparent',
-              color: activeTab === tab.id ? '#071A45' : '#64748b',
+              color: activeTab === tab.id ? '#141112' : '#78716c',
               fontWeight: 800, fontSize: '0.85rem', cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 8,
-              borderBottom: activeTab === tab.id ? '3px solid #6BFF2A' : '3px solid transparent',
+              borderBottom: activeTab === tab.id ? '3px solid #e01b22' : '3px solid transparent',
               transition: 'all 0.2s'
             }}
           >
@@ -818,24 +818,24 @@ export default function AdminKits() {
         <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45' }}>Kits disponíveis</h3>
-              <p style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: 600, margin: 0 }}>Só um kit fica ativo por vez. O kit ativo é o que os novos inscritos recebem.</p>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112' }}>Kits disponíveis</h3>
+              <p style={{ color: '#78716c', fontSize: '0.8rem', fontWeight: 600, margin: 0 }}>Só um kit fica ativo por vez. O kit ativo é o que os novos inscritos recebem.</p>
             </div>
-            <button onClick={openNewKitModal} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <button onClick={openNewKitModal} style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Lucide.Plus size={18} /> NOVO KIT
             </button>
           </div>
 
           {kits.length === 0 ? (
-            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e2e8f0', padding: 30, textAlign: 'center', color: '#64748b', fontWeight: 600 }}>
+            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e5e4', padding: 30, textAlign: 'center', color: '#78716c', fontWeight: 600 }}>
               Nenhum kit cadastrado ainda. Enquanto isso, o formulário usa o kit padrão do sistema (preço definido pelo lote atual).
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
               {kits.map(kit => (
-                <div key={kit.id} style={{ background: '#fff', padding: 20, borderRadius: 16, border: kit.ativo ? '2px solid #16a34a' : '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div key={kit.id} style={{ background: '#fff', padding: 20, borderRadius: 16, border: kit.ativo ? '2px solid #16a34a' : '1px solid #e7e5e4', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45' }}>{kit.nome}</h4>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112' }}>{kit.nome}</h4>
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                       {kit.isPadrao && (
                         <span style={{ padding: '4px 10px', borderRadius: 6, fontSize: '0.65rem', fontWeight: 900, whiteSpace: 'nowrap', background: '#eff6ff', color: '#2563eb' }}>
@@ -844,31 +844,31 @@ export default function AdminKits() {
                       )}
                       <span style={{
                         padding: '4px 10px', borderRadius: 6, fontSize: '0.65rem', fontWeight: 900, whiteSpace: 'nowrap',
-                        background: kit.ativo ? '#dcfce7' : '#f1f5f9', color: kit.ativo ? '#166534' : '#94a3b8',
+                        background: kit.ativo ? '#dcfce7' : '#f5f5f4', color: kit.ativo ? '#166534' : '#a8a29e',
                       }}>
                         {kit.ativo ? 'ATIVO' : 'INATIVO'}
                       </span>
                     </div>
                   </div>
-                  {kit.descricao && <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.4, marginBottom: 10 }}>{kit.descricao}</p>}
+                  {kit.descricao && <p style={{ fontSize: '0.82rem', color: '#78716c', lineHeight: 1.4, marginBottom: 10 }}>{kit.descricao}</p>}
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, background: '#ecfdf5', color: '#166534', border: '1px solid #bbf7d0', padding: '5px 10px', borderRadius: 8, fontSize: '.72rem', fontWeight: 950 }}>
                     <Lucide.CheckCircle2 size={14} />
                     {confirmedKitCounts[kit.id] || 0} confirmado(s) neste kit
                   </div>
                   {kit.itens.length > 0 && (
-                    <ul style={{ margin: '0 0 12px', paddingLeft: 18, color: '#334155', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                    <ul style={{ margin: '0 0 12px', paddingLeft: 18, color: '#44403c', fontSize: '0.8rem', lineHeight: 1.6 }}>
                       {kit.itens.map((item, i) => <li key={i}>{item}</li>)}
                     </ul>
                   )}
                   <div style={{
                     padding: '8px 12px', borderRadius: 8, marginBottom: 14, fontSize: '0.78rem', fontWeight: 800,
-                    background: kit.precoForcado ? '#fef9c3' : '#f1f5f9', color: kit.precoForcado ? '#854d0e' : '#64748b',
+                    background: kit.precoForcado ? '#fef9c3' : '#f5f5f4', color: kit.precoForcado ? '#854d0e' : '#78716c',
                   }}>
                     {kit.precoForcado
                       ? `Preço forçado: ${(kit.precoForcadoValor / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} (ignora o lote atual)`
                       : 'Sem preço forçado — usa o preço do lote atual'}
                   </div>
-                  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', borderTop: '1px solid #f1f5f9', paddingTop: 12, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', borderTop: '1px solid #f5f5f4', paddingTop: 12, flexWrap: 'wrap' }}>
                     {!kit.ativo && (
                       <button onClick={() => handleActivateKit(kit)} style={{ background: '#dcfce7', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#166534', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
                         ATIVAR
@@ -877,11 +877,11 @@ export default function AdminKits() {
                     <button onClick={() => handleExportKitPdf(kit)} disabled={exportingKitId === kit.id} style={{ background: '#eff6ff', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#2563eb', fontWeight: 800, fontSize: '0.7rem', cursor: exportingKitId === kit.id ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
                       <Lucide.FileDown size={13} /> {exportingKitId === kit.id ? 'GERANDO...' : 'EXPORTAR PDF'}
                     </button>
-                    <button onClick={() => openEditKitModal(kit)} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#475569', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
+                    <button onClick={() => openEditKitModal(kit)} style={{ background: '#f5f5f4', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#57534e', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
                       EDITAR
                     </button>
                     {!kit.isPadrao && (
-                      <button onClick={() => handleDeleteKit(kit)} disabled={kit.ativo} style={{ background: kit.ativo ? '#f1f5f9' : '#fee2e2', border: 'none', padding: '6px 12px', borderRadius: 6, color: kit.ativo ? '#cbd5e1' : '#ef4444', fontWeight: 800, fontSize: '0.7rem', cursor: kit.ativo ? 'not-allowed' : 'pointer' }}>
+                      <button onClick={() => handleDeleteKit(kit)} disabled={kit.ativo} style={{ background: kit.ativo ? '#f5f5f4' : '#fee2e2', border: 'none', padding: '6px 12px', borderRadius: 6, color: kit.ativo ? '#d6d3d1' : '#ef4444', fontWeight: 800, fontSize: '0.7rem', cursor: kit.ativo ? 'not-allowed' : 'pointer' }}>
                         REMOVER
                       </button>
                     )}
@@ -894,26 +894,26 @@ export default function AdminKits() {
       ) : activeTab === 'itens' ? (
         <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45' }}>Conteúdo do Kit</h3>
-            <button onClick={() => { setIsItemModalOpen(true); setEditingItem(null); setItemForm({ nome: '', descricao: '', icone: 'Package' }); }} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112' }}>Conteúdo do Kit</h3>
+            <button onClick={() => { setIsItemModalOpen(true); setEditingItem(null); setItemForm({ nome: '', descricao: '', icone: 'Package' }); }} style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Lucide.Plus size={18} /> ADICIONAR ITEM
             </button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
             {items.map(item => (
-              <div key={item.id} style={{ background: '#fff', padding: 20, borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', position: 'relative' }}>
+              <div key={item.id} style={{ background: '#fff', padding: 20, borderRadius: 16, border: '1px solid #e7e5e4', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', position: 'relative' }}>
                 <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                  <div style={{ width: 48, height: 48, borderRadius: 12, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#071A45' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, background: '#f5f5f4', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#141112' }}>
                     {renderIcon(item.icone, 24)}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 800, color: '#071A45', marginBottom: 4 }}>{item.nome}</h4>
-                    <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: 1.4 }}>{item.descricao}</p>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 800, color: '#141112', marginBottom: 4 }}>{item.nome}</h4>
+                    <p style={{ fontSize: '0.85rem', color: '#78716c', lineHeight: 1.4 }}>{item.descricao}</p>
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: 8, marginTop: 16, justifyContent: 'flex-end', borderTop: '1px solid #f1f5f9', paddingTop: 12 }}>
-                  <button onClick={() => { setEditingItem(item); setItemForm({ nome: item.nome, descricao: item.descricao, icone: item.icone }); setIsItemModalOpen(true); }} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#475569', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
+                <div style={{ display: 'flex', gap: 8, marginTop: 16, justifyContent: 'flex-end', borderTop: '1px solid #f5f5f4', paddingTop: 12 }}>
+                  <button onClick={() => { setEditingItem(item); setItemForm({ nome: item.nome, descricao: item.descricao, icone: item.icone }); setIsItemModalOpen(true); }} style={{ background: '#f5f5f4', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#57534e', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
                     EDITAR
                   </button>
                   <button onClick={() => handleDeleteItem(item.id)} style={{ background: '#fee2e2', border: 'none', padding: '6px 12px', borderRadius: 6, color: '#ef4444', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
@@ -928,17 +928,17 @@ export default function AdminKits() {
         <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Controle de Estoque e Tamanhos</h3>
-              <p style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: 600, margin: 0 }}>Use o botão de ordenação para clicar nos tamanhos na sequência em que eles devem aparecer.</p>
+              <h3 style={{ fontSize: '1rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Controle de Estoque e Tamanhos</h3>
+              <p style={{ color: '#78716c', fontSize: '0.8rem', fontWeight: 600, margin: 0 }}>Use o botão de ordenação para clicar nos tamanhos na sequência em que eles devem aparecer.</p>
             </div>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-              <button onClick={() => { setSummaryKitIds(kits.map(k => k.id)); setShowSummaryKitPicker(true); }} disabled={generatingSummary} style={{ background: '#6BFF2A', color: '#071A45', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 4px 12px rgba(107,255,42,0.25)' }}>
+              <button onClick={() => { setSummaryKitIds(kits.map(k => k.id)); setShowSummaryKitPicker(true); }} disabled={generatingSummary} style={{ background: '#e01b22', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 4px 12px rgba(224, 27, 34,0.25)' }}>
                 <Lucide.FileDown size={18} /> {generatingSummary ? 'GERANDO...' : 'GERAR PDF DE RESUMO'}
               </button>
-              <button onClick={openOrderModal} style={{ background: '#fff', color: '#071A45', border: '1px solid #cbd5e1', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button onClick={openOrderModal} style={{ background: '#fff', color: '#141112', border: '1px solid #d6d3d1', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Lucide.ListOrdered size={18} /> ORDENAR TAMANHOS
               </button>
-              <button onClick={() => { setIsSizeModalOpen(true); setEditingSize(null); setSizeForm({ label: '', estoque: 0, ativo: true, tipo: 'Padrão', categoria: 'todos', largura: 0, altura: 0 }); }} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button onClick={() => { setIsSizeModalOpen(true); setEditingSize(null); setSizeForm({ label: '', estoque: 0, ativo: true, tipo: 'Padrão', categoria: 'todos', largura: 0, altura: 0 }); }} style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Lucide.Plus size={18} /> ADICIONAR TAMANHO
               </button>
             </div>
@@ -947,16 +947,16 @@ export default function AdminKits() {
             {groupedSizeSummary.map(group => {
               const groupTotal = group.items.reduce((sum, size) => sum + (confirmedSizeCounts[size.id] || 0), 0);
               return (
-                <div key={group.label} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, padding: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                <div key={group.label} style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 16, padding: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, gap: 12 }}>
                     <span style={{ color: group.color, fontSize: '.74rem', fontWeight: 950, textTransform: 'uppercase' }}>{group.label}</span>
-                    <strong style={{ color: '#071A45', fontSize: '1rem', fontWeight: 950 }}>{groupTotal} confirmados</strong>
+                    <strong style={{ color: '#141112', fontSize: '1rem', fontWeight: 950 }}>{groupTotal} confirmados</strong>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))', gap: 8 }}>
                     {group.items.map(size => (
-                      <div key={size.id} style={{ border: '1px solid #eef2f7', borderRadius: 10, padding: '8px 9px', background: '#f8fafc' }}>
-                        <strong style={{ display: 'block', color: '#071A45', fontSize: '.9rem', fontWeight: 950 }}>{size.label}</strong>
-                        <span style={{ display: 'block', color: '#64748b', fontSize: '.7rem', fontWeight: 850, marginTop: 3 }}>{confirmedSizeCounts[size.id] || 0} usados</span>
+                      <div key={size.id} style={{ border: '1px solid #f3f1ef', borderRadius: 10, padding: '8px 9px', background: '#fafaf9' }}>
+                        <strong style={{ display: 'block', color: '#141112', fontSize: '.9rem', fontWeight: 950 }}>{size.label}</strong>
+                        <span style={{ display: 'block', color: '#78716c', fontSize: '.7rem', fontWeight: 850, marginTop: 3 }}>{confirmedSizeCounts[size.id] || 0} usados</span>
                       </div>
                     ))}
                   </div>
@@ -965,25 +965,25 @@ export default function AdminKits() {
             })}
           </div>
 
-          <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+          <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #e7e5e4', overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr style={{ background: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
-                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Tamanho</th>
-                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Estoque</th>
-                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Tenho / Falta</th>
-                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Dimensões</th>
-                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Uso</th>
-                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Status</th>
-                  <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>Ações</th>
+                <tr style={{ background: '#fafaf9', borderBottom: '1px solid #f5f5f4' }}>
+                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Tamanho</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Estoque</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Tenho / Falta</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Dimensões</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Uso</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Status</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', color: '#78716c', fontWeight: 800, textTransform: 'uppercase' }}>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {sizes.map(size => (
-                  <tr key={size.id} style={{ borderBottom: '1px solid #f1f5f9', opacity: size.ativo ? 1 : 0.6 }}>
+                  <tr key={size.id} style={{ borderBottom: '1px solid #f5f5f4', opacity: size.ativo ? 1 : 0.6 }}>
                     <td style={{ padding: '16px 24px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <span style={{ fontWeight: 800, fontSize: '1rem', color: '#071A45' }}>{size.label}</span>
+                        <span style={{ fontWeight: 800, fontSize: '1rem', color: '#141112' }}>{size.label}</span>
                         <span style={{ 
                           fontSize: '0.65rem', fontWeight: 900, padding: '2px 8px', borderRadius: 6,
                           background: size.tipo === 'Baby Look' ? '#fdf2f8' : '#eff6ff',
@@ -1001,8 +1001,8 @@ export default function AdminKits() {
                     <td style={{ padding: '16px 24px' }}>
                       <span style={{ 
                         padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', fontWeight: 800,
-                        background: size.estoque <= 0 ? '#fee2e2' : size.estoque < 10 ? '#fef9c3' : '#f1f5f9',
-                        color: size.estoque <= 0 ? '#ef4444' : size.estoque < 10 ? '#854d0e' : '#475569'
+                        background: size.estoque <= 0 ? '#fee2e2' : size.estoque < 10 ? '#fef9c3' : '#f5f5f4',
+                        color: size.estoque <= 0 ? '#ef4444' : size.estoque < 10 ? '#854d0e' : '#57534e'
                       }}>
                         {size.estoque} UN
                       </span>
@@ -1014,11 +1014,11 @@ export default function AdminKits() {
                         const diff = tenho - confirmados;
                         return (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569' }}>{tenho} UN</span>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#57534e' }}>{tenho} UN</span>
                             <span style={{
                               display: 'inline-block', width: 'fit-content', padding: '3px 8px', borderRadius: 6, fontSize: '0.68rem', fontWeight: 900,
-                              background: diff < 0 ? '#fee2e2' : diff > 0 ? '#dcfce7' : '#f1f5f9',
-                              color: diff < 0 ? '#dc2626' : diff > 0 ? '#166534' : '#94a3b8',
+                              background: diff < 0 ? '#fee2e2' : diff > 0 ? '#dcfce7' : '#f5f5f4',
+                              color: diff < 0 ? '#dc2626' : diff > 0 ? '#166534' : '#a8a29e',
                             }}>
                               {diff < 0 ? `FALTA ${Math.abs(diff)}` : diff > 0 ? `SOBRA ${diff}` : 'EXATO'}
                             </span>
@@ -1027,15 +1027,15 @@ export default function AdminKits() {
                       })()}
                     </td>
                     <td style={{ padding: '16px 24px' }}>
-                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569' }}>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#57534e' }}>
                         {size.largura || 0} x {size.altura || 0} cm
                       </span>
                     </td>
                     <td style={{ padding: '16px 24px' }}>
                       <span style={{ 
                         padding: '4px 10px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 900,
-                        background: (size.categoria || 'todos') === 'infantil' ? '#dcfce7' : '#f1f5f9',
-                        color: (size.categoria || 'todos') === 'infantil' ? '#166534' : '#475569',
+                        background: (size.categoria || 'todos') === 'infantil' ? '#dcfce7' : '#f5f5f4',
+                        color: (size.categoria || 'todos') === 'infantil' ? '#166534' : '#57534e',
                         textTransform: 'uppercase'
                       }}>
                         {(size.categoria || 'todos') === 'infantil' ? 'Infantil' : (size.categoria || 'todos') === 'adulto' ? 'Adulto' : 'Todos'}
@@ -1044,21 +1044,21 @@ export default function AdminKits() {
                     <td style={{ padding: '16px 24px' }}>
                       <span style={{ 
                         padding: '4px 10px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 800,
-                        background: size.ativo ? '#dcfce7' : '#f1f5f9',
-                        color: size.ativo ? '#166534' : '#94a3b8'
+                        background: size.ativo ? '#dcfce7' : '#f5f5f4',
+                        color: size.ativo ? '#166534' : '#a8a29e'
                       }}>
                         {size.ativo ? 'DISPONÍVEL' : 'DESATIVADO'}
                       </span>
                     </td>
                     <td style={{ padding: '16px 24px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                        <button onClick={() => { setEditingSize(size); setSizeForm({ label: size.label, estoque: size.estoque, ativo: size.ativo, tipo: size.tipo, categoria: size.categoria || 'todos', largura: size.largura || 0, altura: size.altura || 0, ordem: size.ordem }); setIsSizeModalOpen(true); }} style={{ background: '#f1f5f9', border: 'none', padding: 8, borderRadius: 8, color: '#071A45', cursor: 'pointer' }}>
+                        <button onClick={() => { setEditingSize(size); setSizeForm({ label: size.label, estoque: size.estoque, ativo: size.ativo, tipo: size.tipo, categoria: size.categoria || 'todos', largura: size.largura || 0, altura: size.altura || 0, ordem: size.ordem }); setIsSizeModalOpen(true); }} style={{ background: '#f5f5f4', border: 'none', padding: 8, borderRadius: 8, color: '#141112', cursor: 'pointer' }}>
                           <Lucide.Edit2 size={16} />
                         </button>
-                        <button onClick={() => handleUpdateQuantidadeTenho(size.id, size.quantidadeTenho || 0)} style={{ background: '#eafff0', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#16a34a', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
+                        <button onClick={() => handleUpdateQuantidadeTenho(size.id, size.quantidadeTenho || 0)} style={{ background: '#fff1f1', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#16a34a', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
                           TENHO
                         </button>
-                        <button onClick={() => handleUpdateStock(size.id, size.estoque)} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#475569', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
+                        <button onClick={() => handleUpdateStock(size.id, size.estoque)} style={{ background: '#f5f5f4', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#57534e', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
                           ESTOQUE
                         </button>
                         <button onClick={() => handleToggleSize(size)} style={{ background: size.ativo ? '#fee2e2' : '#dcfce7', border: 'none', padding: '6px 12px', borderRadius: 8, color: size.ativo ? '#ef4444' : '#166534', fontWeight: 800, fontSize: '0.7rem', cursor: 'pointer' }}>
@@ -1076,71 +1076,71 @@ export default function AdminKits() {
 
       {/* Modals with Clean Layout */}
       {isKitModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 560, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#071A45' }}>{editingKit ? 'Editar Kit' : 'Novo Kit'}</h3>
-              <button onClick={() => setIsKitModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}>&times;</button>
+            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafaf9' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#141112' }}>{editingKit ? 'Editar Kit' : 'Novo Kit'}</h3>
+              <button onClick={() => setIsKitModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#a8a29e' }}>&times;</button>
             </div>
             <div style={{ padding: 30 }}>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Nome do kit</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Nome do kit</label>
                 <input
                   value={kitForm.nome}
                   onChange={e => setKitForm({ ...kitForm, nome: e.target.value })}
-                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   placeholder="Ex: Kit Premium"
                 />
               </div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Descrição</label>
-                <p style={{ fontSize: '0.72rem', color: '#94a3b8', margin: '-2px 0 8px' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Descrição</label>
+                <p style={{ fontSize: '0.72rem', color: '#a8a29e', margin: '-2px 0 8px' }}>
                   Aparece no card do kit e é o texto explicativo usado no PDF de confirmados deste kit. Deixe em branco para usar um texto padrão automático.
                 </p>
                 <textarea
                   value={kitForm.descricao}
                   onChange={e => setKitForm({ ...kitForm, descricao: e.target.value })}
-                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none', minHeight: 70 }}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none', minHeight: 70 }}
                   placeholder="Detalhes sobre o kit..."
                 />
               </div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Itens (um por linha)</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Itens (um por linha)</label>
                 <textarea
                   value={kitForm.itensText}
                   onChange={e => setKitForm({ ...kitForm, itensText: e.target.value })}
-                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none', minHeight: 90 }}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none', minHeight: 90 }}
                   placeholder={'Camiseta Oficial\nMedalha de Participação\nNúmero de Peito'}
                 />
               </div>
-              <div style={{ marginBottom: 24, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: 16 }}>
+              <div style={{ marginBottom: 24, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: 12, padding: 16 }}>
                 <label
                   onClick={() => setKitForm({ ...kitForm, precoForcado: !kitForm.precoForcado })}
                   style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}
                 >
-                  {kitForm.precoForcado ? <Lucide.CheckSquare size={18} color="#071A45" style={{ marginTop: 1, flexShrink: 0 }} /> : <Lucide.Square size={18} color="#cbd5e1" style={{ marginTop: 1, flexShrink: 0 }} />}
+                  {kitForm.precoForcado ? <Lucide.CheckSquare size={18} color="#141112" style={{ marginTop: 1, flexShrink: 0 }} /> : <Lucide.Square size={18} color="#d6d3d1" style={{ marginTop: 1, flexShrink: 0 }} />}
                   <div>
-                    <div style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>Preço forçado</div>
-                    <div style={{ color: '#64748b', fontSize: '0.72rem', marginTop: 2 }}>
+                    <div style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>Preço forçado</div>
+                    <div style={{ color: '#78716c', fontSize: '0.72rem', marginTop: 2 }}>
                       Quando este kit estiver ativo, ignora o preço do lote atual — toda inscrição paga o valor abaixo (mais a taxa de processamento do Pix/cartão, como de costume).
                     </div>
                   </div>
                 </label>
                 {kitForm.precoForcado && (
                   <div style={{ marginTop: 14 }}>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Valor (R$)</label>
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Valor (R$)</label>
                     <input
                       value={kitForm.precoForcadoValor}
                       onChange={e => setKitForm({ ...kitForm, precoForcadoValor: e.target.value })}
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                       placeholder="Ex: 95,00"
                     />
                   </div>
                 )}
               </div>
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setIsKitModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#64748b' }}>CANCELAR</button>
-                <button onClick={handleSaveKit} disabled={savingKit} style={{ flex: 1, padding: '14px', borderRadius: 12, border: 'none', background: '#071A45', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>{savingKit ? 'SALVANDO...' : 'SALVAR KIT'}</button>
+                <button onClick={() => setIsKitModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#78716c' }}>CANCELAR</button>
+                <button onClick={handleSaveKit} disabled={savingKit} style={{ flex: 1, padding: '14px', borderRadius: 12, border: 'none', background: '#141112', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>{savingKit ? 'SALVANDO...' : 'SALVAR KIT'}</button>
               </div>
             </div>
           </div>
@@ -1148,48 +1148,48 @@ export default function AdminKits() {
       )}
 
       {isItemModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 600, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
-               <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#071A45' }}>{editingItem ? 'Editar Item' : 'Novo Item do Kit'}</h3>
-               <button onClick={() => setIsItemModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}>&times;</button>
+            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafaf9' }}>
+               <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#141112' }}>{editingItem ? 'Editar Item' : 'Novo Item do Kit'}</h3>
+               <button onClick={() => setIsItemModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#a8a29e' }}>&times;</button>
             </div>
             <div style={{ padding: 30 }}>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Nome do Item</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Nome do Item</label>
                 <input 
                   value={itemForm.nome} 
                   onChange={e => setItemForm({ ...itemForm, nome: e.target.value })}
-                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   placeholder="Ex: Camiseta Premium"
                 />
               </div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Descrição</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Descrição</label>
                 <textarea 
                   value={itemForm.descricao} 
                   onChange={e => setItemForm({ ...itemForm, descricao: e.target.value })}
-                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none', minHeight: 80 }}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none', minHeight: 80 }}
                   placeholder="Detalhes sobre o item..."
                 />
               </div>
               <div style={{ marginBottom: 24 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                   <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Ícone</label>
+                   <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#78716c', textTransform: 'uppercase' }}>Ícone</label>
                    <input 
                      type="text" placeholder="Buscar ícone..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} 
-                     style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.8rem', width: 150 }}
+                     style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #e7e5e4', fontSize: '0.8rem', width: 150 }}
                    />
                 </div>
-                <div style={{ height: 180, overflowY: 'auto', padding: 12, background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(40px, 1fr))', gap: 8 }}>
+                <div style={{ height: 180, overflowY: 'auto', padding: 12, background: '#fafaf9', borderRadius: 12, border: '1px solid #e7e5e4', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(40px, 1fr))', gap: 8 }}>
                   {filteredIcons.map(iconName => (
                     <button 
                       key={iconName}
                       onClick={() => setItemForm({ ...itemForm, icone: iconName })}
                       style={{ 
                         width: 40, height: 40, borderRadius: 8, border: 'none', cursor: 'pointer',
-                        background: itemForm.icone === iconName ? '#6BFF2A' : 'white',
-                        color: itemForm.icone === iconName ? '#071A45' : '#64748b',
+                        background: itemForm.icone === iconName ? '#e01b22' : 'white',
+                        color: itemForm.icone === iconName ? '#141112' : '#78716c',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
                       }}
@@ -1200,8 +1200,8 @@ export default function AdminKits() {
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setIsItemModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#64748b' }}>CANCELAR</button>
-                <button onClick={handleSaveItem} style={{ flex: 1, padding: '14px', borderRadius: 12, border: 'none', background: '#071A45', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>SALVAR ITEM</button>
+                <button onClick={() => setIsItemModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#78716c' }}>CANCELAR</button>
+                <button onClick={handleSaveItem} style={{ flex: 1, padding: '14px', borderRadius: 12, border: 'none', background: '#141112', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>SALVAR ITEM</button>
               </div>
             </div>
           </div>
@@ -1209,14 +1209,14 @@ export default function AdminKits() {
       )}
 
       {isOrderModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 620, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
+            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafaf9' }}>
               <div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Ordenar tamanhos</h3>
-                <p style={{ color: '#64748b', fontSize: '0.82rem', fontWeight: 600, margin: 0 }}>Clique nos tamanhos na ordem em que devem aparecer no formulário.</p>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Ordenar tamanhos</h3>
+                <p style={{ color: '#78716c', fontSize: '0.82rem', fontWeight: 600, margin: 0 }}>Clique nos tamanhos na ordem em que devem aparecer no formulário.</p>
               </div>
-              <button onClick={() => setIsOrderModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}>&times;</button>
+              <button onClick={() => setIsOrderModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#a8a29e' }}>&times;</button>
             </div>
             <div style={{ padding: 30 }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 20 }}>
@@ -1232,9 +1232,9 @@ export default function AdminKits() {
                         minHeight: 58,
                         padding: '8px 14px',
                         borderRadius: 12,
-                        border: selected ? '2px solid #6BFF2A' : '1px solid #e2e8f0',
-                        background: selected ? 'rgba(107,255,42,0.12)' : '#fff',
-                        color: '#071A45',
+                        border: selected ? '2px solid #e01b22' : '1px solid #e7e5e4',
+                        background: selected ? 'rgba(224, 27, 34,0.12)' : '#fff',
+                        color: '#141112',
                         fontWeight: 900,
                         cursor: 'pointer',
                         display: 'flex',
@@ -1242,10 +1242,10 @@ export default function AdminKits() {
                         gap: 8
                       }}
                     >
-                      {selected && <span style={{ minWidth: 24, height: 24, borderRadius: 999, background: '#6BFF2A', color: '#071A45', display: 'grid', placeItems: 'center', fontSize: '0.7rem' }}>{orderIndex + 1}</span>}
+                      {selected && <span style={{ minWidth: 24, height: 24, borderRadius: 999, background: '#e01b22', color: '#fff', display: 'grid', placeItems: 'center', fontSize: '0.7rem' }}>{orderIndex + 1}</span>}
                       <span style={{ display: 'grid', gap: 2, textAlign: 'left' }}>
                         <span>{size.label}</span>
-                        <small style={{ color: '#64748b', fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase' }}>
+                        <small style={{ color: '#78716c', fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase' }}>
                           {size.tipo} · {(size.categoria || 'todos') === 'infantil' ? 'Infantil' : (size.categoria || 'todos') === 'adulto' ? 'Adulto' : 'Todos'}
                         </small>
                       </span>
@@ -1254,9 +1254,9 @@ export default function AdminKits() {
                 })}
               </div>
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setOrderSelection([])} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#64748b' }}>LIMPAR</button>
-                <button onClick={() => setIsOrderModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#64748b' }}>CANCELAR</button>
-                <button onClick={saveOrderSelection} style={{ flex: 1.4, padding: '14px', borderRadius: 12, border: 'none', background: '#071A45', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>SALVAR ORDEM</button>
+                <button onClick={() => setOrderSelection([])} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#78716c' }}>LIMPAR</button>
+                <button onClick={() => setIsOrderModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#78716c' }}>CANCELAR</button>
+                <button onClick={saveOrderSelection} style={{ flex: 1.4, padding: '14px', borderRadius: 12, border: 'none', background: '#141112', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>SALVAR ORDEM</button>
               </div>
             </div>
           </div>
@@ -1264,40 +1264,40 @@ export default function AdminKits() {
       )}
 
       {isSizeModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 450, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
-               <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#071A45' }}>{editingSize ? 'Editar Tamanho' : 'Novo Tamanho'}</h3>
-               <button onClick={() => setIsSizeModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}>&times;</button>
+            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafaf9' }}>
+               <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#141112' }}>{editingSize ? 'Editar Tamanho' : 'Novo Tamanho'}</h3>
+               <button onClick={() => setIsSizeModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#a8a29e' }}>&times;</button>
             </div>
             <div style={{ padding: 30 }}>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Tamanho (Ex: P, M, G)</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Tamanho (Ex: P, M, G)</label>
                 <input 
                   value={sizeForm.label} 
                   onChange={e => setSizeForm({ ...sizeForm, label: e.target.value })}
-                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                  style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   placeholder="Apenas a letra ou número"
                 />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Tipo</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Tipo</label>
                   <select 
                     value={sizeForm.tipo} 
                     onChange={e => setSizeForm({ ...sizeForm, tipo: e.target.value as any })}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   >
                     <option value="Padrão">Padrão</option>
                     <option value="Baby Look">Baby Look</option>
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Uso</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Uso</label>
                   <select 
                     value={sizeForm.categoria || 'todos'} 
                     onChange={e => setSizeForm({ ...sizeForm, categoria: e.target.value as any })}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   >
                     <option value="todos">Todos</option>
                     <option value="infantil">Somente infantil</option>
@@ -1307,38 +1307,38 @@ export default function AdminKits() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 24 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Estoque</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Estoque</label>
                   <input 
                     type="number"
                     value={sizeForm.estoque} 
                     onChange={e => setSizeForm({ ...sizeForm, estoque: e.target.value === '' ? '' : parseInt(e.target.value) })}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   />
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Largura (cm)</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Largura (cm)</label>
                   <input 
                     type="number"
                     value={sizeForm.largura} 
                     onChange={e => setSizeForm({ ...sizeForm, largura: e.target.value === '' ? '' : parseInt(e.target.value) })}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#64748b', marginBottom: 8, textTransform: 'uppercase' }}>Comprimento (cm)</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 800, color: '#78716c', marginBottom: 8, textTransform: 'uppercase' }}>Comprimento (cm)</label>
                   <input 
                     type="number"
                     value={sizeForm.altura} 
                     onChange={e => setSizeForm({ ...sizeForm, altura: e.target.value === '' ? '' : parseInt(e.target.value) })}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', outline: 'none' }}
                   />
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setIsSizeModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#64748b' }}>CANCELAR</button>
-                <button onClick={handleSaveSize} style={{ flex: 1, padding: '14px', borderRadius: 12, border: 'none', background: '#071A45', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>SALVAR</button>
+                <button onClick={() => setIsSizeModalOpen(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#78716c' }}>CANCELAR</button>
+                <button onClick={handleSaveSize} style={{ flex: 1, padding: '14px', borderRadius: 12, border: 'none', background: '#141112', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>SALVAR</button>
               </div>
             </div>
           </div>
@@ -1346,37 +1346,37 @@ export default function AdminKits() {
       )}
 
       {showSummaryKitPicker && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 420, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
-            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#071A45' }}>Quais kits incluir?</h3>
-              <button onClick={() => setShowSummaryKitPicker(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}>&times;</button>
+            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafaf9' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#141112' }}>Quais kits incluir?</h3>
+              <button onClick={() => setShowSummaryKitPicker(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#a8a29e' }}>&times;</button>
             </div>
             <div style={{ padding: 24 }}>
-              <p style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: 600, marginBottom: 16 }}>
+              <p style={{ color: '#78716c', fontSize: '0.8rem', fontWeight: 600, marginBottom: 16 }}>
                 O resumo de camisetas vai contar só os confirmados dos kits marcados abaixo.
               </p>
               <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
-                <button onClick={() => setSummaryKitIds(kits.map(k => k.id))} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#475569', fontWeight: 800, fontSize: '0.72rem', cursor: 'pointer' }}>MARCAR TODOS</button>
-                <button onClick={() => setSummaryKitIds([])} style={{ background: '#f1f5f9', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#475569', fontWeight: 800, fontSize: '0.72rem', cursor: 'pointer' }}>LIMPAR</button>
+                <button onClick={() => setSummaryKitIds(kits.map(k => k.id))} style={{ background: '#f5f5f4', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#57534e', fontWeight: 800, fontSize: '0.72rem', cursor: 'pointer' }}>MARCAR TODOS</button>
+                <button onClick={() => setSummaryKitIds([])} style={{ background: '#f5f5f4', border: 'none', padding: '6px 12px', borderRadius: 8, color: '#57534e', fontWeight: 800, fontSize: '0.72rem', cursor: 'pointer' }}>LIMPAR</button>
               </div>
               <div style={{ display: 'grid', gap: 8, marginBottom: 24, maxHeight: 260, overflowY: 'auto' }}>
                 {kits.map(kit => {
                   const checked = summaryKitIds.includes(kit.id);
                   return (
-                    <label key={kit.id} onClick={() => toggleSummaryKitId(kit.id)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 10, border: checked ? '1.5px solid #16a34a' : '1px solid #e2e8f0', background: checked ? '#f0fdf4' : '#fff', cursor: 'pointer' }}>
-                      {checked ? <Lucide.CheckSquare size={18} color="#16a34a" /> : <Lucide.Square size={18} color="#cbd5e1" />}
-                      <span style={{ fontWeight: 800, color: '#071A45', fontSize: '0.85rem' }}>{kit.nome}</span>
+                    <label key={kit.id} onClick={() => toggleSummaryKitId(kit.id)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 10, border: checked ? '1.5px solid #16a34a' : '1px solid #e7e5e4', background: checked ? '#f0fdf4' : '#fff', cursor: 'pointer' }}>
+                      {checked ? <Lucide.CheckSquare size={18} color="#16a34a" /> : <Lucide.Square size={18} color="#d6d3d1" />}
+                      <span style={{ fontWeight: 800, color: '#141112', fontSize: '0.85rem' }}>{kit.nome}</span>
                     </label>
                   );
                 })}
               </div>
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setShowSummaryKitPicker(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#64748b' }}>CANCELAR</button>
+                <button onClick={() => setShowSummaryKitPicker(false)} style={{ flex: 1, padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: 'white', fontWeight: 800, cursor: 'pointer', color: '#78716c' }}>CANCELAR</button>
                 <button
                   onClick={() => generateSummaryPdf(summaryKitIds)}
                   disabled={generatingSummary || summaryKitIds.length === 0}
-                  style={{ flex: 1.4, padding: '14px', borderRadius: 12, border: 'none', background: summaryKitIds.length === 0 ? '#cbd5e1' : '#071A45', color: '#fff', fontWeight: 800, cursor: summaryKitIds.length === 0 ? 'not-allowed' : 'pointer' }}
+                  style={{ flex: 1.4, padding: '14px', borderRadius: 12, border: 'none', background: summaryKitIds.length === 0 ? '#d6d3d1' : '#141112', color: '#fff', fontWeight: 800, cursor: summaryKitIds.length === 0 ? 'not-allowed' : 'pointer' }}
                 >
                   {generatingSummary ? 'GERANDO...' : 'GERAR PDF'}
                 </button>

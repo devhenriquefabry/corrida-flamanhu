@@ -106,17 +106,17 @@ export default function AdminCamisetas() {
   if (loading) return <AdminPageSkeleton variant="dashboard" />;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#071A45', padding: '24px 30px' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f4', color: '#141112', padding: '24px 30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 20 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#071A45', marginBottom: 4 }}>Gestão de Camisetas</h1>
-          <p style={{ color: '#64748b', fontWeight: 500 }}>Acompanhe e gerencie os tamanhos solicitados pelos atletas.</p>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#141112', marginBottom: 4 }}>Gestão de Camisetas</h1>
+          <p style={{ color: '#78716c', fontWeight: 500 }}>Acompanhe e gerencie os tamanhos solicitados pelos atletas.</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <button style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '10px 20px', borderRadius: 12, color: '#475569', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <button style={{ background: '#fff', border: '1px solid #e7e5e4', padding: '10px 20px', borderRadius: 12, color: '#57534e', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <Download size={18} /> Exportar relatório
           </button>
-          <button onClick={loadData} style={{ background: '#071A45', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <button onClick={loadData} style={{ background: '#141112', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
             <RefreshCw size={18} /> Atualizar estoque
           </button>
         </div>
@@ -133,57 +133,57 @@ export default function AdminCamisetas() {
 
       {/* Modal de Edição */}
       {editingSize && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(28, 25, 23, 0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#fff', borderRadius: 24, width: '100%', maxWidth: 450, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', animation: 'modalIn 0.3s ease-out' }}>
-            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#071A45', margin: 0 }}>Editar Tamanho</h2>
-              <button onClick={() => setEditingSize(null)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 4 }}>
+            <div style={{ padding: '24px 30px', borderBottom: '1px solid #f5f5f4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#141112', margin: 0 }}>Editar Tamanho</h2>
+              <button onClick={() => setEditingSize(null)} style={{ background: 'none', border: 'none', color: '#a8a29e', cursor: 'pointer', padding: 4 }}>
                 <RefreshCw size={20} style={{ transform: 'rotate(45deg)' }} />
               </button>
             </div>
             
             <div style={{ padding: '30px' }}>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Tamanho Selecionado</label>
-                <input type="text" value={editingSize.label} disabled style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', background: '#f8fafc', color: '#64748b', fontWeight: 700, outline: 'none' }} />
+                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Tamanho Selecionado</label>
+                <input type="text" value={editingSize.label} disabled style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', background: '#fafaf9', color: '#78716c', fontWeight: 700, outline: 'none' }} />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 20, marginBottom: 24 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Estoque Disponível</label>
+                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Estoque Disponível</label>
                   <input 
                     type="number" 
                     value={modalData.stock} 
                     onChange={e => setModalData((p: any) => ({ ...p, stock: e.target.value === '' ? '' : parseInt(e.target.value) }))}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 700, outline: 'none' }} 
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 700, outline: 'none' }} 
                   />
                 </div>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Largura (cm)</label>
+                    <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Largura (cm)</label>
                     <input 
                       type="number" 
                       value={modalData.largura} 
                       onChange={e => setModalData((p: any) => ({ ...p, largura: e.target.value === '' ? '' : parseInt(e.target.value) }))}
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 700, outline: 'none' }} 
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 700, outline: 'none' }} 
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>Comprimento (cm)</label>
+                    <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: '#a8a29e', marginBottom: 8, textTransform: 'uppercase' }}>Comprimento (cm)</label>
                     <input 
                       type="number" 
                       value={modalData.altura} 
                       onChange={e => setModalData((p: any) => ({ ...p, altura: e.target.value === '' ? '' : parseInt(e.target.value) }))}
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e2e8f0', fontSize: '1rem', fontWeight: 700, outline: 'none' }} 
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid #e7e5e4', fontSize: '1rem', fontWeight: 700, outline: 'none' }} 
                     />
                   </div>
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 16 }}>
-                <button onClick={() => setEditingSize(null)} style={{ padding: '14px', borderRadius: 12, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer' }}>CANCELAR</button>
-                <button onClick={saveChanges} style={{ padding: '14px', borderRadius: 12, border: 'none', background: '#071A45', color: '#fff', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(7, 26, 69, 0.2)' }}>SALVAR</button>
+                <button onClick={() => setEditingSize(null)} style={{ padding: '14px', borderRadius: 12, border: '1px solid #e7e5e4', background: '#fff', color: '#78716c', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer' }}>CANCELAR</button>
+                <button onClick={saveChanges} style={{ padding: '14px', borderRadius: 12, border: 'none', background: '#141112', color: '#fff', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(20, 17, 18, 0.2)' }}>SALVAR</button>
               </div>
             </div>
           </div>

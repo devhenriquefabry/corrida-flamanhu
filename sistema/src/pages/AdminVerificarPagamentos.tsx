@@ -247,56 +247,56 @@ export default function AdminVerificarPagamentos() {
   };
 
   return (
-    <div style={{ padding: '24px 30px', color: '#071A45' }}>
+    <div style={{ padding: '24px 30px', color: '#141112' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, margin: 0, color: '#071A45' }}>Verificar pagamentos</h1>
-          <p style={{ color: '#64748b', fontWeight: 600, margin: '6px 0 0' }}>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 900, margin: 0, color: '#141112' }}>Verificar pagamentos</h1>
+          <p style={{ color: '#78716c', fontWeight: 600, margin: '6px 0 0' }}>
             Confere inscrições pendentes no Asaas e na Cora e identifica pagamentos já aprovados no banco.
           </p>
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <button onClick={runAudit} disabled={loading || confirming} style={primaryButton('#071A45', '#fff')}>
+          <button onClick={runAudit} disabled={loading || confirming} style={primaryButton('#141112', '#fff')}>
             {loading ? <RefreshCw size={18} className="spin" /> : <SearchCheck size={18} />}
             {loading ? 'Verificando...' : 'Verificar pagamentos'}
           </button>
-          <button onClick={confirmAllPaid} disabled={!paidPending.length || loading || confirming} style={primaryButton('#6BFF2A', '#071A45', !paidPending.length || loading || confirming)}>
+          <button onClick={confirmAllPaid} disabled={!paidPending.length || loading || confirming} style={primaryButton('#e01b22', '#fff', !paidPending.length || loading || confirming)}>
             {confirming ? <RefreshCw size={18} className="spin" /> : <Send size={18} />}
             {confirming ? 'Confirmando...' : 'Confirmar pagos e enviar mensagens'}
           </button>
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: 20, marginBottom: 22, display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div style={{ width: 42, height: 42, borderRadius: 12, background: '#eafff0', color: '#16a34a', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 18, padding: 20, marginBottom: 22, display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div style={{ width: 42, height: 42, borderRadius: 12, background: '#fff1f1', color: '#16a34a', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
           <ShieldCheck size={22} />
         </div>
         <div style={{ flex: 1, minWidth: 240 }}>
-          <strong style={{ display: 'block', color: '#071A45', fontSize: '0.95rem', fontWeight: 900 }}>Verificação automática (roda sozinha a cada 5 min)</strong>
+          <strong style={{ display: 'block', color: '#141112', fontSize: '0.95rem', fontWeight: 900 }}>Verificação automática (roda sozinha a cada 5 min)</strong>
           {loadingAutoReconcile ? (
-            <span style={{ color: '#94a3b8', fontSize: '0.82rem', fontWeight: 700 }}>Carregando último resultado...</span>
+            <span style={{ color: '#a8a29e', fontSize: '0.82rem', fontWeight: 700 }}>Carregando último resultado...</span>
           ) : autoReconcile ? (
-            <span style={{ color: '#64748b', fontSize: '0.82rem', fontWeight: 700 }}>
+            <span style={{ color: '#78716c', fontSize: '0.82rem', fontWeight: 700 }}>
               Última rodada em {new Date(autoReconcile.startedAt).toLocaleString('pt-BR')} · {autoReconcile.totalChecked ?? 0} verificada(s), {autoReconcile.totalFixed ?? 0} corrigida(s) automaticamente
               {autoReconcile.error ? ` · erro: ${autoReconcile.error}` : ''}
             </span>
           ) : (
-            <span style={{ color: '#94a3b8', fontSize: '0.82rem', fontWeight: 700 }}>Ainda não rodou nesta sessão do worker.</span>
+            <span style={{ color: '#a8a29e', fontSize: '0.82rem', fontWeight: 700 }}>Ainda não rodou nesta sessão do worker.</span>
           )}
         </div>
-        <button onClick={runAutoReconcileNow} disabled={runningAutoReconcile} style={primaryButton('#f1f5f9', '#071A45', runningAutoReconcile)}>
+        <button onClick={runAutoReconcileNow} disabled={runningAutoReconcile} style={primaryButton('#f5f5f4', '#141112', runningAutoReconcile)}>
           {runningAutoReconcile ? <RefreshCw size={16} className="spin" /> : <ShieldCheck size={16} />}
           {runningAutoReconcile ? 'Rodando...' : 'Rodar agora'}
         </button>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: 20, marginBottom: 22, display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 18, padding: 20, marginBottom: 22, display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div style={{ width: 42, height: 42, borderRadius: 12, background: '#fff7ed', color: '#c2410c', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
           <Wrench size={20} />
         </div>
         <div style={{ flex: 1, minWidth: 240 }}>
-          <strong style={{ display: 'block', color: '#071A45', fontSize: '0.95rem', fontWeight: 900 }}>Vínculos de cartão desatualizados</strong>
-          <span style={{ color: '#64748b', fontSize: '0.82rem', fontWeight: 700 }}>
+          <strong style={{ display: 'block', color: '#141112', fontSize: '0.95rem', fontWeight: 900 }}>Vínculos de cartão desatualizados</strong>
+          <span style={{ color: '#78716c', fontSize: '0.82rem', fontWeight: 700 }}>
             Quando o cliente troca de Pix pra cartão no meio do checkout, às vezes o sistema fica com o ID de pagamento antigo. Isso confere e corrige.
             {cardFixPreview && (
               <> · <strong style={{ color: cardFixPreview.toFix ? '#c2410c' : '#16a34a' }}>{cardFixPreview.toFix} de {cardFixPreview.scanned}</strong> precisam de correção</>
@@ -304,12 +304,12 @@ export default function AdminVerificarPagamentos() {
           </span>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={previewCardFix} disabled={loadingCardFix} style={primaryButton('#f1f5f9', '#071A45', loadingCardFix)}>
+          <button onClick={previewCardFix} disabled={loadingCardFix} style={primaryButton('#f5f5f4', '#141112', loadingCardFix)}>
             {loadingCardFix ? <RefreshCw size={16} className="spin" /> : <SearchCheck size={16} />}
             {loadingCardFix ? 'Conferindo...' : 'Conferir'}
           </button>
           {cardFixPreview && cardFixPreview.toFix > 0 && (
-            <button onClick={applyCardFix} disabled={applyingCardFix} style={primaryButton('#6BFF2A', '#071A45', applyingCardFix)}>
+            <button onClick={applyCardFix} disabled={applyingCardFix} style={primaryButton('#e01b22', '#fff', applyingCardFix)}>
               {applyingCardFix ? <RefreshCw size={16} className="spin" /> : <Wrench size={16} />}
               {applyingCardFix ? 'Corrigindo...' : `Corrigir ${cardFixPreview.toFix}`}
             </button>
@@ -319,7 +319,7 @@ export default function AdminVerificarPagamentos() {
           <div style={{ width: '100%', overflowX: 'auto', marginTop: 4 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 480 }}>
               <thead>
-                <tr style={{ background: '#f8fafc', color: '#64748b', fontSize: '.72rem', textTransform: 'uppercase' }}>
+                <tr style={{ background: '#fafaf9', color: '#78716c', fontSize: '.72rem', textTransform: 'uppercase' }}>
                   <th style={th}>Atleta</th>
                   <th style={th}>Provedor anterior</th>
                   <th style={th}>ID cartão (Asaas)</th>
@@ -327,7 +327,7 @@ export default function AdminVerificarPagamentos() {
               </thead>
               <tbody>
                 {cardFixPreview.results.map(item => (
-                  <tr key={item.registrationId} style={{ borderTop: '1px solid #f1f5f9' }}>
+                  <tr key={item.registrationId} style={{ borderTop: '1px solid #f5f5f4' }}>
                     <td style={td}><strong>{item.nome || 'Sem nome'}</strong><small style={small}>#{item.registrationId}</small></td>
                     <td style={td}>{item.previousProvider || '-'}</td>
                     <td style={td}><code style={{ fontSize: '.72rem' }}>{item.creditCardAsaasPaymentId}</code></td>
@@ -368,7 +368,7 @@ export default function AdminVerificarPagamentos() {
       )}
 
       {!audit && (
-        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: 42, textAlign: 'center', color: '#64748b', fontWeight: 700 }}>
+        <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 18, padding: 42, textAlign: 'center', color: '#78716c', fontWeight: 700 }}>
           Clique em verificar para consultar todas as inscrições pendentes no banco de pagamento.
         </div>
       )}
@@ -379,10 +379,10 @@ export default function AdminVerificarPagamentos() {
 }
 
 function Metric({ label, value, tone }: { label: string; value: string | number; tone?: 'success' | 'warning' }) {
-  const color = tone === 'success' ? '#16a34a' : tone === 'warning' ? '#d97706' : '#071A45';
+  const color = tone === 'success' ? '#16a34a' : tone === 'warning' ? '#d97706' : '#141112';
   return (
-    <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, padding: 18 }}>
-      <span style={{ display: 'block', color: '#94a3b8', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 8 }}>{label}</span>
+    <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: 16, padding: 18 }}>
+      <span style={{ display: 'block', color: '#a8a29e', fontSize: '.72rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: 8 }}>{label}</span>
       <strong style={{ color, fontSize: '1.8rem', fontWeight: 950 }}>{value}</strong>
     </div>
   );
@@ -408,19 +408,19 @@ function Section({
   discardingId?: string | null;
 }) {
   return (
-    <section style={{ background: '#fff', border: `1px solid ${highlight ? '#86efac' : '#e2e8f0'}`, borderRadius: 18, overflow: 'hidden', marginBottom: 22 }}>
-      <header style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '18px 20px', borderBottom: '1px solid #e2e8f0', color: highlight ? '#15803d' : '#071A45', fontWeight: 900 }}>
+    <section style={{ background: '#fff', border: `1px solid ${highlight ? '#86efac' : '#e7e5e4'}`, borderRadius: 18, overflow: 'hidden', marginBottom: 22 }}>
+      <header style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '18px 20px', borderBottom: '1px solid #e7e5e4', color: highlight ? '#15803d' : '#141112', fontWeight: 900 }}>
         {icon}
         <h2 style={{ margin: 0, fontSize: '1rem', textTransform: 'uppercase' }}>{title}</h2>
-        <span style={{ marginLeft: 'auto', background: highlight ? '#dcfce7' : '#f1f5f9', color: highlight ? '#166534' : '#475569', borderRadius: 999, padding: '4px 10px', fontSize: '.75rem', fontWeight: 900 }}>{items.length}</span>
+        <span style={{ marginLeft: 'auto', background: highlight ? '#dcfce7' : '#f5f5f4', color: highlight ? '#166534' : '#57534e', borderRadius: 999, padding: '4px 10px', fontSize: '.75rem', fontWeight: 900 }}>{items.length}</span>
       </header>
       {items.length === 0 ? (
-        <div style={{ padding: 28, textAlign: 'center', color: '#94a3b8', fontWeight: 700 }}>{empty}</div>
+        <div style={{ padding: 28, textAlign: 'center', color: '#a8a29e', fontWeight: 700 }}>{empty}</div>
       ) : (
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 780 }}>
             <thead>
-              <tr style={{ background: '#f8fafc', color: '#64748b', fontSize: '.72rem', textTransform: 'uppercase' }}>
+              <tr style={{ background: '#fafaf9', color: '#78716c', fontSize: '.72rem', textTransform: 'uppercase' }}>
                 <th style={th}>Atleta</th>
                 <th style={th}>Banco / forma</th>
                 <th style={th}>ID pagamento</th>
@@ -435,7 +435,7 @@ function Section({
                 const resemblance = findPaidResemblance ? findPaidResemblance(item) : null;
                 const isDiscarding = discardingId === item.registrationId;
                 return (
-                  <tr key={item.registrationId} style={{ borderTop: '1px solid #f1f5f9', background: resemblance ? 'rgba(239, 68, 68, 0.05)' : 'transparent' }}>
+                  <tr key={item.registrationId} style={{ borderTop: '1px solid #f5f5f4', background: resemblance ? 'rgba(239, 68, 68, 0.05)' : 'transparent' }}>
                     <td style={td}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                         <strong>{item.nome || 'Sem nome'}</strong>
@@ -512,8 +512,8 @@ function Section({
 }
 
 const th: React.CSSProperties = { padding: '12px 16px', textAlign: 'left', fontWeight: 900 };
-const td: React.CSSProperties = { padding: '14px 16px', color: '#071A45', fontWeight: 700, verticalAlign: 'top' };
-const small: React.CSSProperties = { display: 'block', color: '#94a3b8', fontSize: '.72rem', fontWeight: 700, marginTop: 4 };
+const td: React.CSSProperties = { padding: '14px 16px', color: '#141112', fontWeight: 700, verticalAlign: 'top' };
+const small: React.CSSProperties = { display: 'block', color: '#a8a29e', fontSize: '.72rem', fontWeight: 700, marginTop: 4 };
 
 function primaryButton(background: string, color: string, disabled = false): React.CSSProperties {
   return {

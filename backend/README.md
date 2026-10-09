@@ -73,9 +73,12 @@ em `NEXT_PUBLIC_WORKER_URL` no `.env.local` e nas Variables do GitHub.
 **Asaas** (mais simples): crie a conta, gere a chave em *Integrações → Chave de API*
 (`ASAAS_API_KEY` acima) e cadastre o webhook em *Integrações → Webhooks* apontando
 para `https://<url-do-worker>/asaas/webhook`, com o token igual a `ASAAS_WEBHOOK_SECRET`.
-Para testar sem dinheiro de verdade, use uma conta sandbox e troque `ASAAS_BASE_URL`
-para `https://api-sandbox.asaas.com/v3` — só no seu `.dev.vars`/teste local, nunca no
-`wrangler.toml` (um teste do projeto barra isso).
+Para testar sem dinheiro de verdade, use uma conta em sandbox.asaas.com e publique o
+worker com `npm run deploy:sandbox` (dentro de `backend/worker`): ele troca só a
+`ASAAS_BASE_URL` na hora do deploy, sem mexer no `wrangler.toml`. Para voltar à
+produção, troque a chave (`wrangler secret put ASAAS_API_KEY`) pela da conta real e
+rode `npm run deploy`. O webhook recusa tudo enquanto `ASAAS_WEBHOOK_SECRET` não
+estiver cadastrado.
 
 **Cora** (opcional): exige certificado mTLS emitido pela Cora. Siga os comentários
 de `[[mtls_certificates]]` no `wrangler.toml` e cadastre `CORA_CLIENT_ID`,
@@ -102,3 +105,14 @@ publica o site já ligado ao seu Firebase e ao seu worker.
 
 Se trocar o endereço do site (domínio próprio), atualize `SITE_URL` no
 `wrangler.toml` do worker — é com ele que o worker monta os links de pagamento.
+
+## Segurança do worker
+
+- Rotas abertas ao público: só as de `src/publicRoutes.js` (formulário, página de
+  pagamento, webhooks dos bancos, mídia) e as `/public/*` de `src/publicApi.js`.
+  **Toda rota nova é restrita ao admin por padrão**; se o site público precisar
+  dela, inclua em `PUBLIC_ROUTES` (o teste `public-routes.test.mjs` confere se as
+  páginas públicas só chamam rotas liberadas).
+- O painel manda o login do admin automaticamente (`installWorkerAuth` em
+  `sistema/src/utils/workerApi.ts`).
+- `npm test` dentro de `backend/worker` roda todos os testes do worker.
