@@ -49,7 +49,7 @@ SITE_URL = "https://corrida-flamanhu.web.app"
 OPERATIONAL_LOGO_URL = ""
 
 # --- integrações ---
-EVOLUTION_URL = ""
+EVOLUTION_URL = "https://instituto-gotland-evolution.fly.dev"
 INSTANCE_NAME = "flamanhu"
 FIREBASE_PROJECT_ID = "corrida-flamanhu"
 FIREBASE_API_KEY = "AIzaSyAExyftQKYxocBB4sEUC6d2AP3LkU-uVi0"
