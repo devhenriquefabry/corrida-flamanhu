@@ -26,6 +26,7 @@ export default function AdminIntegracoes() {
   const [webhookTestProvider, setWebhookTestProvider] = useState<PaymentProvider>('asaas');
   const [testingWebhook, setTestingWebhook] = useState(false);
   const [webhookTestResult, setWebhookTestResult] = useState<any>(null);
+  const [registeringCoraWebhook, setRegisteringCoraWebhook] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -76,6 +77,24 @@ export default function AdminIntegracoes() {
       showAlert('Erro ao testar o webhook.', 'error');
     } finally {
       setTestingWebhook(false);
+    }
+  };
+
+  // A Cora não tem tela para webhook: o worker cadastra pela API, com o certificado dele.
+  const handleRegisterCoraWebhook = async () => {
+    try {
+      setRegisteringCoraWebhook(true);
+      const workerUrl = process.env.NEXT_PUBLIC_WORKER_URL;
+      const res = await fetch(`${workerUrl}/cora/webhook/register`, { method: 'POST' });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error || 'Não foi possível cadastrar o webhook na Cora.');
+      showAlert(result.alreadyRegistered ? 'O webhook já estava cadastrado na Cora.' : 'Webhook cadastrado na Cora.', 'success');
+      await handleTestWebhook();
+    } catch (error: any) {
+      console.error(error);
+      showAlert(error.message || 'Erro ao cadastrar o webhook na Cora.', 'error');
+    } finally {
+      setRegisteringCoraWebhook(false);
     }
   };
 
@@ -137,6 +156,12 @@ export default function AdminIntegracoes() {
                   <RefreshCw size={18} />
                   {testingWebhook ? 'Testando...' : 'Testar webhook'}
                 </button>
+                {webhookTestProvider === 'cora' && (
+                  <button className="settings-save-btn" onClick={handleRegisterCoraWebhook} disabled={registeringCoraWebhook || testingWebhook}>
+                    <Webhook size={18} />
+                    {registeringCoraWebhook ? 'Cadastrando...' : 'Cadastrar webhook na Cora'}
+                  </button>
+                )}
               </div>
 
               {webhookTestResult && (

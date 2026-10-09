@@ -338,6 +338,11 @@ export default {
           return json(result.body, result.status);
         }
 
+        if (path === "/cora/webhook/register" && request.method === "POST") {
+          const result = await registerCoraWebhook(env, url.origin);
+          return json(result.body, result.status);
+        }
+
         if (path === "/cora/webhook" && request.method === "POST") {
           const bodyText = await request.text();
           let body = {};
@@ -2147,6 +2152,53 @@ function extractCoraPaymentStatus(body, headers) {
   return ["paid", "payment.received", "payment.confirmed", "payment.paid", "pago", "paid.invoice", "invoice.paid", "invoice.payment.paid"].includes(raw) ? "paid" : raw;
 }
 
+// Na Cora o webhook não se cadastra pelo painel: é um POST /endpoints/ na API, com o
+// mesmo mTLS das cobranças. A API não documenta como listar os endpoints existentes,
+// então guardamos no KV o que foi cadastrado daqui - evita duplicar e alimenta o teste.
+const CORA_WEBHOOK_KV_KEY = "cora:webhook-endpoint";
+
+function coraWebhookTargetUrl(env, origin) {
+  return `${origin}/cora/webhook?token=${encodeURIComponent(env.CORA_WEBHOOK_SECRET)}`;
+}
+
+async function getRegisteredCoraWebhook(env, origin) {
+  if (!env.NIGHTRUN_STORAGE || !env.CORA_WEBHOOK_SECRET) return null;
+  const saved = await env.NIGHTRUN_STORAGE.get(CORA_WEBHOOK_KV_KEY, "json");
+  // Trocou o segredo ou o endereço do worker: o cadastro antigo não serve mais.
+  return saved && saved.url === coraWebhookTargetUrl(env, origin) ? saved : null;
+}
+
+async function registerCoraWebhook(env, origin) {
+  if (!env.CORA_WEBHOOK_SECRET) {
+    return { status: 400, body: { error: "Configure CORA_WEBHOOK_SECRET no Worker antes de cadastrar o webhook." } };
+  }
+  const existing = await getRegisteredCoraWebhook(env, origin);
+  if (existing) {
+    return { status: 200, body: { registered: true, alreadyRegistered: true, endpointId: existing.id, createdAt: existing.createdAt } };
+  }
+
+  const accessToken = await getCoraAccessToken(env);
+  const targetUrl = coraWebhookTargetUrl(env, origin);
+  const res = await getCoraFetcher(env).fetch(`${getCoraBaseUrl(env)}/endpoints/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": crypto.randomUUID()
+    },
+    body: JSON.stringify({ url: targetUrl, resource: "invoice", trigger: "paid" })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.id) {
+    const message = data.message || data.error || data.errors?.[0]?.message || `Cora respondeu HTTP ${res.status}.`;
+    return { status: 502, body: { error: `Falha ao cadastrar o webhook na Cora: ${message}` } };
+  }
+
+  const record = { id: data.id, url: targetUrl, createdAt: new Date().toISOString() };
+  if (env.NIGHTRUN_STORAGE) await env.NIGHTRUN_STORAGE.put(CORA_WEBHOOK_KV_KEY, JSON.stringify(record));
+  return { status: 200, body: { registered: true, alreadyRegistered: false, endpointId: data.id, createdAt: record.createdAt } };
+}
+
 async function testWebhookIntegration(env, provider, origin) {
   if (provider === "cora") {
     const checks = [
@@ -2168,6 +2220,15 @@ async function testWebhookIntegration(env, provider, origin) {
     } catch (error) {
       checks.push({ label: "Credenciais Cora", ok: false, detail: error.message });
     }
+
+    const registered = await getRegisteredCoraWebhook(env, origin).catch(() => null);
+    checks.push({
+      label: "Webhook cadastrado na Cora",
+      ok: Boolean(registered),
+      detail: registered
+        ? `Endpoint ${registered.id}, cadastrado em ${new Date(registered.createdAt).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}.`
+        : "Ainda não cadastrado. Use o botão \"Cadastrar webhook na Cora\"."
+    });
 
     return {
       provider,

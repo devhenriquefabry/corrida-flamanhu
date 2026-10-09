@@ -16,10 +16,10 @@ id = "92af3ab562914799b09e2b281c56b963"
 
 # Só para o banco Cora (mTLS). Suba o certificado com
 #   npx wrangler mtls-certificate upload --cert certificate.pem --key private-key.key --name cora
-# e descomente com o id gerado. Se usar só o Asaas, deixe comentado.
-# [[mtls_certificates]]
-# binding = "CORA_MTLS"
-# certificate_id = "PREENCHER_ID_DO_CERTIFICADO"
+# e coloque aqui o id gerado. Certificado de produção da Cora, vence em 09/10/2027.
+[[mtls_certificates]]
+binding = "CORA_MTLS"
+certificate_id = "43e0a4f0-1d6a-4a65-9817-3ce8c0b4e8cf"
 
 # Worker de fila do WhatsApp (backend/whatsapp-hub), na mesma conta Cloudflare.
 # Opcional: descomente depois de publicar o hub, senão o deploy falha.

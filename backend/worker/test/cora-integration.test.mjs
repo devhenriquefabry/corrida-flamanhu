@@ -95,3 +95,13 @@ test('Cora direct mode uses the mTLS fetch binding when available', () => {
   assert.match(workerSource, /\/token/);
   assert.match(workerSource, /grant_type: "client_credentials"/);
 });
+
+test('Cora webhook is registered through the API and kept admin-only', async () => {
+  const publicRoutes = await readFile(new URL('../src/publicRoutes.js', import.meta.url), 'utf8');
+  assert.match(workerSource, /path === "\/cora\/webhook\/register"/);
+  assert.match(workerSource, /\/endpoints\/`/);
+  assert.match(workerSource, /resource: "invoice", trigger: "paid"/);
+  assert.match(workerSource, /"Idempotency-Key": crypto\.randomUUID\(\)/);
+  assert.match(workerSource, /Webhook cadastrado na Cora/);
+  assert.equal(publicRoutes.includes('register'), false);
+});
