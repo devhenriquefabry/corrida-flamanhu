@@ -2,191 +2,101 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BASE_PATH } from "@/lib/base-path";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { EVENTO, NAV } from "@/lib/evento";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [kitOpen, setKitOpen] = useState(false);
-  const dropdownRef = useRef<HTMLLIElement>(null);
+  const [aberto, setAberto] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const painelRef = useRef<HTMLDivElement>(null);
 
-  // barra de progresso da página (scrub no documento inteiro)
-  useGSAP(() => {
-    gsap.to(progressRef.current, {
-      scaleX: 1,
-      ease: "none",
-      scrollTrigger: {
-        start: 0,
-        end: () => document.documentElement.scrollHeight - window.innerHeight,
-        scrub: 0.3,
-      },
-    });
-  });
-
-  // fio rubro + fundo sólido ao rolar
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // fecha dropdown ao clicar fora e menus com Esc
+  // menu aberto: trava a rolagem, fecha com Esc e devolve o foco ao botão
   useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setKitOpen(false);
-      }
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
+    if (!aberto) return;
+    document.documentElement.classList.add("no-scroll");
+    const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setKitOpen(false);
-        setMenuOpen((open) => {
-          if (open) burgerRef.current?.focus();
-          return false;
-        });
+        setAberto(false);
+        burgerRef.current?.focus();
       }
     };
-    document.addEventListener("click", onClick);
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKey);
+    painelRef.current?.querySelector<HTMLElement>("a")?.focus();
     return () => {
-      document.removeEventListener("click", onClick);
-      document.removeEventListener("keydown", onKeyDown);
+      document.documentElement.classList.remove("no-scroll");
+      document.removeEventListener("keydown", onKey);
     };
+  }, [aberto]);
+
+  // voltou para telas largas com o menu aberto: fecha
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 960px)");
+    const onChange = () => mq.matches && setAberto(false);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // fecha o menu mobile ao navegar
-  const closeMenu = () => setMenuOpen(false);
+  const fechar = () => setAberto(false);
 
   return (
-    <header className={`navbar${scrolled ? " is-scrolled" : ""}`} id="navbar">
-      <div className="navbar__inner">
-        <a href="#" className="navbar__brand" aria-label="Corrida Flamanhu — Início">
-          <img
-            src={`${BASE_PATH}/assets/logo-flamanhu.svg`}
-            alt=""
-            width={52}
-            height={52}
-            className="navbar__logo"
-          />
-          <span className="navbar__brand-text">
-            <strong>FLAMANHU</strong>
+    <header className={`nav${scrolled ? " is-scrolled" : ""}${aberto ? " is-open" : ""}`}>
+      <div className="nav__bar wrap">
+        <a href="#inicio" className="nav__brand" aria-label="Corrida Flamanhu — início" onClick={fechar}>
+          <img src={`${BASE_PATH}/assets/logo-flamanhu-sm.webp`} alt="" width={44} height={44} />
+          <span>
+            Flamanhu
             <small>Manhuaçu · MG</small>
           </span>
         </a>
 
-        <nav
-          className={`navbar__nav${menuOpen ? " is-open" : ""}`}
-          id="menu"
-          aria-label="Navegação principal"
-        >
-          <ul className="navbar__list">
-            <li>
-              <a className="navbar__link is-active" href="#" aria-current="page" onClick={closeMenu}>
-                Home
-              </a>
-            </li>
-            <li>
-              <a className="navbar__link" href="#evento" onClick={closeMenu}>
-                O Evento
-              </a>
-            </li>
-            <li>
-              <a className="navbar__link" href="#percursos" onClick={closeMenu}>
-                Percursos
-              </a>
-            </li>
-            <li>
-              <a className="navbar__link" href="#programacao" onClick={closeMenu}>
-                Programação
-              </a>
-            </li>
-            <li
-              ref={dropdownRef}
-              className={`navbar__item--dropdown${kitOpen ? " is-open" : ""}`}
-            >
-              <button
-                className="navbar__link navbar__link--btn"
-                aria-expanded={kitOpen}
-                aria-controls="submenu-kit"
-                onClick={() => setKitOpen((open) => !open)}
-              >
-                Kit
-                <svg
-                  className="caret"
-                  width="10"
-                  height="10"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </button>
-              <ul className="navbar__submenu" id="submenu-kit">
-                <li>
-                  <a href="#kit" onClick={closeMenu}>Kit do Atleta</a>
-                </li>
-                <li>
-                  <a href="#retirada" onClick={closeMenu}>Retirada do Kit</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a className="navbar__link" href="#informacoes" onClick={closeMenu}>
-                Informações
-              </a>
-            </li>
-          </ul>
-
-          <a href="#inscricao" className="btn btn--primary navbar__cta--mobile" onClick={closeMenu}>
-            <span className="btn__label">Inscreva-se</span>
-          </a>
+        <nav className="nav__links" aria-label="Navegação principal">
+          {NAV.map((l) => (
+            <a key={l.href} href={l.href}>
+              {l.label}
+            </a>
+          ))}
         </nav>
 
-        <a href="#inscricao" className="btn btn--primary navbar__cta">
-          <svg
-            className="btn__icon"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M13 4v6h6" />
-            <path d="m19 10-8.5 8.5a2.12 2.12 0 0 1-3-3L16 7" />
-            <path d="M5 20h9" />
-          </svg>
-          <span className="btn__label">Inscreva-se</span>
+        <a href={EVENTO.inscricaoUrl} className="btn btn--primary btn--sm nav__cta">
+          Inscreva-se
         </a>
 
         <button
           ref={burgerRef}
-          className="navbar__burger"
-          id="burger"
-          aria-expanded={menuOpen}
-          aria-controls="menu"
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setMenuOpen((open) => !open)}
+          type="button"
+          className="nav__burger"
+          aria-expanded={aberto}
+          aria-controls="menu-mobile"
+          aria-label={aberto ? "Fechar menu" : "Abrir menu"}
+          onClick={() => setAberto((v) => !v)}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
         </button>
       </div>
 
-      {/* progresso de leitura da página */}
-      <div className="navbar__progress" ref={progressRef} aria-hidden="true"></div>
+      <div id="menu-mobile" ref={painelRef} className="nav__panel" inert={!aberto}>
+        <nav aria-label="Navegação principal (celular)">
+          {NAV.map((l) => (
+            <a key={l.href} href={l.href} onClick={fechar}>
+              {l.label}
+            </a>
+          ))}
+        </nav>
+        <a href={EVENTO.inscricaoUrl} className="btn btn--primary btn--lg" onClick={fechar}>
+          Quero me inscrever
+        </a>
+        <p className="nav__panel-data">
+          {EVENTO.dataLonga} · {EVENTO.local}
+        </p>
+      </div>
     </header>
   );
 }

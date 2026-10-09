@@ -1,36 +1,45 @@
-import type { Metadata } from "next";
-import { Anton, Barlow, Barlow_Condensed } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Big_Shoulders, Figtree } from "next/font/google";
 import { BASE_PATH } from "@/lib/base-path";
 
-const anton = Anton({
-  weight: "400",
+// Títulos e números: condensada e alta, no estilo de número de peito.
+const display = Big_Shoulders({
+  axes: ["opsz"], // tamanho óptico: títulos grandes ficam mais firmes
+  adjustFontFallback: false, // o Next não tem métricas desta fonte; evita o aviso no build
   subsets: ["latin"],
-  variable: "--font-anton",
+  variable: "--ff-display",
   display: "swap",
 });
 
-const barlowCondensed = Barlow_Condensed({
-  weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
+const body = Figtree({
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
-  variable: "--font-barlow-cond",
+  variable: "--ff-body",
   display: "swap",
 });
 
-const barlow = Barlow({
-  weight: ["400", "500", "600"],
-  subsets: ["latin"],
-  variable: "--font-barlow",
-  display: "swap",
-});
+const TITULO = "Corrida Flamanhu 2027 — 15 de maio em Manhuaçu/MG";
+const DESCRICAO =
+  "5K, 10K, caminhada e Kids no dia 15 de maio de 2027, na Praça Cordovil Pinto Coelho, em Manhuaçu/MG. R$ 4.800 em prêmios. Veja as provas e inscreva-se.";
 
 export const metadata: Metadata = {
-  title: "Corrida Flamanhu 2027 — A Nação Rubro-Negra corre unida em Manhuaçu",
-  description:
-    "Corrida Flamanhu 2027: percursos de 5K e 10K em Manhuaçu-MG. Corra, caminhe e celebre com a Nação Rubro-Negra. Inscreva-se!",
-  icons: {
-    icon: `${BASE_PATH}/assets/logo-flamanhu.svg`,
+  title: TITULO,
+  description: DESCRICAO,
+  openGraph: {
+    title: TITULO,
+    description: DESCRICAO,
+    locale: "pt_BR",
+    type: "website",
   },
+  icons: {
+    icon: `${BASE_PATH}/assets/favicon.png`,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -38,11 +47,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${anton.variable} ${barlowCondensed.variable} ${barlow.variable}`}
-      >
-        {children}
-      </body>
+      <body className={`${display.variable} ${body.variable}`}>{children}</body>
     </html>
   );
 }

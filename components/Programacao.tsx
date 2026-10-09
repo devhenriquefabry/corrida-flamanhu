@@ -1,157 +1,60 @@
-"use client";
+import { MapPin, Navigation } from "lucide-react";
+import { EVENTO } from "@/lib/evento";
 
-import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
-
+// Horários do site (previstos, conforme o regulamento). Largada: 09h.
 const ETAPAS = [
-  {
-    hora: "07h30",
-    titulo: "Concentração",
-    texto: "Recepção e aquecimento da Nação",
-    icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 21V4" />
-        <path d="M4 4c3-1.5 6 1.5 9 0s5-1 7 0v9c-2-1-4-1.5-7 0s-6-1.5-9 0" />
-      </svg>
-    ),
-  },
-  {
-    hora: "09h00",
-    titulo: "Largada",
-    texto: "A largada da Corrida FLAMANHU 2027",
-    icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M13 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0Z" fill="currentColor" />
-        <path d="m14 7-3 5 3 2v6" />
-        <path d="m8.5 10 2-2.5L14 7l3 3 2.5.5" />
-        <path d="M7.5 21 10 16l-2-1.5" />
-      </svg>
-    ),
-  },
-  {
-    hora: "11h00",
-    titulo: "Premiação",
-    texto: "Premiação geral e por faixa etária",
-    icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8 21h8m-4-4v4M7 4h10v6a5 5 0 0 1-10 0z" />
-        <path d="M7 6H4a1 1 0 0 0-1 1c0 2.5 1.5 4 4 4.5M17 6h3a1 1 0 0 1 1 1c0 2.5-1.5 4-4 4.5" />
-      </svg>
-    ),
-  },
-  {
-    hora: "11h30",
-    titulo: "Celebração",
-    texto: "Música, festa e muita comemoração!",
-    icon: (
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M9 4.5c1 2.5 1 12.5 0 15M15 4.5c-1 2.5-1 12.5 0 15M3.5 9.5h17M3.5 14.5h17" />
-      </svg>
-    ),
-  },
+  { hora: "07h30", titulo: "Abertura da arena", texto: "Concentração, guarda-volumes e aquecimento com a Nação." },
+  { hora: "09h00", titulo: "Largada oficial", texto: "5K, 10K e caminhada saem juntos.", destaque: true },
+  { hora: "11h00", titulo: "Cerimônia de premiação", texto: "Troféus e prêmios em dinheiro para os campeões." },
+  { hora: "11h30", titulo: "Festa da torcida", texto: "Música e comemoração para fechar a manhã." },
 ];
 
 export default function Programacao() {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      /* ---------- desktop: jornada horizontal pinada ---------- */
-      mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
-        const track = root.current!.querySelector<HTMLElement>(".prog__track")!;
-        const getDist = () => track.scrollWidth - window.innerWidth;
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top top",
-            end: () => `+=${getDist() + 400}`,
-            pin: true,
-            scrub: 0.7,
-            snap: 1 / (ETAPAS.length - 1),
-            invalidateOnRefresh: true,
-          },
-        });
-
-        tl.to(track, { x: () => -getDist(), ease: "none" });
-
-        // linha de progresso + corredor que avança junto
-        gsap.to(".prog__line-fill", {
-          scaleX: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top top",
-            end: () => `+=${getDist() + 400}`,
-            scrub: 0.7,
-          },
-        });
-
-        // cada painel dá um "respiro" de entrada enquanto desliza
-        gsap.utils.toArray<HTMLElement>(".prog__panel").forEach((panel) => {
-          gsap.from(panel.querySelector(".prog__panel-inner"), {
-            autoAlpha: 0.35,
-            scale: 0.94,
-            ease: "none",
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: tl,
-              start: "left 80%",
-              end: "left 40%",
-              scrub: true,
-            },
-          });
-        });
-      });
-
-      /* ---------- mobile / movimento reduzido: timeline vertical ---------- */
-      mm.add("(max-width: 899px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.utils.toArray<HTMLElement>(".prog__panel").forEach((panel, i) => {
-          gsap.from(panel, {
-            autoAlpha: 0,
-            y: 50,
-            duration: 0.7,
-            delay: (i % 2) * 0.08,
-            ease: "power2.out",
-            scrollTrigger: { trigger: panel, start: "top 85%", once: true },
-          });
-        });
-      });
-    },
-    { scope: root },
-  );
-
   return (
-    <section className="prog" id="programacao" ref={root}>
-      <div className="prog__head">
-        <p className="section-eyebrow section-eyebrow--center">Programação</p>
-        <h2 className="section-title section-title--center">Jornada da Nação</h2>
-      </div>
+    <section className="sec sec--dark" id="programacao">
+      <div className="wrap prog">
+        <header className="sec__head prog__head" data-reveal>
+          <p className="eyebrow">Dia da prova</p>
+          <h2 className="h2">
+            {EVENTO.diaSemana[0].toUpperCase() + EVENTO.diaSemana.slice(1)},
+            <br />
+            <em>15 de maio</em>
+          </h2>
+          <p className="sec__lead">Horários previstos. Qualquer mudança é avisada com antecedência no Instagram.</p>
 
-      {/* linha de progresso */}
-      <div className="prog__line" aria-hidden="true">
-        <div className="prog__line-fill"></div>
-      </div>
-
-      <div className="prog__viewport">
-        <div className="prog__track">
-          {ETAPAS.map((e, i) => (
-            <div className="prog__panel" key={e.titulo}>
-              <div className="prog__panel-inner">
-                <span className="prog__num" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="prog__icon" aria-hidden="true">{e.icon}</div>
-                <span className="prog__hora">{e.hora}</span>
-                <h3 className="prog__titulo">{e.titulo}</h3>
-                <p className="prog__texto">{e.texto}</p>
-              </div>
+          <address className="local" data-reveal>
+            <MapPin size={22} aria-hidden="true" />
+            <div>
+              <strong>{EVENTO.local}</strong>
+              <span>{EVENTO.bairro}</span>
+              <small>Largada e chegada no mesmo ponto.</small>
             </div>
+            <a className="btn btn--ghost btn--sm" href={EVENTO.mapsUrl} target="_blank" rel="noopener noreferrer">
+              <Navigation size={16} aria-hidden="true" />
+              Como chegar
+            </a>
+          </address>
+        </header>
+
+        <ol className="linha">
+          {ETAPAS.map((e, i) => (
+            <li
+              key={e.hora}
+              className={`linha__item${e.destaque ? " is-destaque" : ""}`}
+              data-reveal
+              style={{ "--d": `${i * 80}ms` } as React.CSSProperties}
+            >
+              <time className="linha__hora">{e.hora}</time>
+              <div>
+                <h3>{e.titulo}</h3>
+                <p>{e.texto}</p>
+              </div>
+            </li>
           ))}
-        </div>
+          <li className="linha__nota" data-reveal>
+            A Corrida Kids tem horário próprio, divulgado em breve.
+          </li>
+        </ol>
       </div>
     </section>
   );
