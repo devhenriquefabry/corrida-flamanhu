@@ -5,7 +5,7 @@ import { gsap, useGSAP } from "@/lib/gsap";
 
 const ETAPAS = [
   {
-    hora: "06h30",
+    hora: "07h30",
     titulo: "Concentração",
     texto: "Recepção e aquecimento da Nação",
     icon: (
@@ -16,7 +16,7 @@ const ETAPAS = [
     ),
   },
   {
-    hora: "08h00",
+    hora: "09h00",
     titulo: "Largada",
     texto: "A largada da Corrida FLAMANHU 2027",
     icon: (

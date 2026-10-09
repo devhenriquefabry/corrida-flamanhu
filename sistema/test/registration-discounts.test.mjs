@@ -21,10 +21,9 @@ test('pcd athletes receive automatic 50 percent discount', () => {
   assert.match(publicForm, /descontoPcd/);
 });
 
-test('municipal server discount remains available', () => {
-  assert.match(publicForm, /Math\.round\(loteDiscount\.amount \* 0\.2\)/);
-  assert.match(publicForm, /loteDiscount\.amount - halfPriceAmount - serverAmount/);
-  assert.match(publicForm, /Servidor municipal: 20% de desconto/);
+test('municipal server discount from the previous event is gone', () => {
+  assert.doesNotMatch(publicForm, /servidorPublicoMunicipal|matriculaServidor|contracheque/);
+  assert.match(publicForm, /amount: Math\.max\(loteDiscount\.amount - halfPriceAmount, 0\)/);
 });
 
 test('admin lots can configure active fixed or percent discounts per adult lot and kids', () => {

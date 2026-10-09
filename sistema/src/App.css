@@ -2958,48 +2958,6 @@ input[type="radio"], input[type="checkbox"] { display:none; }
   text-transform: uppercase;
 }
 
-.municipal-server-example {
-  display: block;
-  width: min(100%, 420px);
-  margin-top: 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: #fff;
-}
-
-.municipal-server-matricula {
-  margin-top: 10px;
-}
-
-.municipal-server-matricula label {
-  display: block;
-  margin-bottom: 6px;
-  color: #fff;
-  font-size: 0.66rem;
-  font-weight: 900;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-
-.municipal-server-matricula .pro-input-wrapper {
-  min-height: 48px;
-}
-
-.municipal-server-matricula small {
-  display: block;
-  margin-top: 5px;
-  color: rgba(255,255,255,0.62);
-  font-size: 0.62rem;
-  font-weight: 700;
-}
-
-.municipal-server-matricula small a {
-  color: var(--accent-ink);
-  font-weight: 900;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 .municipal-server-actions {
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(44px, 1fr));

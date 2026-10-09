@@ -154,8 +154,6 @@ function formatRegistrationNotice(reg, paymentPageUrl) {
     `*E-mail:* ${reg.email || "-"}\n` +
     `*WhatsApp:* ${reg.telefone || "-"}\n` +
     `*PCD:* ${reg.pcd ? "Sim" : "Nao"}\n` +
-    `*Servidor publico municipal:* ${reg.servidorPublicoMunicipal ? "Sim" : "Nao"}\n` +
-    `*Matricula servidor:* ${reg.matriculaServidor || "-"}\n` +
     `*Equipe:* ${reg.integranteEquipe === "sim" ? (reg.equipeNome || "Sim") : "Nao"}\n\n` +
     `*Categoria:* ${CATEGORIAS[reg.categoria] || reg.categoria || "-"}\n` +
     `*Prova:* ${reg.modalidadeNome || "-"}\n` +

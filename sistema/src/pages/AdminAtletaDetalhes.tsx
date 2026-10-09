@@ -234,14 +234,12 @@ export default function AdminAtletaDetalhes() {
   const originalAmount = Number(reg.originalAmount || reg.amount || 0);
   const finalAmount = Number(reg.amount || 0);
   const discountAmount = Math.max(originalAmount - finalAmount, 0);
-  const discountLabel = reg.descontoServidorPublicoMunicipal
-    ? 'Servidor pblico municipal - 20%'
-    : reg.descontoAplicado || 'Sem desconto';
+  const discountLabel = reg.descontoAplicado || 'Sem desconto';
   const couponDiscountAmount = Number(reg.couponDiscountAmount || 0);
   const couponLabel = reg.descontoCupom || reg.couponCode
     ? `${String(reg.couponCode || reg.couponId || 'Cupom').toUpperCase()} (-${formatCurrency(couponDiscountAmount)})`
     : 'Nenhum cupom usado';
-  const equipeLabel = reg.integranteEquipe === 'sim' ? (reg.equipeNome || 'Sim, no informado') : 'No';
+  const equipeLabel = reg.integranteEquipe === 'sim' ? (reg.equipeNome || 'Sim, não informado') : 'Não';
   const paymentProvider = reg.creditCardAsaasPaymentId ? 'asaas' : reg.paymentProvider === 'cora' ? 'cora' : 'asaas';
   const paymentMethodLabel = reg.creditCardAsaasPaymentId || reg.paymentMethod === 'credit_card' ? 'Cartão' : 'PIX';
   const paymentProviderInfo = reg.paymentProvider || reg.invoiceUrl
@@ -767,11 +765,6 @@ export default function AdminAtletaDetalhes() {
               }}>
                 {pagamentoLabel.toUpperCase()}
               </div>
-              {reg.servidorPublicoMunicipal && (
-                <div style={{ background: '#fff7ed', color: '#9a3412', padding: '6px 12px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 800 }}>
-                  SERVIDOR MUNICIPAL
-                </div>
-              )}
             </div>
           </div>
 
@@ -808,12 +801,6 @@ export default function AdminAtletaDetalhes() {
         </div>
 
         {/* Informações em Alta Densidade */}
-        {reg.servidorPublicoMunicipal && (
-          <div style={{ background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', borderRadius: 14, padding: '14px 18px', marginBottom: 24, fontWeight: 900, fontSize: '0.85rem', textTransform: 'uppercase' }}>
-            Servidor público deve apresentar o contracheque na retirada do kit. É obrigatório.
-          </div>
-        )}
-
         {reg.titularidadeTransferida && (() => {
           const nomeDestino = linkedTitularidade?.nome || reg.titularidadeTransferidaParaNome || 'outro atleta';
           const telefoneDestino = linkedTitularidade?.telefone || reg.titularidadeTransferidaParaTelefone || '';
@@ -877,7 +864,6 @@ export default function AdminAtletaDetalhes() {
                 ['Responsável', reg.responsavelNome],
                 ['CPF do Responsável', reg.responsavelCpf],
                 ['Sexo', sexoLabel], ['E-mail', reg.email], ['Telefone', reg.telefone],
-                ['Servidor municipal', reg.servidorPublicoMunicipal ? 'Sim - contracheque obrigatório' : 'Não'],
                 ['Equipe', equipeLabel]
               ].map(([l, v]) => (
                 <div key={l as string} className="admin-det-info-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f5f5f4' }}>

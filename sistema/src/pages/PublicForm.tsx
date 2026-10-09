@@ -29,8 +29,6 @@ const INITIAL = {
   endereco: { cep: '', rua: '', numero: '', bairro: '', cidade: '', uf: '', semCep: false },
   integranteEquipe: 'nao',
   equipeNome: '',
-  servidorPublicoMunicipal: false,
-  matriculaServidor: '',
   pcd: false,
   categoria: '',
   kit: 'unico',
@@ -146,26 +144,22 @@ const applyLoteDiscount = (amountInCents: number, rawDiscount?: Partial<LoteDisc
   };
 };
 
-const applyRegistrationDiscount = (pricing: RegistrationPricing, age: number, isMunicipalServer: boolean, isPcd: boolean) => {
+const applyRegistrationDiscount = (pricing: RegistrationPricing, age: number, isPcd: boolean) => {
   const isSenior = age >= 60;
   const hasHalfPrice = isSenior || isPcd;
-  const isServer = isMunicipalServer && !hasHalfPrice;
   const loteDiscount = applyLoteDiscount(pricing.price, pricing.loteDiscount);
   const halfPriceAmount = hasHalfPrice ? Math.round(loteDiscount.amount / 2) : 0;
-  const serverAmount = isServer ? Math.round(loteDiscount.amount * 0.2) : 0;
   const labels = [
     loteDiscount.discountLabel,
     isSenior ? 'Idoso 60+ (50%)' : '',
     isPcd && !isSenior ? 'PCD (50%)' : '',
-    isServer ? 'Servidor publico municipal' : '',
   ].filter(Boolean);
 
   return {
-    amount: Math.max(loteDiscount.amount - halfPriceAmount - serverAmount, 0),
+    amount: Math.max(loteDiscount.amount - halfPriceAmount, 0),
     originalAmount: pricing.price,
     isSenior,
     isPcd,
-    isMunicipalServer: isServer,
     discountLabel: labels.join(' + '),
     loteDiscount,
     loteIndex: pricing.loteIndex ?? null,
@@ -214,13 +208,10 @@ export default function PublicForm() {
   const requiresResponsible = isChildRegistration;
   const hasSeniorDiscount = data.categoria === 'adulto' && userAge >= 60;
   const hasPcdDiscount = data.categoria === 'adulto' && data.pcd;
-  const hasMunicipalServerDiscount = data.categoria === 'adulto' && data.servidorPublicoMunicipal;
   const discountPreviewText = hasSeniorDiscount
     ? 'Idoso 60+: 50% de desconto.'
       : hasPcdDiscount
         ? 'PCD: 50% de desconto.'
-      : hasMunicipalServerDiscount
-        ? 'Servidor municipal: 20% de desconto.'
       : '';
   const birthYear = hasCompleteBirthDate ? Number(data.dataNascimento.split('/')[2]) : null;
   const birthDateMatchesCategory = !hasCompleteBirthDate ||
@@ -262,7 +253,6 @@ export default function PublicForm() {
     !!data.sexo &&
     data.email.includes('@') &&
     data.telefone.length >= 14 &&
-    (!data.servidorPublicoMunicipal || data.matriculaServidor.trim().length >= 2) &&
     (data.integranteEquipe !== 'sim' || data.equipeNome.trim().length >= 2);
   const emergencyValid = data.contatoEmergencia.nome.length > 3 && data.contatoEmergencia.telefone.length >= 14;
   const modalityValid = !!data.modalidadeId && !!selectedModalidade;
@@ -353,8 +343,6 @@ export default function PublicForm() {
           endereco: { cep: '', rua: '', numero: '', bairro: '', cidade: '', uf: '', semCep: false },
           integranteEquipe: 'nao',
           equipeNome: '',
-          servidorPublicoMunicipal: false,
-          matriculaServidor: '',
           pcd: false,
           modalidadeId: modId,
           kit: 'unico',
@@ -404,7 +392,7 @@ export default function PublicForm() {
     const fetchPricePreview = async () => {
       try {
         const pricing = await calculateBaseAmount();
-        const discount = applyRegistrationDiscount(pricing, userAge, data.categoria === 'adulto' && data.servidorPublicoMunicipal, data.categoria === 'adulto' && data.pcd);
+        const discount = applyRegistrationDiscount(pricing, userAge, data.categoria === 'adulto' && data.pcd);
         const couponDiscount = appliedCoupon
           ? calculateCouponDiscount(discount.amount, appliedCoupon.type, appliedCoupon.value)
           : { amountAfterDiscount: discount.amount };
@@ -414,21 +402,19 @@ export default function PublicForm() {
       }
     };
     fetchPricePreview();
-  }, [stage, data.categoria, data.dataNascimento, data.servidorPublicoMunicipal, data.pcd, appliedCoupon]);
+  }, [stage, data.categoria, data.dataNascimento, data.pcd, appliedCoupon]);
 
   useEffect(() => {
     setAppliedCoupon(null);
     setCouponFeedback('');
-  }, [data.categoria, data.dataNascimento, data.servidorPublicoMunicipal, data.pcd, data.modalidadeId]);
+  }, [data.categoria, data.dataNascimento, data.pcd, data.modalidadeId]);
 
   const selectCategory = (categoria: 'infantil' | 'adulto') => {
     setData((prev: any) => ({
       ...prev,
       categoria,
       modalidadeId: '',
-      servidorPublicoMunicipal: categoria === 'adulto' ? prev.servidorPublicoMunicipal : false,
       pcd: categoria === 'adulto' ? prev.pcd : false,
-      matriculaServidor: categoria === 'adulto' ? prev.matriculaServidor : '',
     }));
   };
 
@@ -610,7 +596,7 @@ export default function PublicForm() {
 
   const calculateBaseAmount = async (): Promise<RegistrationPricing> => {
     // Kit ativo com preço forçado ignora o lote por completo - o valor abaixo vira a base
-    // do cálculo, e os descontos de idoso/PCD/servidor/cupom continuam se aplicando por cima
+    // do cálculo, e os descontos de idoso/PCD/cupom continuam se aplicando por cima
     // normalmente, exatamente como aconteceria com o preço do lote.
     if (activeKit?.precoForcado && activeKit.precoForcadoValor > 0) {
       return { price: activeKit.precoForcadoValor, loteDiscount: EMPTY_LOTE_DISCOUNT, loteIndex: null };
@@ -670,7 +656,7 @@ export default function PublicForm() {
     setCouponFeedback('');
     try {
       const pricing = await calculateBaseAmount();
-      const discount = applyRegistrationDiscount(pricing, userAge, data.categoria === 'adulto' && data.servidorPublicoMunicipal, data.categoria === 'adulto' && data.pcd);
+      const discount = applyRegistrationDiscount(pricing, userAge, data.categoria === 'adulto' && data.pcd);
       const coupon = await validateCouponForAmount(couponCode, discount.amount);
       setAppliedCoupon(coupon);
       setCouponCode(coupon.code);
@@ -732,7 +718,7 @@ export default function PublicForm() {
       const selectedProvider = paymentIntegrationSnap.exists() ? paymentIntegrationSnap.data().provider : 'asaas';
       const paymentProvider: PaymentProvider = selectedProvider === 'cora' ? 'cora' : 'asaas';
       const baseAmount = await calculateBaseAmount();
-      const registrationDiscount = applyRegistrationDiscount(baseAmount, userAge, data.categoria === 'adulto' && data.servidorPublicoMunicipal, data.categoria === 'adulto' && data.pcd);
+      const registrationDiscount = applyRegistrationDiscount(baseAmount, userAge, data.categoria === 'adulto' && data.pcd);
       const couponDiscount = appliedCoupon ? await consumeCouponForAmount(appliedCoupon.code, registrationDiscount.amount) : null;
       const registrationAmount = couponDiscount?.amountAfterDiscount ?? registrationDiscount.amount;
       // Inscrição gratuita: cupom (ou combinação de descontos) zerou o valor da inscrição.
@@ -843,8 +829,6 @@ export default function PublicForm() {
         kitPrecoForcadoValor: activeKit?.precoForcado ? activeKit.precoForcadoValor : null,
         responsavelNome: requiresResponsible ? data.responsavelNome.trim() : '',
         responsavelCpf: requiresResponsible ? data.responsavelCpf : '',
-        servidorPublicoMunicipal: data.categoria === 'adulto' && data.servidorPublicoMunicipal,
-        matriculaServidor: data.categoria === 'adulto' && data.servidorPublicoMunicipal ? data.matriculaServidor.trim() : '',
         pcd: data.categoria === 'adulto' && data.pcd,
         paymentStatus: isFreeRegistration ? 'pago' : 'pendente',
         gratuito: isFreeRegistration,
@@ -876,7 +860,6 @@ export default function PublicForm() {
         valorDescontoLote: registrationDiscount.loteDiscount.discountAmount,
         descontoIdoso: registrationDiscount.isSenior,
         descontoPcd: registrationDiscount.isPcd,
-        descontoServidorPublicoMunicipal: registrationDiscount.isMunicipalServer,
         descontoAplicado: registrationDiscount.discountLabel,
         couponId: couponDiscount?.id || '',
         couponCode: couponDiscount?.code || '',
@@ -1004,40 +987,6 @@ export default function PublicForm() {
                         <div className="municipal-server-actions">
                           <button type="button" className={data.pcd ? 'active' : ''} onClick={() => set('pcd', true)}>Sim</button>
                           <button type="button" className={!data.pcd ? 'active' : ''} onClick={() => set('pcd', false)}>Não</button>
-                        </div>
-                      </div>
-                      <div className="municipal-server-box">
-                        <div>
-                          <strong>Servidor público municipal</strong>
-                          <span>Servidores da Prefeitura Municipal de Manhuaçu têm 20% de desconto.</span>
-                          {data.servidorPublicoMunicipal && (
-                            <>
-                              <em>Servidor público deve apresentar o contracheque na retirada do kit. É obrigatório.</em>
-                              <img className="municipal-server-example" src={withBase("/sistema/exemplo-contracheque.png")} alt="Exemplo de contracheque" />
-                              <div className="municipal-server-matricula">
-                                <label>NÚMERO DA MATRÍCULA *</label>
-                                <div className="pro-input-wrapper">
-                                  <div className="pro-input-icon"><CreditCard size={20} /></div>
-                                  <input
-                                    value={data.matriculaServidor}
-                                    onChange={e => set('matriculaServidor', e.target.value.replace(/\D/g, ''))}
-                                    placeholder="Ex.: 103167"
-                                    inputMode="numeric"
-                                  />
-                                </div>
-                                <small>
-                                  Use o número destacado no contracheque.{' '}
-                                  <a href="https://gpi-services.cloud.el.com.br/mg-manhuacu-pm/portal/login" target="_blank" rel="noreferrer">
-                                    Não sabe o seu
-                                  </a>
-                                </small>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <div className="municipal-server-actions">
-                          <button type="button" className={data.servidorPublicoMunicipal ? 'active' : ''} onClick={() => set('servidorPublicoMunicipal', true)}>Sim</button>
-                          <button type="button" className={!data.servidorPublicoMunicipal ? 'active' : ''} onClick={() => setData((prev: any) => ({ ...prev, servidorPublicoMunicipal: false, matriculaServidor: '' }))}>Não</button>
                         </div>
                       </div>
                       </>
@@ -1336,10 +1285,6 @@ export default function PublicForm() {
                       <div className="review-field-inline"><span>Prova:</span> <strong className="text-highlight-green">{selectedModalidadeNome || '-'}</strong></div>
                       <div className="review-field-inline"><span>Camiseta:</span> <strong>{selectedCamisetaSummary}</strong></div>
                       <div className="review-field-inline"><span>PCD:</span> <strong className={data.pcd ? 'text-highlight-yellow' : ''}>{data.pcd ? 'Sim (50% de desconto)' : 'Não'}</strong></div>
-                      <div className="review-field-inline"><span>Servidor Municipal:</span> <strong className={data.servidorPublicoMunicipal ? 'text-highlight-yellow' : ''}>{data.servidorPublicoMunicipal ? 'Sim (Apresentar Contracheque)' : 'Não'}</strong></div>
-                      {data.servidorPublicoMunicipal && (
-                        <div className="review-field-inline"><span>Matrícula:</span> <strong>{data.matriculaServidor || '-'}</strong></div>
-                      )}
                       <div className="review-field-inline"><span>Equipe:</span> <strong>{data.integranteEquipe === 'sim' ? (data.equipeNome || 'Sim') : 'Não'}</strong></div>
                     </div>
                   </div>
