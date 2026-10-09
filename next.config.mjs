@@ -1,8 +1,9 @@
-const basePath = process.env.NODE_ENV === "production" ? "/corrida-flamanhu" : "";
+// Site na raiz do domínio. Se mudar, mude igual em lib/base-path.ts.
+const basePath = "";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // publica como site estático para o GitHub Pages
+  // publica como site estático (Firebase Hosting, ver firebase.json)
   output: "export",
   basePath,
   assetPrefix: basePath ? `${basePath}/` : undefined,

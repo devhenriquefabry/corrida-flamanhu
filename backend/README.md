@@ -18,7 +18,7 @@ Siga na ordem — cada etapa usa algo da anterior.
 3. **Authentication** → Método de login → ative **E-mail/senha**.
 4. **Configurações do projeto → Seus apps → Web (`</>`)** → registre o app e copie o `firebaseConfig`.
 5. Preencha `.env.local` (modelo em `.env.example`) com esses valores.
-6. Publique as regras e índices (o projeto já está em `firebase/.firebaserc`):
+6. Publique as regras e índices (o projeto já está em `.firebaserc`):
    ```bash
    npx firebase login
    npm run test:regras     # testes das regras no emulador (precisa de Java)
@@ -97,11 +97,27 @@ O banco ativo é escolhido no painel (*Admin → Integrações*).
   (comandos no `wrangler.toml`), faça o deploy, descomente `[[services]]` no
   `wrangler.toml` do worker e cadastre `WHATSAPP_HUB_API_KEY`.
 
-## 5. Deploy do site (GitHub Pages)
+## 5. Deploy do site (Firebase Hosting)
+
+O site sai em <https://corrida-flamanhu.web.app> a cada push na `main`
+(`.github/workflows/deploy-firebase.yml`). Configuração da hospedagem em
+`firebase.json` (raiz do projeto).
 
 No GitHub: *Settings → Secrets and variables → Actions → aba Variables*, crie as
-mesmas `NEXT_PUBLIC_*` do `.env.local` (menos a do Groq). O próximo push na `main`
-publica o site já ligado ao seu Firebase e ao seu worker.
+mesmas `NEXT_PUBLIC_*` do `.env.local` (menos a do Groq). O segredo
+`FIREBASE_SERVICE_ACCOUNT_CORRIDA_FLAMANHU` (conta de serviço só com permissão de
+Hosting) é criado e enviado ao GitHub por:
+
+```bash
+npx firebase init hosting:github
+```
+
+Para testar uma versão antes de publicar, gere um link temporário:
+
+```bash
+npm run build
+npx firebase hosting:channel:deploy teste --expires 7d
+```
 
 Se trocar o endereço do site (domínio próprio), atualize `SITE_URL` no
 `wrangler.toml` do worker — é com ele que o worker monta os links de pagamento.

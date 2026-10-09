@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test:sistema": "node --test \"sistema/test/*.test.mjs\"",
-    "test:regras": "cd firebase && firebase emulators:exec --only firestore --project demo-flamanhu \"node --test test/firestore-rules.test.mjs\"",
-    "deploy:regras": "cd firebase && firebase deploy --only firestore"
+    "test:regras": "firebase emulators:exec --only firestore --project demo-flamanhu \"node --test firebase/test/firestore-rules.test.mjs\"",
+    "deploy:regras": "firebase deploy --only firestore"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
