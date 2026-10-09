@@ -138,9 +138,17 @@ html, body, #root {
 
 .adm-sidebar-nav {
   flex: 1;
+  min-height: 0;
   padding: 12px 0;
-  overflow-y: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--adm-border) transparent;
 }
+.adm-sidebar-logo,
+.adm-event-date,
+.adm-sidebar-footer { flex-shrink: 0; }
 .adm-sidebar-nav::-webkit-scrollbar { width: 4px; }
 .adm-sidebar-nav::-webkit-scrollbar-thumb { background: var(--adm-border); border-radius: 4px; }
 
