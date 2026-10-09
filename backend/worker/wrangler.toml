@@ -44,7 +44,7 @@ CONTACT_EMAIL = "corridaflamanhu@gmail.com"
 GRUPO_WHATSAPP_URL = ""
 INSTAGRAM_URL = "https://www.instagram.com/corrida_flamanhu"
 # endereço público do site, sem barra no final (monta os links de pagamento)
-SITE_URL = "https://devhenriquefabry.github.io/corrida-flamanhu"
+SITE_URL = "https://corrida-flamanhu.web.app"
 # PNG público do logo, usado no banner do resumo operacional diário (vazio = sem logo)
 OPERATIONAL_LOGO_URL = ""
 
