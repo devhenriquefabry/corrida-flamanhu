@@ -19,3 +19,6 @@ chave-firebase*.json
 
 # logs dos emuladores do Firebase
 *-debug.log
+
+# cache local do Firebase CLI (deploy de hosting)
+.firebase/
