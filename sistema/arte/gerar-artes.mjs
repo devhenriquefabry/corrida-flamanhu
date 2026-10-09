@@ -219,7 +219,7 @@ function cabecalhoPdf(w, h) {
     <text ${DISPLAY} font-size="${h * 0.25}" fill="${C.giz}" transform="translate(${tx} ${h * 0.42}) skewX(-6)">CORRIDA <tspan fill="${C.rubro}">FLAMANHU</tspan></text>
     <polygon points="${tx},${h * 0.5} ${tx + 520},${h * 0.5} ${tx + 512},${h * 0.52} ${tx - 8},${h * 0.52}" fill="${C.rubro}"/>
     <text x="${tx}" y="${h * 0.64}" ${APOIO} font-size="${h * 0.075}" fill="${C.fumaca}" letter-spacing="6">${esc(dataExt)}${EVENTO.largada ? ` · LARGADA ${esc(EVENTO.largada.toUpperCase())}` : ''}</text>
-    <text x="${tx}" y="${h * 0.77}" ${APOIO} font-size="${h * 0.075}" fill="${C.fumaca}" letter-spacing="6">MANHUAÇU · MG  ·  5K · 10K</text>
+    <text x="${tx}" y="${h * 0.77}" ${APOIO} font-size="${h * 0.075}" fill="${C.fumaca}" letter-spacing="6">MANHUAÇU · MG  ·  5K · 10K · CAMINHADA</text>
     <rect y="${h - 10}" width="${w}" height="10" fill="${C.rubro}"/>
     ${acabamento(w, h)}`);
 }
@@ -274,7 +274,7 @@ function cardEuVou(w, h, kids) {
     <text ${DISPLAY} font-size="${w * 0.1}" fill="${C.rubro}" transform="translate(${w * 0.55} ${h * 0.905}) skewX(-6)">E VOCÊ?</text>
     <!-- rodapé -->
     <polygon points="0,${h - 74} ${w},${h - 74} ${w},${h} 0,${h}" fill="${C.rubro}"/>
-    <text x="40" y="${h - 26}" ${APOIO} font-size="30" fill="#fff" letter-spacing="4">${esc(EVENTO.nome.toUpperCase())} · 5K · 10K</text>
+    <text x="40" y="${h - 26}" ${APOIO} font-size="30" fill="#fff" letter-spacing="4">${esc(EVENTO.nome.toUpperCase())} · 5K · 10K · CAMINHADA</text>
     <text x="${w - 40}" y="${h - 26}" text-anchor="end" ${APOIO} font-size="30" fill="#fff" letter-spacing="2">${esc(EVENTO.instagram)}</text>
     ${acabamento(w, h)}`);
 }

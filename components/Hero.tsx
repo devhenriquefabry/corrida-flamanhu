@@ -130,9 +130,9 @@ export default function Hero() {
           </h1>
 
           <p className="hero__sub">
-            A Nação Rubro-Negra corre unida em Manhuaçu e região. Percursos de{" "}
-            <strong>5K e 10K</strong> para todos os níveis — do atleta ao torcedor
-            de arquibancada.
+            A Nação Rubro-Negra corre unida em Manhuaçu e região. Corrida de{" "}
+            <strong>5K e 10K</strong> e <strong>caminhada</strong> para todos os
+            níveis — do atleta ao torcedor de arquibancada.
           </p>
 
           <div className="hero__actions">
