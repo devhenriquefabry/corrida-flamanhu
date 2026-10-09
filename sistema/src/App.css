@@ -5216,6 +5216,14 @@ input[type="radio"], input[type="checkbox"] { display:none; }
   letter-spacing: 0.5px;
 }
 
+/* .public-app-root trava a altura em 100svh com overflow hidden (serve ao
+   formulário); o regulamento é um texto longo e precisa rolar a página */
+.public-app-root.regulation-page {
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
 .regulation-page {
   min-height: 100svh;
   background:
