@@ -1,11 +1,14 @@
-import { Hash, Medal, Shirt, Timer } from "lucide-react";
+import { Backpack, Footprints, Gift, Hash, Medal, Shirt, Timer } from "lucide-react";
 
-// Kit: regulamento item 7.1. Prêmios: item 8 (5K e 10K, masculino e feminino).
+// Kit: regulamento item 7.1. Prêmios: item 8 (Corrida 5K, masculino e feminino).
 const KIT = [
-  { Icon: Shirt, titulo: "Camiseta oficial", texto: "Design exclusivo da Corrida Flamanhu 2027." },
-  { Icon: Hash, titulo: "Número de peito", texto: "Para usar na frente da camiseta durante a prova." },
+  { Icon: Hash, titulo: "Número de peito", texto: "Para usar na frente da camisa durante a prova." },
   { Icon: Timer, titulo: "Chip de cronometragem", texto: "Seu tempo oficial, sem depender de ninguém." },
-  { Icon: Medal, titulo: "Medalha de finalizador", texto: "Entregue na chegada a quem completar a prova." },
+  { Icon: Shirt, titulo: "Camisa oficial", texto: "Design exclusivo da Corrida Flamanhu 2027." },
+  { Icon: Footprints, titulo: "Meia", texto: "Para correr com o pé confortável." },
+  { Icon: Backpack, titulo: "Saco-mochila", texto: "Para levar o kit e usar depois da prova." },
+  { Icon: Gift, titulo: "Brindes", texto: "Mimos dos patrocinadores do evento." },
+  { Icon: Medal, titulo: "Medalha de finalizador", texto: "Para todos que cruzarem a linha de chegada." },
 ];
 
 const PODIO = [
@@ -45,9 +48,9 @@ export default function KitPremios() {
           <article className="premios" data-reveal style={{ "--d": "90ms" } as React.CSSProperties}>
             <p className="premios__rotulo">Premiação em dinheiro</p>
             <p className="premios__total">
-              <span>R$</span> 4.800
+              <span>R$</span> 2.400
             </p>
-            <p className="premios__sub">distribuídos entre os campeões do 5K e do 10K, masculino e feminino.</p>
+            <p className="premios__sub">distribuídos entre os campeões da corrida 5K, masculino e feminino.</p>
 
             <ol className="podio" aria-label="Premiação por colocação, em cada categoria">
               {PODIO.map((p) => (

@@ -8,7 +8,7 @@ export const EVENTO = {
   nome: 'Corrida Flamanhu 2027',
   data: '15/05/2027',
   horarioLargada: '9h',
-  local: 'Praça Cordovil Pinto Coelho, Centro - Manhuaçu',
+  local: 'Estádio JK (Juscelino Kubitschek) - Manhuaçu',
   emailContato: 'corridaflamanhu@gmail.com',
   grupoWhatsAppUrl: '', // link de convite do grupo de participantes (ainda não criado)
   instagramUrl: 'https://www.instagram.com/corrida_flamanhu',

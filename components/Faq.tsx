@@ -9,7 +9,11 @@ const PERGUNTAS = [
   },
   {
     p: "Qual a idade mínima?",
-    r: "No 5K, 14 anos; no 10K, 16 anos. A caminhada não tem idade mínima, mas menores de 14 anos precisam de um responsável. Na Kids, de 4 a 14 anos. A idade conta até 31/12/2027.",
+    r: "Na corrida de 5K, 14 anos. A caminhada de 3K não tem idade mínima, mas menores de 14 anos precisam de um responsável. Na Kids, de 4 a 14 anos. A idade conta até 31/12/2027.",
+  },
+  {
+    p: "Onde é a largada?",
+    r: "No Estádio JK (Juscelino Kubitschek), em Manhuaçu, onde também acontece a entrega de medalhas. O local ainda está em confirmação com o poder público; se mudar, avisamos todos os inscritos com antecedência.",
   },
   {
     p: "Quanto tempo tenho para completar a prova?",

@@ -1,29 +1,17 @@
 import { ArrowRight } from "lucide-react";
 import { EVENTO } from "@/lib/evento";
 
-// Dados conforme o regulamento (itens 1.5, 4.1, 5.1 a 5.6 e 8).
+// Dados conforme o regulamento (itens 1.5, 2, 4.1, 5.1 a 5.6 e 8).
 const PROVAS = [
   {
     id: "5k",
     numero: "5",
     unidade: "K",
     tag: "Corrida cronometrada",
-    texto: "Rápida e direta. Boa para estrear ou buscar o recorde pessoal.",
-    dados: [
-      ["Idade mínima", "14 anos"],
-      ["Largada", `${EVENTO.largada}`],
-      ["Premiação", "Dinheiro e troféu"],
-    ],
-  },
-  {
-    id: "10k",
-    numero: "10",
-    unidade: "K",
-    tag: "Corrida cronometrada",
-    texto: "O desafio completo pelas ruas de Manhuaçu, com a energia da torcida em cada quilômetro.",
+    texto: "Rápida e direta, masculino e feminino. Boa para estrear ou buscar o recorde pessoal.",
     destaque: true,
     dados: [
-      ["Idade mínima", "16 anos"],
+      ["Idade mínima", "14 anos"],
       ["Largada", `${EVENTO.largada}`],
       ["Premiação", "Dinheiro e troféu"],
     ],
@@ -32,12 +20,12 @@ const PROVAS = [
     id: "caminhada",
     numero: "3",
     unidade: "km",
-    tag: "Caminhada participativa",
+    tag: "Caminhada geral",
     texto: "Sem pressa e sem classificação. Venha em família vestir o manto e curtir a festa.",
     dados: [
       ["Idade mínima", "Livre*"],
       ["Largada", `${EVENTO.largada}`],
-      ["Medalha", "Para quem completar"],
+      ["Medalha", "Para todos que chegarem"],
     ],
     rodape: "*Menores de 14 anos com responsável.",
   },
@@ -63,8 +51,8 @@ export default function Provas() {
           <p className="eyebrow">Provas</p>
           <h2 className="h2">Escolha sua prova</h2>
           <p className="sec__lead">
-            Quatro formas de participar no mesmo dia, todas na {EVENTO.local}. A largada de 5K, 10K e caminhada é às{" "}
-            {EVENTO.largada}.
+            Três formas de participar no mesmo dia, todas no {EVENTO.local}. A largada da corrida 5K e da caminhada 3K
+            é às {EVENTO.largada}.
           </p>
         </header>
 

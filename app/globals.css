@@ -651,7 +651,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .prova--destaque .prova__dados div { border-color: var(--linha-escura); }
 
 @media (min-width: 640px) { .provas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .provas { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .provas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 /* ============================================================
    DIA DA PROVA

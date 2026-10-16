@@ -8,8 +8,9 @@ const publicForm = await readFile(new URL('../src/pages/PublicForm.tsx', import.
 test('official regulation contains current event data and public rules', () => {
   assert.match(regulamento, /CORRIDA FLAMANHU 2027 — MANHUAÇU\/MG/);
   assert.match(regulamento, /Data: 15\/05\/2027/);
-  assert.match(regulamento, /Praça Cordovil Pinto Coelho/);
-  assert.match(regulamento, /Largadas 3,0km \(caminhada\), 5km e 10km: 09h/);
+  assert.match(regulamento, /Estádio Juscelino Kubitschek \(Estádio JK\)/);
+  assert.match(regulamento, /Largadas Caminhada 3km e Corrida 5km: 09h/);
+  assert.doesNotMatch(regulamento, /10 ?km/i);
   assert.match(regulamento, /Hennder Company é a organizadora do evento/);
   assert.match(regulamento, /FlaManhu é parceira do evento/);
   assert.match(regulamento, /não possui vínculo, patrocínio, apoio ou chancela oficial do Clube de Regatas do Flamengo/i);
@@ -17,7 +18,7 @@ test('official regulation contains current event data and public rules', () => {
 });
 
 test('official regulation no longer carries the MCU Night Run references', () => {
-  assert.doesNotMatch(regulamento, /MCU|MÇU|Mçu|ADEMARE|Prefeitura|Estádio JK/);
+  assert.doesNotMatch(regulamento, /MCU|MÇU|Mçu|ADEMARE/);
   assert.doesNotMatch(regulamento, /Morador de Manhuaçu/);
   assert.match(regulamento, /regulamento-corrida-flamanhu-2027\.pdf/);
 });

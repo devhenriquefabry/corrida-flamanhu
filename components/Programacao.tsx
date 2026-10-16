@@ -4,9 +4,9 @@ import { EVENTO } from "@/lib/evento";
 // Horários do site (previstos, conforme o regulamento). Largada: 09h.
 const ETAPAS = [
   { hora: "07h30", titulo: "Abertura da arena", texto: "Concentração, guarda-volumes e aquecimento com a Nação." },
-  { hora: "09h00", titulo: "Largada oficial", texto: "5K, 10K e caminhada saem juntos.", destaque: true },
-  { hora: "11h00", titulo: "Cerimônia de premiação", texto: "Troféus e prêmios em dinheiro para os campeões." },
-  { hora: "11h30", titulo: "Festa da torcida", texto: "Música e comemoração para fechar a manhã." },
+  { hora: "09h00", titulo: "Largada oficial", texto: "Corrida 5K e caminhada 3K saem juntas.", destaque: true },
+  { hora: "11h00", titulo: "Medalhas e premiação", texto: "Entrega de medalhas, troféus e prêmios em dinheiro no Estádio JK." },
+  { hora: "11h30", titulo: "Atrações ao vivo", texto: "Shows e festa da torcida. A programação sai em breve nas redes sociais." },
 ];
 
 export default function Programacao() {
@@ -27,7 +27,10 @@ export default function Programacao() {
             <div>
               <strong>{EVENTO.local}</strong>
               <span>{EVENTO.bairro}</span>
-              <small>Largada e chegada no mesmo ponto.</small>
+              <small>
+                Largada, chegada e entrega de medalhas no estádio.
+                {EVENTO.localAConfirmar && " Local em confirmação; qualquer mudança é avisada aos inscritos."}
+              </small>
             </div>
             <a className="btn btn--ghost btn--sm" href={EVENTO.mapsUrl} target="_blank" rel="noopener noreferrer">
               <Navigation size={16} aria-hidden="true" />

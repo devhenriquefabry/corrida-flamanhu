@@ -11,10 +11,12 @@ export const EVENTO = {
   diaSemana: "sábado",
   concentracao: "07h30",
   largada: "09h00",
-  local: "Praça Cordovil Pinto Coelho",
-  bairro: "Centro · Manhuaçu/MG",
+  local: "Estádio JK",
+  bairro: "Estádio Juscelino Kubitschek · Manhuaçu/MG",
+  // largada/chegada ainda dependem de confirmação com a Prefeitura (regulamento 1.6.1)
+  localAConfirmar: true,
   mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+Cordovil+Pinto+Coelho+Manhua%C3%A7u+MG",
+    "https://www.google.com/maps/search/?api=1&query=Est%C3%A1dio+Juscelino+Kubitschek+Manhua%C3%A7u+MG",
   instagramUrl: "https://www.instagram.com/corrida_flamanhu",
   instagramUser: "@corrida_flamanhu",
   email: "corridaflamanhu@gmail.com",

@@ -6,8 +6,8 @@ export const REGULAMENTO_OFICIAL = String.raw`REGULAMENTO OFICIAL
 CORRIDA FLAMANHU 2027 — MANHUAÇU/MG
 
 Data: 15/05/2027 (sábado)
-Local: Praça Cordovil Pinto Coelho, Centro – Manhuaçu/MG
-Horários: Concentração: 07h30 | Corrida Kids: [08h30] | Largadas 3,0km (caminhada), 5km e 10km: 09h
+Local: Estádio Juscelino Kubitschek (Estádio JK) – Manhuaçu/MG (local de largada e chegada sujeito a confirmação, ver item 1.6.1)
+Horários: Concentração: 07h30 | Corrida Kids: [08h30] | Largadas Caminhada 3km e Corrida 5km: 09h
 Organização: Hennder Company [CNPJ]
 Em parceria com: FlaManhu – Torcida Organizada do Flamengo em Manhuaçu
 Instagram: @corrida_flamanhu
@@ -19,23 +19,25 @@ Estes horários são previstos; caso haja alteração, comunicamos com antecedê
 1.1 — A Corrida Flamanhu é uma corrida de rua organizada pela Hennder Company [CNPJ], em parceria com a FlaManhu, torcida organizada do Flamengo em Manhuaçu/MG. O evento tem como objetivo incentivar o esporte, promover a saúde e fortalecer a união da torcida e da comunidade de Manhuaçu e região.
 1.2 — A Hennder Company é a organizadora do evento e responsável, para todos os fins deste regulamento, pela sua realização, incluindo inscrições, cronometragem, estrutura, premiação e atendimento aos participantes. A FlaManhu é parceira do evento e apoia a mobilização e a divulgação junto à torcida, sem assumir a organização da prova.
 1.3 — A Corrida Flamanhu é um evento independente. Não possui vínculo, patrocínio, apoio ou chancela oficial do Clube de Regatas do Flamengo. Nomes, cores e símbolos que remetam ao clube são usados apenas como expressão da paixão da torcida e pertencem aos seus respectivos titulares.
-1.4 — A edição de 2027 será no dia 15/05/2027, na Praça Cordovil Pinto Coelho, Centro de Manhuaçu/MG. Podem participar pessoas de todos os sexos, torcedoras do Flamengo ou não, desde que devidamente inscritas e que respeitem este regulamento.
-1.5 — A prova conta com as distâncias de 3,0km na modalidade Caminhada Participativa, 5km e 10km de corrida, além da Corrida Kids para as crianças.
-1.6 — A largada e a chegada acontecem na Praça Cordovil Pinto Coelho. O mapa do percurso será publicado no site oficial e nas redes sociais do evento antes da prova.
+1.4 — A edição de 2027 será no dia 15/05/2027, no Estádio Juscelino Kubitschek (Estádio JK), em Manhuaçu/MG. Podem participar pessoas de todos os sexos, torcedoras do Flamengo ou não, desde que devidamente inscritas e que respeitem este regulamento.
+1.5 — O evento conta com três modalidades: Caminhada 3km, aberta a todos, com medalha para todos que cruzarem a linha de chegada; Corrida 5km, com classificação masculina e feminina; e Corrida Kids, para as crianças.
+1.6 — A largada e a chegada acontecem no Estádio JK, onde também será realizada a cerimônia de entrega de medalhas e premiação. O mapa do percurso será publicado no site oficial e nas redes sociais do evento antes da prova.
+1.6.1 — O local de largada e chegada está em fase de confirmação junto aos órgãos públicos competentes. Se for necessária alguma alteração, o novo local será em Manhuaçu/MG, mantidas a data e as modalidades, e será comunicado aos inscritos pelo site oficial, pelo Instagram @corrida_flamanhu e por e-mail ou WhatsApp, com antecedência.
 1.7 — Programação do dia:
 07h30 — Abertura da arena e concentração da Nação
 [08h30] — Largada da Corrida Kids
 [08h45] — Aquecimento geral
-09h00 — Largada oficial das provas de 3,0km, 5km e 10km
-11h00 — Cerimônia de premiação
-11h30 — Celebração: música, festa e confraternização
+09h00 — Largada oficial da Caminhada 3km e da Corrida 5km
+11h00 — Cerimônia de entrega de medalhas e premiação, no Estádio JK
+11h30 — Celebração com atrações ao vivo, música e confraternização
+1.8 — O evento terá atrações ao vivo. A programação será divulgada nas redes sociais oficiais do evento.
 
 2 — Categorias de participação
-2.1 — Geral Masculino e Feminino (5km e 10km): aberta a qualquer participante inscrito.
-2.2 — PCD Masculino e Feminino (5km e 10km): para pessoas com deficiência, mediante comprovação conforme o item 6.11.2.
-2.3 — Faixa etária Masculino e Feminino (5km e 10km): conforme as faixas descritas no item 8.4.
+2.1 — Geral Masculino e Feminino (Corrida 5km): aberta a qualquer participante inscrito.
+2.2 — PCD Masculino e Feminino (Corrida 5km): para pessoas com deficiência, mediante comprovação conforme o item 6.11.2.
+2.3 — Faixa etária Masculino e Feminino (Corrida 5km): conforme as faixas descritas no item 8.4.
 2.4 — Equipes: conforme o item 8.5.
-2.5 — Caminhada Participativa (3,0km) e Corrida Kids: modalidades de caráter participativo, sem classificação por colocação.
+2.5 — Caminhada 3km (geral, sem divisão por sexo) e Corrida Kids: modalidades de caráter participativo, sem classificação por colocação. Todos que cruzarem a linha de chegada recebem medalha.
 2.6 — A Corrida Flamanhu não possui categoria por local de residência. Todos os atletas concorrem nas mesmas categorias, independentemente da cidade de origem.
 
 3 — Regras gerais do evento
@@ -60,9 +62,8 @@ Estes horários são previstos; caso haja alteração, comunicamos com antecedê
 
 4 — Regras específicas da corrida
 4.1 — Idade mínima para participar:
-• 5km: 14 anos completos até 31/12/2027.
-• 10km: 16 anos completos até 31/12/2027.
-• Caminhada 3,0km: sem idade mínima, mas menores de 14 anos precisam estar acompanhados por um responsável.
+• Corrida 5km: 14 anos completos até 31/12/2027.
+• Caminhada 3km: sem idade mínima, mas menores de 14 anos precisam estar acompanhados por um responsável.
 4.1.1 — O sistema de inscrição fará o bloqueio automático por idade. Não será possível se inscrever em distâncias incompatíveis com a data de nascimento informada.
 4.2 — O uso do número de peito na frente da camiseta e do chip de cronometragem é obrigatório durante toda a prova. Você vai retirar os dois junto com o kit.
 4.3 — Se você correr sem número de peito ou sem chip, seu resultado não será validado e você não aparecerá na classificação oficial.
@@ -113,9 +114,9 @@ Estes horários são previstos; caso haja alteração, comunicamos com antecedê
 6.9 — Em caso de cancelamento pela organização, o valor é devolvido pela plataforma de inscrição.
 6.10 — Outra pessoa pode fazer sua inscrição, mas precisa ter autorização por escrito sua e cópia do seu documento.
 6.11 — Valores:
-1º lote — 3,0km, 5km e 10km: [R$ 00,00] | Kids: [R$ 00,00]
-2º lote — 3,0km, 5km e 10km: [R$ 00,00] | Kids: [R$ 00,00]
-3º lote — 3,0km, 5km e 10km: [R$ 00,00] | Kids: [R$ 00,00]
+1º lote — Caminhada 3km e Corrida 5km: [R$ 00,00] | Kids: [R$ 00,00]
+2º lote — Caminhada 3km e Corrida 5km: [R$ 00,00] | Kids: [R$ 00,00]
+3º lote — Caminhada 3km e Corrida 5km: [R$ 00,00] | Kids: [R$ 00,00]
 [Taxa da plataforma cobrada à parte / já incluída no valor — definir.]
 6.11.1 — As datas de virada de cada lote serão divulgadas no site oficial e no Instagram @corrida_flamanhu. A mudança de lote ocorre automaticamente pelo sistema ao atingir a data limite ou o número de vagas previsto para o lote.
 6.11.2 — Atletas PCD: pessoas com deficiência têm direito a 50% de desconto sobre o valor do lote vigente. Para validar, é obrigatório anexar laudo médico atualizado que comprove a deficiência durante a inscrição online e apresentar o laudo original na retirada do kit.
@@ -127,29 +128,29 @@ Estes horários são previstos; caso haja alteração, comunicamos com antecedê
 6.14 — Menores de 18 anos só podem se inscrever com autorização por escrito dos pais ou responsáveis, que deve ser entregue na retirada do kit.
 
 7 — Retirada de kits
-7.1 — O kit contém camiseta oficial do evento, número de peito, chip de cronometragem [, sacola] e possíveis brindes de patrocinadores. Quem não retirar no prazo perde o direito ao kit.
+7.1 — O kit do participante contém número de peito, chip de cronometragem, camisa oficial do evento, meia, saco-mochila e brindes de patrocinadores. Na Corrida Kids o kit não inclui chip (item 5.4). Quem não retirar no prazo perde o direito ao kit.
 7.2 — Datas e horários: [13/05 das 14h às 20h e 14/05 das 09h às 18h]. Local: [local de retirada], que será divulgado no site e no Instagram @corrida_flamanhu até uma semana antes.
 7.3 — Para retirar, apresente documento com foto e comprovante de inscrição. Se outra pessoa for retirar para você, ela precisa levar autorização assinada e cópia do seu documento.
 7.3.1 — Na Kids, o responsável deve apresentar o próprio documento e o comprovante de pagamento da criança.
 7.4 — Não entregamos kit no dia da corrida, sem exceções. Programe-se.
-7.5 — A escolha do tamanho de camiseta é feita na inscrição. Se acabar o seu tamanho, vamos oferecer a melhor opção disponível no momento da retirada.
+7.5 — A escolha do tamanho da camisa é feita na inscrição. Se acabar o seu tamanho, vamos oferecer a melhor opção disponível no momento da retirada.
 7.6 — O kit pode incluir materiais de divulgação dos apoiadores.
-7.7 — A medalha de participação é entregue apenas para quem completar a prova e cruzar o pórtico de chegada.
+7.7 — A medalha de participação é entregue a todos que completarem a prova e cruzarem a linha de chegada, em todas as modalidades.
 
 8 — Premiação
 8.1 — Todo atleta que completar a prova dentro do tempo limite recebe medalha de participação.
-8.2 — Premiação em dinheiro — Geral 5km e 10km, masculino e feminino:
+8.2 — Premiação em dinheiro — Geral Corrida 5km, masculino e feminino:
 1º lugar: Troféu + R$ 500,00
 2º lugar: Troféu + R$ 400,00
 3º lugar: Troféu + R$ 300,00
 4º lugar: Troféu + brinde
 5º lugar: Troféu + brinde
-8.3 — Categoria PCD — 5km e 10km, masculino e feminino: troféu para o 1º, 2º e 3º lugares.
-8.4 — Por faixa etária — 5km e 10km, masculino e feminino: troféu do 1º ao 3º lugar.
+8.3 — Categoria PCD — Corrida 5km, masculino e feminino: troféu para o 1º, 2º e 3º lugares.
+8.4 — Por faixa etária — Corrida 5km, masculino e feminino: troféu do 1º ao 3º lugar.
 Faixas de 5 em 5 anos: 14–19 | 20–24 | 25–29 | 30–34 | 35–39 | 40–44 | 45–49 | 50–54 | 55–59 | 60–64 | 65–69 | 70 anos ou mais.
 8.4.1 — A idade considerada é sempre a que o atleta terá até o dia 31 de dezembro de 2027, conforme regra oficial da CBAt.
 8.5 — Equipes: as 3 maiores equipes, contando apenas atletas que concluírem a prova, recebem troféu. Considera-se equipe o grupo de, no mínimo, [5] atletas inscritos sob o mesmo nome de equipe, informado no ato da inscrição.
-8.6 — A Caminhada 3,0km não tem premiação por colocação. Todos que completam ganham medalha.
+8.6 — A Caminhada 3km não tem premiação por colocação. Todos que cruzarem a linha de chegada ganham medalha.
 8.7 — A classificação geral considera o tempo bruto, ou seja, a ordem em que você cruzar a linha de chegada. As categorias de faixa etária usam o tempo líquido do chip.
 8.8 — O resultado extraoficial sai na arena até 30 minutos depois da chegada do último atleta.
 8.8.1 — Se você tiver alguma reclamação sobre o resultado, fale com a cronometragem em até 15 minutos após a divulgação na arena.
@@ -163,7 +164,7 @@ Faixas de 5 em 5 anos: 14–19 | 20–24 | 25–29 | 30–34 | 35–39 | 40–44
 
 9 — Conduta e convivência
 9.1 — A Corrida Flamanhu é um evento esportivo e familiar, aberto a todos. Torcedores de outros clubes são bem-vindos e devem ser tratados com respeito, assim como atletas, staffs, voluntários e moradores da região.
-9.2 — É incentivado, mas não obrigatório, o uso da camiseta oficial do evento ou do manto rubro-negro durante a prova.
+9.2 — É incentivado, mas não obrigatório, o uso da camisa oficial do evento ou do manto rubro-negro durante a prova.
 9.3 — É proibido, na arena e no percurso:
 • fogos de artifício, sinalizadores, rojões, bombas, tochas ou fumaça colorida;
 • cânticos, gestos, faixas ou cartazes com conteúdo ofensivo, discriminatório (racismo, homofobia, xenofobia, machismo ou qualquer outra forma de preconceito) ou que incitem violência;

@@ -6,7 +6,7 @@ import InscricaoStatus from "./InscricaoStatus";
 const PASSOS = [
   {
     titulo: "Escolha a prova",
-    texto: "5K, 10K, caminhada ou Kids. Na inscrição você também escolhe o tamanho da camiseta.",
+    texto: "Corrida 5K, caminhada 3K ou Kids. Na inscrição você também escolhe o tamanho da camisa.",
   },
   {
     titulo: "Pague e confirme",

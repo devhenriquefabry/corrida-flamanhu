@@ -8,7 +8,7 @@ const DADOS = [
   { rotulo: "Data", valor: EVENTO.dataCurta, nota: `${EVENTO.diaSemana}, ${EVENTO.dataLonga}` },
   { rotulo: "Largada", valor: EVENTO.largada, nota: `Concentração às ${EVENTO.concentracao}` },
   { rotulo: "Local", valor: EVENTO.local, nota: EVENTO.bairro, texto: true },
-  { rotulo: "Provas", valor: "5K · 10K · 3K", nota: "Corrida, caminhada e Kids" },
+  { rotulo: "Provas", valor: "5K · 3K · Kids", nota: "Corrida, caminhada e Kids" },
 ];
 
 export default function Hero() {
@@ -35,7 +35,7 @@ export default function Hero() {
           </h1>
 
           <p className="hero__lead">
-            5K, 10K e caminhada pelas ruas da cidade, organizada por torcedores e aberta a todo mundo.
+            Corrida 5K, caminhada 3K e Kids pelas ruas da cidade, com atrações ao vivo e aberta a todo mundo.
           </p>
 
           <div className="hero__cta">

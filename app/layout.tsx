@@ -20,7 +20,7 @@ const body = Figtree({
 
 const TITULO = "Corrida Flamanhu 2027 — 15 de maio em Manhuaçu/MG";
 const DESCRICAO =
-  "5K, 10K, caminhada e Kids no dia 15 de maio de 2027, na Praça Cordovil Pinto Coelho, em Manhuaçu/MG. R$ 4.800 em prêmios. Veja as provas e inscreva-se.";
+  "Corrida 5K, caminhada 3K e Kids no dia 15 de maio de 2027, no Estádio JK, em Manhuaçu/MG. R$ 2.400 em prêmios. Veja as provas e inscreva-se.";
 
 export const metadata: Metadata = {
   title: TITULO,
