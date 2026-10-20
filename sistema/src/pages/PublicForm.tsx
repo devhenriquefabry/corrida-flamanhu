@@ -4,7 +4,8 @@ import QRCode from 'qrcode';
 import SignatureCanvas from 'react-signature-canvas';
 import Cropper, { type Area } from 'react-easy-crop';
 import { addDoc, collection, doc, getDoc, getDocs, query, runTransaction, serverTimestamp, where } from 'firebase/firestore';
-import { ArrowRight, Baby, Camera, CreditCard, Mail, Phone, PersonStanding, User, Users } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { ArrowRight, Baby, CalendarDays, Camera, Check, CreditCard, HeartHandshake, Mail, Phone, PersonStanding, Ruler, User, Users, X } from 'lucide-react';
 import { db } from '../firebase';
 import { CATEGORIAS, KITS, TAMANHOS_CAMISETA } from '../types';
 import LoadingModal from '../components/LoadingModal';
@@ -170,6 +171,82 @@ const formatMoney = (valueInCents: number) => {
   return (valueInCents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
 
+// Peças visuais da ficha: rótulo sempre ligado ao campo e erro logo abaixo dele.
+type FieldProps = {
+  id: string;
+  label: string;
+  required?: boolean;
+  icon?: ReactNode;
+  hint?: ReactNode;
+  error?: string;
+  className?: string;
+  children: ReactNode;
+};
+
+function Field({ id, label, required, icon, hint, error, className = '', children }: FieldProps) {
+  return (
+    <div className={`insc-field ${error ? 'has-error' : ''} ${className}`}>
+      <label htmlFor={id}>{label}{required && <span className="insc-req" aria-hidden="true">*</span>}</label>
+      <div className="insc-control">
+        {icon && <span className="insc-control-icon" aria-hidden="true">{icon}</span>}
+        {children}
+      </div>
+      {error
+        ? <small className="insc-field-error" role="alert">{error}</small>
+        : hint ? <small className="insc-field-hint">{hint}</small> : null}
+    </div>
+  );
+}
+
+type SegmentedProps<T> = {
+  label: string;
+  hideLabel?: boolean;
+  required?: boolean;
+  value: T;
+  options: Array<{ value: T; label: string }>;
+  onChange: (value: T) => void;
+  error?: string;
+  className?: string;
+};
+
+function Segmented<T extends string | boolean>({ label, hideLabel, required, value, options, onChange, error, className = '' }: SegmentedProps<T>) {
+  return (
+    <div className={`insc-field ${error ? 'has-error' : ''} ${className}`}>
+      {!hideLabel && <span className="insc-label">{label}{required && <span className="insc-req" aria-hidden="true">*</span>}</span>}
+      <div className="insc-segmented" role="radiogroup" aria-label={label}>
+        {options.map(option => (
+          <button
+            type="button"
+            key={String(option.value)}
+            role="radio"
+            aria-checked={value === option.value}
+            className={value === option.value ? 'active' : ''}
+            onClick={() => onChange(option.value)}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+      {error && <small className="insc-field-error" role="alert">{error}</small>}
+    </div>
+  );
+}
+
+function SectionHead({ step, title, subtitle, done, action }: { step: string; title: string; subtitle?: string; done?: boolean; action?: ReactNode }) {
+  return (
+    <header className="insc-section-head">
+      <span className={`insc-step ${done ? 'done' : ''}`} aria-hidden="true">
+        {done ? <Check size={18} strokeWidth={3} /> : step}
+      </span>
+      <div>
+        <h2>{title}</h2>
+        {subtitle && <p>{subtitle}</p>}
+      </div>
+      {action}
+    </header>
+  );
+}
+
 export default function PublicForm() {
   const navigate = useNavigate();
   const { showAlert } = useDialog();
@@ -196,6 +273,8 @@ export default function PublicForm() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [cropZoom, setCropZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [showAllErrors, setShowAllErrors] = useState(false);
 
   const set = (field: string, value: any) => setData((prev: any) => ({ ...prev, [field]: value }));
   const setEndereco = (field: string, value: any) => setData((prev: any) => ({ ...prev, endereco: { ...prev.endereco, [field]: value } }));
@@ -262,6 +341,38 @@ export default function PublicForm() {
   const firstStageValid = personalValid && emergencyValid && modalityValid && shirtValid && photoValid && healthValid;
   const signatureValid = !!data.assinatura && acceptedRegulation;
   const stageValid = stage === 'form' ? firstStageValid : true;
+
+  // Erro aparece quando o atleta sai do campo ou tenta avançar com algo faltando;
+  // CPF e nascimento completos já são conferidos na hora.
+  const touch = (key: string) => () => setTouched(prev => (prev[key] ? prev : { ...prev, [key]: true }));
+  const fieldError = (key: string, invalid: boolean, message: string, immediate = false) =>
+    invalid && (immediate || touched[key] || showAllErrors) ? message : '';
+  const errors = {
+    nome: fieldError('nome', data.nome.trim().split(/\s+/).length < 2, 'Informe nome e sobrenome.'),
+    cpf: fieldError('cpf', !validateCPF(data.cpf), data.cpf ? 'CPF inválido. Confira os números.' : 'Informe o CPF.', data.cpf.length === 14),
+    dataNascimento: !birthDateMatchesCategory
+      ? (isChildRegistration ? 'A inscrição infantil aceita apenas crianças de até 12 anos.' : 'Atletas de até 12 anos devem usar a inscrição infantil.')
+      : fieldError('dataNascimento', !hasCompleteBirthDate, 'Use o formato dd/mm/aaaa.'),
+    sexo: fieldError('sexo', !data.sexo, 'Selecione uma opção.'),
+    email: fieldError('email', !data.email.includes('@'), 'Informe um e-mail válido.'),
+    telefone: fieldError('telefone', data.telefone.length < 14, 'Informe o WhatsApp com DDD.'),
+    equipeNome: fieldError('equipeNome', data.integranteEquipe === 'sim' && data.equipeNome.trim().length < 2, 'Informe o nome da equipe.'),
+    responsavelNome: fieldError('responsavelNome', data.responsavelNome.trim().length < 3, 'Informe o nome do responsável.'),
+    responsavelCpf: fieldError('responsavelCpf', !validateCPF(data.responsavelCpf), data.responsavelCpf ? 'CPF inválido. Confira os números.' : 'Informe o CPF do responsável.', data.responsavelCpf.length === 14),
+    contatoNome: fieldError('contatoNome', data.contatoEmergencia.nome.length <= 3, 'Informe o nome do contato.'),
+    contatoTelefone: fieldError('contatoTelefone', data.contatoEmergencia.telefone.length < 14, 'Informe o telefone com DDD.'),
+    condicaoSaude: fieldError('condicaoSaude', !data.saude.condicaoSaude, 'Selecione uma opção.'),
+  };
+  const formChecklist = [
+    { label: 'Dados', section: 'insc-dados', ok: personalValid },
+    { label: 'Emergência', section: 'insc-emergencia', ok: emergencyValid },
+    { label: 'Prova', section: 'insc-prova', ok: modalityValid },
+    { label: 'Camiseta', section: 'insc-prova', ok: shirtValid },
+    { label: 'Foto', section: 'insc-prova', ok: photoValid },
+    { label: 'Saúde', section: 'insc-saude', ok: healthValid },
+  ];
+  const pendingItems = formChecklist.filter(item => !item.ok);
+  const formProgress = Math.round(((formChecklist.length - pendingItems.length) / formChecklist.length) * 100);
   const nextLabel = stage === 'form' ? 'REVISAR INSCRIÇÃO' : 'CONFIRMAR INSCRIÇÃO';
 
   const maskCPF = (value: string) => value.replace(/\D/g, '').slice(0, 11).replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
@@ -893,6 +1004,13 @@ export default function PublicForm() {
   };
 
   const goNext = () => {
+    if (stage === 'form' && !firstStageValid) {
+      // Em vez de um botão morto, leva o atleta direto ao que falta.
+      setShowAllErrors(true);
+      const first = pendingItems[0];
+      if (first) document.getElementById(first.section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     if (!stageValid) return;
     if (stage === 'form') {
       setShowSignatureModal(true);
@@ -917,19 +1035,22 @@ export default function PublicForm() {
         <button
           type="button"
           key={t.id}
-          className={`single-size-option ${data.tamanhoCamiseta === t.id ? 'selected' : ''} ${esgotado ? 'disabled' : ''}`}
+          className={`insc-size ${data.tamanhoCamiseta === t.id ? 'selected' : ''}`}
           onClick={() => !esgotado && set('tamanhoCamiseta', t.id)}
+          disabled={esgotado}
+          aria-pressed={data.tamanhoCamiseta === t.id}
         >
           <strong>{t.label.includes(' - ') ? t.label.split(' - ')[1] : t.label}</strong>
           {t.medidas && <small>{t.medidas.largura} x {t.medidas.altura} cm</small>}
-          {esgotado && <span>ESGOTADO</span>}
+          {esgotado && <em>Esgotado</em>}
         </button>
       );
     })
   );
 
   const sizeTableOverlay = showSizeTable && (
-    <div className="size-table-overlay" onClick={() => setShowSizeTable(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+    <div className="size-table-overlay" role="dialog" aria-modal="true" aria-label="Tabela de medidas" onClick={() => setShowSizeTable(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <button type="button" className="insc-overlay-close" onClick={() => setShowSizeTable(false)} aria-label="Fechar tabela"><X size={22} /></button>
       <img src={sizeTableImage} alt="Tabela de tamanhos" style={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'contain', borderRadius: 8 }} />
     </div>
   );
@@ -956,268 +1077,293 @@ export default function PublicForm() {
       {sizeTableOverlay}
 
       <main className="public-main-content single-form-main">
-        <div className="single-form-shell">
-          {data.categoria && (
+        <div className="single-form-shell insc-form">
+          {data.categoria && stage === 'form' && (
+            <header className="insc-header">
+              <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} />
+              <h1>Ficha de inscrição</h1>
+              <p>{EVENTO.nome}{EVENTO.data ? ` · ${EVENTO.data}` : ''}</p>
+            </header>
+          )}
+          {data.categoria && stage !== 'form' && (
             <header className="single-form-header">
               <img src={LOGO_CORRIDA} alt={LOGO_CORRIDA_ALT} className="single-form-main-logo" />
             </header>
           )}
 
-          {stage === 'form' && (
-            <>
-              <section className={`single-form-section ${!data.categoria ? 'category-options-only' : ''}`}>
-                {data.categoria && (
-                  <>
-                    <div className="single-section-heading single-heading-with-action">
-                      <span>01</span>
-                      <div>
-                        <h2>Tipo de inscrição</h2>
-                        <p>{selectedCategoria}</p>
-                      </div>
-                      <button type="button" className="single-change-button" onClick={() => setData((prev: any) => ({ ...prev, categoria: '', modalidadeId: '' }))}>Trocar</button>
-                    </div>
-                    {data.categoria === 'adulto' && (
-                      <>
-                      <div className="municipal-server-box">
-                        <div>
-                          <strong>Atleta PCD</strong>
-                          <span>Pessoas com deficiência têm 50% de desconto.</span>
-                          {data.pcd && <em>Documento comprobatório poderá ser solicitado na retirada do kit.</em>}
-                        </div>
-                        <div className="municipal-server-actions">
-                          <button type="button" className={data.pcd ? 'active' : ''} onClick={() => set('pcd', true)}>Sim</button>
-                          <button type="button" className={!data.pcd ? 'active' : ''} onClick={() => set('pcd', false)}>Não</button>
-                        </div>
-                      </div>
-                      </>
-                    )}
-                  </>
-                )}
+          {stage === 'form' && !data.categoria && (
+            <section className="single-form-section category-options-only">
+              <h1 className="athlete-profile-title">QUAL É O PERFIL DO ATLETA</h1>
+              <div className="intro-choice-grid single-category-grid">
+                <button type="button" className="intro-choice-card child" onClick={() => selectCategory('infantil')}>
+                  <div className="intro-choice-icon"><Baby size={28} strokeWidth={2.5} /></div>
+                  <div className="intro-choice-name">INFANTIL</div>
+                  <div className="intro-choice-desc">Até 12 anos</div>
+                  <div className="intro-choice-pill">COM RESPONSÁVEL</div>
+                </button>
+                <button type="button" className="intro-choice-card adult" onClick={() => selectCategory('adulto')}>
+                  <div className="intro-choice-icon"><PersonStanding size={28} strokeWidth={2.5} /></div>
+                  <div className="intro-choice-name">JUVENIL / ADULTO</div>
+                  <div className="intro-choice-desc">A partir de 13 anos</div>
+                </button>
+              </div>
+            </section>
+          )}
 
-                {!data.categoria && (
-                  <>
-                    <h1 className="athlete-profile-title">QUAL É O PERFIL DO ATLETA</h1>
-                    <div className="intro-choice-grid single-category-grid">
-                      <button type="button" className="intro-choice-card child" onClick={() => selectCategory('infantil')}>
-                        <div className="intro-choice-icon"><Baby size={28} strokeWidth={2.5} /></div>
-                        <div className="intro-choice-name">INFANTIL</div>
-                        <div className="intro-choice-desc">Até 12 anos</div>
-                        <div className="intro-choice-pill">COM RESPONSÁVEL</div>
-                      </button>
-                      <button type="button" className="intro-choice-card adult" onClick={() => selectCategory('adulto')}>
-                        <div className="intro-choice-icon"><PersonStanding size={28} strokeWidth={2.5} /></div>
-                        <div className="intro-choice-name">JUVENIL / ADULTO</div>
-                        <div className="intro-choice-desc">A partir de 13 anos</div>
-                      </button>
+          {stage === 'form' && data.categoria && (
+            <>
+              <section className="insc-section" id="insc-tipo">
+                <SectionHead
+                  step="01"
+                  done
+                  title="Tipo de inscrição"
+                  subtitle={selectedCategoria}
+                  action={<button type="button" className="insc-change" onClick={() => setData((prev: any) => ({ ...prev, categoria: '', modalidadeId: '' }))}>Trocar</button>}
+                />
+                {data.categoria === 'adulto' && (
+                  <div className="insc-callout">
+                    <div>
+                      <strong>Atleta PCD</strong>
+                      <p>Pessoas com deficiência têm 50% de desconto.</p>
+                      {data.pcd && <em>Documento comprobatório poderá ser solicitado na retirada do kit.</em>}
                     </div>
-                  </>
+                    <Segmented
+                      label="Atleta PCD"
+                      hideLabel
+                      value={data.pcd}
+                      options={[{ value: true, label: 'Sim' }, { value: false, label: 'Não' }]}
+                      onChange={value => set('pcd', value)}
+                    />
+                  </div>
                 )}
               </section>
 
-              {data.categoria && (
-                <>
-                  <section className="single-form-section">
-                    <div className="single-section-heading">
-                      <span>02</span>
-                      <div>
-                        <h2>Dados {isChildRegistration ? 'da criança' : 'do atleta'}</h2>
-                        <p>Campos curtos ficam agrupados para reduzir a rolagem.</p>
-                      </div>
+              <section className="insc-section" id="insc-dados">
+                <SectionHead
+                  step="02"
+                  done={personalValid}
+                  title={`Dados ${isChildRegistration ? 'da criança' : 'do atleta'}`}
+                  subtitle="Preencha como está no documento oficial."
+                />
+
+                <div className="insc-grid">
+                  <Field id="insc-nome" label="Nome completo" required icon={<User size={20} />} error={errors.nome} className="insc-span-6">
+                    <input id="insc-nome" autoComplete="name" value={data.nome} onChange={e => set('nome', e.target.value)} onBlur={touch('nome')} placeholder="Nome e sobrenome" />
+                  </Field>
+                  <Field id="insc-cpf" label="CPF" required icon={<CreditCard size={20} />} error={errors.cpf} className="insc-span-2">
+                    <input id="insc-cpf" inputMode="numeric" value={data.cpf} onChange={e => set('cpf', maskCPF(e.target.value))} onBlur={touch('cpf')} placeholder="000.000.000-00" />
+                  </Field>
+                  <Field
+                    id="insc-nascimento"
+                    label="Nascimento"
+                    required
+                    icon={<CalendarDays size={20} />}
+                    error={errors.dataNascimento}
+                    hint={hasCompleteBirthDate ? <>{userAge} anos{discountPreviewText && <> · <strong>{discountPreviewText}</strong></>}</> : undefined}
+                    className="insc-span-2"
+                  >
+                    <input id="insc-nascimento" inputMode="numeric" value={data.dataNascimento} onChange={e => set('dataNascimento', maskDate(e.target.value))} onBlur={touch('dataNascimento')} placeholder="dd/mm/aaaa" />
+                  </Field>
+                  <Segmented
+                    label="Sexo"
+                    required
+                    value={data.sexo}
+                    options={[{ value: 'M', label: 'Masculino' }, { value: 'F', label: 'Feminino' }]}
+                    onChange={value => set('sexo', value)}
+                    error={errors.sexo}
+                    className="insc-span-2"
+                  />
+                  <Field id="insc-email" label="E-mail" required icon={<Mail size={20} />} error={errors.email} className="insc-span-3">
+                    <input id="insc-email" type="email" autoComplete="email" value={data.email} onChange={e => set('email', e.target.value)} onBlur={touch('email')} placeholder="seuemail@exemplo.com" />
+                  </Field>
+                  <Field id="insc-whatsapp" label="WhatsApp" required icon={<Phone size={20} />} error={errors.telefone} className="insc-span-3">
+                    <input id="insc-whatsapp" type="tel" inputMode="numeric" autoComplete="tel-national" value={data.telefone} onChange={e => set('telefone', maskPhone(e.target.value))} onBlur={touch('telefone')} placeholder="(00) 00000-0000" />
+                  </Field>
+                  <Segmented
+                    label="Faz parte de alguma equipe?"
+                    value={data.integranteEquipe}
+                    options={[{ value: 'nao', label: 'Não' }, { value: 'sim', label: 'Sim' }]}
+                    onChange={value => setData((prev: any) => ({ ...prev, integranteEquipe: value, equipeNome: value === 'sim' ? prev.equipeNome : '' }))}
+                    className="insc-span-2"
+                  />
+                  {data.integranteEquipe === 'sim' && (
+                    <Field id="insc-equipe" label="Nome da equipe" required icon={<Users size={20} />} error={errors.equipeNome} className="insc-span-4">
+                      <input id="insc-equipe" value={data.equipeNome} onChange={e => set('equipeNome', e.target.value)} onBlur={touch('equipeNome')} />
+                    </Field>
+                  )}
+                </div>
+
+                {requiresResponsible && (
+                  <div className="insc-subgroup">
+                    <span className="insc-subgroup-title">Responsável legal</span>
+                    <div className="insc-grid">
+                      <Field id="insc-resp-nome" label="Nome do responsável" required icon={<Users size={20} />} error={errors.responsavelNome} className="insc-span-4">
+                        <input id="insc-resp-nome" value={data.responsavelNome} onChange={e => set('responsavelNome', e.target.value)} onBlur={touch('responsavelNome')} />
+                      </Field>
+                      <Field id="insc-resp-cpf" label="CPF do responsável" required icon={<CreditCard size={20} />} error={errors.responsavelCpf} className="insc-span-2">
+                        <input id="insc-resp-cpf" inputMode="numeric" value={data.responsavelCpf} onChange={e => set('responsavelCpf', maskCPF(e.target.value))} onBlur={touch('responsavelCpf')} placeholder="000.000.000-00" />
+                      </Field>
                     </div>
-
-                    <div className="single-field-grid tight">
-                      <div className="pro-input-group">
-                        <label>Nome completo *</label>
-                        <div className="pro-input-wrapper"><div className="pro-input-icon"><User size={20} /></div><input ref={undefined} value={data.nome} onChange={e => set('nome', e.target.value)} /></div>
-                      </div>
-                      <div className="pro-input-group compact">
-                        <label>CPF *</label>
-                        <div className="pro-input-wrapper"><div className="pro-input-icon"><CreditCard size={20} /></div><input value={data.cpf} onChange={e => set('cpf', maskCPF(e.target.value))} placeholder="000.000.000-00" /></div>
-                      </div>
-                      <div className="pro-input-group compact mini">
-                        <label>Nascimento *</label>
-                        <div className="pro-input-wrapper"><input value={data.dataNascimento} onChange={e => set('dataNascimento', maskDate(e.target.value))} placeholder="dd/mm/aaaa" /></div>
-                      </div>
-                      {hasCompleteBirthDate && (
-                        <div className="pro-input-group compact mini">
-                          <label>Idade</label>
-                          <div className="pro-input-wrapper"><input value={`${userAge} anos`} readOnly /></div>
-                          {discountPreviewText && <small className="senior-benefit-note">{discountPreviewText}</small>}
-                        </div>
-                      )}
-                    </div>
-                    <h3 style={{ height: 1, margin: 0, overflow: 'hidden' }}>Dados pessoais</h3>
-
-                    {hasCompleteBirthDate && !birthDateMatchesCategory && (
-                      <p className="single-inline-alert">{isChildRegistration ? 'A inscrição infantil aceita apenas crianças de até 12 anos.' : 'Atletas de até 12 anos devem usar a inscrição infantil.'}</p>
-                    )}
-
-                    {requiresResponsible && (
-                      <div className="single-field-grid responsible">
-                        <div className="pro-input-group">
-                          <label>Nome do responsável *</label>
-                          <div className="pro-input-wrapper"><div className="pro-input-icon"><Users size={20} /></div><input value={data.responsavelNome} onChange={e => set('responsavelNome', e.target.value)} /></div>
-                        </div>
-                        <div className="pro-input-group compact">
-                          <label>CPF do responsável *</label>
-                          <div className="pro-input-wrapper"><div className="pro-input-icon"><CreditCard size={20} /></div><input value={data.responsavelCpf} onChange={e => set('responsavelCpf', maskCPF(e.target.value))} /></div>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="single-field-grid contact">
-                      <div className="pro-input-group compact">
-                        <label>Sexo *</label>
-                        <div className="pro-input-wrapper">
-                          <select value={data.sexo} onChange={e => set('sexo', e.target.value)}>
-                            <option value="">Selecione</option>
-                            <option value="M">Masculino</option>
-                            <option value="F">Feminino</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="pro-input-group compact">
-                        <label>E-mail *</label>
-                        <div className="pro-input-wrapper"><div className="pro-input-icon"><Mail size={20} /></div><input type="email" value={data.email} onChange={e => set('email', e.target.value)} /></div>
-                      </div>
-                      <div className="pro-input-group compact">
-                        <label>WhatsApp *</label>
-                        <div className="pro-input-wrapper"><div className="pro-input-icon"><Phone size={20} /></div><input value={data.telefone} onChange={e => set('telefone', maskPhone(e.target.value))} placeholder="(00) 00000-0000" /></div>
-                      </div>
-                    </div>
-
-                    <div className="single-field-grid team">
-                      <div className="pro-input-group compact mini">
-                        <label>Integrante de alguma equipe</label>
-                        <div className="pro-input-wrapper">
-                          <select value={data.integranteEquipe} onChange={e => setData((prev: any) => ({ ...prev, integranteEquipe: e.target.value, equipeNome: e.target.value === 'sim' ? prev.equipeNome : '' }))}>
-                            <option value="nao">Não</option>
-                            <option value="sim">Sim</option>
-                          </select>
-                        </div>
-                      </div>
-                      {data.integranteEquipe === 'sim' && (
-                        <div className="pro-input-group compact">
-                          <label>Qual equipe *</label>
-                          <div className="pro-input-wrapper"><div className="pro-input-icon"><Users size={20} /></div><input value={data.equipeNome} onChange={e => set('equipeNome', e.target.value)} /></div>
-                        </div>
-                      )}
-                    </div>
-                  </section>
-
-                  <section className="single-form-section">
-                    <div className="single-section-heading"><span>03</span><div><h2>Contato de emergência</h2><p>Usado apenas se a organização precisar falar com alguém.</p></div></div>
-                    <div className="single-field-grid emergency">
-                      <div className="pro-input-group"><label>Nome do contato *</label><div className="pro-input-wrapper"><div className="pro-input-icon"><Users size={20} /></div><input value={data.contatoEmergencia.nome} onChange={e => setContato('nome', e.target.value)} /></div></div>
-                      <div className="pro-input-group compact"><label>Telefone *</label><div className="pro-input-wrapper"><div className="pro-input-icon"><Phone size={20} /></div><input value={data.contatoEmergencia.telefone} onChange={e => setContato('telefone', maskPhone(e.target.value))} /></div></div>
-                      <div className="pro-input-group compact mini"><label>Parentesco</label><div className="pro-input-wrapper"><input value={data.contatoEmergencia.parentesco} onChange={e => setContato('parentesco', e.target.value)} /></div></div>
-                    </div>
-                  </section>
-
-                  <section className="single-form-section">
-                    <div className="single-section-heading"><span>04</span><div><h2>Prova, camiseta e foto</h2><p>A foto fica ao lado do kit para economizar espaço vertical.</p></div></div>
-                    <div className="single-modality-area">
-                      {data.categoria !== 'infantil' && (
-                        <div className="form-group">
-                          <label>Prova / distância *</label>
-                          <div className="modality-grid single-modality-grid">
-                            {adultModalities.map(mod => (
-                              <button type="button" key={mod.id} className={`modality-card ${data.modalidadeId === mod.id ? 'selected' : ''}`} onClick={() => set('modalidadeId', mod.id)}>
-                                <div className="mod-name">{mod.nome}</div>
-                                {mod.distancia && <div className="mod-desc">{mod.distancia}</div>}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {data.categoria === 'infantil' && hasCompleteBirthDate && (
-                        matchingChildModalities.length > 0 ? (
-                          <div className="form-group">
-                            <label>Prova infantil *</label>
-                            <div className="modality-grid single-modality-grid">
-                              {matchingChildModalities.map(mod => (
-                                <button
-                                  type="button"
-                                  key={mod.id}
-                                  className={`modality-card ${data.modalidadeId === mod.id ? 'selected' : ''} ${autoLockedChildModalityId === mod.id ? 'locked' : ''}`}
-                                  onClick={() => {
-                                    if (autoLockedChildModalityId === mod.id) return;
-                                    set('modalidadeId', mod.id);
-                                  }}
-                                  disabled={autoLockedChildModalityId === mod.id}
-                                  aria-disabled={autoLockedChildModalityId === mod.id}
-                                >
-                                  <div className="mod-name">{mod.nome}</div>
-                                  {mod.distancia && <div className="mod-desc">{mod.distancia}</div>}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="summary-box"><p>Nenhuma modalidade infantil cadastrada para {userAge} anos.</p></div>
-                        )
-                      )}
-                    </div>
-                    <div className="single-kit-photo-layout">
-                      <div className="single-shirt-panel">
-                        <div className="single-shirt-head"><div><label>Tamanho da camiseta *</label><strong>{selectedCamiseta?.label || 'Selecione o tamanho'}</strong></div></div>
-                        <p className="single-shirt-disclaimer">* A camiseta não faz parte deste kit. Coletamos o tamanho para o caso de disponibilizarmos camisetas para venda futuramente.</p>
-                        <div className="size-table-container" onClick={() => setShowSizeTable(true)} style={{ marginBottom: 16, borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', cursor: 'zoom-in' }}>
-                          <img src={sizeTableImage} alt="Tabela de tamanhos" style={{ width: '100%', display: 'block', height: 'auto' }} />
-                          <div style={{ padding: 8, textAlign: 'center', fontSize: '0.7rem', color: '#ff2e38', fontWeight: 600, background: 'rgba(0,0,0,0.3)' }}>CLIQUE PARA AMPLIAR</div>
-                        </div>
-                        <div className="single-size-group"><span>Padrão</span><div className="single-size-grid">{renderCamisetaCards('Padrão')}</div></div>
-                        <div className="single-size-group"><span>Baby Look</span><div className="single-size-grid">{renderCamisetaCards('Baby Look')}</div></div>
-                      </div>
-                      <aside className={`single-photo-card ${data.fotoUrl ? 'has-photo' : ''}`}>
-                        <div className="single-photo-title"><Camera size={20} /><span>Foto do atleta</span></div>
-                        {data.fotoUrl ? (
-                          <div className="single-photo-preview">
-                            <img src={data.fotoUrl} alt="Preview" />
-                            <label>Trocar foto<input type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} /></label>
-                          </div>
-                        ) : (
-                          <label className="single-photo-drop"><Camera size={34} /><span>Enviar foto</span><input type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} /></label>
-                        )}
-                      </aside>
-                    </div>
-                  </section>
-
-                  <section className="single-form-section">
-                    <div className="single-section-heading"><span>05</span><div><h2>Saúde</h2><p>Informações essenciais para a equipe do evento.</p></div></div>
-                    <div className="single-field-grid health">
-                      <div className="pro-input-group compact">
-                        <label>Condição de saúde *</label>
-                        <div className="pro-input-wrapper">
-                          <select value={data.saude.condicaoSaude} onChange={e => setSaude('condicaoSaude', e.target.value)}>
-                            <option value="">Selecione</option>
-                            <option value="excelente">Excelente</option>
-                            <option value="boa">Boa</option>
-                            <option value="regular">Regular</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="checkbox-option single-check" onClick={() => setSaude('temAlergia', !data.saude.temAlergia)}><span>{data.saude.temAlergia ? '✓' : '•'}</span> Possui alergia</div>
-                      <div className="checkbox-option single-check" onClick={() => setSaude('tomaMedicamento', !data.saude.tomaMedicamento)}><span>{data.saude.tomaMedicamento ? '✓' : '•'}</span> Usa medicamento</div>
-                    </div>
-                    {data.saude.temAlergia && <div className="pro-input-group"><label>Descreva as alergias</label><textarea value={data.saude.alergiaDesc} onChange={e => setSaude('alergiaDesc', e.target.value)} /></div>}
-                    {data.saude.tomaMedicamento && <div className="pro-input-group"><label>Descreva os medicamentos</label><textarea value={data.saude.medicamentoDesc} onChange={e => setSaude('medicamentoDesc', e.target.value)} /></div>}
-                  </section>
-
-                  <div className="single-completion-strip">
-                    {[
-                      ['Dados', personalValid],
-                      ['Emergência', emergencyValid],
-                      ['Prova', modalityValid],
-                      ['Camiseta', shirtValid],
-                      ['Foto', photoValid],
-                      ['Saúde', healthValid],
-                    ].map(([label, ok]) => (
-                      <span key={String(label)} className={ok ? 'done' : ''}>{ok ? '✓' : '•'} {label}</span>
-                    ))}
                   </div>
-                </>
-              )}
+                )}
+              </section>
+
+              <section className="insc-section" id="insc-emergencia">
+                <SectionHead
+                  step="03"
+                  done={emergencyValid}
+                  title="Contato de emergência"
+                  subtitle="Só usamos se precisarmos falar com alguém durante a prova."
+                />
+                <div className="insc-grid">
+                  <Field id="insc-contato-nome" label="Nome do contato" required icon={<Users size={20} />} error={errors.contatoNome} className="insc-span-6">
+                    <input id="insc-contato-nome" value={data.contatoEmergencia.nome} onChange={e => setContato('nome', e.target.value)} onBlur={touch('contatoNome')} />
+                  </Field>
+                  <Field id="insc-contato-telefone" label="Telefone" required icon={<Phone size={20} />} error={errors.contatoTelefone} className="insc-span-3">
+                    <input id="insc-contato-telefone" type="tel" inputMode="numeric" value={data.contatoEmergencia.telefone} onChange={e => setContato('telefone', maskPhone(e.target.value))} onBlur={touch('contatoTelefone')} placeholder="(00) 00000-0000" />
+                  </Field>
+                  <Field id="insc-contato-parentesco" label="Parentesco" icon={<HeartHandshake size={20} />} className="insc-span-3">
+                    <input id="insc-contato-parentesco" value={data.contatoEmergencia.parentesco} onChange={e => setContato('parentesco', e.target.value)} placeholder="Ex.: mãe, cônjuge, amigo" />
+                  </Field>
+                </div>
+              </section>
+
+              <section className="insc-section" id="insc-prova">
+                <SectionHead
+                  step="04"
+                  done={modalityValid && shirtValid && photoValid}
+                  title="Prova, camiseta e foto"
+                  subtitle="Escolha a distância, o tamanho da camiseta e envie sua foto."
+                />
+
+                {data.categoria !== 'infantil' && (
+                  <div className="insc-field">
+                    <span className="insc-label">Prova / distância<span className="insc-req" aria-hidden="true">*</span></span>
+                    <div className="modality-grid single-modality-grid">
+                      {adultModalities.map(mod => (
+                        <button type="button" key={mod.id} className={`modality-card ${data.modalidadeId === mod.id ? 'selected' : ''}`} onClick={() => set('modalidadeId', mod.id)} aria-pressed={data.modalidadeId === mod.id}>
+                          <div className="mod-name">{mod.nome}</div>
+                          {mod.distancia && <div className="mod-desc">{mod.distancia}</div>}
+                        </button>
+                      ))}
+                    </div>
+                    {showAllErrors && !modalityValid && <small className="insc-field-error">Escolha a prova.</small>}
+                  </div>
+                )}
+                {data.categoria === 'infantil' && !hasCompleteBirthDate && (
+                  <p className="insc-empty">Informe a data de nascimento da criança para ver as provas disponíveis.</p>
+                )}
+                {data.categoria === 'infantil' && hasCompleteBirthDate && (
+                  matchingChildModalities.length > 0 ? (
+                    <div className="insc-field">
+                      <span className="insc-label">Prova infantil<span className="insc-req" aria-hidden="true">*</span></span>
+                      <div className="modality-grid single-modality-grid">
+                        {matchingChildModalities.map(mod => (
+                          <button
+                            type="button"
+                            key={mod.id}
+                            className={`modality-card ${data.modalidadeId === mod.id ? 'selected' : ''} ${autoLockedChildModalityId === mod.id ? 'locked' : ''}`}
+                            onClick={() => {
+                              if (autoLockedChildModalityId === mod.id) return;
+                              set('modalidadeId', mod.id);
+                            }}
+                            disabled={autoLockedChildModalityId === mod.id}
+                            aria-disabled={autoLockedChildModalityId === mod.id}
+                          >
+                            <div className="mod-name">{mod.nome}</div>
+                            {mod.distancia && <div className="mod-desc">{mod.distancia}</div>}
+                          </button>
+                        ))}
+                      </div>
+                      {showAllErrors && !modalityValid && <small className="insc-field-error">Escolha a prova.</small>}
+                    </div>
+                  ) : (
+                    <p className="insc-empty">Nenhuma modalidade infantil cadastrada para {userAge} anos.</p>
+                  )
+                )}
+
+                <div className="insc-kit">
+                  <div className={`insc-panel ${showAllErrors && !shirtValid ? 'has-error' : ''}`}>
+                    <div className="insc-panel-head">
+                      <div>
+                        <span className="insc-label">Tamanho da camiseta<span className="insc-req" aria-hidden="true">*</span></span>
+                        <strong>{selectedCamiseta ? selectedCamisetaSummary : 'Nenhum tamanho escolhido'}</strong>
+                      </div>
+                      <button type="button" className="insc-link-button" onClick={() => setShowSizeTable(true)}><Ruler size={16} /> Tabela de medidas</button>
+                    </div>
+                    {['Padrão', 'Baby Look'].filter(tipo => availableCamisetas.some(t => t.tipo === tipo)).map(tipo => (
+                      <div className="insc-size-group" key={tipo}>
+                        <span>{tipo}</span>
+                        <div className="insc-size-grid">{renderCamisetaCards(tipo)}</div>
+                      </div>
+                    ))}
+                    {showAllErrors && !shirtValid && <small className="insc-field-error">Escolha o tamanho da camiseta.</small>}
+                    <p className="insc-note">A camiseta não faz parte deste kit. Coletamos o tamanho para o caso de disponibilizarmos camisetas para venda futuramente.</p>
+                  </div>
+
+                  <div className={`insc-panel insc-photo ${showAllErrors && !photoValid ? 'has-error' : ''}`}>
+                    <span className="insc-label">Foto {isChildRegistration ? 'da criança' : 'do atleta'}<span className="insc-req" aria-hidden="true">*</span></span>
+                    {data.fotoUrl ? (
+                      <div className="insc-photo-preview">
+                        <img src={data.fotoUrl} alt="Foto enviada" />
+                        <label>Trocar foto<input type="file" accept="image/*" onChange={handlePhoto} hidden /></label>
+                      </div>
+                    ) : (
+                      <label className="insc-photo-drop">
+                        <span className="insc-photo-icon"><Camera size={26} /></span>
+                        <strong>Enviar foto</strong>
+                        <small>Rosto de frente e bem iluminado</small>
+                        <input type="file" accept="image/*" onChange={handlePhoto} hidden />
+                      </label>
+                    )}
+                    {showAllErrors && !photoValid && <small className="insc-field-error">Envie uma foto.</small>}
+                  </div>
+                </div>
+              </section>
+
+              <section className="insc-section" id="insc-saude">
+                <SectionHead
+                  step="05"
+                  done={healthValid}
+                  title="Saúde"
+                  subtitle="Ajuda a equipe de apoio a cuidar de você no dia da prova."
+                />
+                <div className="insc-grid">
+                  <Segmented
+                    label="Como está sua condição de saúde?"
+                    required
+                    value={data.saude.condicaoSaude}
+                    options={[{ value: 'excelente', label: 'Excelente' }, { value: 'boa', label: 'Boa' }, { value: 'regular', label: 'Regular' }]}
+                    onChange={value => setSaude('condicaoSaude', value)}
+                    error={errors.condicaoSaude}
+                    className="insc-span-6"
+                  />
+                  <Segmented
+                    label="Possui alergia?"
+                    value={data.saude.temAlergia}
+                    options={[{ value: false, label: 'Não' }, { value: true, label: 'Sim' }]}
+                    onChange={value => setSaude('temAlergia', value)}
+                    className="insc-span-3"
+                  />
+                  <Segmented
+                    label="Usa medicamento contínuo?"
+                    value={data.saude.tomaMedicamento}
+                    options={[{ value: false, label: 'Não' }, { value: true, label: 'Sim' }]}
+                    onChange={value => setSaude('tomaMedicamento', value)}
+                    className="insc-span-3"
+                  />
+                  {data.saude.temAlergia && (
+                    <Field id="insc-alergia" label="Quais alergias?" className="insc-span-6">
+                      <textarea id="insc-alergia" value={data.saude.alergiaDesc} onChange={e => setSaude('alergiaDesc', e.target.value)} />
+                    </Field>
+                  )}
+                  {data.saude.tomaMedicamento && (
+                    <Field id="insc-medicamento" label="Quais medicamentos?" className="insc-span-6">
+                      <textarea id="insc-medicamento" value={data.saude.medicamentoDesc} onChange={e => setSaude('medicamentoDesc', e.target.value)} />
+                    </Field>
+                  )}
+                </div>
+              </section>
             </>
           )}
 
@@ -1372,9 +1518,18 @@ export default function PublicForm() {
       </main>
 
       {data.categoria && (
-        <div className="continuous-action-bar">
+        <div className={`continuous-action-bar ${stage === 'form' ? 'insc-actionbar' : ''}`}>
           {stage !== 'form' && <button type="button" className="btn-pro-prev" onClick={goBack}>VOLTAR</button>}
-          <button type="button" className="btn-pro-next" onClick={goNext} disabled={!stageValid} style={{ opacity: stageValid ? 1 : 0.5 }}>
+          {stage === 'form' && (
+            <div className="insc-progress" aria-live="polite">
+              <div className="insc-progress-top">
+                <strong>{pendingItems.length ? `${formChecklist.length - pendingItems.length} de ${formChecklist.length} etapas` : 'Tudo pronto!'}</strong>
+                <span>{pendingItems.length ? `Falta: ${pendingItems.map(item => item.label).join(', ')}` : 'Revise e assine para concluir.'}</span>
+              </div>
+              <div className="insc-progress-track"><span style={{ width: `${formProgress}%` }} /></div>
+            </div>
+          )}
+          <button type="button" className={`btn-pro-next ${stage === 'form' && !firstStageValid ? 'is-pending' : ''}`} onClick={goNext}>
             {nextLabel}
             <ArrowRight size={22} />
           </button>
