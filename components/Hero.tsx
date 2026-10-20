@@ -51,7 +51,7 @@ export default function Hero() {
 
         <div className="hero__art">
           <img
-            src={`${BASE_PATH}/assets/logo-corrida-flamanhu.webp`}
+            src={`${BASE_PATH}/assets/logo-corrida-flamanhu.webp?v=5k`}
             alt="Logo da Corrida Flamanhu 2027: corredor com a bandeira rubro-negra sobre a cidade de Manhuaçu"
             width={800}
             height={731}
